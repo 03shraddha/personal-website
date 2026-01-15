@@ -120,20 +120,19 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    background: var(--color-card-bg);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border: none;
     cursor: pointer;
     color: var(--color-text-muted);
-    transition: all 0.2s ease;
-    margin-left: 8px;
+    transition: color 0.2s ease, transform 0.2s ease;
+    padding: 0;
 }
 
 .theme-toggle:hover {
     color: var(--color-text);
-    border-color: var(--color-text-muted);
+    transform: translateY(-2px);
 }
 
 .theme-toggle svg {
@@ -233,26 +232,20 @@ body {
     margin-bottom: 24px;
     color: var(--color-text);
     cursor: default;
-    transition: opacity 0.2s ease;
     position: relative;
 }
 
-.name::after {
-    content: attr(data-kannada);
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
+/* Kannada name container - hidden by default */
+.name-kannada {
+    display: none;
 }
 
-.name:hover {
-    opacity: 0;
+.name:hover .name-english {
+    display: none;
 }
 
-.name:hover::after {
-    opacity: 1;
+.name:hover .name-kannada {
+    display: inline;
 }
 
 .intro {

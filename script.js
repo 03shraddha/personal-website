@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 function initThemeToggle() {
     const toggle = document.getElementById('theme-toggle');
+    if (!toggle) return;
+
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     // Check for saved theme preference, otherwise use system preference
@@ -25,9 +27,11 @@ function initThemeToggle() {
         document.documentElement.setAttribute('data-theme', savedTheme);
     } else if (prefersDark) {
         document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
     }
 
-    toggle.addEventListener('click', () => {
+    toggle.addEventListener('click', function() {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
@@ -45,10 +49,9 @@ function loadContent() {
         return;
     }
 
-    // Personal Info
+    // Personal Info - Name with Kannada hover
     const nameEl = document.getElementById('name');
-    nameEl.textContent = CONTENT.name;
-    nameEl.setAttribute('data-kannada', CONTENT.nameKannada);
+    nameEl.innerHTML = `<span class="name-english">${CONTENT.name}</span><span class="name-kannada">${CONTENT.nameKannada}</span>`;
 
     document.getElementById('intro').innerHTML = CONTENT.intro;
     document.getElementById('contact-line').innerHTML = CONTENT.contactLine;
@@ -73,7 +76,6 @@ function loadContent() {
     document.getElementById('social-twitter').href = social.twitter;
     document.getElementById('social-substack').href = social.substack;
     document.getElementById('social-email').href = `mailto:${social.email}`;
-    document.getElementById('social-resume').href = social.resume;
 
     // Cool Things
     const coolThingsHtml = CONTENT.coolThings.map(item => {

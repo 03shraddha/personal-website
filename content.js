@@ -20,11 +20,11 @@ const CONTENT = {
     // ==========================================
     name: "SHRADDHA KULKARNI",
 
-    // Your intro paragraph
-    intro: `Hi, I'm Shraddha. I'm into <a href="#experiences" class="highlight peach">product management</a>, and this is my corner of the internet where I share my work, unfinished projects, imperfect experimentations, and whatever I'm curious about right now. A couple of my friends also think I'm <a href="#" class="highlight lavender">funny</a>.`,
+    // Your intro paragraph (includes contact line)
+    intro: `Hi, I'm Shraddha. I'm into product management. This is my corner of the internet where I share my work, unfinished projects, imperfect experiments and whatever I'm curious about right now. A couple of my friends also think I'm funny. Want to get in touch? Or just say Hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank">LinkedIn</a>, <a href="mailto:meetshraddhakulkarni@gmail.com">Email</a>, <a href="https://x.com/shraddhaha" target="_blank">Twitter</a>`,
 
-    // Contact line
-    contactLine: `Want to get in touch or say hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank" class="highlight peach">LinkedIn</a>, <a href="mailto:meetshraddhakulkarni@gmail.com" class="highlight blue">email</a>, or <a href="https://x.com/shraddhaha" target="_blank" class="highlight lavender">Twitter</a>`,
+    // Contact line (keeping for backwards compatibility, but now part of intro)
+    contactLine: ``,
 
     // Unique abilities (as bullet points)
     uniqueAbilities: [
