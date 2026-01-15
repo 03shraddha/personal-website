@@ -49,12 +49,16 @@ function loadContent() {
         return;
     }
 
-    // Personal Info - Name with Kannada hover
+    // Personal Info - Name with Kannada hover (in Hello section)
     const nameEl = document.getElementById('name');
     nameEl.innerHTML = `<span class="name-english">${CONTENT.name}</span><span class="name-kannada">${CONTENT.nameKannada}</span>`;
 
-    document.getElementById('intro').innerHTML = CONTENT.intro;
+    // Hello section intro
+    document.getElementById('hello-intro').innerHTML = CONTENT.helloIntro;
     document.getElementById('contact-line').innerHTML = CONTENT.contactLine;
+
+    // About section story
+    document.getElementById('about-story').innerHTML = CONTENT.aboutStory;
 
     // Unique abilities as bullet points
     const abilitiesHtml = CONTENT.uniqueAbilities.map(ability => {

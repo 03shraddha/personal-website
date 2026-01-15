@@ -174,7 +174,7 @@ body {
 }
 
 .nav-link {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--color-text-light);
     text-decoration: none;
     letter-spacing: 0;
@@ -225,7 +225,7 @@ body {
 
 .name {
     font-family: var(--font-body);
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 500;
     letter-spacing: -0.01em;
     line-height: 1.3;
@@ -249,11 +249,19 @@ body {
 }
 
 .intro {
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1.65;
     color: var(--color-text);
-    max-width: 520px;
+    max-width: 540px;
     margin-bottom: 16px;
+}
+
+.about-story {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--color-text);
+    max-width: 540px;
+    margin-bottom: 24px;
 }
 
 .contact-line {
@@ -280,7 +288,7 @@ body {
 .unique-abilities ul {
     list-style: none;
     padding-left: 0;
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1.7;
     color: var(--color-text);
 }
@@ -300,10 +308,10 @@ body {
 
 .resume-line {
     display: block;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.6;
     color: var(--color-text-muted);
-    max-width: 520px;
+    max-width: 540px;
     margin-top: 16px;
     margin-bottom: 32px;
     font-style: italic;
@@ -311,7 +319,7 @@ body {
 
 .section-title {
     font-family: var(--font-body);
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 500;
     text-transform: lowercase;
     letter-spacing: 0.02em;
@@ -322,7 +330,7 @@ body {
 .section-intro {
     color: var(--color-text-muted);
     margin-bottom: 32px;
-    font-size: 15px;
+    font-size: 17px;
 }
 
 /* ===================================
@@ -509,7 +517,7 @@ body {
 }
 
 .content-card p {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--color-text-muted);
     line-height: 1.6;
 }
@@ -561,7 +569,7 @@ body {
 }
 
 .experience-item > p:last-child {
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1.7;
 }
 
@@ -602,7 +610,7 @@ body {
 }
 
 .note-card p {
-    font-size: 15px;
+    font-size: 17px;
     color: var(--color-text-muted);
     line-height: 1.6;
 }
@@ -627,7 +635,7 @@ body {
 }
 
 .philosophy-content p {
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.8;
     margin-bottom: 20px;
 }
@@ -671,7 +679,7 @@ body {
 }
 
 .consume-author {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--color-text-muted);
 }
 
@@ -739,7 +747,7 @@ body {
 }
 
 .fun-fact p {
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1.5;
     color: var(--color-text);
     margin: 0;

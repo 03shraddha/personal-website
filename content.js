@@ -20,10 +20,13 @@ const CONTENT = {
     // ==========================================
     name: "Shraddha Kulkarni",
 
-    // Your intro paragraph (includes contact line)
-    intro: `Hi, I'm Shraddha. I'm into product management. This is my corner of the internet where I share my work, unfinished projects, imperfect experiments and whatever I'm curious about right now. A couple of my friends also think I'm funny. Want to get in touch? Or just say Hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank">LinkedIn</a>, <a href="mailto:meetshraddhakulkarni@gmail.com">Email</a>, <a href="https://x.com/shraddhaha" target="_blank">Twitter</a>`,
+    // Hello section intro (landing page)
+    helloIntro: `Hi, I'm Shraddha. I'm into product management. This is my corner of the internet where I share my work, unfinished projects, imperfect experiments and whatever I'm curious about right now. A couple of my friends also think I'm funny. Want to get in touch? Or just say Hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank">LinkedIn</a>, <a href="mailto:meetshraddhakulkarni@gmail.com">Email</a>, <a href="https://x.com/shraddhaha" target="_blank">Twitter</a>`,
 
-    // Contact line (keeping for backwards compatibility, but now part of intro)
+    // About section story (personal background)
+    aboutStory: `I'm a product manager based in Bangalore, India. I've spent the last few years building AI-driven products in pharma and leading analytics teams in hospitality. Before that, I was a research engineer working on computer vision and crowd management systems. I'm passionate about shipping products that create real impact, and I believe in learning fast through iteration rather than waiting for perfection.`,
+
+    // Contact line (keeping for backwards compatibility)
     contactLine: ``,
 
     // Unique abilities (as bullet points)
