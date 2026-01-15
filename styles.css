@@ -253,6 +253,218 @@ html, body {
 }
 
 /* ===================================
+   Camera with Photo - Landing Page Only
+   =================================== */
+
+.camera-container {
+    position: fixed;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+    pointer-events: none;
+}
+
+.camera {
+    width: 200px;
+    height: 280px;
+    position: relative;
+}
+
+.camera-body {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #c4b8a8 0%, #a89888 50%, #8a7a6a 100%);
+    border-radius: 16px;
+    position: relative;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.camera-lens {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
+    border-radius: 50%;
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+.camera-lens::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(145deg, #3a3a3a 0%, #2a2a2a 100%);
+    border-radius: 50%;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.camera-lens::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+}
+
+.camera-button {
+    position: absolute;
+    top: 12px;
+    right: 25px;
+    width: 20px;
+    height: 12px;
+    background: linear-gradient(180deg, #4a4a4a 0%, #3a3a3a 100%);
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.camera-flash {
+    position: absolute;
+    top: 12px;
+    left: 25px;
+    width: 16px;
+    height: 10px;
+    background: linear-gradient(180deg, #e8e8e8 0%, #d0d0d0 100%);
+    border-radius: 2px;
+}
+
+.camera-screen {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 150px;
+    background: #ffffff;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow:
+        inset 0 2px 8px rgba(0, 0, 0, 0.2),
+        0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.camera-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Camera stickers */
+.camera-sticker {
+    position: absolute;
+    font-size: 16px;
+    z-index: 2;
+}
+
+.sticker-heart {
+    top: 85px;
+    right: 15px;
+    transform: rotate(15deg);
+}
+
+.sticker-star {
+    top: 45px;
+    left: 15px;
+    transform: rotate(-10deg);
+}
+
+.sticker-flower {
+    bottom: 185px;
+    left: 20px;
+    transform: rotate(20deg);
+}
+
+/* Dark mode camera adjustments */
+[data-theme="dark"] .camera-body {
+    background: linear-gradient(145deg, #5a5a5a 0%, #4a4a4a 50%, #3a3a3a 100%);
+}
+
+[data-theme="dark"] .camera-screen {
+    background: #2a2a2a;
+    box-shadow:
+        inset 0 2px 8px rgba(0, 0, 0, 0.4),
+        0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Hide camera when not on hello section */
+.camera-container {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Responsive - hide camera on smaller screens */
+@media (max-width: 1200px) {
+    .camera-container {
+        display: none;
+    }
+}
+
+/* ===================================
+   Rainbow Decorations for Name
+   =================================== */
+
+.name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.name-text {
+    position: relative;
+}
+
+.rainbow-decoration {
+    font-size: 20px;
+    display: inline-block;
+    animation: rainbow-bounce 2s ease-in-out infinite;
+}
+
+.rainbow-left {
+    transform: scaleX(-1);
+    animation-delay: 0s;
+}
+
+.rainbow-right {
+    animation-delay: 0.3s;
+}
+
+@keyframes rainbow-bounce {
+    0%, 100% {
+        transform: translateY(0) scaleX(-1);
+    }
+    50% {
+        transform: translateY(-4px) scaleX(-1);
+    }
+}
+
+.rainbow-right {
+    animation-name: rainbow-bounce-right;
+}
+
+@keyframes rainbow-bounce-right {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+/* ===================================
    Sidebar Navigation
    =================================== */
 

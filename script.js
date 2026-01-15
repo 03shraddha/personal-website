@@ -10,8 +10,40 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollSpy();
     initThemeToggle();  // Dark mode toggle
     initCustomCursor(); // Custom cursor
+    initCameraVisibility(); // Camera visibility on scroll
     updateYear();
 });
+
+/**
+ * Camera Visibility - Show only on Hello section
+ */
+function initCameraVisibility() {
+    const camera = document.querySelector('.camera-container');
+    const helloSection = document.getElementById('hello');
+
+    if (!camera || !helloSection) return;
+
+    function updateCameraVisibility() {
+        const helloRect = helloSection.getBoundingClientRect();
+        const helloBottom = helloRect.bottom;
+        const windowHeight = window.innerHeight;
+
+        // Show camera when hello section is mostly visible
+        if (helloBottom > windowHeight * 0.3) {
+            camera.style.opacity = '1';
+            camera.style.pointerEvents = 'none';
+        } else {
+            camera.style.opacity = '0';
+            camera.style.pointerEvents = 'none';
+        }
+    }
+
+    // Initial check
+    updateCameraVisibility();
+
+    // Update on scroll
+    window.addEventListener('scroll', updateCameraVisibility, { passive: true });
+}
 
 /**
  * Custom Cursor
@@ -131,9 +163,9 @@ function loadContent() {
         return;
     }
 
-    // Personal Info - Name with Kannada hover (in Hello section)
+    // Personal Info - Name with Kannada hover and rainbow decorations (in Hello section)
     const nameEl = document.getElementById('name');
-    nameEl.innerHTML = `<span class="name-english">${CONTENT.name}</span><span class="name-kannada">${CONTENT.nameKannada}</span>`;
+    nameEl.innerHTML = `<span class="rainbow-decoration rainbow-left">🌈</span><span class="name-text"><span class="name-english">${CONTENT.name}</span><span class="name-kannada">${CONTENT.nameKannada}</span></span><span class="rainbow-decoration rainbow-right">🌈</span>`;
 
     // Hello section intro
     document.getElementById('hello-intro').innerHTML = CONTENT.helloIntro;
