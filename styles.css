@@ -21,7 +21,7 @@
     --highlight-lavender-hover: rgba(200, 160, 255, 0.7);
 
     /* Typography */
-    --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-serif: 'Newsreader', Georgia, serif;
 
     /* Spacing */
@@ -162,20 +162,58 @@ body {
 
 .name {
     font-family: var(--font-body);
-    font-size: clamp(48px, 8vw, 72px);
+    font-size: 32px;
     font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 32px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 24px;
     color: var(--color-text);
 }
 
 .intro {
-    font-size: 20px;
-    line-height: 1.8;
+    font-size: 16px;
+    line-height: 1.75;
     color: var(--color-text);
     max-width: 540px;
-    margin-bottom: 56px;
+    margin-bottom: 20px;
+}
+
+.contact-line {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--color-text);
+    max-width: 540px;
+    margin-bottom: 28px;
+}
+
+.unique-abilities {
+    margin-bottom: 28px;
+    max-width: 540px;
+}
+
+.unique-abilities h2 {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 8px;
+}
+
+.unique-abilities p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--color-text);
+}
+
+.resume-line {
+    display: block;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    max-width: 540px;
+    margin-top: 24px;
+    margin-bottom: 48px;
+    font-style: italic;
 }
 
 .section-title {
@@ -248,23 +286,23 @@ body {
 }
 
 .cool-things h2 {
-    font-family: var(--font-serif);
-    font-size: 18px;
-    font-weight: 400;
-    font-style: italic;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    font-style: normal;
     color: var(--color-text);
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 
 .achievements {
     list-style: none;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .achievements li {
     position: relative;
-    padding-left: 20px;
-    margin-bottom: 14px;
+    padding-left: 16px;
+    margin-bottom: 10px;
     font-size: 16px;
     line-height: 1.7;
 }

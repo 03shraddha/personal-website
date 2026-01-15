@@ -23,6 +23,9 @@ function loadContent() {
     // Personal Info
     document.getElementById('name').textContent = CONTENT.name;
     document.getElementById('intro').innerHTML = CONTENT.intro;
+    document.getElementById('contact-line').innerHTML = CONTENT.contactLine;
+    document.getElementById('unique-abilities').innerHTML = CONTENT.uniqueAbilities;
+    document.getElementById('resume-line').innerHTML = CONTENT.resumeLine;
 
     // Social Links
     const social = CONTENT.socialLinks;

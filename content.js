@@ -18,10 +18,19 @@ const CONTENT = {
     // ==========================================
     // PERSONAL INFO
     // ==========================================
-    name: "Shraddha Kulkarni",
+    name: "SHRADDHA KULKARNI",
 
-    // Your intro paragraph - use {hl1}, {hl2}, {hl3} for highlights
-    intro: `Hi, I'm Shraddha. I'm into <a href="#experiences" class="highlight peach">product management</a> and all things <a href="#" class="highlight blue">vibe coding</a>. Based in <a href="#" class="highlight lavender">Bangalore, India</a> — this is my space for sharing work, unfinished projects, and experimental ideas.`,
+    // Your intro paragraph
+    intro: `Hi, I'm Shraddha. I work at <a href="https://www.zs.com/" target="_blank" class="highlight peach">ZS Associates</a> in <a href="#experiences" class="highlight blue">product management</a>, and I like to <a href="#" class="highlight lavender">build things</a>.`,
+
+    // Contact line
+    contactLine: `Want to get in touch? Or just say Hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank" class="highlight peach">LinkedIn</a>, <a href="mailto:meetshraddhakulkarni@gmail.com" class="highlight blue">email</a>, <a href="https://x.com/shraddhaha" target="_blank" class="highlight lavender">Twitter</a>`,
+
+    // Unique abilities
+    uniqueAbilities: `<a href="https://substack.com/@shraddhaha" target="_blank" class="highlight peach">Substack writing</a>, reciting <a href="#" class="highlight blue">100 digits of π</a> from memory, knowing all the <a href="#" class="highlight lavender">BMTC routes</a> in BLR by heart, befriending every apartment cat, recognizing obscure Punjabi songs`,
+
+    // Resume line for recruiters
+    resumeLine: `If you are recruiting for product related roles here is the <a href="https://drive.google.com/file/d/1RYgq1Yahx9fA8f3MXa6L-oN2nfUb8pc8/view" target="_blank" class="highlight peach">Link to My Resume</a>`,
 
     // ==========================================
     // SOCIAL LINKS (top-right icons)
