@@ -21,16 +21,25 @@ const CONTENT = {
     name: "SHRADDHA KULKARNI",
 
     // Your intro paragraph
-    intro: `Hi, I'm Shraddha. I work at <a href="https://www.zs.com/" target="_blank" class="highlight peach">ZS Associates</a> in <a href="#experiences" class="highlight blue">product management</a>, and I like to <a href="#" class="highlight lavender">build things</a>.`,
+    intro: `Hi, I'm Shraddha. I'm into <a href="#experiences" class="highlight peach">product management</a>, and this is my corner of the internet where I share my work, unfinished projects, imperfect experimentations, and whatever I'm curious about right now. A couple of my friends also think I'm <a href="#" class="highlight lavender">funny</a>.`,
 
     // Contact line
-    contactLine: `Want to get in touch? Or just say Hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank" class="highlight peach">LinkedIn</a>, <a href="mailto:meetshraddhakulkarni@gmail.com" class="highlight blue">email</a>, <a href="https://x.com/shraddhaha" target="_blank" class="highlight lavender">Twitter</a>`,
+    contactLine: `Want to get in touch or say hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank" class="highlight peach">LinkedIn</a>, <a href="mailto:meetshraddhakulkarni@gmail.com" class="highlight blue">email</a>, or <a href="https://x.com/shraddhaha" target="_blank" class="highlight lavender">Twitter</a>`,
 
-    // Unique abilities
-    uniqueAbilities: `<a href="https://substack.com/@shraddhaha" target="_blank" class="highlight peach">Substack writing</a>, reciting <a href="#" class="highlight blue">100 digits of π</a> from memory, knowing all the <a href="#" class="highlight lavender">BMTC routes</a> in BLR by heart, befriending every apartment cat, recognizing obscure Punjabi songs`,
+    // Unique abilities (as bullet points)
+    uniqueAbilities: [
+        { text: "Substack writing", url: "https://substack.com/@shraddhaha", highlight: "peach" },
+        { text: "reciting 100 digits of π from memory", url: "#", highlight: "blue" },
+        { text: "knowing all the BMTC routes in BLR by heart", url: "#", highlight: "lavender" },
+        { text: "befriending every apartment cat", url: "#", highlight: "" },
+        { text: "recognizing obscure Punjabi songs", url: "#", highlight: "" }
+    ],
 
     // Resume line for recruiters
-    resumeLine: `If you are recruiting for product related roles here is the <a href="https://drive.google.com/file/d/1RYgq1Yahx9fA8f3MXa6L-oN2nfUb8pc8/view" target="_blank" class="highlight peach">Link to My Resume</a>`,
+    resumeLine: `If you're recruiting for product related roles, here's the <a href="https://drive.google.com/file/d/1RYgq1Yahx9fA8f3MXa6L-oN2nfUb8pc8/view" target="_blank" class="highlight peach">link to my resume</a>.`,
+
+    // Name in Kannada (for hover effect)
+    nameKannada: "ಶ್ರದ್ಧಾ ಕುಲಕರ್ಣಿ",
 
     // ==========================================
     // SOCIAL LINKS (top-right icons)

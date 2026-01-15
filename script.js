@@ -8,8 +8,33 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initTabs();
     initScrollSpy();
+    initThemeToggle();  // Dark mode toggle
     updateYear();
 });
+
+/**
+ * Dark Mode Toggle
+ */
+function initThemeToggle() {
+    const toggle = document.getElementById('theme-toggle');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    // Check for saved theme preference, otherwise use system preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    } else if (prefersDark) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+
+    toggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+}
 
 /**
  * Load all content from the CONTENT object in content.js
@@ -21,10 +46,25 @@ function loadContent() {
     }
 
     // Personal Info
-    document.getElementById('name').textContent = CONTENT.name;
+    const nameEl = document.getElementById('name');
+    nameEl.textContent = CONTENT.name;
+    nameEl.setAttribute('data-kannada', CONTENT.nameKannada);
+
     document.getElementById('intro').innerHTML = CONTENT.intro;
     document.getElementById('contact-line').innerHTML = CONTENT.contactLine;
-    document.getElementById('unique-abilities').innerHTML = CONTENT.uniqueAbilities;
+
+    // Unique abilities as bullet points
+    const abilitiesHtml = CONTENT.uniqueAbilities.map(ability => {
+        if (ability.highlight && ability.url) {
+            return `<li><a href="${ability.url}" ${ability.url.startsWith('http') ? 'target="_blank"' : ''} class="highlight ${ability.highlight}">${ability.text}</a></li>`;
+        } else if (ability.highlight) {
+            return `<li><span class="highlight ${ability.highlight}">${ability.text}</span></li>`;
+        } else {
+            return `<li>${ability.text}</li>`;
+        }
+    }).join('');
+    document.getElementById('unique-abilities').innerHTML = abilitiesHtml;
+
     document.getElementById('resume-line').innerHTML = CONTENT.resumeLine;
 
     // Social Links

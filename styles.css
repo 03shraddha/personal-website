@@ -3,7 +3,7 @@
    =================================== */
 
 :root {
-    /* Colors */
+    /* Colors - Light Mode */
     --color-bg: #ffffff;
     --color-text: #1a1a1a;
     --color-text-muted: #888888;
@@ -20,6 +20,9 @@
     --highlight-blue-hover: rgba(150, 190, 255, 0.7);
     --highlight-lavender-hover: rgba(200, 160, 255, 0.7);
 
+    /* Card backgrounds */
+    --color-card-bg: #fafafa;
+
     /* Typography */
     --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-serif: 'Newsreader', Georgia, serif;
@@ -28,6 +31,28 @@
     --sidebar-width: 200px;
     --content-max-width: 680px;
     --section-gap: 120px;
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+    --color-bg: #0f0f0f;
+    --color-text: #e8e8e8;
+    --color-text-muted: #888888;
+    --color-text-light: #555555;
+    --color-border: #2a2a2a;
+
+    /* Highlight Colors - Adjusted for dark mode */
+    --highlight-peach: rgba(255, 180, 140, 0.3);
+    --highlight-blue: rgba(140, 180, 255, 0.3);
+    --highlight-lavender: rgba(200, 160, 255, 0.3);
+
+    /* Highlight Hover States */
+    --highlight-peach-hover: rgba(255, 180, 140, 0.5);
+    --highlight-blue-hover: rgba(140, 180, 255, 0.5);
+    --highlight-lavender-hover: rgba(200, 160, 255, 0.5);
+
+    /* Card backgrounds */
+    --color-card-bg: #1a1a1a;
 }
 
 /* Reset & Base */
@@ -48,6 +73,7 @@ body {
     color: var(--color-text);
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
     -moz-osx-font-smoothing: grayscale;
 }
 
@@ -87,6 +113,44 @@ body {
 .social-links svg {
     width: 18px;
     height: 18px;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: all 0.2s ease;
+    margin-left: 8px;
+}
+
+.theme-toggle:hover {
+    color: var(--color-text);
+    border-color: var(--color-text-muted);
+}
+
+.theme-toggle svg {
+    width: 18px;
+    height: 18px;
+}
+
+.theme-toggle .moon-icon {
+    display: none;
+}
+
+[data-theme="dark"] .theme-toggle .sun-icon {
+    display: none;
+}
+
+[data-theme="dark"] .theme-toggle .moon-icon {
+    display: block;
 }
 
 /* ===================================
@@ -168,6 +232,27 @@ body {
     line-height: 1.2;
     margin-bottom: 24px;
     color: var(--color-text);
+    cursor: default;
+    transition: opacity 0.2s ease;
+    position: relative;
+}
+
+.name::after {
+    content: attr(data-kannada);
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.name:hover {
+    opacity: 0;
+}
+
+.name:hover::after {
+    opacity: 1;
 }
 
 .intro {
@@ -196,13 +281,23 @@ body {
     font-size: 14px;
     font-weight: 600;
     color: var(--color-text);
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
-.unique-abilities p {
-    font-size: 16px;
+.unique-abilities ul {
+    list-style: disc;
+    padding-left: 20px;
+    font-size: 15px;
     line-height: 1.75;
     color: var(--color-text);
+}
+
+.unique-abilities li {
+    margin-bottom: 4px;
+}
+
+.unique-abilities li::marker {
+    color: var(--color-text-muted);
 }
 
 .resume-line {
@@ -629,9 +724,9 @@ body {
     align-items: flex-start;
     gap: 16px;
     padding: 20px;
-    background: #fafafa;
+    background: var(--color-card-bg);
     border-radius: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
 }
 
 .fun-fact:hover {
