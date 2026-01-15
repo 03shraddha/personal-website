@@ -23,8 +23,49 @@ const CONTENT = {
     // Hello section intro (landing page)
     helloIntro: `Hi, I'm Shraddha. I'm into product management. This is my corner of the internet where I share my work, unfinished projects, imperfect experiments and whatever I'm curious about right now. A couple of my friends also think I'm funny. Want to get in touch? Or just say Hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank">LinkedIn</a>, <a href="mailto:meetshraddhakulkarni@gmail.com">Email</a>, <a href="https://x.com/shraddhaha" target="_blank">Twitter</a>`,
 
-    // About section story (personal background)
-    aboutStory: `I'm a product manager based in Bangalore, India. I've spent the last few years building AI-driven products in pharma and leading analytics teams in hospitality. Before that, I was a research engineer working on computer vision and crowd management systems. I'm passionate about shipping products that create real impact, and I believe in learning fast through iteration rather than waiting for perfection.`,
+    // About section content (structured)
+    aboutContent: {
+        intro: `Hello! I'm Shraddha, the less furry one on the right. Sadly that cute cat isn't mine.`,
+        mainText: `I work at <a href="https://www.zs.com/" target="_blank" class="highlight peach">ZS Associates</a>, a boutique management consulting firm, on the Artificial Intelligence and Analytics side. Currently, I'm part of the MAX.AI team, where I help major pharma clients deploy enterprise-grade GenAI agents.`,
+        debateText: `I spent college weekends competing in debate competitions, winning over <a href="#" class="highlight lavender">40 awards</a> at national and international levels.`,
+        learnAboutMe: {
+            title: `The best way to learn about me is through the people I've worked with:`,
+            items: [
+                { text: "LinkedIn recommendations from past teammates", url: "https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" },
+                { text: "College senior on my debate journey", url: "#" },
+                { text: "College junior on my club leadership", url: "#" },
+                { text: "Organizations training future debate champions", url: "#" }
+            ]
+        },
+        corporateStory: {
+            title: "Corporate Story",
+            subtitle: "Areas of interest: Product management | Analytics",
+            paragraphs: [
+                `Before working on ZS's GenAI product <a href="#" class="highlight blue">Quill</a>, I worked on analytics projects for hospitality clients. I used <a href="#" class="highlight blue">SQL and Python</a> to convert unstructured data into business insights for hotel chains with millions in revenue.`,
+                `In 2 years in corporate, I've led teams winning multiple client awards. I received the <a href="#" class="highlight lavender">Most Valuable Player</a> award competing with over 150 colleagues across India and Argentina offices. I also won ZS's <a href="#" class="highlight lavender">Impact Award</a> for delivering a GenAI solution for ZS's largest client account, while mentoring new hires.`
+            ]
+        },
+        background: {
+            title: "A Little Bit of This, A Little Bit of That",
+            items: [
+                "Kannadiga; live, work, and love Bangalore",
+                "Graduated in Electronics from R.V. College of Engineering",
+                "Interned at Baker Hughes (General Electric)—exposure to B2B business in oil and gas and automation work using Java and Spring",
+                "Transitioned to management consulting at ZS Associates",
+                "Worked on hospitality analytics for major U.S. hotel chains",
+                "Now on MAX.AI team working on Quill—AI-driven platform helping pharma teams accelerate Medical Legal Regulatory reviews"
+            ]
+        },
+        beyondWork: {
+            title: "What Fills My Cup Beyond Work",
+            items: [
+                { emoji: "💗", label: "Financial Literacy Educator", text: "Creating financial literacy videos for The Apprentice Project for over a year" },
+                { emoji: "💗", label: "Debate Judge & Competitor", text: "50+ British Parliamentary debates, 40+ awards, judged 20+ competitions at premier institutions" },
+                { emoji: "💗", label: "Bharatanatyam Dancer", text: "10+ years of Indian classical dance training, completed 4 exam levels" },
+                { emoji: "💗", label: "Before the 9 to 5", text: "Cooking, watching YouTube essays, long walks, journaling, catching up with friends across time zones; maintains 6 journals with notes on interesting ideas" }
+            ]
+        }
+    },
 
     // Contact line (keeping for backwards compatibility)
     contactLine: ``,

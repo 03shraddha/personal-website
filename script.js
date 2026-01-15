@@ -139,10 +139,7 @@ function loadContent() {
     document.getElementById('hello-intro').innerHTML = CONTENT.helloIntro;
     document.getElementById('contact-line').innerHTML = CONTENT.contactLine;
 
-    // About section story
-    document.getElementById('about-story').innerHTML = CONTENT.aboutStory;
-
-    // Unique abilities as bullet points
+    // Unique abilities as bullet points (now in Hello section)
     const abilitiesHtml = CONTENT.uniqueAbilities.map(ability => {
         if (ability.highlight && ability.url) {
             return `<li><a href="${ability.url}" ${ability.url.startsWith('http') ? 'target="_blank"' : ''} class="highlight ${ability.highlight}">${ability.text}</a></li>`;
@@ -155,6 +152,49 @@ function loadContent() {
     document.getElementById('unique-abilities').innerHTML = abilitiesHtml;
 
     document.getElementById('resume-line').innerHTML = CONTENT.resumeLine;
+
+    // About section content
+    const about = CONTENT.aboutContent;
+    const aboutHtml = `
+        <p class="about-intro"><strong>${about.intro}</strong></p>
+        <p>${about.mainText}</p>
+        <p>${about.debateText}</p>
+
+        <div class="about-subsection">
+            <p><strong>${about.learnAboutMe.title}</strong></p>
+            <ul class="about-list">
+                ${about.learnAboutMe.items.map(item => `<li><a href="${item.url}" ${item.url.startsWith('http') ? 'target="_blank"' : ''}>${item.text}</a></li>`).join('')}
+            </ul>
+        </div>
+
+        <div class="about-subsection">
+            <h3 class="about-subtitle">${about.corporateStory.title}</h3>
+            <p class="about-subtitle-meta"><em>${about.corporateStory.subtitle}</em></p>
+            ${about.corporateStory.paragraphs.map(p => `<p>${p}</p>`).join('')}
+        </div>
+
+        <div class="about-subsection">
+            <h3 class="about-subtitle">${about.background.title}</h3>
+            <ul class="about-list">
+                ${about.background.items.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+        </div>
+
+        <div class="about-subsection">
+            <h3 class="about-subtitle">${about.beyondWork.title}</h3>
+            <div class="beyond-work-grid">
+                ${about.beyondWork.items.map(item => `
+                    <div class="beyond-work-item">
+                        <span class="beyond-work-emoji">${item.emoji}</span>
+                        <div>
+                            <strong>${item.label}:</strong> ${item.text}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    document.getElementById('about-content').innerHTML = aboutHtml;
 
     // Social Links
     const social = CONTENT.socialLinks;
