@@ -83,6 +83,99 @@ body {
 }
 
 /* ===================================
+   Custom Cursor
+   =================================== */
+
+/* Hide default cursor everywhere */
+*, *::before, *::after {
+    cursor: none !important;
+}
+
+html, body {
+    cursor: none !important;
+}
+
+/* Main cursor dot */
+.cursor {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    background: #ff9eb5;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    mix-blend-mode: normal;
+}
+
+/* Cursor ring (follows with delay) */
+.cursor-ring {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid rgba(255, 158, 181, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease-out, width 0.2s ease, height 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Cursor states - hovering over clickable elements */
+.cursor.hovering {
+    width: 8px;
+    height: 8px;
+    background: #ff7a9e;
+}
+
+.cursor-ring.hovering {
+    width: 48px;
+    height: 48px;
+    border-color: rgba(255, 122, 158, 0.4);
+}
+
+/* Cursor states - clicking */
+.cursor.clicking {
+    transform: translate(-50%, -50%) scale(0.8);
+    background: #ff5c8a;
+}
+
+.cursor-ring.clicking {
+    transform: translate(-50%, -50%) scale(0.9);
+    border-color: rgba(255, 92, 138, 0.6);
+}
+
+/* Hide custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .cursor,
+    .cursor-ring {
+        display: none !important;
+    }
+
+    *, *::before, *::after {
+        cursor: auto !important;
+    }
+}
+
+/* Dark mode cursor adjustments */
+[data-theme="dark"] .cursor {
+    background: #ffb4c8;
+}
+
+[data-theme="dark"] .cursor-ring {
+    border-color: rgba(255, 180, 200, 0.4);
+}
+
+[data-theme="dark"] .cursor.hovering {
+    background: #ffa0b8;
+}
+
+[data-theme="dark"] .cursor-ring.hovering {
+    border-color: rgba(255, 160, 184, 0.5);
+}
+
+/* ===================================
    Social Links - Top Right
    =================================== */
 

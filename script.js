@@ -9,8 +9,90 @@ document.addEventListener('DOMContentLoaded', () => {
     initTabs();
     initScrollSpy();
     initThemeToggle();  // Dark mode toggle
+    initCustomCursor(); // Custom cursor
     updateYear();
 });
+
+/**
+ * Custom Cursor
+ */
+function initCustomCursor() {
+    const cursor = document.querySelector('.cursor');
+    const cursorRing = document.querySelector('.cursor-ring');
+
+    if (!cursor || !cursorRing) return;
+
+    // Check if it's a touch device
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        cursor.style.display = 'none';
+        cursorRing.style.display = 'none';
+        return;
+    }
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let ringX = 0;
+    let ringY = 0;
+
+    // Track mouse position
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        // Move main cursor instantly
+        cursor.style.left = mouseX + 'px';
+        cursor.style.top = mouseY + 'px';
+    });
+
+    // Animate ring to follow with slight delay
+    function animateRing() {
+        ringX += (mouseX - ringX) * 0.15;
+        ringY += (mouseY - ringY) * 0.15;
+
+        cursorRing.style.left = ringX + 'px';
+        cursorRing.style.top = ringY + 'px';
+
+        requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    // Hover effects for clickable elements
+    const clickables = document.querySelectorAll('a, button, .tab, .highlight, [role="button"]');
+
+    clickables.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('hovering');
+            cursorRing.classList.add('hovering');
+        });
+
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('hovering');
+            cursorRing.classList.remove('hovering');
+        });
+    });
+
+    // Click effects
+    document.addEventListener('mousedown', () => {
+        cursor.classList.add('clicking');
+        cursorRing.classList.add('clicking');
+    });
+
+    document.addEventListener('mouseup', () => {
+        cursor.classList.remove('clicking');
+        cursorRing.classList.remove('clicking');
+    });
+
+    // Hide cursor when leaving window
+    document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+        cursorRing.style.opacity = '0';
+    });
+
+    document.addEventListener('mouseenter', () => {
+        cursor.style.opacity = '1';
+        cursorRing.style.opacity = '1';
+    });
+}
 
 /**
  * Dark Mode Toggle
