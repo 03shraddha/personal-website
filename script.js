@@ -77,17 +77,6 @@ function loadContent() {
     document.getElementById('social-substack').href = social.substack;
     document.getElementById('social-email').href = `mailto:${social.email}`;
 
-    // Cool Things
-    const coolThingsHtml = CONTENT.coolThings.map(item => {
-        let text = item.text;
-        item.highlights.forEach(h => {
-            const link = `<a href="${h.url}" ${h.url.startsWith('http') ? 'target="_blank"' : ''} class="highlight ${h.color}">${h.word}</a>`;
-            text = text.replace(h.word, link);
-        });
-        return `<li>${text}</li>`;
-    }).join('');
-    document.getElementById('cool-things-list').innerHTML = coolThingsHtml;
-
     // Experiences
     const experiencesHtml = CONTENT.experiences.map(exp => `
         <article class="experience-item">
