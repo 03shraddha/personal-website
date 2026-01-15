@@ -21,20 +21,22 @@ const CONTENT = {
     name: "Shraddha Kulkarni",
 
     // Hello section intro (landing page)
-    helloIntro: `Hi, I'm Shraddha. I'm into product management. This is my corner of the internet where I share my work, unfinished projects, imperfect experiments and whatever I'm curious about right now. A couple of my friends also think I'm funny. Want to get in touch? Or just say Hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank">LinkedIn</a>, <a href="mailto:meetshraddhakulkarni@gmail.com">Email</a>, <a href="https://x.com/shraddhaha" target="_blank">Twitter</a>`,
+    helloIntro: `Hi, I'm Shraddha. I'm into product management. This is my corner of the internet where I share my work, unfinished projects, imperfect experiments and whatever I'm curious about right now. A couple of my friends also think I'm funny. 
+    <br><br>
+    Want to get in touch? Or just say Hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank">LinkedIn</a>, <a href="mailto:meetshraddhakulkarni@gmail.com">Email</a>, <a href="https://x.com/shraddhaha" target="_blank">Twitter</a>`,
 
     // About section content (structured)
     aboutContent: {
-        intro: `Hello! I'm Shraddha, the less furry one on the right. Sadly that cute cat isn't mine.`,
+        intro: ``,
         mainText: `I work at <a href="https://www.zs.com/" target="_blank" class="highlight peach">ZS Associates</a>, a boutique management consulting firm, on the Artificial Intelligence and Analytics side. Currently, I'm part of the MAX.AI team, where I help major pharma clients deploy enterprise-grade GenAI agents.`,
         debateText: `I spent college weekends competing in debate competitions, winning over <a href="#" class="highlight lavender">40 awards</a> at national and international levels.`,
         learnAboutMe: {
             title: `The best way to learn about me is through the people I've worked with:`,
             items: [
-                { text: "LinkedIn recommendations from past teammates", url: "https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" },
-                { text: "College senior on my debate journey", url: "#" },
-                { text: "College junior on my club leadership", url: "#" },
-                { text: "Organizations training future debate champions", url: "#" }
+                { text: "LinkedIn recommendations from past teammates", url: "https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/details/recommendations/?detailScreenTabIndex=0" },
+                { text: "College senior on my debate journey", url: "https://www.instagram.com/thenalsariv/p/Cwk-XEmvvy6/#" },
+                { text: "College junior on my club leadership", url: "https://www.instagram.com/rvcedebsoc/p/Cr9_QcFpt94/" },
+                { text: "Organizations training future national debate champions", url: "https://drive.google.com/file/u/7/d/1HcWGH1M3RsFmPSolJ3hlpTHIEp95An3g/view?usp=sharing" }
             ]
         },
         corporateStory: {
@@ -72,9 +74,9 @@ const CONTENT = {
 
     // Unique abilities (as bullet points)
     uniqueAbilities: [
-        { text: "Substack writing", url: "https://substack.com/@shraddhaha", highlight: "peach" },
-        { text: "reciting 100 digits of π from memory", url: "#", highlight: "blue" },
-        { text: "knowing all the BMTC routes in BLR by heart", url: "#", highlight: "lavender" },
+        { text: "Substack writing", url: "https://substack.com/@shraddhaha", highlight: "lavender" },
+        { text: "reciting 100 digits of π from memory", url: "#", highlight: "" },
+        { text: "knowing all the BMTC routes in BLR by heart", url: "#", highlight: "" },
         { text: "befriending every apartment cat", url: "#", highlight: "" },
         { text: "recognizing obscure Punjabi songs", url: "#", highlight: "" }
     ],
@@ -322,5 +324,5 @@ const CONTENT = {
     // ==========================================
     // FOOTER
     // ==========================================
-    footer: "Made with care in Bangalore"
+    footer: "Who even reads the text in the footer?"
 };

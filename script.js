@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollSpy();
     initThemeToggle();  // Dark mode toggle
     initCustomCursor(); // Custom cursor
+    initDraggablePhoto(); // Interactive draggable photo
     updateYear();
 });
 
@@ -18,79 +19,28 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 function initCustomCursor() {
     const cursor = document.querySelector('.cursor');
-    const cursorRing = document.querySelector('.cursor-ring');
-
-    if (!cursor || !cursorRing) return;
-
-    // Check if it's a touch device
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-        cursor.style.display = 'none';
-        cursorRing.style.display = 'none';
+    if (!cursor) {
+        console.log('Cursor element not found');
         return;
     }
 
-    let mouseX = 0;
-    let mouseY = 0;
-    let ringX = 0;
-    let ringY = 0;
-
-    // Track mouse position
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-
-        // Move main cursor instantly
-        cursor.style.left = mouseX + 'px';
-        cursor.style.top = mouseY + 'px';
+    // Simple mouse tracking
+    document.addEventListener('mousemove', function(e) {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
     });
 
-    // Animate ring to follow with slight delay
-    function animateRing() {
-        ringX += (mouseX - ringX) * 0.15;
-        ringY += (mouseY - ringY) * 0.15;
-
-        cursorRing.style.left = ringX + 'px';
-        cursorRing.style.top = ringY + 'px';
-
-        requestAnimationFrame(animateRing);
-    }
-    animateRing();
-
-    // Hover effects for clickable elements
-    const clickables = document.querySelectorAll('a, button, .tab, .highlight, [role="button"]');
-
-    clickables.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.classList.add('hovering');
-            cursorRing.classList.add('hovering');
-        });
-
-        el.addEventListener('mouseleave', () => {
-            cursor.classList.remove('hovering');
-            cursorRing.classList.remove('hovering');
-        });
+    // Hover effect on clickable elements
+    document.addEventListener('mouseover', function(e) {
+        if (e.target.closest('a, button, .tab, .highlight')) {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1.3)';
+        }
     });
 
-    // Click effects
-    document.addEventListener('mousedown', () => {
-        cursor.classList.add('clicking');
-        cursorRing.classList.add('clicking');
-    });
-
-    document.addEventListener('mouseup', () => {
-        cursor.classList.remove('clicking');
-        cursorRing.classList.remove('clicking');
-    });
-
-    // Hide cursor when leaving window
-    document.addEventListener('mouseleave', () => {
-        cursor.style.opacity = '0';
-        cursorRing.style.opacity = '0';
-    });
-
-    document.addEventListener('mouseenter', () => {
-        cursor.style.opacity = '1';
-        cursorRing.style.opacity = '1';
+    document.addEventListener('mouseout', function(e) {
+        if (e.target.closest('a, button, .tab, .highlight')) {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        }
     });
 }
 
@@ -156,7 +106,7 @@ function loadContent() {
     // About section content
     const about = CONTENT.aboutContent;
     const aboutHtml = `
-        <p class="about-intro"><strong>${about.intro}</strong></p>
+        ${about.intro ? `<p class="about-intro"><strong>${about.intro}</strong></p>` : ''}
         <p>${about.mainText}</p>
         <p>${about.debateText}</p>
 
@@ -279,15 +229,6 @@ function loadContent() {
         </article>
     `).join('');
     document.getElementById('consume-list').innerHTML = consumeHtml;
-
-    // Fun Facts
-    const funFactsHtml = CONTENT.funFacts.map(fact => `
-        <div class="fun-fact">
-            <span class="fun-fact-emoji">${fact.emoji}</span>
-            <p>${fact.text}</p>
-        </div>
-    `).join('');
-    document.getElementById('fun-facts-grid').innerHTML = funFactsHtml;
 
     // Footer
     document.getElementById('footer-text').innerHTML = `${CONTENT.footer} · <span class="year">${new Date().getFullYear()}</span>`;
@@ -491,3 +432,125 @@ document.addEventListener('keydown', (e) => {
         });
     }
 });
+
+/**
+ * Draggable Photo Feature
+ * Allows users to drag the profile photo anywhere on the page
+ */
+function initDraggablePhoto() {
+    const photo = document.getElementById('draggable-photo');
+    if (!photo) return;
+
+    // Create reset button
+    const resetBtn = document.createElement('button');
+    resetBtn.className = 'photo-reset-btn';
+    resetBtn.textContent = 'Reset photo';
+    document.body.appendChild(resetBtn);
+
+    let isDragging = false;
+    let startX, startY;
+    let hasMoved = false;
+
+    // Mouse down - start drag
+    photo.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        isDragging = true;
+
+        const rect = photo.getBoundingClientRect();
+        startX = e.clientX - rect.left;
+        startY = e.clientY - rect.top;
+
+        // Set to fixed position on first drag
+        if (photo.style.position !== 'fixed') {
+            photo.style.position = 'fixed';
+            photo.style.left = rect.left + 'px';
+            photo.style.top = rect.top + 'px';
+            photo.style.margin = '0';
+            photo.style.float = 'none';
+        }
+
+        photo.classList.add('dragging');
+    });
+
+    // Mouse move - drag
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+
+        e.preventDefault();
+        hasMoved = true;
+
+        const x = e.clientX - startX;
+        const y = e.clientY - startY;
+
+        // Keep within viewport
+        const maxX = window.innerWidth - photo.offsetWidth;
+        const maxY = window.innerHeight - photo.offsetHeight;
+
+        photo.style.left = Math.max(0, Math.min(x, maxX)) + 'px';
+        photo.style.top = Math.max(0, Math.min(y, maxY)) + 'px';
+
+        resetBtn.classList.add('visible');
+    });
+
+    // Mouse up - end drag
+    document.addEventListener('mouseup', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        photo.classList.remove('dragging');
+    });
+
+    // Touch support
+    photo.addEventListener('touchstart', (e) => {
+        const touch = e.touches[0];
+        isDragging = true;
+
+        const rect = photo.getBoundingClientRect();
+        startX = touch.clientX - rect.left;
+        startY = touch.clientY - rect.top;
+
+        if (photo.style.position !== 'fixed') {
+            photo.style.position = 'fixed';
+            photo.style.left = rect.left + 'px';
+            photo.style.top = rect.top + 'px';
+            photo.style.margin = '0';
+            photo.style.float = 'none';
+        }
+
+        photo.classList.add('dragging');
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+
+        const touch = e.touches[0];
+        hasMoved = true;
+
+        const x = touch.clientX - startX;
+        const y = touch.clientY - startY;
+
+        const maxX = window.innerWidth - photo.offsetWidth;
+        const maxY = window.innerHeight - photo.offsetHeight;
+
+        photo.style.left = Math.max(0, Math.min(x, maxX)) + 'px';
+        photo.style.top = Math.max(0, Math.min(y, maxY)) + 'px';
+
+        resetBtn.classList.add('visible');
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        photo.classList.remove('dragging');
+    });
+
+    // Reset button
+    resetBtn.addEventListener('click', () => {
+        photo.style.position = '';
+        photo.style.left = '';
+        photo.style.top = '';
+        photo.style.margin = '';
+        photo.style.float = '';
+        hasMoved = false;
+        resetBtn.classList.remove('visible');
+    });
+}
