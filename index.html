@@ -12,19 +12,19 @@
 <body>
     <!-- Social Links - Top Right -->
     <div class="social-links">
-        <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+        <a id="social-linkedin" href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
         </a>
-        <a href="https://x.com/shraddhaha" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+        <a id="social-twitter" href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </a>
-        <a href="https://substack.com/@shraddhaha" target="_blank" rel="noopener noreferrer" aria-label="Substack">
+        <a id="social-substack" href="#" target="_blank" rel="noopener noreferrer" aria-label="Substack">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
         </a>
-        <a href="mailto:meetshraddhakulkarni@gmail.com" aria-label="Email">
+        <a id="social-email" href="#" aria-label="Email">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/><path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/></svg>
         </a>
-        <a href="https://drive.google.com/file/d/1RYgq1Yahx9fA8f3MXa6L-oN2nfUb8pc8/view" target="_blank" rel="noopener noreferrer" aria-label="Resume">
+        <a id="social-resume" href="#" target="_blank" rel="noopener noreferrer" aria-label="Resume">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h6v6h6v10H6z"/></svg>
         </a>
     </div>
@@ -45,34 +45,13 @@
     <main class="main-content">
         <!-- About Section -->
         <section id="about" class="section">
-            <h1 class="name">Shraddha Kulkarni</h1>
-            <p class="intro">
-                Hi, I'm Shraddha. I'm into <a href="#experiences" class="highlight peach">product management</a> and all things
-                <a href="#" class="highlight blue">vibe coding</a>. Based in
-                <a href="#" class="highlight lavender">Bangalore, India</a> — this is my space for sharing work, unfinished projects, and experimental ideas.
-            </p>
+            <h1 id="name" class="name">Loading...</h1>
+            <p id="intro" class="intro">Loading...</p>
 
             <div class="cool-things">
                 <h2>some cool things i've done in the past:</h2>
-                <ul class="achievements">
-                    <li>
-                        Working on <a href="#" class="highlight blue">Quill</a>, an AI-driven platform for Medical Legal Regulatory reviews at <a href="https://www.zs.com/" target="_blank" class="highlight peach">ZS Associates</a>
-                    </li>
-                    <li>
-                        Won the <a href="#" class="highlight lavender">Client Impact Champion Award</a> for on-time delivery with exceptional quality
-                    </li>
-                    <li>
-                        Named <a href="#" class="highlight lavender">Most Valuable Player</a> among 150+ colleagues at ZS for hospitality analytics work
-                    </li>
-                    <li>
-                        Built crowd management systems using <a href="#" class="highlight blue">OpenPose & BLE beacons</a> at the <a href="#" class="highlight peach">Cisco Center of Excellence</a>
-                    </li>
-                    <li>
-                        Created 35+ financial literacy videos for <a href="#" class="highlight peach">The Apprentice Project</a>, investing 100+ hours
-                    </li>
-                    <li>
-                        Won 40+ awards in <a href="#" class="highlight lavender">debate competitions</a> at national and international levels
-                    </li>
+                <ul id="cool-things-list" class="achievements">
+                    <!-- Loaded from content.js -->
                 </ul>
                 <a href="#experiences" class="read-more">Read More →</a>
             </div>
@@ -86,87 +65,20 @@
                 </div>
 
                 <div class="tab-content" id="tab-everything">
-                    <div class="content-grid">
-                        <article class="content-card">
-                            <span class="card-tag">Project</span>
-                            <h3><a href="#" class="highlight blue">Quill - MLR Review Platform</a></h3>
-                            <p>AI-driven platform for Medical Legal Regulatory reviews in pharmaceuticals. Leading product solutioning, deployment oversight, and client feedback iteration.</p>
-                        </article>
-                        <article class="content-card">
-                            <span class="card-tag">Project</span>
-                            <h3><a href="#" class="highlight lavender">Crowd Management System</a></h3>
-                            <p>Integrated OpenPose and Bluetooth Low Energy beacon localization, achieving 40%+ accuracy with 90% reduction in overcrowding alert response time.</p>
-                        </article>
-                        <article class="content-card">
-                            <span class="card-tag">Community</span>
-                            <h3><a href="#" class="highlight peach">The Apprentice Project</a></h3>
-                            <p>Financial literacy educator creating 35+ videos on SIPs, taxes, and investments, helping underprivileged youth understand money.</p>
-                        </article>
-                        <article class="content-card">
-                            <span class="card-tag">Community</span>
-                            <h3><a href="#" class="highlight blue">Make A Difference (MAD)</a></h3>
-                            <p>Academic volunteer tutoring Grade 12 Physics and fundraising for education initiatives.</p>
-                        </article>
-                        <article class="content-card">
-                            <span class="card-tag">Project</span>
-                            <h3><a href="#" class="highlight peach">Airport Security Detection</a></h3>
-                            <p>YOLOv3-based object detection system for threat identification, improving false positive rate by 5-8%.</p>
-                        </article>
-                        <article class="content-card">
-                            <span class="card-tag">Community</span>
-                            <h3><a href="#" class="highlight lavender">UNICEF & DIKSHA</a></h3>
-                            <p>Content creator for teacher training on inclusive materials and simplified learning content for government school students.</p>
-                        </article>
+                    <div id="everything-grid" class="content-grid">
+                        <!-- Loaded from content.js -->
                     </div>
                 </div>
 
                 <div class="tab-content hidden" id="tab-projects">
-                    <div class="content-grid">
-                        <article class="content-card">
-                            <span class="card-tag">Project</span>
-                            <h3><a href="#" class="highlight blue">Quill - MLR Review Platform</a></h3>
-                            <p>AI-driven platform for Medical Legal Regulatory reviews in pharmaceuticals at ZS Associates.</p>
-                        </article>
-                        <article class="content-card">
-                            <span class="card-tag">Project</span>
-                            <h3><a href="#" class="highlight lavender">Crowd Management System</a></h3>
-                            <p>OpenPose + BLE beacon localization achieving 90% reduction in overcrowding alert response time.</p>
-                        </article>
-                        <article class="content-card">
-                            <span class="card-tag">Project</span>
-                            <h3><a href="#" class="highlight peach">Airport Security Detection</a></h3>
-                            <p>YOLOv3-based object detection for threat identification at Cisco Center of Excellence.</p>
-                        </article>
-                        <article class="content-card">
-                            <span class="card-tag">Project</span>
-                            <h3><a href="#" class="highlight blue">SDR Channel Estimation</a></h3>
-                            <p>Software-defined radio channel estimation using LabVIEW and USRP 2920, improving SNR by 9 dB.</p>
-                        </article>
+                    <div id="projects-grid" class="content-grid">
+                        <!-- Loaded from content.js -->
                     </div>
                 </div>
 
                 <div class="tab-content hidden" id="tab-communities">
-                    <div class="content-grid">
-                        <article class="content-card">
-                            <span class="card-tag">Community</span>
-                            <h3><a href="#" class="highlight peach">The Apprentice Project</a></h3>
-                            <p>Financial literacy educator creating 35+ videos on SIPs, taxes, and investments (100+ hours).</p>
-                        </article>
-                        <article class="content-card">
-                            <span class="card-tag">Community</span>
-                            <h3><a href="#" class="highlight blue">Make A Difference (MAD)</a></h3>
-                            <p>Academic volunteer tutoring Grade 12 Physics and fundraising volunteer.</p>
-                        </article>
-                        <article class="content-card">
-                            <span class="card-tag">Community</span>
-                            <h3><a href="#" class="highlight lavender">UNICEF</a></h3>
-                            <p>Content creator for teacher training on inclusive materials for students with disabilities.</p>
-                        </article>
-                        <article class="content-card">
-                            <span class="card-tag">Community</span>
-                            <h3><a href="#" class="highlight peach">DIKSHA (NCERT)</a></h3>
-                            <p>Created simplified learning materials for grades 6-8 in government schools.</p>
-                        </article>
+                    <div id="communities-grid" class="content-grid">
+                        <!-- Loaded from content.js -->
                     </div>
                 </div>
             </div>
@@ -175,39 +87,8 @@
         <!-- Experiences Section -->
         <section id="experiences" class="section">
             <h2 class="section-title">Experiences</h2>
-            <div class="experience-list">
-                <article class="experience-item">
-                    <div class="experience-header">
-                        <h3><a href="https://www.zs.com/" target="_blank" class="highlight peach">Product Management / Customer Success</a></h3>
-                        <span class="experience-date">2025 — Present</span>
-                    </div>
-                    <p class="experience-company">ZS Associates</p>
-                    <p>Working on <a href="#" class="highlight blue">Quill</a>, an AI-driven platform for Medical Legal Regulatory (MLR) reviews in pharmaceuticals. Responsibilities include product solutioning, deployment oversight, and client feedback iteration. Awarded <a href="#" class="highlight lavender">Client Impact Champion</a> for on-time delivery with exceptional quality.</p>
-                </article>
-                <article class="experience-item">
-                    <div class="experience-header">
-                        <h3><a href="https://www.zs.com/" target="_blank" class="highlight peach">Business Analyst - Hospitality Analytics</a></h3>
-                        <span class="experience-date">2023 — 2024</span>
-                    </div>
-                    <p class="experience-company">ZS Associates</p>
-                    <p>Led pricing and profitability strategy for a major U.S. hotel chain managing <a href="#" class="highlight lavender">$20M monthly revenue</a>. Advanced data analytics using <a href="#" class="highlight blue">SQL and Python</a> for demand forecasting and revenue optimization. Deputy lead of 13-person team. Named <a href="#" class="highlight lavender">Most Valuable Player</a> among 150+ colleagues.</p>
-                </article>
-                <article class="experience-item">
-                    <div class="experience-header">
-                        <h3><a href="https://www.bakerhughes.com/" target="_blank" class="highlight peach">Software Engineering Intern</a></h3>
-                        <span class="experience-date">2022</span>
-                    </div>
-                    <p class="experience-company">Baker Hughes / General Electric</p>
-                    <p>Automated e-commerce report generation using <a href="#" class="highlight blue">Java and CronJobs</a>, saving 12+ hours/month. Gained B2B insights in the oil and gas industry.</p>
-                </article>
-                <article class="experience-item">
-                    <div class="experience-header">
-                        <h3><a href="#" class="highlight peach">Research Engineer</a></h3>
-                        <span class="experience-date">2021 — 2022</span>
-                    </div>
-                    <p class="experience-company">Cisco Center of Excellence, RVCE</p>
-                    <p>Built <a href="#" class="highlight blue">Crowd Management System</a> integrating OpenPose and BLE beacon localization (40%+ accuracy, 90% faster alerts). Developed <a href="#" class="highlight lavender">YOLOv3-based</a> airport security detection improving false positive rate by 5-8%.</p>
-                </article>
+            <div id="experiences-list" class="experience-list">
+                <!-- Loaded from content.js -->
             </div>
         </section>
 
@@ -215,22 +96,8 @@
         <section id="fieldnotes" class="section">
             <h2 class="section-title">Fieldnotes</h2>
             <p class="section-intro">Things I've learned, observed, and am still figuring out.</p>
-            <div class="notes-grid">
-                <article class="note-card">
-                    <span class="note-date">2024</span>
-                    <h3><a href="#" class="highlight peach">On building AI products</a></h3>
-                    <p>Lessons from shipping Quill — balancing ML capabilities with user expectations in regulated industries like pharma.</p>
-                </article>
-                <article class="note-card">
-                    <span class="note-date">2024</span>
-                    <h3><a href="#" class="highlight blue">Revenue optimization at scale</a></h3>
-                    <p>What I learned managing $20M in monthly hotel revenue — the interplay of demand forecasting, pricing psychology, and data quality.</p>
-                </article>
-                <article class="note-card">
-                    <span class="note-date">2023</span>
-                    <h3><a href="#" class="highlight lavender">Teaching financial literacy</a></h3>
-                    <p>Creating 35+ videos on SIPs, taxes, and investments for underprivileged youth — making complex concepts accessible.</p>
-                </article>
+            <div id="fieldnotes-grid" class="notes-grid">
+                <!-- Loaded from content.js -->
             </div>
         </section>
 
@@ -238,24 +105,10 @@
         <section id="philosophy" class="section">
             <h2 class="section-title">My Philosophy</h2>
             <div class="philosophy-content">
-                <blockquote class="philosophy-quote">
-                    "Build things that matter. Ship early. Learn fast. Help others along the way."
-                </blockquote>
-                <p>
-                    I believe in <a href="#" class="highlight peach">impact over perfection</a> —
-                    shipping early, learning from real users, and iterating relentlessly. The best products come from
-                    <a href="#" class="highlight blue">deep empathy</a> and understanding the humans you're building for.
-                </p>
-                <p>
-                    My approach combines <a href="#" class="highlight lavender">analytical rigor</a>
-                    with creative problem-solving. Whether it's pricing strategy for hotels, AI products for pharma, or
-                    teaching financial literacy — the goal is always to create meaningful impact.
-                </p>
-                <p>
-                    I value <a href="#" class="highlight peach">curiosity over certainty</a>,
-                    <a href="#" class="highlight blue">collaboration over ego</a>, and
-                    <a href="#" class="highlight lavender">giving back</a> through teaching and mentorship.
-                </p>
+                <blockquote id="philosophy-quote" class="philosophy-quote">Loading...</blockquote>
+                <div id="philosophy-content">
+                    <!-- Loaded from content.js -->
+                </div>
             </div>
         </section>
 
@@ -263,67 +116,27 @@
         <section id="content" class="section">
             <h2 class="section-title">Content Worth Consuming</h2>
             <p class="section-intro">Things that have shaped how I think about products, life, and everything in between.</p>
-            <div class="content-list">
-                <article class="consume-item">
-                    <span class="consume-type">Substack</span>
-                    <h3><a href="https://substack.com/@shraddhaha" target="_blank" class="highlight peach">My Writing</a></h3>
-                    <p class="consume-author">Essays on product, tech, and life</p>
-                </article>
-                <article class="consume-item">
-                    <span class="consume-type">Interest</span>
-                    <h3><a href="#" class="highlight blue">Documentary Video Essays</a></h3>
-                    <p class="consume-author">Long-form storytelling that makes you think</p>
-                </article>
-                <article class="consume-item">
-                    <span class="consume-type">Practice</span>
-                    <h3><a href="#" class="highlight lavender">Bharatanatyam</a></h3>
-                    <p class="consume-author">10+ years, 4 exam levels completed</p>
-                </article>
-                <article class="consume-item">
-                    <span class="consume-type">Hobby</span>
-                    <h3><a href="#" class="highlight peach">Journaling</a></h3>
-                    <p class="consume-author">Daily reflections and idea capture</p>
-                </article>
+            <div id="consume-list" class="content-list">
+                <!-- Loaded from content.js -->
             </div>
         </section>
 
-        <!-- Photos Section -->
+        <!-- Fun Facts Section -->
         <section id="photos" class="section">
             <h2 class="section-title">Fun Facts</h2>
             <p class="section-intro">Things that make me, me.</p>
-            <div class="fun-facts-grid">
-                <div class="fun-fact">
-                    <span class="fun-fact-emoji">🥧</span>
-                    <p>Can recite <strong>100 digits of π</strong> from memory</p>
-                </div>
-                <div class="fun-fact">
-                    <span class="fun-fact-emoji">🚌</span>
-                    <p>Knows all <strong>BMTC bus routes</strong> in Bangalore</p>
-                </div>
-                <div class="fun-fact">
-                    <span class="fun-fact-emoji">🐱</span>
-                    <p>Has befriended <strong>every apartment cat</strong></p>
-                </div>
-                <div class="fun-fact">
-                    <span class="fun-fact-emoji">🎵</span>
-                    <p>Can recognize <strong>obscure Punjabi songs</strong></p>
-                </div>
-                <div class="fun-fact">
-                    <span class="fun-fact-emoji">🏆</span>
-                    <p><strong>50+ debates</strong> competed, <strong>40+ awards</strong> won</p>
-                </div>
-                <div class="fun-fact">
-                    <span class="fun-fact-emoji">💃</span>
-                    <p><strong>10+ years</strong> of Bharatanatyam</p>
-                </div>
+            <div id="fun-facts-grid" class="fun-facts-grid">
+                <!-- Loaded from content.js -->
             </div>
         </section>
 
         <footer class="footer">
-            <p>Made with care in Bangalore · <span class="year">2024</span></p>
+            <p id="footer-text">Loading...</p>
         </footer>
     </main>
 
+    <!-- IMPORTANT: content.js must be loaded BEFORE script.js -->
+    <script src="content.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

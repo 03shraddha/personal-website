@@ -1,14 +1,137 @@
 /**
  * Portfolio Website - Interactive Functionality
- * Handles navigation, tabs, and scroll behavior
+ * Handles navigation, tabs, scroll behavior, and content loading
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    loadContent();      // Load content from content.js
     initNavigation();
     initTabs();
     initScrollSpy();
     updateYear();
 });
+
+/**
+ * Load all content from the CONTENT object in content.js
+ */
+function loadContent() {
+    if (typeof CONTENT === 'undefined') {
+        console.warn('content.js not loaded');
+        return;
+    }
+
+    // Personal Info
+    document.getElementById('name').textContent = CONTENT.name;
+    document.getElementById('intro').innerHTML = CONTENT.intro;
+
+    // Social Links
+    const social = CONTENT.socialLinks;
+    document.getElementById('social-linkedin').href = social.linkedin;
+    document.getElementById('social-twitter').href = social.twitter;
+    document.getElementById('social-substack').href = social.substack;
+    document.getElementById('social-email').href = `mailto:${social.email}`;
+    document.getElementById('social-resume').href = social.resume;
+
+    // Cool Things
+    const coolThingsHtml = CONTENT.coolThings.map(item => {
+        let text = item.text;
+        item.highlights.forEach(h => {
+            const link = `<a href="${h.url}" ${h.url.startsWith('http') ? 'target="_blank"' : ''} class="highlight ${h.color}">${h.word}</a>`;
+            text = text.replace(h.word, link);
+        });
+        return `<li>${text}</li>`;
+    }).join('');
+    document.getElementById('cool-things-list').innerHTML = coolThingsHtml;
+
+    // Experiences
+    const experiencesHtml = CONTENT.experiences.map(exp => `
+        <article class="experience-item">
+            <div class="experience-header">
+                <h3><a href="${exp.companyUrl}" ${exp.companyUrl.startsWith('http') ? 'target="_blank"' : ''} class="highlight peach">${exp.title}</a></h3>
+                <span class="experience-date">${exp.date}</span>
+            </div>
+            <p class="experience-company">${exp.company}</p>
+            <p>${exp.description}</p>
+        </article>
+    `).join('');
+    document.getElementById('experiences-list').innerHTML = experiencesHtml;
+
+    // Projects (for tabs)
+    const projectsHtml = CONTENT.projects.map(p => `
+        <article class="content-card">
+            <span class="card-tag">Project</span>
+            <h3><a href="${p.url}" class="highlight ${p.highlight}">${p.name}</a></h3>
+            <p>${p.description}</p>
+        </article>
+    `).join('');
+    document.getElementById('projects-grid').innerHTML = projectsHtml;
+
+    // Communities (for tabs)
+    const communitiesHtml = CONTENT.communities.map(c => `
+        <article class="content-card">
+            <span class="card-tag">Community</span>
+            <h3><a href="${c.url}" class="highlight ${c.highlight}">${c.name}</a></h3>
+            <p>${c.description}</p>
+        </article>
+    `).join('');
+    document.getElementById('communities-grid').innerHTML = communitiesHtml;
+
+    // Everything tab (projects + communities)
+    const everythingHtml = [
+        ...CONTENT.projects.map(p => `
+            <article class="content-card">
+                <span class="card-tag">Project</span>
+                <h3><a href="${p.url}" class="highlight ${p.highlight}">${p.name}</a></h3>
+                <p>${p.description}</p>
+            </article>
+        `),
+        ...CONTENT.communities.map(c => `
+            <article class="content-card">
+                <span class="card-tag">Community</span>
+                <h3><a href="${c.url}" class="highlight ${c.highlight}">${c.name}</a></h3>
+                <p>${c.description}</p>
+            </article>
+        `)
+    ].join('');
+    document.getElementById('everything-grid').innerHTML = everythingHtml;
+
+    // Fieldnotes
+    const fieldnotesHtml = CONTENT.fieldnotes.map(note => `
+        <article class="note-card">
+            <span class="note-date">${note.date}</span>
+            <h3><a href="${note.url}" class="highlight ${note.highlight}">${note.title}</a></h3>
+            <p>${note.description}</p>
+        </article>
+    `).join('');
+    document.getElementById('fieldnotes-grid').innerHTML = fieldnotesHtml;
+
+    // Philosophy
+    document.getElementById('philosophy-quote').textContent = `"${CONTENT.philosophy.quote}"`;
+    const philosophyHtml = CONTENT.philosophy.paragraphs.map(p => `<p>${p}</p>`).join('');
+    document.getElementById('philosophy-content').innerHTML = philosophyHtml;
+
+    // Content Worth Consuming
+    const consumeHtml = CONTENT.contentWorthConsuming.map(item => `
+        <article class="consume-item">
+            <span class="consume-type">${item.type}</span>
+            <h3><a href="${item.url}" ${item.url.startsWith('http') ? 'target="_blank"' : ''} class="highlight ${item.highlight}">${item.title}</a></h3>
+            <p class="consume-author">${item.author}</p>
+        </article>
+    `).join('');
+    document.getElementById('consume-list').innerHTML = consumeHtml;
+
+    // Fun Facts
+    const funFactsHtml = CONTENT.funFacts.map(fact => `
+        <div class="fun-fact">
+            <span class="fun-fact-emoji">${fact.emoji}</span>
+            <p>${fact.text}</p>
+        </div>
+    `).join('');
+    document.getElementById('fun-facts-grid').innerHTML = funFactsHtml;
+
+    // Footer
+    document.getElementById('footer-text').innerHTML = `${CONTENT.footer} · <span class="year">${new Date().getFullYear()}</span>`;
+}
 
 /**
  * Navigation - Smooth scroll and active states
