@@ -14,15 +14,6 @@
     <div class="cursor"></div>
     <div class="cursor-ring"></div>
 
-    <!-- Page View Counter -->
-    <div class="page-view-counter" id="page-view-counter">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-            <circle cx="12" cy="12" r="3"/>
-        </svg>
-        <span id="view-count">--</span>
-    </div>
-
     <!-- Social Links - Top Right -->
     <div class="social-links">
         <a id="social-twitter" href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
@@ -63,6 +54,7 @@
                 <li><a href="#philosophy" class="nav-link" data-section="philosophy">my philosophy</a></li>
                 <li><a href="#content" class="nav-link" data-section="content">content worth consuming</a></li>
                 <li><a href="#photos" class="nav-link" data-section="photos">photos</a></li>
+                <li><a href="#guestbook" class="nav-link" data-section="guestbook">guestbook</a></li>
             </ul>
         </div>
     </nav>
@@ -354,8 +346,89 @@
             </div>
         </section>
 
+        <!-- Guestbook Section -->
+        <section id="guestbook" class="section">
+            <h2 class="section-title">guestbook</h2>
+            <p class="section-intro">leave a note, say hi, share a thought</p>
+
+            <!-- Write a Note Button -->
+            <button id="write-note-btn" class="write-note-btn">+ Write a Note</button>
+
+            <!-- Notebook Container -->
+            <div class="notebook-container">
+                <div class="notebook">
+                    <!-- Notebook Binding -->
+                    <div class="notebook-binding"></div>
+
+                    <!-- Left Page -->
+                    <div class="notebook-page left-page" id="left-page">
+                        <div class="page-content">
+                            <div class="note-message" id="left-note-message"></div>
+                            <div class="note-attribution" id="left-note-attribution"></div>
+                        </div>
+                        <div class="page-number left">1</div>
+                        <div class="page-curl"></div>
+                    </div>
+
+                    <!-- Right Page -->
+                    <div class="notebook-page right-page" id="right-page">
+                        <div class="page-content">
+                            <div class="note-message" id="right-note-message"></div>
+                            <div class="note-attribution" id="right-note-attribution"></div>
+                        </div>
+                        <div class="page-number right">2</div>
+                        <div class="page-curl"></div>
+                    </div>
+
+                    <!-- Page Navigation Arrows -->
+                    <button class="page-nav prev" id="prev-page" aria-label="Previous page">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+                    <button class="page-nav next" id="next-page" aria-label="Next page">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Page Counter -->
+                <div class="page-counter" id="page-counter">Page 1 of 1</div>
+            </div>
+
+            <!-- Write Note Modal -->
+            <div id="write-note-modal" class="write-note-modal">
+                <div class="write-note-form">
+                    <button class="modal-close-btn" id="note-modal-close" aria-label="Close">&times;</button>
+                    <h3>Write a Note</h3>
+                    <p class="write-note-intro">Leave a message in my guestbook. It can be anything - a hello, a thought, or just a friendly wave.</p>
+                    <div class="note-textarea-container">
+                        <textarea id="note-textarea" placeholder="write your message here..." maxlength="280"></textarea>
+                        <div class="char-counter"><span id="char-count">0</span>/280</div>
+                    </div>
+                    <div class="write-note-actions">
+                        <button id="note-cancel" class="btn-secondary">Cancel</button>
+                        <button id="note-submit" class="btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            <div id="note-success" class="note-success">
+                thanks for signing! ✨
+            </div>
+        </section>
+
         <footer class="footer">
             <p id="footer-text">Loading...</p>
+            <div class="page-view-counter" id="page-view-counter">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <span id="view-count">--</span>
+            </div>
         </footer>
     </main>
 

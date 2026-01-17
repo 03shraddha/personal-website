@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initContentCalendar(); // Content consumption calendar
     initMobileMenu();   // Mobile hamburger menu
     initPageViewCounter(); // Page view counter
+    initGuestbook();    // Virtual guestbook
     updateYear();
 });
 
@@ -1365,4 +1366,220 @@ function initContentCalendar() {
 
     // Initialize with async data loading
     initialize();
+}
+
+/**
+ * Guestbook - Virtual Notebook
+ * Allows visitors to leave notes in a notebook-style interface
+ */
+function initGuestbook() {
+    const writeNoteBtn = document.getElementById('write-note-btn');
+    const writeNoteModal = document.getElementById('write-note-modal');
+    const noteModalClose = document.getElementById('note-modal-close');
+    const noteTextarea = document.getElementById('note-textarea');
+    const charCount = document.getElementById('char-count');
+    const noteCancel = document.getElementById('note-cancel');
+    const noteSubmit = document.getElementById('note-submit');
+    const noteSuccess = document.getElementById('note-success');
+    const prevPageBtn = document.getElementById('prev-page');
+    const nextPageBtn = document.getElementById('next-page');
+    const pageCounter = document.getElementById('page-counter');
+    const leftPage = document.getElementById('left-page');
+    const rightPage = document.getElementById('right-page');
+
+    if (!writeNoteBtn) return;
+
+    // State
+    let currentSpread = 0;
+    let notes = loadNotesFromStorage();
+
+    // Sample notes if empty (for demo)
+    if (notes.length === 0) {
+        notes = [
+            {
+                id: 1,
+                message: "Love your website! The design is so clean and thoughtful. Keep creating amazing things!",
+                createdAt: "2026-01-15T10:30:00Z"
+            },
+            {
+                id: 2,
+                message: "Stumbled upon your portfolio while researching product management. Really inspiring work!",
+                createdAt: "2026-01-14T14:20:00Z"
+            },
+            {
+                id: 3,
+                message: "The notebook guestbook idea is so creative. Feels like writing in a real journal.",
+                createdAt: "2026-01-13T09:15:00Z"
+            }
+        ];
+        saveNotesToStorage();
+    }
+
+    // Load notes from localStorage
+    function loadNotesFromStorage() {
+        const stored = localStorage.getItem('guestbook-notes');
+        return stored ? JSON.parse(stored) : [];
+    }
+
+    // Save notes to localStorage
+    function saveNotesToStorage() {
+        localStorage.setItem('guestbook-notes', JSON.stringify(notes));
+    }
+
+    // Format date for display
+    function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+        });
+    }
+
+    // Get total spreads (2 notes per spread)
+    function getTotalSpreads() {
+        return Math.max(1, Math.ceil(notes.length / 2));
+    }
+
+    // Render current spread
+    function renderSpread() {
+        const totalSpreads = getTotalSpreads();
+        const leftNoteIndex = currentSpread * 2;
+        const rightNoteIndex = currentSpread * 2 + 1;
+
+        // Left page
+        const leftNoteMsg = document.getElementById('left-note-message');
+        const leftNoteAttr = document.getElementById('left-note-attribution');
+
+        if (notes[leftNoteIndex]) {
+            const note = notes[leftNoteIndex];
+            leftNoteMsg.innerHTML = `"${note.message}"`;
+            leftNoteAttr.innerHTML = `— anonymous<span class="note-date">${formatDate(note.createdAt)}</span>`;
+        } else {
+            leftNoteMsg.innerHTML = '<span class="page-empty">No notes yet. Be the first to write one!</span>';
+            leftNoteAttr.innerHTML = '';
+        }
+
+        // Right page
+        const rightNoteMsg = document.getElementById('right-note-message');
+        const rightNoteAttr = document.getElementById('right-note-attribution');
+
+        if (notes[rightNoteIndex]) {
+            const note = notes[rightNoteIndex];
+            rightNoteMsg.innerHTML = `"${note.message}"`;
+            rightNoteAttr.innerHTML = `— anonymous<span class="note-date">${formatDate(note.createdAt)}</span>`;
+        } else if (notes.length > 0 && leftNoteIndex < notes.length) {
+            rightNoteMsg.innerHTML = '<span class="page-empty">Turn the page for more...</span>';
+            rightNoteAttr.innerHTML = '';
+        } else {
+            rightNoteMsg.innerHTML = '';
+            rightNoteAttr.innerHTML = '';
+        }
+
+        // Update page numbers
+        leftPage.querySelector('.page-number').textContent = currentSpread * 2 + 1;
+        rightPage.querySelector('.page-number').textContent = currentSpread * 2 + 2;
+
+        // Update page counter
+        pageCounter.textContent = `Page ${currentSpread + 1} of ${totalSpreads}`;
+
+        // Update navigation buttons
+        prevPageBtn.disabled = currentSpread === 0;
+        nextPageBtn.disabled = currentSpread >= totalSpreads - 1;
+    }
+
+    // Navigate pages
+    prevPageBtn.addEventListener('click', () => {
+        if (currentSpread > 0) {
+            currentSpread--;
+            renderSpread();
+        }
+    });
+
+    nextPageBtn.addEventListener('click', () => {
+        if (currentSpread < getTotalSpreads() - 1) {
+            currentSpread++;
+            renderSpread();
+        }
+    });
+
+    // Open write note modal
+    function openWriteModal() {
+        noteTextarea.value = '';
+        charCount.textContent = '0';
+        charCount.classList.remove('near-limit');
+        writeNoteModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => noteTextarea.focus(), 100);
+    }
+
+    // Close write note modal
+    function closeWriteModal() {
+        writeNoteModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Character counter
+    noteTextarea.addEventListener('input', () => {
+        const count = noteTextarea.value.length;
+        charCount.textContent = count;
+        charCount.classList.toggle('near-limit', count > 250);
+    });
+
+    // Event listeners
+    writeNoteBtn.addEventListener('click', openWriteModal);
+    noteModalClose.addEventListener('click', closeWriteModal);
+    noteCancel.addEventListener('click', closeWriteModal);
+
+    // Close on background click
+    writeNoteModal.addEventListener('click', (e) => {
+        if (e.target === writeNoteModal) {
+            closeWriteModal();
+        }
+    });
+
+    // Submit note
+    noteSubmit.addEventListener('click', () => {
+        const message = noteTextarea.value.trim();
+
+        if (!message) {
+            noteTextarea.style.borderColor = '#e75480';
+            setTimeout(() => noteTextarea.style.borderColor = '', 2000);
+            return;
+        }
+
+        // Create new note
+        const newNote = {
+            id: Date.now(),
+            message,
+            createdAt: new Date().toISOString()
+        };
+
+        // Add to beginning (newest first)
+        notes.unshift(newNote);
+        saveNotesToStorage();
+
+        // Close modal
+        closeWriteModal();
+
+        // Show success message
+        noteSuccess.classList.add('show');
+        setTimeout(() => {
+            noteSuccess.classList.remove('show');
+        }, 2000);
+
+        // Go to first page to show new note
+        currentSpread = 0;
+        renderSpread();
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && writeNoteModal.classList.contains('active')) {
+            closeWriteModal();
+        }
+    });
+
+    // Initial render
+    renderSpread();
 }
