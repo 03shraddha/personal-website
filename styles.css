@@ -2699,23 +2699,34 @@ a, button, .tab, .highlight, [role="button"] {
 .write-note-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 10px 20px;
+    gap: 8px;
+    padding: 14px 28px;
     font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--color-text);
-    background: transparent;
-    border: 1px solid var(--color-border);
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    background: #1a1a1a;
+    border: none;
     border-radius: 100px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
     margin-bottom: 32px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .write-note-btn:hover {
-    border-color: var(--color-text-muted);
-    background: var(--color-card-bg);
+    background: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .write-note-btn {
+    background: #fff;
+    color: #1a1a1a;
+}
+
+[data-theme="dark"] .write-note-btn:hover {
+    background: #f0f0f0;
 }
 
 /* Notebook Container */
@@ -2732,13 +2743,13 @@ a, button, .tab, .highlight, [role="button"] {
     width: 100%;
     max-width: 700px;
     min-height: 400px;
-    background: #FFFEF7;
+    background: #2a2a2a;
     border-radius: 2px 6px 6px 2px;
     box-shadow:
-        0 1px 3px rgba(0, 0, 0, 0.05),
-        0 4px 12px rgba(0, 0, 0, 0.08),
-        0 12px 40px rgba(0, 0, 0, 0.12),
-        inset 0 0 60px rgba(0, 0, 0, 0.02);
+        0 1px 3px rgba(0, 0, 0, 0.1),
+        0 4px 12px rgba(0, 0, 0, 0.15),
+        0 12px 40px rgba(0, 0, 0, 0.2),
+        inset 0 0 60px rgba(0, 0, 0, 0.1);
     perspective: 2000px;
     transform-style: preserve-3d;
 }
@@ -2752,8 +2763,8 @@ a, button, .tab, .highlight, [role="button"] {
     bottom: 0;
     width: 12px;
     background: linear-gradient(to right,
-        rgba(0, 0, 0, 0.08) 0%,
-        rgba(0, 0, 0, 0.03) 40%,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.15) 40%,
         transparent 100%);
     border-radius: 2px 0 0 2px;
 }
@@ -2767,34 +2778,34 @@ a, button, .tab, .highlight, [role="button"] {
     bottom: 4px;
     width: 3px;
     background: linear-gradient(to bottom,
-        #f5f4ef,
-        #ebe9e2,
-        #f5f4ef);
+        #3a3a3a,
+        #2d2d2d,
+        #3a3a3a);
     border-radius: 0 1px 1px 0;
-    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.05);
+    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="dark"] .notebook {
-    background: #2a2820;
+    background: #1a1a1a;
     box-shadow:
-        0 1px 3px rgba(0, 0, 0, 0.15),
-        0 4px 12px rgba(0, 0, 0, 0.2),
-        0 12px 40px rgba(0, 0, 0, 0.3),
-        inset 0 0 60px rgba(0, 0, 0, 0.1);
+        0 1px 3px rgba(0, 0, 0, 0.2),
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        0 12px 40px rgba(0, 0, 0, 0.4),
+        inset 0 0 60px rgba(0, 0, 0, 0.15);
 }
 
 [data-theme="dark"] .notebook::before {
     background: linear-gradient(to right,
-        rgba(0, 0, 0, 0.2) 0%,
-        rgba(0, 0, 0, 0.08) 40%,
+        rgba(0, 0, 0, 0.4) 0%,
+        rgba(0, 0, 0, 0.2) 40%,
         transparent 100%);
 }
 
 [data-theme="dark"] .notebook::after {
     background: linear-gradient(to bottom,
-        #252118,
-        #1f1b13,
-        #252118);
+        #252525,
+        #1f1f1f,
+        #252525);
 }
 
 /* Notebook Binding */
@@ -2806,9 +2817,9 @@ a, button, .tab, .highlight, [role="button"] {
     width: 20px;
     background: linear-gradient(to right,
         transparent 0%,
-        rgba(0,0,0,0.04) 20%,
-        rgba(0,0,0,0.06) 50%,
-        rgba(0,0,0,0.04) 80%,
+        rgba(0,0,0,0.15) 20%,
+        rgba(0,0,0,0.2) 50%,
+        rgba(0,0,0,0.15) 80%,
         transparent 100%);
     transform: translateX(-50%);
     z-index: 5;
@@ -2825,17 +2836,17 @@ a, button, .tab, .highlight, [role="button"] {
     background: repeating-linear-gradient(to bottom,
         transparent,
         transparent 8px,
-        rgba(0, 0, 0, 0.1) 8px,
-        rgba(0, 0, 0, 0.1) 16px);
+        rgba(255, 255, 255, 0.15) 8px,
+        rgba(255, 255, 255, 0.15) 16px);
     transform: translateX(-50%);
 }
 
 [data-theme="dark"] .notebook-binding {
     background: linear-gradient(to right,
         transparent 0%,
-        rgba(255,255,255,0.02) 20%,
-        rgba(255,255,255,0.04) 50%,
-        rgba(255,255,255,0.02) 80%,
+        rgba(0,0,0,0.2) 20%,
+        rgba(0,0,0,0.25) 50%,
+        rgba(0,0,0,0.2) 80%,
         transparent 100%);
 }
 
@@ -2843,8 +2854,8 @@ a, button, .tab, .highlight, [role="button"] {
     background: repeating-linear-gradient(to bottom,
         transparent,
         transparent 8px,
-        rgba(255, 255, 255, 0.08) 8px,
-        rgba(255, 255, 255, 0.08) 16px);
+        rgba(255, 255, 255, 0.1) 8px,
+        rgba(255, 255, 255, 0.1) 16px);
 }
 
 /* Notebook Pages */
@@ -2861,12 +2872,12 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .notebook-page.left-page {
-    border-right: 1px solid rgba(0, 0, 0, 0.05);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
     transform-origin: right center;
 }
 
 .notebook-page.right-page {
-    border-left: 1px solid rgba(0, 0, 0, 0.05);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
     transform-origin: left center;
 }
 
@@ -2963,14 +2974,14 @@ a, button, .tab, .highlight, [role="button"] {
     font-family: var(--font-body);
     font-size: 16px;
     line-height: 1.7;
-    color: #333;
+    color: #e8e8e8;
     text-align: center;
     padding: 20px 0;
     font-weight: 400;
 }
 
 [data-theme="dark"] .note-message {
-    color: #e8e8e8;
+    color: #d0d0d0;
 }
 
 .note-attribution {
@@ -2978,15 +2989,15 @@ a, button, .tab, .highlight, [role="button"] {
     font-family: var(--font-body);
     font-size: 12px;
     font-style: italic;
-    color: var(--color-text-muted);
+    color: rgba(255, 255, 255, 0.5);
     margin-top: auto;
     padding-top: 20px;
 }
 
-.note-date {
+.notebook .note-date {
     display: block;
     font-size: 11px;
-    color: var(--color-text-light);
+    color: rgba(255, 255, 255, 0.35);
     margin-top: 4px;
     font-style: normal;
 }
@@ -2994,7 +3005,7 @@ a, button, .tab, .highlight, [role="button"] {
 /* Empty page state */
 .page-empty {
     text-align: center;
-    color: var(--color-text-light);
+    color: rgba(255, 255, 255, 0.4);
     font-style: italic;
     font-size: 14px;
 }
@@ -3005,7 +3016,7 @@ a, button, .tab, .highlight, [role="button"] {
     bottom: 16px;
     font-family: var(--font-body);
     font-size: 11px;
-    color: var(--color-text-light);
+    color: rgba(255, 255, 255, 0.35);
 }
 
 .page-number.left {
@@ -3021,7 +3032,7 @@ a, button, .tab, .highlight, [role="button"] {
     position: absolute;
     width: 20px;
     height: 20px;
-    background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.03) 50%);
+    background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.15) 50%);
 }
 
 .left-page .page-curl {
@@ -3032,7 +3043,7 @@ a, button, .tab, .highlight, [role="button"] {
 .right-page .page-curl {
     bottom: 0;
     right: 0;
-    background: linear-gradient(-135deg, transparent 50%, rgba(0,0,0,0.03) 50%);
+    background: linear-gradient(-135deg, transparent 50%, rgba(0,0,0,0.15) 50%);
 }
 
 /* Page Navigation */
