@@ -14,8 +14,36 @@ document.addEventListener('DOMContentLoaded', () => {
     initPhotoGallery(); // Polaroid photo gallery
     initContentCalendar(); // Content consumption calendar
     initMobileMenu();   // Mobile hamburger menu
+    initPageViewCounter(); // Page view counter
     updateYear();
 });
+
+/**
+ * Page View Counter
+ * Uses CountAPI to track and display page views
+ */
+function initPageViewCounter() {
+    const viewCountEl = document.getElementById('view-count');
+    if (!viewCountEl) return;
+
+    // Use CountAPI to increment and get view count
+    const namespace = 'shraddha-portfolio';
+    const key = 'page-views';
+
+    fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+        .then(response => response.json())
+        .then(data => {
+            // Format the number with commas
+            const formattedCount = data.value.toLocaleString();
+            viewCountEl.textContent = formattedCount;
+        })
+        .catch(err => {
+            console.log('Could not load view count');
+            // Show a fallback or hide the counter
+            const counter = document.getElementById('page-view-counter');
+            if (counter) counter.style.display = 'none';
+        });
+}
 
 /**
  * Mobile Menu Toggle
