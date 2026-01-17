@@ -1488,18 +1488,70 @@ function initGuestbook() {
         nextPageBtn.disabled = currentSpread >= totalSpreads - 1;
     }
 
-    // Navigate pages
+    // Animate page flip
+    function animatePageFlip(direction, callback) {
+        const leftPageEl = document.getElementById('left-page');
+        const rightPageEl = document.getElementById('right-page');
+
+        if (direction === 'next') {
+            // Flip out to the left
+            rightPageEl.classList.add('flipping-out-right');
+            leftPageEl.classList.add('flipping-out-left');
+
+            setTimeout(() => {
+                callback();
+
+                // Remove flip-out classes and add flip-in
+                leftPageEl.classList.remove('flipping-out-left');
+                rightPageEl.classList.remove('flipping-out-right');
+                leftPageEl.classList.add('flipping-in-left');
+                rightPageEl.classList.add('flipping-in-right');
+
+                // Clean up flip-in classes after animation
+                setTimeout(() => {
+                    leftPageEl.classList.remove('flipping-in-left');
+                    rightPageEl.classList.remove('flipping-in-right');
+                }, 600);
+            }, 300);
+        } else {
+            // Flip out to the right (going backwards)
+            leftPageEl.classList.add('flipping-out-right');
+            rightPageEl.classList.add('flipping-out-left');
+
+            setTimeout(() => {
+                callback();
+
+                // Remove flip-out classes and add flip-in
+                leftPageEl.classList.remove('flipping-out-right');
+                rightPageEl.classList.remove('flipping-out-left');
+                leftPageEl.classList.add('flipping-in-right');
+                rightPageEl.classList.add('flipping-in-left');
+
+                // Clean up flip-in classes after animation
+                setTimeout(() => {
+                    leftPageEl.classList.remove('flipping-in-right');
+                    rightPageEl.classList.remove('flipping-in-left');
+                }, 600);
+            }, 300);
+        }
+    }
+
+    // Navigate pages with animation
     prevPageBtn.addEventListener('click', () => {
         if (currentSpread > 0) {
-            currentSpread--;
-            renderSpread();
+            animatePageFlip('prev', () => {
+                currentSpread--;
+                renderSpread();
+            });
         }
     });
 
     nextPageBtn.addEventListener('click', () => {
         if (currentSpread < getTotalSpreads() - 1) {
-            currentSpread++;
-            renderSpread();
+            animatePageFlip('next', () => {
+                currentSpread++;
+                renderSpread();
+            });
         }
     });
 
