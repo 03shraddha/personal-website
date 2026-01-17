@@ -1,0 +1,54 @@
+{
+  "entries": [
+    {
+      "id": 1737100800000,
+      "date": "2026-01-17",
+      "title": "The Art of Slowing Down",
+      "url": "https://theatlantic.com/ideas/archive/2024/slowness",
+      "source": "The Atlantic",
+      "category": "article",
+      "thoughts": "This article resonated deeply with me. In our hustle culture, we often forget that quality thinking requires space and time. The author's point about 'productive laziness' really stuck with me.",
+      "addedAt": "2026-01-17T10:30:00Z"
+    },
+    {
+      "id": 1737014400000,
+      "date": "2026-01-16",
+      "title": "How to Build Products Users Love",
+      "url": "https://youtube.com/watch?v=example123",
+      "source": "Y Combinator",
+      "category": "video",
+      "thoughts": "Great framework for thinking about product-market fit. The emphasis on talking to users before building is something I need to practice more.",
+      "addedAt": "2026-01-16T14:20:00Z"
+    },
+    {
+      "id": 1736928000000,
+      "date": "2026-01-15",
+      "title": "Atomic Habits",
+      "url": "https://jamesclear.com/atomic-habits",
+      "source": "James Clear",
+      "category": "book",
+      "thoughts": "Finally finished this! The 1% better every day concept is powerful. I'm implementing habit stacking for my morning routine.",
+      "addedAt": "2026-01-15T09:00:00Z"
+    },
+    {
+      "id": 1736841600000,
+      "date": "2026-01-14",
+      "title": "Lenny's Podcast: Product Lessons",
+      "url": "https://lennyspodcast.com/episode-example",
+      "source": "Lenny's Podcast",
+      "category": "podcast",
+      "thoughts": "The guest shared incredible insights about building B2B products. Key takeaway: enterprise sales is about understanding the buyer's internal politics.",
+      "addedAt": "2026-01-14T16:45:00Z"
+    },
+    {
+      "id": 1736755200000,
+      "date": "2026-01-13",
+      "title": "Weekly Tech Roundup",
+      "url": "https://substack.com/example-newsletter",
+      "source": "Stratechery",
+      "category": "newsletter",
+      "thoughts": "Ben Thompson's analysis of the AI landscape is always insightful. His framework for thinking about aggregation theory in AI is worth revisiting.",
+      "addedAt": "2026-01-13T08:00:00Z"
+    }
+  ]
+}

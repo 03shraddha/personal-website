@@ -28,43 +28,42 @@ const CONTENT = {
     // About section content (structured)
     aboutContent: {
         intro: ``,
-        mainText: `I work at <a href="https://www.zs.com/" target="_blank" class="highlight peach">ZS Associates</a>, a boutique management consulting firm, on the Artificial Intelligence and Analytics side. Currently, I'm part of the MAX.AI team, where I help major pharma clients deploy enterprise-grade GenAI agents.`,
-        debateText: `I spent college weekends competing in debate competitions, winning over <a href="#" class="highlight lavender">40 awards</a> at national and international levels.`,
+        mainText: `I work at <a href="https://www.zs.com/" target="_blank" class="highlight peach">ZS Associates</a>, a boutique management consulting firm, on the Artificial Intelligence and Analytics side. Currently, I'm part of the <a href="https://www.zs.com/solutions/artificial-intelligence-and-analytics/max-ai" target="_blank" class="highlight blue">MAX.AI team</a>, where I help major pharma clients deploy enterprise-grade GenAI agents.`,
+        debateText: `I spent college weekends competing in debate competitions, winning over <a href="https://drive.google.com/drive/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC" target="_blank" class="highlight lavender">40 awards</a> at national and international levels.`,
         learnAboutMe: {
             title: `The best way to learn about me is through the people I've worked with:`,
             items: [
-                { text: "LinkedIn recommendations from past teammates", url: "https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/details/recommendations/?detailScreenTabIndex=0" },
-                { text: "College senior on my debate journey", url: "https://www.instagram.com/thenalsariv/p/Cwk-XEmvvy6/#" },
-                { text: "College junior on my club leadership", url: "https://www.instagram.com/rvcedebsoc/p/Cr9_QcFpt94/" },
-                { text: "Organizations training future national debate champions", url: "https://drive.google.com/file/u/7/d/1HcWGH1M3RsFmPSolJ3hlpTHIEp95An3g/view?usp=sharing" }
+                { text: "Recommendations from past teammates", url: "https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/details/recommendations/?detailScreenTabIndex=0", source: "LinkedIn", highlight: "blue" },
+                { text: "College senior on my debate journey", url: "https://www.instagram.com/thenalsariv/p/Cwk-XEmvvy6/#", source: "Instagram", highlight: "peach" },
+                { text: "College junior on my club leadership", url: "https://www.instagram.com/rvcedebsoc/p/Cr9_QcFpt94/", source: "Instagram", highlight: "peach" },
+                { text: "Organizations training future debate champions", url: "https://drive.google.com/file/u/7/d/1HcWGH1M3RsFmPSolJ3hlpTHIEp95An3g/view?usp=sharing", source: "Email", highlight: "lavender" }
             ]
         },
         corporateStory: {
             title: "Corporate Story",
-            subtitle: "Areas of interest: Product management | Analytics",
+            subtitle: "Areas of interest: <u>Product management</u> | <u>Analytics</u>",
             paragraphs: [
-                `Before working on ZS's GenAI product <a href="#" class="highlight blue">Quill</a>, I worked on analytics projects for hospitality clients. I used <a href="#" class="highlight blue">SQL and Python</a> to convert unstructured data into business insights for hotel chains with millions in revenue.`,
-                `In 2 years in corporate, I've led teams winning multiple client awards. I received the <a href="#" class="highlight lavender">Most Valuable Player</a> award competing with over 150 colleagues across India and Argentina offices. I also won ZS's <a href="#" class="highlight lavender">Impact Award</a> for delivering a GenAI solution for ZS's largest client account, while mentoring new hires.`
+                `Before working on ZS's GenAI product Quill, I worked on analytics projects for hospitality clients. I used SQL and Python to convert unstructured data into business insights for hotel chains with millions in revenue.`,
+                `In 2 years in corporate, I've led teams winning multiple client awards. I received the Most Valuable Player award competing with over 150 colleagues across India and Argentina offices. I also won ZS's Impact Award for delivering a GenAI solution for ZS's largest client account, while mentoring new hires.`
             ]
         },
         background: {
             title: "A Little Bit of This, A Little Bit of That",
             items: [
-                "Kannadiga; live, work, and love Bangalore",
-                "Graduated in Electronics from R.V. College of Engineering",
-                "Interned at Baker Hughes (General Electric)—exposure to B2B business in oil and gas and automation work using Java and Spring",
-                "Transitioned to management consulting at ZS Associates",
-                "Worked on hospitality analytics for major U.S. hotel chains",
-                "Now on MAX.AI team working on Quill—AI-driven platform helping pharma teams accelerate Medical Legal Regulatory reviews"
-            ]
-        },
+                "Kannadiga; live, work, and love BangaloreI am a Kannadiga, and I live, work, and love BLR. I graduated in Electronics from R.V. College of Engineering (loved college, but it’s a degree I no longer use)",
+                "Interned at Baker Hughes (a General Electric company), where I got my first exposure to B2B business in oil and gas and did some automation work using Java and Spring (learned how a company with ~57,000 employees operates)",
+                "Started applying to consulting jobs because I wanted to work on the business side as well and not be involved solely in tech",
+                "That led me to management consulting and ZS Associates, where:",
+                "I worked on a hospitality analytics project for one of the largest hotel chains in the U.S., where we used analytics to decide pricing and discount strategies and manage end-to-end hotel revenue.",
+                "Now I work at MAX.AI, where I work on Quill, an AI-driven platform that helps pharma teams speed up MLR (Medical Legal Regulatory) reviews, the mandatory process for approving compliant medical and promotional content."
+        ]},
         beyondWork: {
             title: "What Fills My Cup Beyond Work",
             items: [
-                { emoji: "💗", label: "Financial Literacy Educator", text: "Creating financial literacy videos for The Apprentice Project for over a year" },
-                { emoji: "💗", label: "Debate Judge & Competitor", text: "50+ British Parliamentary debates, 40+ awards, judged 20+ competitions at premier institutions" },
-                { emoji: "💗", label: "Bharatanatyam Dancer", text: "10+ years of Indian classical dance training, completed 4 exam levels" },
-                { emoji: "💗", label: "Before the 9 to 5", text: "Cooking, watching YouTube essays, long walks, journaling, catching up with friends across time zones; maintains 6 journals with notes on interesting ideas" }
+                { emoji: "💗", label: "Financial Literacy Educator", text: "I have been creating financial literacy videos for The Apprentice Project for over a year. (DM me for video samples!)" },
+                { emoji: "💗", label: "Debate Judge & Competitor", text: "My entire personality in college revolved around being a debate nerd. I have competed in 50+ British Parliamentary debates, won 40+ awards, and judged 20+ competitions. I was an invited and remunerated judge at IIT Bombay, IIM Indore, NLS Bangalore, and more."},
+                { emoji: "💗", label: "Bharatanatyam Dancer", text: "I’ve always loved dancing, so my parents signed me up for Indian classical dance classes. I ended up doing Bharatanatyam for over 10 years and finished 4 exam levels." },
+                { emoji: "💗", label: "Before the 9 to 5", text: "Before the 9 to 5 and on weekends, you’ll find me cooking, watching YouTube video essays, going on long walks, journaling, and catching up with friends across time zones. My 6 journals are where I store notes on interesting ideas from articles, books, tweets, and YT videos." }
             ]
         }
     },
@@ -319,6 +318,36 @@ const CONTENT = {
         { emoji: "🎵", text: "Can recognize <strong>obscure Punjabi songs</strong>" },
         { emoji: "🏆", text: "<strong>50+ debates</strong> competed, <strong>40+ awards</strong> won" },
         { emoji: "💃", text: "<strong>10+ years</strong> of Bharatanatyam" }
+    ],
+
+    // ==========================================
+    // PHOTOS - Polaroid Gallery
+    // ==========================================
+    photos: {
+        polaroids: [
+            // Example format - users can add their own
+            // { id: 1, src: "path/to/image.jpg", caption: "Memory caption", zoom: 100, posX: 0, posY: 0 }
+        ],
+        film: [],
+        digital: []
+    },
+
+    // ==========================================
+    // CONTENT CALENDAR - Track what you consume
+    // ==========================================
+    // This is the initial/default data. User-added entries are stored in localStorage
+    // Categories: article, substack, video, podcast, book
+    contentCalendar: [
+        // Example entries to show the format:
+        // {
+        //     id: 1,
+        //     date: "2026-01-15",
+        //     title: "The Art of Product Management",
+        //     url: "https://example.com/article",
+        //     category: "article",
+        //     source: "Medium",
+        //     description: "Great insights on user research"
+        // }
     ],
 
     // ==========================================

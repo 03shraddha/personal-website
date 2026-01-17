@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Special+Elite&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Custom Cursor -->
@@ -35,16 +35,27 @@
         </button>
     </div>
 
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+    </button>
+
     <!-- Navigation Sidebar -->
-    <nav class="sidebar">
-        <ul>
-            <li><a href="#hello" class="nav-link active" data-section="hello">hello</a></li>
-            <li><a href="#about" class="nav-link" data-section="about">about</a></li>
-            <li><a href="#experiences" class="nav-link" data-section="experiences">experiences</a></li>
-            <li><a href="#fieldnotes" class="nav-link" data-section="fieldnotes">fieldnotes</a></li>
-            <li><a href="#philosophy" class="nav-link" data-section="philosophy">my philosophy</a></li>
-            <li><a href="#content" class="nav-link" data-section="content">content worth consuming</a></li>
-        </ul>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        <div class="sidebar-content">
+            <ul>
+                <li><a href="#hello" class="nav-link active" data-section="hello">hello</a></li>
+                <li><a href="#about" class="nav-link" data-section="about">about</a></li>
+                <li><a href="#experiences" class="nav-link" data-section="experiences">experiences</a></li>
+                <li><a href="#fieldnotes" class="nav-link" data-section="fieldnotes">fieldnotes</a></li>
+                <li><a href="#philosophy" class="nav-link" data-section="philosophy">my philosophy</a></li>
+                <li><a href="#content" class="nav-link" data-section="content">content worth consuming</a></li>
+                <li><a href="#photos" class="nav-link" data-section="photos">photos</a></li>
+            </ul>
+        </div>
     </nav>
 
     <!-- Main Content -->
@@ -137,11 +148,202 @@
         <section id="content" class="section">
             <h2 class="section-title">content worth consuming</h2>
             <p class="section-intro">things that have shaped how i think about products, life, and everything in between</p>
-            <div id="consume-list" class="content-list">
-                <!-- Loaded from content.js -->
+
+            <!-- View Toggle & Add Button -->
+            <div class="content-view-controls">
+                <div class="view-toggle">
+                    <button class="view-toggle-btn active" data-view="calendar">Calendar</button>
+                    <button class="view-toggle-btn" data-view="list">List</button>
+                </div>
+                <button id="add-content-btn" class="add-content-btn">+ Add Content</button>
             </div>
+
+            <!-- Calendar View -->
+            <div id="content-calendar-view" class="content-calendar-view">
+                <div class="calendar-header">
+                    <button class="calendar-nav prev" aria-label="Previous month">&larr;</button>
+                    <h3 class="calendar-month">January 2026</h3>
+                    <button class="calendar-nav next" aria-label="Next month">&rarr;</button>
+                </div>
+                <div class="calendar-weekdays">
+                    <span>Sun</span>
+                    <span>Mon</span>
+                    <span>Tue</span>
+                    <span>Wed</span>
+                    <span>Thu</span>
+                    <span>Fri</span>
+                    <span>Sat</span>
+                </div>
+                <div id="calendar-grid" class="calendar-grid">
+                    <!-- Days rendered by JS -->
+                </div>
+            </div>
+
+            <!-- List View (Hidden by default) -->
+            <div id="content-list-view" class="content-list-view hidden">
+                <div id="consume-list" class="content-list">
+                    <!-- Loaded from content.js -->
+                </div>
+            </div>
+
+            <!-- Day Detail Slide-out Panel -->
+            <div id="content-day-panel" class="content-day-panel">
+                <div class="panel-overlay"></div>
+                <div class="panel-content">
+                    <button class="panel-close" aria-label="Close panel">&times;</button>
+                    <h3 class="panel-date">January 15, 2026</h3>
+                    <div class="panel-items">
+                        <!-- Content items for selected day -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Content Modal -->
+            <div id="add-content-modal" class="add-content-modal">
+                <div class="add-content-form">
+                    <button class="modal-close-btn" id="modal-close-btn" aria-label="Close">&times;</button>
+                    <h3>Add Content</h3>
+                    <div class="form-group">
+                        <label for="content-date">Date</label>
+                        <input type="date" id="content-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="content-title">Title <span class="required">*</span></label>
+                        <input type="text" id="content-title" placeholder="What did you consume?" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="content-url">URL <span class="required">*</span></label>
+                        <input type="url" id="content-url" placeholder="https://..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="content-source">Source / Platform</label>
+                        <input type="text" id="content-source" placeholder="e.g., The Atlantic, YouTube, Substack">
+                    </div>
+                    <div class="form-group">
+                        <label for="content-category">Category</label>
+                        <div class="category-pills" id="category-pills">
+                            <button type="button" class="category-pill active" data-category="article">
+                                <span class="category-dot article"></span>Article
+                            </button>
+                            <button type="button" class="category-pill" data-category="video">
+                                <span class="category-dot video"></span>Video
+                            </button>
+                            <button type="button" class="category-pill" data-category="book">
+                                <span class="category-dot book"></span>Book
+                            </button>
+                            <button type="button" class="category-pill" data-category="podcast">
+                                <span class="category-dot podcast"></span>Podcast
+                            </button>
+                            <button type="button" class="category-pill" data-category="newsletter">
+                                <span class="category-dot newsletter"></span>Newsletter
+                            </button>
+                        </div>
+                        <input type="hidden" id="content-category" value="article">
+                    </div>
+                    <div class="form-group">
+                        <label for="content-thoughts">My Thoughts</label>
+                        <textarea id="content-thoughts" placeholder="What resonated with you? What did you learn?" rows="4"></textarea>
+                    </div>
+                    <div class="modal-actions">
+                        <button id="content-cancel" class="btn-secondary">Cancel</button>
+                        <button id="content-save" class="btn-primary">Save Content</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Detail View (Full Page) -->
+            <div id="content-detail-view" class="content-detail-view">
+                <div class="detail-header">
+                    <button class="detail-back-btn" id="detail-back-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>
+                        Back to Calendar
+                    </button>
+                </div>
+                <div class="detail-content">
+                    <h1 class="detail-title" id="detail-title">Article Title</h1>
+                    <div class="detail-meta">
+                        <span class="detail-source" id="detail-source">The Atlantic</span>
+                        <span class="detail-separator">•</span>
+                        <span class="detail-date" id="detail-date">Read on January 14, 2026</span>
+                        <span class="detail-separator">•</span>
+                        <span class="detail-category" id="detail-category">Essay</span>
+                    </div>
+                    <div class="detail-link-card">
+                        <a href="#" id="detail-link" class="detail-original-link" target="_blank" rel="noopener noreferrer">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                <polyline points="15 3 21 3 21 9"/>
+                                <line x1="10" y1="14" x2="21" y2="3"/>
+                            </svg>
+                            Read Original Article
+                        </a>
+                    </div>
+                    <div class="detail-thoughts-section">
+                        <h2 class="detail-thoughts-title">My Thoughts</h2>
+                        <div class="detail-thoughts-content" id="detail-thoughts">
+                            <p>Your reflections will appear here...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Floating Action Button -->
+            <button class="fab-add-content" id="fab-add-content" aria-label="Add content">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+            </button>
         </section>
 
+        <!-- Photos Section -->
+        <section id="photos" class="section">
+            <h2 class="section-title">photos</h2>
+            <p class="section-intro">a collection of polaroid memories</p>
+
+            <!-- Add Photo Button -->
+            <button id="add-photo-btn" class="add-photo-btn">+ Add Photo</button>
+
+            <!-- Polaroid Gallery -->
+            <div id="polaroid-gallery" class="polaroid-gallery">
+                <!-- Photos loaded dynamically -->
+            </div>
+
+            <!-- Hidden file input -->
+            <input type="file" id="photo-upload" accept="image/*" style="display: none;">
+
+            <!-- Photo Editor Modal -->
+            <div id="photo-editor-modal" class="photo-editor-modal">
+                <div class="photo-editor-content">
+                    <h3>Edit Your Polaroid</h3>
+                    <div class="photo-editor-preview">
+                        <div class="polaroid-frame-preview">
+                            <div class="photo-crop-area" id="photo-crop-area">
+                                <img id="photo-preview-img" src="" alt="Preview">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photo-editor-controls">
+                        <label>Zoom</label>
+                        <input type="range" id="photo-zoom" min="100" max="300" value="100">
+                        <label>Caption</label>
+                        <input type="text" id="photo-caption" placeholder="Write a caption..." maxlength="50">
+                        <label>Category</label>
+                        <select id="photo-category">
+                            <option value="polaroids">Polaroids</option>
+                            <option value="film">Film</option>
+                            <option value="digital">Digital</option>
+                        </select>
+                    </div>
+                    <div class="photo-editor-actions">
+                        <button id="photo-cancel-btn" class="photo-btn-secondary">Cancel</button>
+                        <button id="photo-save-btn" class="photo-btn-primary">Save Polaroid</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <footer class="footer">
             <p id="footer-text">Loading...</p>
