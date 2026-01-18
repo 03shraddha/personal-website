@@ -504,7 +504,7 @@ document.addEventListener('keydown', (e) => {
 
 /**
  * Cursor-Following Photo Feature
- * Photo follows cursor on hover, stops on click
+ * Photo follows cursor smoothly across the page
  */
 function initDraggablePhoto() {
     const photo = document.getElementById('draggable-photo');
@@ -516,54 +516,63 @@ function initDraggablePhoto() {
     resetBtn.textContent = 'Reset photo';
     document.body.appendChild(resetBtn);
 
-    let isFollowing = false;
+    let isActive = false;
     let isStopped = false;
+    let originalRect = null;
+    let targetX = 0;
+    let targetY = 0;
     let currentX = 0;
     let currentY = 0;
-    let animationId = null;
 
-    // Direct position update for zero lag
-    function updatePosition(x, y) {
-        // Center photo on cursor
-        currentX = x - photo.offsetWidth / 2;
-        currentY = y - photo.offsetHeight / 2;
+    // Smooth animation using requestAnimationFrame
+    function animate() {
+        if (!isActive || isStopped) return;
 
-        // Keep within viewport
-        const maxX = window.innerWidth - photo.offsetWidth;
-        const maxY = window.innerHeight - photo.offsetHeight;
-        currentX = Math.max(0, Math.min(currentX, maxX));
-        currentY = Math.max(0, Math.min(currentY, maxY));
+        // Smooth interpolation for fluid movement
+        currentX += (targetX - currentX) * 0.15;
+        currentY += (targetY - currentY) * 0.15;
 
-        photo.style.left = currentX + 'px';
-        photo.style.top = currentY + 'px';
+        photo.style.transform = `translate(${currentX}px, ${currentY}px)`;
+
+        requestAnimationFrame(animate);
     }
 
-    // Start following on hover
+    // Start following when mouse enters the photo
     photo.addEventListener('mouseenter', (e) => {
         if (isStopped) return;
 
-        isFollowing = true;
+        // Store original position for reset
+        if (!originalRect) {
+            originalRect = photo.getBoundingClientRect();
+        }
 
-        const rect = photo.getBoundingClientRect();
-        currentX = rect.left;
-        currentY = rect.top;
-
-        photo.style.position = 'fixed';
-        photo.style.left = currentX + 'px';
-        photo.style.top = currentY + 'px';
-        photo.style.margin = '0';
-        photo.style.float = 'none';
+        isActive = true;
         photo.classList.add('following');
-
         resetBtn.classList.add('visible');
 
-        updatePosition(e.clientX, e.clientY);
+        // Initialize position
+        const rect = photo.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        targetX = e.clientX - centerX;
+        targetY = e.clientY - centerY;
+        currentX = targetX;
+        currentY = targetY;
+
+        animate();
     });
 
-    // Track cursor - immediate update, no lerp
+    // Track cursor movement across the entire document
     document.addEventListener('mousemove', (e) => {
-        if (!isFollowing || isStopped) return;
-        updatePosition(e.clientX, e.clientY);
+        if (!isActive || isStopped) return;
+
+        const rect = photo.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2 - currentX;
+        const centerY = rect.top + rect.height / 2 - currentY;
+
+        targetX = e.clientX - centerX;
+        targetY = e.clientY - centerY;
     });
 
     // Click to stop following
@@ -571,10 +580,9 @@ function initDraggablePhoto() {
         e.preventDefault();
         e.stopPropagation();
 
-        if (isFollowing && !isStopped) {
-            // Stop following, stay in place
+        if (isActive && !isStopped) {
             isStopped = true;
-            isFollowing = false;
+            isActive = false;
             photo.classList.remove('following');
             photo.classList.add('stopped');
         }
@@ -582,15 +590,15 @@ function initDraggablePhoto() {
 
     // Reset button
     resetBtn.addEventListener('click', () => {
-        isFollowing = false;
+        isActive = false;
         isStopped = false;
-        photo.style.position = '';
-        photo.style.left = '';
-        photo.style.top = '';
-        photo.style.margin = '';
-        photo.style.float = '';
+        photo.style.transform = '';
         photo.classList.remove('following', 'stopped');
         resetBtn.classList.remove('visible');
+        currentX = 0;
+        currentY = 0;
+        targetX = 0;
+        targetY = 0;
     });
 }
 

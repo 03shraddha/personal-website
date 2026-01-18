@@ -477,28 +477,26 @@ a, button, .tab, .highlight, [role="button"] {
 
 /* Draggable photo styles */
 .draggable-photo {
-    cursor: pointer;
+    cursor: grab;
     user-select: none;
     z-index: 10;
+    will-change: transform;
+    transition: box-shadow 0.2s ease;
 }
 
 /* When photo is following cursor */
 .draggable-photo.following {
-    position: fixed !important;
     z-index: 1000;
-    transform: scale(1.1);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
     pointer-events: auto;
-    transition: none; /* No transition for instant following */
+    cursor: grabbing;
 }
 
 /* When photo is stopped/clicked */
 .draggable-photo.stopped {
-    position: fixed !important;
     z-index: 1000;
-    transform: scale(1);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
 }
 
 /* Reset button for photo position */
