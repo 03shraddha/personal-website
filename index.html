@@ -49,9 +49,8 @@
             <ul>
                 <li><a href="#hello" class="nav-link active" data-section="hello">hello</a></li>
                 <li><a href="#about" class="nav-link" data-section="about">about</a></li>
-                <li><a href="#experiences" class="nav-link" data-section="experiences">experiences</a></li>
-                <li><a href="#fieldnotes" class="nav-link" data-section="fieldnotes">fieldnotes</a></li>
-                <li><a href="#philosophy" class="nav-link" data-section="philosophy">my philosophy</a></li>
+                <li><a href="#work" class="nav-link" data-section="work">work</a></li>
+                <li><a href="#thoughts" class="nav-link" data-section="thoughts">thoughts</a></li>
                 <li><a href="#content" class="nav-link" data-section="content">content worth consuming</a></li>
                 <li><a href="#photos" class="nav-link" data-section="photos">photos</a></li>
                 <li><a href="#guestbook" class="nav-link" data-section="guestbook">guestbook</a></li>
@@ -80,23 +79,28 @@
             <h2 class="section-title">about</h2>
             <p class="section-intro">a little more about me and what i do</p>
             <div class="about-header">
-                <!-- Photo with cat - draggable -->
-                <img src="https://shraddha-kulkarni.com/assets/images/image02.jpg?v=a935e32a" alt="Shraddha with cat" class="about-photo draggable-photo" id="draggable-photo">
                 <div id="about-content" class="about-content">
                     <!-- Loaded from content.js -->
                 </div>
             </div>
+        </section>
+
+        <!-- Work Section (merged experiences + projects + communities) -->
+        <section id="work" class="section">
+            <h2 class="section-title">work</h2>
+            <p class="section-intro">my professional journey and projects</p>
 
             <!-- Tab Navigation -->
             <div class="tabs-container">
                 <div class="tabs">
-                    <button class="tab active" data-tab="everything">Everything</button>
+                    <button class="tab active" data-tab="experience">Experience</button>
                     <button class="tab" data-tab="projects">Projects</button>
                     <button class="tab" data-tab="communities">Communities</button>
+                    <a href="https://drive.google.com/file/u/7/d/1RYgq1Yahx9fA8f3MXa6L-oN2nfUb8pc8/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="tab tab-link">Resume</a>
                 </div>
 
-                <div class="tab-content" id="tab-everything">
-                    <div id="everything-grid" class="content-grid">
+                <div class="tab-content" id="tab-experience">
+                    <div id="experiences-list" class="experience-list">
                         <!-- Loaded from content.js -->
                     </div>
                 </div>
@@ -115,40 +119,19 @@
             </div>
         </section>
 
-        <!-- Experiences Section -->
-        <section id="experiences" class="section">
-            <h2 class="section-title">experiences</h2>
-            <p class="section-intro">my professional journey so far</p>
-            <div id="experiences-list" class="experience-list">
+        <!-- Thoughts Section (formerly Fieldnotes) -->
+        <section id="thoughts" class="section">
+            <h2 class="section-title">thoughts</h2>
+            <p class="section-intro">all of them</p>
+            <div id="thoughts-list" class="thoughts-list">
                 <!-- Loaded from content.js -->
-            </div>
-        </section>
-
-        <!-- Fieldnotes Section -->
-        <section id="fieldnotes" class="section">
-            <h2 class="section-title">fieldnotes</h2>
-            <p class="section-intro">thoughts, observations, and learnings from my journey</p>
-            <div id="fieldnotes-grid" class="notes-grid">
-                <!-- Loaded from content.js -->
-            </div>
-        </section>
-
-        <!-- Philosophy Section -->
-        <section id="philosophy" class="section">
-            <h2 class="section-title">my philosophy</h2>
-            <p class="section-intro">principles that guide how i work and live</p>
-            <div class="philosophy-content">
-                <blockquote id="philosophy-quote" class="philosophy-quote">Loading...</blockquote>
-                <div id="philosophy-content">
-                    <!-- Loaded from content.js -->
-                </div>
             </div>
         </section>
 
         <!-- Content Worth Consuming Section -->
         <section id="content" class="section">
             <h2 class="section-title">content worth consuming</h2>
-            <p class="section-intro">things that have shaped how i think about products, life, and everything in between</p>
+            <p class="section-intro">things i recommend - reads, watches, and ideas that have shaped how i think</p>
 
             <!-- View Toggle -->
             <div class="content-view-controls">
@@ -296,8 +279,8 @@
             <h2 class="section-title">photos</h2>
             <p class="section-intro">a collection of polaroid memories</p>
 
-            <!-- Add Photo Button -->
-            <button id="add-photo-btn" class="add-photo-btn">+ Add Photo</button>
+            <!-- Add Photo Button (Admin Only) -->
+            <button id="add-photo-btn" class="add-photo-btn admin-only" style="display: none;">+ Add Photo</button>
 
             <!-- Polaroid Gallery -->
             <div id="polaroid-gallery" class="polaroid-gallery">
@@ -394,7 +377,7 @@
                 <div class="write-note-form">
                     <button class="modal-close-btn" id="note-modal-close" aria-label="Close">&times;</button>
                     <h3>Write a Note</h3>
-                    <p class="write-note-intro">Leave a message in my guestbook. It can be anything - a hello, a thought, or just a friendly wave.</p>
+                    <p class="write-note-intro">Leave a message in my guestbook - a hello, a thought, or anything you want me to read.</p>
                     <div class="note-textarea-container">
                         <textarea id="note-textarea" placeholder="write your message here..." maxlength="280"></textarea>
                         <div class="char-counter"><span id="char-count">0</span>/280</div>
@@ -404,11 +387,6 @@
                         <button id="note-submit" class="btn-primary">Submit</button>
                     </div>
                 </div>
-            </div>
-
-            <!-- Success Message -->
-            <div id="note-success" class="note-success">
-                thanks for signing! ✨
             </div>
         </section>
 

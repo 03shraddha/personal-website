@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollSpy();
     initThemeToggle();  // Dark mode toggle
     initCustomCursor(); // Custom cursor
-    initDraggablePhoto(); // Interactive draggable photo
     initPhotoGallery(); // Polaroid photo gallery
     initContentCalendar(); // Content consumption calendar
     initMobileMenu();   // Mobile hamburger menu
@@ -265,34 +264,32 @@ function loadContent() {
     `).join('');
     document.getElementById('communities-grid').innerHTML = communitiesHtml;
 
-    // Everything tab (projects + communities)
-    const everythingHtml = [
-        ...CONTENT.projects.map(p => `
-            <article class="content-card">
-                <span class="card-tag">Project</span>
-                <h3><a href="${p.url}" class="highlight ${p.highlight}">${p.name}</a></h3>
-                <p>${p.description}</p>
-            </article>
-        `),
-        ...CONTENT.communities.map(c => `
-            <article class="content-card">
-                <span class="card-tag">Community</span>
-                <h3><a href="${c.url}" class="highlight ${c.highlight}">${c.name}</a></h3>
-                <p>${c.description}</p>
-            </article>
-        `)
-    ].join('');
-    document.getElementById('everything-grid').innerHTML = everythingHtml;
+    // Thoughts (grouped by year) - merge content.js with localStorage
+    const storedThoughts = localStorage.getItem('thoughts-entries');
+    const userThoughts = storedThoughts ? JSON.parse(storedThoughts) : [];
+    const allThoughts = [...CONTENT.thoughts, ...userThoughts];
 
-    // Fieldnotes
-    const fieldnotesHtml = CONTENT.fieldnotes.map(note => `
-        <article class="note-card">
-            <span class="note-date">${note.date}</span>
-            <h3><a href="${note.url}" class="highlight ${note.highlight}">${note.title}</a></h3>
-            <p>${note.description}</p>
-        </article>
-    `).join('');
-    document.getElementById('fieldnotes-grid').innerHTML = fieldnotesHtml;
+    const thoughtsByYear = {};
+    allThoughts.forEach(thought => {
+        if (!thoughtsByYear[thought.year]) {
+            thoughtsByYear[thought.year] = [];
+        }
+        thoughtsByYear[thought.year].push(thought);
+    });
+
+    const thoughtsHtml = Object.keys(thoughtsByYear)
+        .sort((a, b) => b - a) // Sort years descending
+        .map(year => `
+            <div class="thoughts-year-group">
+                <span class="thoughts-year-label">${year}</span>
+                <ul class="thoughts-links">
+                    ${thoughtsByYear[year].map(t => `
+                        <li><a href="${t.url}" target="_blank" rel="noopener noreferrer">${t.title}</a></li>
+                    `).join('')}
+                </ul>
+            </div>
+        `).join('');
+    document.getElementById('thoughts-list').innerHTML = thoughtsHtml;
 
     // Philosophy
     document.getElementById('philosophy-quote').textContent = `"${CONTENT.philosophy.quote}"`;
@@ -513,108 +510,9 @@ document.addEventListener('keydown', (e) => {
 });
 
 /**
- * Cursor-Following Photo Feature
- * Photo follows cursor smoothly across the page
- */
-function initDraggablePhoto() {
-    const photo = document.getElementById('draggable-photo');
-    if (!photo) return;
-
-    // Create reset button
-    const resetBtn = document.createElement('button');
-    resetBtn.className = 'photo-reset-btn';
-    resetBtn.textContent = 'Reset photo';
-    document.body.appendChild(resetBtn);
-
-    let isActive = false;
-    let isStopped = false;
-    let originalRect = null;
-    let targetX = 0;
-    let targetY = 0;
-    let currentX = 0;
-    let currentY = 0;
-
-    // Smooth animation using requestAnimationFrame
-    function animate() {
-        if (!isActive || isStopped) return;
-
-        // Smooth interpolation for fluid movement
-        currentX += (targetX - currentX) * 0.15;
-        currentY += (targetY - currentY) * 0.15;
-
-        photo.style.transform = `translate(${currentX}px, ${currentY}px)`;
-
-        requestAnimationFrame(animate);
-    }
-
-    // Start following when mouse enters the photo
-    photo.addEventListener('mouseenter', (e) => {
-        if (isStopped) return;
-
-        // Store original position for reset
-        if (!originalRect) {
-            originalRect = photo.getBoundingClientRect();
-        }
-
-        isActive = true;
-        photo.classList.add('following');
-        resetBtn.classList.add('visible');
-
-        // Initialize position
-        const rect = photo.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        targetX = e.clientX - centerX;
-        targetY = e.clientY - centerY;
-        currentX = targetX;
-        currentY = targetY;
-
-        animate();
-    });
-
-    // Track cursor movement across the entire document
-    document.addEventListener('mousemove', (e) => {
-        if (!isActive || isStopped) return;
-
-        const rect = photo.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2 - currentX;
-        const centerY = rect.top + rect.height / 2 - currentY;
-
-        targetX = e.clientX - centerX;
-        targetY = e.clientY - centerY;
-    });
-
-    // Click to stop following
-    photo.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (isActive && !isStopped) {
-            isStopped = true;
-            isActive = false;
-            photo.classList.remove('following');
-            photo.classList.add('stopped');
-        }
-    });
-
-    // Reset button
-    resetBtn.addEventListener('click', () => {
-        isActive = false;
-        isStopped = false;
-        photo.style.transform = '';
-        photo.classList.remove('following', 'stopped');
-        resetBtn.classList.remove('visible');
-        currentX = 0;
-        currentY = 0;
-        targetX = 0;
-        targetY = 0;
-    });
-}
-
-/**
  * Polaroid Photo Gallery
  * Upload, edit, and display photos in a Polaroid style
+ * Admin-only upload functionality
  */
 function initPhotoGallery() {
     const gallery = document.getElementById('polaroid-gallery');
@@ -633,16 +531,68 @@ function initPhotoGallery() {
     if (!gallery) return;
 
     let currentCategory = 'polaroids';
-    let photos = loadPhotosFromStorage();
+    let photos = { polaroids: [], film: [], digital: [] };
     let currentEditingPhoto = null;
     let imgPosition = { x: 0, y: 0 };
     let isDragging = false;
     let dragStart = { x: 0, y: 0 };
 
-    // Load photos from localStorage
-    function loadPhotosFromStorage() {
+    // Check if user is admin (logged in via admin panel)
+    function isAdmin() {
+        return localStorage.getItem('admin-authenticated') === 'true';
+    }
+
+    // Show/hide admin-only elements
+    function updateAdminUI() {
+        const isAdminUser = isAdmin();
+        if (addPhotoBtn) {
+            addPhotoBtn.style.display = isAdminUser ? 'block' : 'none';
+        }
+    }
+
+    // Load photos from JSON file and localStorage
+    async function loadPhotosFromStorage() {
+        let jsonPhotos = { polaroids: [], film: [], digital: [] };
+        let storedPhotos = { polaroids: [], film: [], digital: [] };
+
+        // Try to load from JSON file
+        try {
+            const response = await fetch('./data/photos.json');
+            if (response.ok) {
+                const data = await response.json();
+                jsonPhotos = data.photos || { polaroids: [], film: [], digital: [] };
+                console.log('Loaded photos from JSON file');
+            }
+        } catch (err) {
+            console.log('No photos.json found, using localStorage only');
+        }
+
+        // Load from localStorage
         const stored = localStorage.getItem('polaroid-photos');
-        return stored ? JSON.parse(stored) : { polaroids: [], film: [], digital: [] };
+        if (stored) {
+            storedPhotos = JSON.parse(stored);
+        }
+
+        // Merge JSON and localStorage photos, localStorage takes precedence for duplicates
+        const merged = { polaroids: [], film: [], digital: [] };
+        ['polaroids', 'film', 'digital'].forEach(category => {
+            const jsonCat = jsonPhotos[category] || [];
+            const storedCat = storedPhotos[category] || [];
+
+            // Add all JSON photos first
+            jsonCat.forEach(photo => {
+                merged[category].push(photo);
+            });
+
+            // Add localStorage photos, avoiding duplicates by id
+            storedCat.forEach(photo => {
+                if (!merged[category].find(p => p.id === photo.id)) {
+                    merged[category].push(photo);
+                }
+            });
+        });
+
+        return merged;
     }
 
     // Save photos to localStorage
@@ -650,12 +600,23 @@ function initPhotoGallery() {
         localStorage.setItem('polaroid-photos', JSON.stringify(photos));
     }
 
+    // Initialize - load photos
+    async function initialize() {
+        photos = await loadPhotosFromStorage();
+        updateAdminUI();
+        renderGallery();
+    }
+
     // Render gallery for current category
     function renderGallery() {
         const categoryPhotos = photos[currentCategory] || [];
+        const isAdminUser = isAdmin();
 
         if (categoryPhotos.length === 0) {
-            gallery.innerHTML = '<div class="polaroid-gallery-empty">No photos yet. Click "Add Photo" to get started!</div>';
+            const emptyMsg = isAdminUser
+                ? 'No photos yet. Click "+ Add Photo" to get started!'
+                : 'No photos yet.';
+            gallery.innerHTML = `<div class="polaroid-gallery-empty">${emptyMsg}</div>`;
             return;
         }
 
@@ -663,31 +624,36 @@ function initPhotoGallery() {
             <div class="polaroid" data-id="${photo.id}">
                 <div class="polaroid-image">
                     <img src="${photo.src}" alt="${photo.caption || 'Polaroid'}"
-                         style="object-fit: contain; transform: scale(${photo.zoom / 100}) translate(${photo.posX}px, ${photo.posY}px);">
+                         style="object-fit: contain; transform: scale(${photo.zoom / 100}) translate(${photo.posX || 0}px, ${photo.posY || 0}px);">
                 </div>
-                <input type="text" class="polaroid-caption" value="${photo.caption || ''}"
-                       placeholder="add caption..." data-id="${photo.id}">
-                <button class="polaroid-delete" data-id="${photo.id}">&times;</button>
+                <div class="polaroid-caption-display">${photo.caption || ''}</div>
+                ${isAdminUser ? `
+                    <input type="text" class="polaroid-caption admin-only" value="${photo.caption || ''}"
+                           placeholder="add caption..." data-id="${photo.id}">
+                    <button class="polaroid-delete admin-only" data-id="${photo.id}">&times;</button>
+                ` : ''}
             </div>
         `).join('');
 
-        // Add event listeners for captions
-        gallery.querySelectorAll('.polaroid-caption').forEach(input => {
-            input.addEventListener('change', (e) => {
-                const photoId = parseInt(e.target.dataset.id);
-                updateCaption(photoId, e.target.value);
+        // Add event listeners for captions (admin only)
+        if (isAdminUser) {
+            gallery.querySelectorAll('.polaroid-caption.admin-only').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const photoId = parseInt(e.target.dataset.id);
+                    updateCaption(photoId, e.target.value);
+                });
+                input.addEventListener('click', (e) => e.stopPropagation());
             });
-            input.addEventListener('click', (e) => e.stopPropagation());
-        });
 
-        // Add event listeners for delete buttons
-        gallery.querySelectorAll('.polaroid-delete').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const photoId = parseInt(e.target.dataset.id);
-                deletePhoto(photoId);
+            // Add event listeners for delete buttons (admin only)
+            gallery.querySelectorAll('.polaroid-delete.admin-only').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const photoId = parseInt(e.target.dataset.id);
+                    deletePhoto(photoId);
+                });
             });
-        });
+        }
     }
 
     // Update caption
@@ -842,8 +808,8 @@ function initPhotoGallery() {
         }
     });
 
-    // Initial render
-    renderGallery();
+    // Initial render - use async initialize
+    initialize();
 }
 
 /**
@@ -935,7 +901,12 @@ function initContentCalendar() {
     // Initialize - load data and render
     async function initialize() {
         isLoading = true;
-        contentEntries = await loadContentFromStorage();
+        try {
+            contentEntries = await loadContentFromStorage();
+        } catch (err) {
+            console.error('Error loading content:', err);
+            contentEntries = [];
+        }
         isLoading = false;
         console.log('Calendar initialized with', contentEntries.length, 'entries');
         renderCalendar();
@@ -1169,7 +1140,7 @@ function initContentCalendar() {
         });
     });
 
-    // Render list view (chronological)
+    // Render list view (chronological) - clean list without category labels
     function renderListView() {
         const consumeList = document.getElementById('consume-list');
         if (!consumeList) return;
@@ -1178,46 +1149,28 @@ function initContentCalendar() {
         allEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
 
         if (allEntries.length === 0) {
+            consumeList.innerHTML = '<div class="content-list-empty">No content yet. Add some recommendations!</div>';
             return;
         }
 
-        // Group by month
-        const grouped = {};
+        // Simple clean list - no category labels, just title and optional source
+        let html = '<ul class="content-clean-list">';
         allEntries.forEach(entry => {
-            const date = new Date(entry.date + 'T00:00:00');
-            const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-            const monthLabel = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-
-            if (!grouped[monthKey]) {
-                grouped[monthKey] = { label: monthLabel, entries: [] };
-            }
-            grouped[monthKey].entries.push(entry);
+            html += `
+                <li class="content-clean-item">
+                    <a href="${entry.url && entry.url !== '#' ? entry.url : 'javascript:void(0)'}"
+                       ${entry.url && entry.url !== '#' ? 'target="_blank" rel="noopener noreferrer"' : ''}
+                       class="content-clean-link${!entry.url || entry.url === '#' ? ' list-item-link' : ''}"
+                       data-entry-id="${entry.id}">${entry.title}</a>
+                    ${entry.source ? `<span class="content-clean-source">— ${entry.source}</span>` : ''}
+                </li>
+            `;
         });
-
-        // Render grouped entries
-        let html = '';
-        Object.keys(grouped).sort().reverse().forEach(monthKey => {
-            const group = grouped[monthKey];
-            html += `<div class="content-month-group">
-                <h4 class="content-month-label">${group.label}</h4>`;
-
-            group.entries.forEach(entry => {
-                const categoryHighlight = categoryHighlights[entry.category] || 'peach';
-                html += `
-                    <article class="consume-item" data-entry-id="${entry.id}">
-                        <span class="consume-type">${entry.category}</span>
-                        <h3><a href="javascript:void(0)" class="highlight ${categoryHighlight} list-item-link" data-entry-id="${entry.id}">${entry.title}</a></h3>
-                        <p class="consume-author">${entry.source || ''}</p>
-                    </article>
-                `;
-            });
-
-            html += '</div>';
-        });
+        html += '</ul>';
 
         consumeList.innerHTML = html;
 
-        // Add click handlers to list items
+        // Add click handlers to items without URLs to open detail view
         consumeList.querySelectorAll('.list-item-link').forEach(link => {
             link.addEventListener('click', () => {
                 const entryId = parseInt(link.dataset.entryId);
@@ -1382,7 +1335,10 @@ function initContentCalendar() {
         }
     });
 
-    // Initialize with async data loading
+    // Render calendar immediately (empty), then load data
+    renderCalendar();
+
+    // Initialize with async data loading (will re-render when data is loaded)
     initialize();
 }
 

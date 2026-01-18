@@ -51,18 +51,16 @@ const CONTENT = {
         background: {
             title: "A Little Bit of This, A Little Bit of That",
             items: [
-                "I am a Kannadiga, and I live, work, and love BLR. I graduated in Electronics from R.V. College of Engineering (loved college, but it’s a degree I no longer use)",
-                "Interned at Baker Hughes (a General Electric company), where I got my first exposure to B2B business in oil and gas and did some automation work using Java and Spring (learned how a company with ~57,000 employees operates)",
-                "Started applying to consulting jobs because I wanted to work on the business side as well and not be involved solely in tech",
-                "That led me to management consulting and ZS Associates, where:",
-                "I worked on a hospitality analytics project for one of the largest hotel chains in the U.S., where we used analytics to decide pricing and discount strategies and manage end-to-end hotel revenue.",
-                "Now I work at MAX.AI, where I work on Quill, an AI-driven platform that helps pharma teams speed up MLR (Medical Legal Regulatory) reviews, the mandatory process for approving compliant medical and promotional content."
+                "🪐 I am a Kannadiga, and I live, work, and love BLR. I graduated in Electronics from <strong>R.V. College of Engineering</strong> (loved college, but it's a degree I no longer use)",
+                "🪐 Interned at <strong>Baker Hughes (a General Electric company)</strong>, where I got my first exposure to B2B business in oil and gas and did some automation work using Java and Spring (learned how a company with ~57,000 employees operates)",
+                "🪐 Started applying to consulting jobs because I wanted to work on the business side as well and not be involved solely in tech",
+                "🪐 That led me to <strong>management consulting and ZS Associates</strong>, where I worked on a hospitality analytics project for one of the largest hotel chains in the U.S., where we used analytics to decide pricing and discount strategies and manage end-to-end hotel revenue.",
+                "🪐 Now I work at MAX.AI, where I work on Quill, an <strong>AI-driven platform</strong> that helps pharma teams speed up MLR (Medical Legal Regulatory) reviews, the mandatory process for approving compliant medical and promotional content."
         ]},
         beyondWork: {
             title: "What Fills My Cup Beyond Work",
             items: [
-                { emoji: "💗", label: "Financial Literacy Educator", text: "I have been creating financial literacy videos for The Apprentice Project for over a year. This is a sample of my YT <a href=\"https://drive.google.com/file/d/1BCo0CJTcdwTMQFUdahyWkdsZcWvAkrpV/view\" target=\"_blank\" class=\"highlight-link\">Video</a>" },
-                { emoji: "💗", label: "Debate Judge & Competitor", text: "My entire personality in college revolved around being a debate nerd. I have competed in 50+ British Parliamentary debates, <a href=\"https://drive.google.com/drive/u/7/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC\" target=\"_blank\" class=\"highlight-link pink\">won 40+ awards, and judged 20+ competitions</a>. I was an invited and remunerated judge at IIT Bombay, IIM Indore, NLS Bangalore, and more."},
+                { emoji: "💗", label: "Financial Literacy Educator", text: "I have been creating financial literacy videos for The Apprentice Project for over a year. <a href=\"https://drive.google.com/file/d/1BCo0CJTcdwTMQFUdahyWkdsZcWvAkrpV/view\" target=\"_blank\" class=\"highlight-link\">A sample video I made in the pre-AI days</a>" },                { emoji: "💗", label: "Debate Judge & Competitor", text: "My entire personality in college revolved around being a debate nerd. I have competed in 50+ British Parliamentary debates, <a href=\"https://drive.google.com/drive/u/7/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC\" target=\"_blank\" class=\"highlight-link pink\">won 40+ awards, and judged 20+ competitions</a>. I was an invited and remunerated judge at IIT Bombay, IIM Indore, NLS Bangalore, and more."},
                 { emoji: "💗", label: "Bharatanatyam Dancer", text: "I’ve always loved dancing, so my parents signed me up for Indian classical dance classes. I ended up doing Bharatanatyam for over 10 years and finished 4 exam levels." },
                 { emoji: "💗", label: "Before the 9 to 5", text: "Before the 9 to 5 and on weekends, you’ll find me cooking, watching YouTube video essays, going on long walks, journaling, and catching up with friends across time zones. My 6 journals are where I store notes on interesting ideas from articles, books, tweets, and YT videos." }
             ]
@@ -237,30 +235,13 @@ const CONTENT = {
     ],
 
     // ==========================================
-    // FIELDNOTES (blog/thoughts)
+    // THOUGHTS (formerly fieldnotes) - simple linked list
     // ==========================================
-    fieldnotes: [
-        {
-            date: "2024",
-            title: "On building AI products",
-            highlight: "peach",
-            description: "Lessons from shipping Quill — balancing ML capabilities with user expectations in regulated industries like pharma.",
-            url: "#"
-        },
-        {
-            date: "2024",
-            title: "Revenue optimization at scale",
-            highlight: "blue",
-            description: "What I learned managing $20M in monthly hotel revenue — the interplay of demand forecasting, pricing psychology, and data quality.",
-            url: "#"
-        },
-        {
-            date: "2023",
-            title: "Teaching financial literacy",
-            highlight: "lavender",
-            description: "Creating 35+ videos on SIPs, taxes, and investments for underprivileged youth — making complex concepts accessible.",
-            url: "#"
-        }
+    thoughts: [
+        { year: "2025", title: "WordPress Explorations: Application Menu", url: "#" },
+        { year: "2024", title: "On building AI products", url: "#" },
+        { year: "2024", title: "Revenue optimization at scale", url: "#" },
+        { year: "2023", title: "Teaching financial literacy", url: "#" }
     ],
 
     // ==========================================

@@ -519,6 +519,7 @@
         <!-- Tabs -->
         <div class="admin-tabs">
             <button class="admin-tab active" data-tab="guestbook">Guestbook</button>
+            <button class="admin-tab" data-tab="thoughts">Thoughts</button>
             <button class="admin-tab" data-tab="calendar">Content Calendar</button>
         </div>
 
@@ -534,6 +535,23 @@
                 <h3>Export Data</h3>
                 <div class="export-buttons">
                     <button class="export-btn" id="export-guestbook">Download guestbook.json</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thoughts Section -->
+        <div class="admin-section" id="section-thoughts">
+            <div class="section-header">
+                <h2>Thoughts (Blog Posts)</h2>
+                <button class="add-btn" id="add-thought-admin">+ Add Thought</button>
+            </div>
+            <div class="entry-list" id="thoughts-admin-list">
+                <!-- Entries loaded dynamically -->
+            </div>
+            <div class="export-section">
+                <h3>Export Data</h3>
+                <div class="export-buttons">
+                    <button class="export-btn" id="export-thoughts">Download thoughts.json</button>
                 </div>
             </div>
         </div>
@@ -598,6 +616,30 @@
         </div>
     </div>
 
+    <!-- Edit Thought Modal -->
+    <div class="admin-modal" id="thought-modal">
+        <div class="modal-content">
+            <h3 id="thought-modal-title">Add Thought</h3>
+            <input type="hidden" id="edit-thought-id">
+            <div class="form-group">
+                <label for="edit-thought-year">Year *</label>
+                <input type="text" id="edit-thought-year" placeholder="2025">
+            </div>
+            <div class="form-group">
+                <label for="edit-thought-title">Title *</label>
+                <input type="text" id="edit-thought-title" placeholder="Article title">
+            </div>
+            <div class="form-group">
+                <label for="edit-thought-url">URL *</label>
+                <input type="url" id="edit-thought-url" placeholder="https://substack.com/...">
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" id="thought-modal-cancel">Cancel</button>
+                <button class="save-btn" id="thought-modal-save">Save</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Confirm Delete Dialog -->
     <div class="confirm-dialog" id="confirm-dialog">
         <div class="confirm-content">
@@ -626,7 +668,9 @@
         // State
         let guestbookNotes = [];
         let calendarEntries = [];
+        let thoughtsEntries = [];
         let currentEditId = null;
+        let currentThoughtEditId = null;
         let deleteCallback = null;
 
         // DOM Elements
@@ -697,6 +741,11 @@
             guestbookNotes = storedNotes ? JSON.parse(storedNotes) : [];
             renderGuestbook();
 
+            // Load thoughts
+            const storedThoughts = localStorage.getItem('thoughts-entries');
+            thoughtsEntries = storedThoughts ? JSON.parse(storedThoughts) : [];
+            renderThoughts();
+
             // Load calendar
             const storedCalendar = localStorage.getItem('content-calendar');
             calendarEntries = storedCalendar ? JSON.parse(storedCalendar) : [];
@@ -739,6 +788,117 @@
                 </div>
             `).join('');
         }
+
+        // Render thoughts entries
+        function renderThoughts() {
+            const list = document.getElementById('thoughts-admin-list');
+
+            if (thoughtsEntries.length === 0) {
+                list.innerHTML = '<div class="empty-state"><p>No thoughts yet. Add your first blog post link!</p></div>';
+                return;
+            }
+
+            // Sort by year descending, then by id
+            const sorted = [...thoughtsEntries].sort((a, b) => {
+                if (b.year !== a.year) return b.year - a.year;
+                return b.id - a.id;
+            });
+
+            list.innerHTML = sorted.map(thought => `
+                <div class="entry-card" data-id="${thought.id}">
+                    <div class="entry-meta">
+                        <span class="entry-date">${thought.year}</span>
+                    </div>
+                    <h4 class="entry-title">${thought.title}</h4>
+                    <p class="entry-source">${thought.url}</p>
+                    <div class="entry-actions">
+                        <button class="edit-btn" onclick="editThought(${thought.id})">Edit</button>
+                        <button class="delete-btn" onclick="confirmDeleteThought(${thought.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Add thought
+        document.getElementById('add-thought-admin').addEventListener('click', () => {
+            currentThoughtEditId = null;
+            document.getElementById('thought-modal-title').textContent = 'Add Thought';
+            document.getElementById('edit-thought-id').value = '';
+            document.getElementById('edit-thought-year').value = new Date().getFullYear().toString();
+            document.getElementById('edit-thought-title').value = '';
+            document.getElementById('edit-thought-url').value = '';
+            document.getElementById('thought-modal').classList.add('active');
+        });
+
+        // Edit thought
+        function editThought(id) {
+            const thought = thoughtsEntries.find(t => t.id === id);
+            if (!thought) return;
+
+            currentThoughtEditId = id;
+            document.getElementById('thought-modal-title').textContent = 'Edit Thought';
+            document.getElementById('edit-thought-id').value = id;
+            document.getElementById('edit-thought-year').value = thought.year;
+            document.getElementById('edit-thought-title').value = thought.title;
+            document.getElementById('edit-thought-url').value = thought.url;
+            document.getElementById('thought-modal').classList.add('active');
+        }
+
+        // Save thought
+        document.getElementById('thought-modal-save').addEventListener('click', () => {
+            const year = document.getElementById('edit-thought-year').value.trim();
+            const title = document.getElementById('edit-thought-title').value.trim();
+            const url = document.getElementById('edit-thought-url').value.trim();
+
+            if (!year || !title || !url) {
+                alert('All fields are required');
+                return;
+            }
+
+            if (currentThoughtEditId) {
+                // Update existing
+                const index = thoughtsEntries.findIndex(t => t.id === currentThoughtEditId);
+                if (index !== -1) {
+                    thoughtsEntries[index] = { ...thoughtsEntries[index], year, title, url };
+                }
+            } else {
+                // Add new
+                thoughtsEntries.push({
+                    id: Date.now(),
+                    year,
+                    title,
+                    url
+                });
+            }
+
+            localStorage.setItem('thoughts-entries', JSON.stringify(thoughtsEntries));
+            renderThoughts();
+            document.getElementById('thought-modal').classList.remove('active');
+            currentThoughtEditId = null;
+        });
+
+        // Cancel thought modal
+        document.getElementById('thought-modal-cancel').addEventListener('click', () => {
+            document.getElementById('thought-modal').classList.remove('active');
+            currentThoughtEditId = null;
+        });
+
+        // Delete thought
+        function confirmDeleteThought(id) {
+            document.getElementById('confirm-message').textContent = 'Delete this thought entry?';
+            document.getElementById('confirm-dialog').classList.add('active');
+            deleteCallback = () => {
+                thoughtsEntries = thoughtsEntries.filter(t => t.id !== id);
+                localStorage.setItem('thoughts-entries', JSON.stringify(thoughtsEntries));
+                renderThoughts();
+            };
+        }
+
+        // Export thoughts
+        document.getElementById('export-thoughts').addEventListener('click', () => {
+            const data = JSON.stringify({ entries: thoughtsEntries }, null, 2);
+            downloadJSON(data, 'thoughts.json');
+        });
 
         // Render calendar entries
         function renderCalendar() {
@@ -922,6 +1082,7 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 document.getElementById('content-modal').classList.remove('active');
+                document.getElementById('thought-modal').classList.remove('active');
                 document.getElementById('confirm-dialog').classList.remove('active');
             }
         });

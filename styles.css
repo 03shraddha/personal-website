@@ -462,93 +462,6 @@ a, button, .tab, .highlight, [role="button"] {
     position: relative;
 }
 
-/* About photo - floated right */
-.about-photo {
-    float: right;
-    margin: 0 0 24px 32px;
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 50%;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.about-photo:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-}
-
-/* Draggable photo styles */
-.draggable-photo {
-    cursor: grab;
-    user-select: none;
-    z-index: 10;
-    will-change: transform;
-    transition: box-shadow 0.2s ease;
-}
-
-/* When photo is following cursor */
-.draggable-photo.following {
-    z-index: 1000;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-    pointer-events: auto;
-    cursor: grabbing;
-}
-
-/* When photo is stopped/clicked */
-.draggable-photo.stopped {
-    z-index: 1000;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    cursor: pointer;
-}
-
-/* Reset button for photo position */
-.photo-reset-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 8px 16px;
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--color-text-muted);
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: 100px;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 1001;
-}
-
-.photo-reset-btn.visible {
-    opacity: 1;
-    visibility: visible;
-}
-
-.photo-reset-btn:hover {
-    color: var(--color-text);
-    border-color: var(--color-text-muted);
-}
-
-/* Dark mode adjustments for photo */
-[data-theme="dark"] .about-photo {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme="dark"] .about-photo:hover {
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-    .about-photo-figure {
-        float: none;
-        margin: 0 auto 24px auto;
-        max-width: 180px;
-    }
-}
 
 .about-content {
     max-width: 560px;
@@ -592,17 +505,10 @@ a, button, .tab, .highlight, [role="button"] {
 
 .about-list li {
     position: relative;
-    padding-left: 16px;
+    padding-left: 0;
     margin-bottom: 10px;
     font-size: 17px;
     line-height: 1.7;
-}
-
-.about-list li::before {
-    content: '–';
-    position: absolute;
-    left: 0;
-    color: var(--color-text-muted);
 }
 
 .about-list a {
@@ -816,6 +722,10 @@ a, button, .tab, .highlight, [role="button"] {
     border-color: var(--color-text);
 }
 
+.tab-link {
+    text-decoration: none;
+}
+
 .tab-content {
     animation: fadeIn 0.3s ease;
 }
@@ -923,45 +833,54 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 /* ===================================
-   Fieldnotes Section
+   Thoughts Section (formerly Fieldnotes)
    =================================== */
 
-.notes-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
+.thoughts-list {
+    max-width: 560px;
 }
 
-.note-card {
-    padding-bottom: 32px;
-    border-bottom: 1px solid var(--color-border);
+.thoughts-year-group {
+    margin-bottom: 32px;
 }
 
-.note-card:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+.thoughts-year-group:last-child {
+    margin-bottom: 0;
 }
 
-.note-date {
-    font-size: 12px;
+.thoughts-year-label {
+    font-size: 13px;
     color: var(--color-text-light);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
+    font-weight: 500;
+    margin-bottom: 12px;
     display: block;
 }
 
-.note-card h3 {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    line-height: 1.4;
+.thoughts-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.note-card p {
+.thoughts-links li {
+    margin-bottom: 10px;
+    line-height: 1.7;
+}
+
+.thoughts-links li:last-child {
+    margin-bottom: 0;
+}
+
+.thoughts-links a {
     font-size: 17px;
-    color: var(--color-text-muted);
-    line-height: 1.6;
+    color: var(--color-text);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.thoughts-links a:hover {
+    border-bottom-color: var(--highlight-peach);
 }
 
 /* ===================================
@@ -1381,7 +1300,22 @@ a, button, .tab, .highlight, [role="button"] {
     filter: grayscale(0%);
 }
 
-/* Polaroid Caption */
+/* Polaroid Caption Display (for visitors) */
+.polaroid-caption-display {
+    position: absolute;
+    bottom: 8px;
+    left: 12px;
+    right: 12px;
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+    min-height: 28px;
+    padding: 4px;
+    letter-spacing: 0.5px;
+}
+
+/* Polaroid Caption Input (admin only) */
 .polaroid-caption {
     position: absolute;
     bottom: 8px;
@@ -1398,6 +1332,11 @@ a, button, .tab, .highlight, [role="button"] {
     outline: none;
     cursor: text;
     letter-spacing: 0.5px;
+}
+
+/* Hide caption display when admin input is shown */
+.polaroid:has(.polaroid-caption.admin-only) .polaroid-caption-display {
+    display: none;
 }
 
 .polaroid-caption:focus {
@@ -1902,6 +1841,47 @@ a, button, .tab, .highlight, [role="button"] {
     margin-bottom: 16px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--color-border);
+}
+
+/* Clean Content List (no category labels) */
+.content-clean-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.content-clean-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.content-clean-item:last-child {
+    border-bottom: none;
+}
+
+.content-clean-link {
+    font-size: 16px;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.content-clean-link:hover {
+    color: var(--color-text-muted);
+}
+
+.content-clean-source {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-left: 8px;
+}
+
+.content-list-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--color-text-muted);
+    font-size: 14px;
 }
 
 /* Day Detail Panel */
@@ -3153,19 +3133,16 @@ a, button, .tab, .highlight, [role="button"] {
 /* Write Note Modal */
 .write-note-modal {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: transparent;
-    z-index: 3000;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
     display: none;
     align-items: center;
     justify-content: center;
     padding: 20px;
     box-sizing: border-box;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
 }
 
 .write-note-modal.active {
