@@ -1401,27 +1401,7 @@ function initGuestbook() {
     let currentSpread = 0;
     let notes = loadNotesFromStorage();
 
-    // Sample notes if empty (for demo)
-    if (notes.length === 0) {
-        notes = [
-            {
-                id: 1,
-                message: "Love your website! The design is so clean and thoughtful. Keep creating amazing things!",
-                createdAt: "2026-01-15T10:30:00Z"
-            },
-            {
-                id: 2,
-                message: "Stumbled upon your portfolio while researching product management. Really inspiring work!",
-                createdAt: "2026-01-14T14:20:00Z"
-            },
-            {
-                id: 3,
-                message: "The notebook guestbook idea is so creative. Feels like writing in a real journal.",
-                createdAt: "2026-01-13T09:15:00Z"
-            }
-        ];
-        saveNotesToStorage();
-    }
+    // Guestbook starts blank - no sample notes
 
     // Load notes from localStorage
     function loadNotesFromStorage() {
