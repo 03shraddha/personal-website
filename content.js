@@ -21,15 +21,15 @@ const CONTENT = {
     name: "Shraddha Kulkarni",
 
     // Hello section intro (landing page)
-    helloIntro: `Hi, I'm Shraddha. I'm into product management. This is my corner of the internet where I share my work, unfinished projects, imperfect experiments and whatever I'm curious about right now. A couple of my friends also think I'm funny. 
+    helloIntro: `Hi, I'm Shraddha. I’ve worked in analytics and now work in product management. This is my corner of the internet where I share my work, unfinished projects, imperfect experiments and whatever I'm curious about right now. A couple of my friends also think I'm funny. 
     <br><br>
     Want to get in touch? Or just say Hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank">LinkedIn</a>, <a href="mailto:meetshraddhakulkarni@gmail.com">Email</a>, <a href="https://x.com/shraddhaha" target="_blank">Twitter</a>`,
 
     // About section content (structured)
     aboutContent: {
         intro: ``,
-        mainText: `I work at <a href="https://www.zs.com/" target="_blank" class="highlight peach">ZS Associates</a>, a boutique management consulting firm, on the Artificial Intelligence and Analytics side. Currently, I'm part of the <a href="https://www.zs.com/solutions/artificial-intelligence-and-analytics/max-ai" target="_blank" class="highlight blue">MAX.AI team</a>, where I help major pharma clients deploy enterprise-grade GenAI agents.`,
-        debateText: `I spent college weekends competing in debate competitions, winning over <a href="https://drive.google.com/drive/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC" target="_blank" class="highlight lavender">40 awards</a> at national and international levels.`,
+        mainText: `I work at <a href="https://www.zs.com/" target="_blank" class="highlight peach">ZS Associates</a>, a boutique, pharma-focused management consulting firm. Currently, I'm part of the <a href="https://www.zs.com/solutions/artificial-intelligence-and-analytics/max-ai" target="_blank" class="highlight blue">MAX.AI team</a>, where I help build GenAI products for some of the biggest pharma companies in the world`,
+        debateText: `For four years in college, I was a debate nerd and spent my weekends competing in debate tournaments, winning 50+ <a href="https://drive.google.com/drive/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC" target="_blank" class="highlight lavender">awards</a> at national and international levels.`,
         learnAboutMe: {
             title: `The best way to learn about me is through the people I've worked with:`,
             items: [
@@ -41,16 +41,17 @@ const CONTENT = {
         },
         corporateStory: {
             title: "Corporate Story",
-            subtitle: "Areas of interest: <u>Product management</u> | <u>Analytics</u>",
+            subtitle: "Areas of interest: Product management | Analytics",
             paragraphs: [
-                `Before working on ZS's GenAI product Quill, I worked on analytics projects for hospitality clients. I used SQL and Python to convert unstructured data into business insights for hotel chains with millions in revenue.`,
-                `In 2 years in corporate, I've led teams winning multiple client awards. I received the Most Valuable Player award competing with over 150 colleagues across India and Argentina offices. I also won ZS's Impact Award for delivering a GenAI solution for ZS's largest client account, while mentoring new hires.`
-            ]
+            `Before working on ZS’s GenAI product, Quill, I did analytics for hospitality clients. I used SQL and Python to turn very unstructured data (can’t believe I’m saying this either, but yes, it was unstructured) into real business insights for hotel chains generating millions in revenue.`,
+            `In just two years in corporate, I’ve led teams that won multiple client awards. I was named Most Valuable Player out of 150+ colleagues across the India and Argentina offices, and also received ZS’s Impact Award for delivering a GenAI solution for the firm’s largest client, competing with hundreds of teams in the same practice area.`
+             ]
+
         },
         background: {
             title: "A Little Bit of This, A Little Bit of That",
             items: [
-                "Kannadiga; live, work, and love BangaloreI am a Kannadiga, and I live, work, and love BLR. I graduated in Electronics from R.V. College of Engineering (loved college, but it’s a degree I no longer use)",
+                "I am a Kannadiga, and I live, work, and love BLR. I graduated in Electronics from R.V. College of Engineering (loved college, but it’s a degree I no longer use)",
                 "Interned at Baker Hughes (a General Electric company), where I got my first exposure to B2B business in oil and gas and did some automation work using Java and Spring (learned how a company with ~57,000 employees operates)",
                 "Started applying to consulting jobs because I wanted to work on the business side as well and not be involved solely in tech",
                 "That led me to management consulting and ZS Associates, where:",
@@ -60,8 +61,8 @@ const CONTENT = {
         beyondWork: {
             title: "What Fills My Cup Beyond Work",
             items: [
-                { emoji: "💗", label: "Financial Literacy Educator", text: "I have been creating financial literacy videos for The Apprentice Project for over a year. (DM me for video samples!)" },
-                { emoji: "💗", label: "Debate Judge & Competitor", text: "My entire personality in college revolved around being a debate nerd. I have competed in 50+ British Parliamentary debates, won 40+ awards, and judged 20+ competitions. I was an invited and remunerated judge at IIT Bombay, IIM Indore, NLS Bangalore, and more."},
+                { emoji: "💗", label: "Financial Literacy Educator", text: "I have been creating financial literacy videos for The Apprentice Project for over a year. This is a sample of my YT <a href=\"https://drive.google.com/file/d/1BCo0CJTcdwTMQFUdahyWkdsZcWvAkrpV/view\" target=\"_blank\" class=\"highlight-link\">Video</a>" },
+                { emoji: "💗", label: "Debate Judge & Competitor", text: "My entire personality in college revolved around being a debate nerd. I have competed in 50+ British Parliamentary debates, <a href=\"https://drive.google.com/drive/u/7/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC\" target=\"_blank\" class=\"highlight-link pink\">won 40+ awards, and judged 20+ competitions</a>. I was an invited and remunerated judge at IIT Bombay, IIM Indore, NLS Bangalore, and more."},
                 { emoji: "💗", label: "Bharatanatyam Dancer", text: "I’ve always loved dancing, so my parents signed me up for Indian classical dance classes. I ended up doing Bharatanatyam for over 10 years and finished 4 exam levels." },
                 { emoji: "💗", label: "Before the 9 to 5", text: "Before the 9 to 5 and on weekends, you’ll find me cooking, watching YouTube video essays, going on long walks, journaling, and catching up with friends across time zones. My 6 journals are where I store notes on interesting ideas from articles, books, tweets, and YT videos." }
             ]
@@ -73,7 +74,7 @@ const CONTENT = {
 
     // Unique abilities (as bullet points)
     uniqueAbilities: [
-        { text: "Substack writing", url: "https://substack.com/@shraddhaha", highlight: "lavender" },
+
         { text: "reciting 100 digits of π from memory", url: "#", highlight: "" },
         { text: "knowing all the BMTC routes in BLR by heart", url: "#", highlight: "" },
         { text: "befriending every apartment cat", url: "#", highlight: "" },
