@@ -1881,14 +1881,11 @@ a, button, .tab, .highlight, [role="button"] {
     left: 0;
     z-index: 2000;
     pointer-events: none;
-    opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .content-day-panel.active {
     pointer-events: auto;
-    opacity: 1;
     visibility: visible;
 }
 
@@ -1898,7 +1895,7 @@ a, button, .tab, .highlight, [role="button"] {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: transparent;
     cursor: pointer;
 }
 
@@ -1907,10 +1904,11 @@ a, button, .tab, .highlight, [role="button"] {
     top: 0;
     right: 0;
     bottom: 0;
-    width: 380px;
+    width: 420px;
     max-width: 100%;
     background: var(--color-bg);
-    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.15);
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+    border-left: 1px solid var(--color-border);
     padding: 32px;
     overflow-y: auto;
     transform: translateX(100%);
@@ -1919,6 +1917,10 @@ a, button, .tab, .highlight, [role="button"] {
 
 .content-day-panel.active .panel-content {
     transform: translateX(0);
+}
+
+[data-theme="dark"] .panel-content {
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .panel-close {
