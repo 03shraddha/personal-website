@@ -120,24 +120,53 @@ a, button, .tab, .highlight, [role="button"] {
    Page View Counter (in footer area)
    =================================== */
 
+/* Page View Counter - Fixed Top Right (below social links) */
 .page-view-counter {
-    display: inline-flex;
+    position: fixed;
+    top: 76px;
+    right: 32px;
+    display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     font-family: var(--font-body);
     font-size: 12px;
-    color: var(--color-text-light);
-    margin-left: 12px;
+    color: var(--color-text-muted);
+    background: var(--color-bg);
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--color-border);
+    z-index: 99;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.page-view-counter:hover {
+    opacity: 1;
 }
 
 .page-view-counter svg {
-    opacity: 0.5;
-    width: 12px;
-    height: 12px;
+    opacity: 0.6;
+    width: 14px;
+    height: 14px;
 }
 
 .page-view-counter span {
     font-variant-numeric: tabular-nums;
+}
+
+.page-view-counter .view-label {
+    opacity: 0.7;
+}
+
+/* On mobile, position at bottom right */
+@media (max-width: 768px) {
+    .page-view-counter {
+        top: auto;
+        bottom: 20px;
+        right: 20px;
+        font-size: 11px;
+        padding: 5px 10px;
+    }
 }
 
 /* ===================================
@@ -2745,13 +2774,13 @@ a, button, .tab, .highlight, [role="button"] {
     width: 100%;
     max-width: 700px;
     min-height: 400px;
-    background: #2a2a2a;
+    background: #FFFEF7;
     border-radius: 2px 6px 6px 2px;
     box-shadow:
-        0 1px 3px rgba(0, 0, 0, 0.1),
-        0 4px 12px rgba(0, 0, 0, 0.15),
-        0 12px 40px rgba(0, 0, 0, 0.2),
-        inset 0 0 60px rgba(0, 0, 0, 0.1);
+        0 1px 3px rgba(0, 0, 0, 0.08),
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        0 12px 40px rgba(0, 0, 0, 0.12),
+        inset 0 0 60px rgba(0, 0, 0, 0.02);
     perspective: 2000px;
     transform-style: preserve-3d;
 }
@@ -2765,8 +2794,8 @@ a, button, .tab, .highlight, [role="button"] {
     bottom: 0;
     width: 12px;
     background: linear-gradient(to right,
-        rgba(0, 0, 0, 0.3) 0%,
-        rgba(0, 0, 0, 0.15) 40%,
+        rgba(0, 0, 0, 0.08) 0%,
+        rgba(0, 0, 0, 0.03) 40%,
         transparent 100%);
     border-radius: 2px 0 0 2px;
 }
@@ -2780,15 +2809,15 @@ a, button, .tab, .highlight, [role="button"] {
     bottom: 4px;
     width: 3px;
     background: linear-gradient(to bottom,
-        #3a3a3a,
-        #2d2d2d,
-        #3a3a3a);
+        #f5f4ef,
+        #ebe9e2,
+        #f5f4ef);
     border-radius: 0 1px 1px 0;
-    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.05);
 }
 
 [data-theme="dark"] .notebook {
-    background: #1a1a1a;
+    background: #2a2a2a;
     box-shadow:
         0 1px 3px rgba(0, 0, 0, 0.2),
         0 4px 12px rgba(0, 0, 0, 0.3),
@@ -2798,16 +2827,16 @@ a, button, .tab, .highlight, [role="button"] {
 
 [data-theme="dark"] .notebook::before {
     background: linear-gradient(to right,
-        rgba(0, 0, 0, 0.4) 0%,
-        rgba(0, 0, 0, 0.2) 40%,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.15) 40%,
         transparent 100%);
 }
 
 [data-theme="dark"] .notebook::after {
     background: linear-gradient(to bottom,
-        #252525,
-        #1f1f1f,
-        #252525);
+        #3a3a3a,
+        #2d2d2d,
+        #3a3a3a);
 }
 
 /* Notebook Binding */
@@ -2819,9 +2848,9 @@ a, button, .tab, .highlight, [role="button"] {
     width: 20px;
     background: linear-gradient(to right,
         transparent 0%,
-        rgba(0,0,0,0.15) 20%,
-        rgba(0,0,0,0.2) 50%,
-        rgba(0,0,0,0.15) 80%,
+        rgba(0,0,0,0.04) 20%,
+        rgba(0,0,0,0.06) 50%,
+        rgba(0,0,0,0.04) 80%,
         transparent 100%);
     transform: translateX(-50%);
     z-index: 5;
@@ -2838,17 +2867,17 @@ a, button, .tab, .highlight, [role="button"] {
     background: repeating-linear-gradient(to bottom,
         transparent,
         transparent 8px,
-        rgba(255, 255, 255, 0.15) 8px,
-        rgba(255, 255, 255, 0.15) 16px);
+        rgba(0, 0, 0, 0.1) 8px,
+        rgba(0, 0, 0, 0.1) 16px);
     transform: translateX(-50%);
 }
 
 [data-theme="dark"] .notebook-binding {
     background: linear-gradient(to right,
         transparent 0%,
-        rgba(0,0,0,0.2) 20%,
-        rgba(0,0,0,0.25) 50%,
-        rgba(0,0,0,0.2) 80%,
+        rgba(255,255,255,0.03) 20%,
+        rgba(255,255,255,0.05) 50%,
+        rgba(255,255,255,0.03) 80%,
         transparent 100%);
 }
 
@@ -2874,12 +2903,12 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .notebook-page.left-page {
-    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
     transform-origin: right center;
 }
 
 .notebook-page.right-page {
-    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 1px solid rgba(0, 0, 0, 0.06);
     transform-origin: left center;
 }
 
@@ -2957,11 +2986,11 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 [data-theme="dark"] .notebook-page.left-page {
-    border-right-color: rgba(255, 255, 255, 0.05);
+    border-right-color: rgba(255, 255, 255, 0.08);
 }
 
 [data-theme="dark"] .notebook-page.right-page {
-    border-left-color: rgba(255, 255, 255, 0.05);
+    border-left-color: rgba(255, 255, 255, 0.08);
 }
 
 /* Page Content */
@@ -2976,14 +3005,14 @@ a, button, .tab, .highlight, [role="button"] {
     font-family: var(--font-body);
     font-size: 16px;
     line-height: 1.7;
-    color: #e8e8e8;
+    color: #333;
     text-align: center;
     padding: 20px 0;
     font-weight: 400;
 }
 
 [data-theme="dark"] .note-message {
-    color: #d0d0d0;
+    color: #e0e0e0;
 }
 
 .note-attribution {
@@ -2991,25 +3020,37 @@ a, button, .tab, .highlight, [role="button"] {
     font-family: var(--font-body);
     font-size: 12px;
     font-style: italic;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(0, 0, 0, 0.5);
     margin-top: auto;
     padding-top: 20px;
+}
+
+[data-theme="dark"] .note-attribution {
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .notebook .note-date {
     display: block;
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(0, 0, 0, 0.4);
     margin-top: 4px;
     font-style: normal;
+}
+
+[data-theme="dark"] .notebook .note-date {
+    color: rgba(255, 255, 255, 0.4);
 }
 
 /* Empty page state */
 .page-empty {
     text-align: center;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(0, 0, 0, 0.4);
     font-style: italic;
     font-size: 14px;
+}
+
+[data-theme="dark"] .page-empty {
+    color: rgba(255, 255, 255, 0.4);
 }
 
 /* Page Numbers */
@@ -3018,6 +3059,10 @@ a, button, .tab, .highlight, [role="button"] {
     bottom: 16px;
     font-family: var(--font-body);
     font-size: 11px;
+    color: rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .page-number {
     color: rgba(255, 255, 255, 0.35);
 }
 
@@ -3034,7 +3079,7 @@ a, button, .tab, .highlight, [role="button"] {
     position: absolute;
     width: 20px;
     height: 20px;
-    background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.15) 50%);
+    background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.05) 50%);
 }
 
 .left-page .page-curl {
@@ -3045,7 +3090,15 @@ a, button, .tab, .highlight, [role="button"] {
 .right-page .page-curl {
     bottom: 0;
     right: 0;
-    background: linear-gradient(-135deg, transparent 50%, rgba(0,0,0,0.15) 50%);
+    background: linear-gradient(-135deg, transparent 50%, rgba(0,0,0,0.05) 50%);
+}
+
+[data-theme="dark"] .page-curl {
+    background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.2) 50%);
+}
+
+[data-theme="dark"] .right-page .page-curl {
+    background: linear-gradient(-135deg, transparent 50%, rgba(0,0,0,0.2) 50%);
 }
 
 /* Page Navigation */

@@ -1454,7 +1454,7 @@ function initGuestbook() {
         if (notes[leftNoteIndex]) {
             const note = notes[leftNoteIndex];
             leftNoteMsg.innerHTML = `"${note.message}"`;
-            leftNoteAttr.innerHTML = `— anonymous<span class="note-date">${formatDate(note.createdAt)}</span>`;
+            leftNoteAttr.innerHTML = `<span class="note-date">${formatDate(note.createdAt)}</span>`;
         } else {
             leftNoteMsg.innerHTML = '<span class="page-empty">No notes yet. Be the first to write one!</span>';
             leftNoteAttr.innerHTML = '';
@@ -1467,7 +1467,7 @@ function initGuestbook() {
         if (notes[rightNoteIndex]) {
             const note = notes[rightNoteIndex];
             rightNoteMsg.innerHTML = `"${note.message}"`;
-            rightNoteAttr.innerHTML = `— anonymous<span class="note-date">${formatDate(note.createdAt)}</span>`;
+            rightNoteAttr.innerHTML = `<span class="note-date">${formatDate(note.createdAt)}</span>`;
         } else if (notes.length > 0 && leftNoteIndex < notes.length) {
             rightNoteMsg.innerHTML = '<span class="page-empty">Turn the page for more...</span>';
             rightNoteAttr.innerHTML = '';
