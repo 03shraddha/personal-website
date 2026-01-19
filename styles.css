@@ -827,9 +827,95 @@ a, button, .tab, .highlight, [role="button"] {
     margin-bottom: 12px;
 }
 
-.experience-item > p:last-child {
+/* Experience Brief Description */
+.experience-brief {
     font-size: 17px;
     line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+/* Experience Expanded Content */
+.experience-expanded {
+    display: none;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+    margin-top: 16px;
+}
+
+.experience-expanded.active {
+    display: block;
+    animation: fadeInExpand 0.3s ease;
+}
+
+.experience-expanded h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 24px 0 12px 0;
+    color: var(--color-text);
+}
+
+.experience-expanded h4:first-child {
+    margin-top: 0;
+}
+
+.experience-expanded p {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.experience-expanded ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.experience-expanded li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text);
+}
+
+.experience-expanded li::before {
+    content: "◆";
+    position: absolute;
+    left: 0;
+    color: var(--color-text-muted);
+    font-size: 8px;
+    top: 6px;
+}
+
+/* Toggle Button */
+.experience-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 8px 0;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    margin-top: 8px;
+}
+
+.experience-toggle:hover {
+    color: var(--color-text);
+}
+
+.toggle-arrow {
+    transition: transform 0.2s ease;
+}
+
+/* Fade in animation for expanded content */
+@keyframes fadeInExpand {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===================================

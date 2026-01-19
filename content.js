@@ -149,28 +149,67 @@ const CONTENT = {
             company: "ZS Associates",
             companyUrl: "https://www.zs.com/",
             date: "2025 — Present",
-            description: `Working on <a href="#" class="highlight blue">Quill</a>, an AI-driven platform for Medical Legal Regulatory (MLR) reviews in pharmaceuticals. Responsibilities include product solutioning, deployment oversight, and client feedback iteration. Awarded <a href="#" class="highlight lavender">Client Impact Champion</a> for on-time delivery with exceptional quality.`
+            briefDescription: `Working on <a href="#" class="highlight blue">Quill</a>, an AI-driven platform for Medical Legal Regulatory (MLR) reviews in pharmaceuticals. Responsibilities include product solutioning, deployment oversight, and client feedback iteration. Awarded <a href="#" class="highlight lavender">Client Impact Champion</a> for on-time delivery with exceptional quality.`,
+            expandedContent: `
+                <h4>Project – GenAI Deployment for a Niche Pharma Use Case (2025 & 2026)</h4>
+                <ul>
+                    <li>Fast-tracked promotion, achieving in 4 cycles what typically takes 5.</li>
+                    <li>Worked on ZS's GenAI product Quill, helping use LLMs to speed up MLR. MLR is the review of pharma content by medical, legal, and regulatory teams. Quill uses LLMs to check if medical documents are compliant instead of performing manual checks.</li>
+                    <li>Received ZS's Client Impact Champion Award for on-time project delivery with exceptional quality and rigor.</li>
+                </ul>
+
+                <h4>Project – Hospitality Analytics (2023 & 2024)</h4>
+                <ul>
+                    <li>Pricing and Profitability Strategy for a leading U.S. hotel chain.</li>
+                    <li>Advanced Data & Business Analytics.</li>
+                    <li>Awards and Recognition @ ZS.</li>
+                </ul>
+            `
         },
         {
             title: "Business Analyst - Hospitality Analytics",
             company: "ZS Associates",
             companyUrl: "https://www.zs.com/",
             date: "2023 — 2024",
-            description: `Led pricing and profitability strategy for a major U.S. hotel chain managing <a href="#" class="highlight lavender">$20M monthly revenue</a>. Advanced data analytics using <a href="#" class="highlight blue">SQL and Python</a> for demand forecasting and revenue optimization. Deputy lead of 13-person team. Named <a href="#" class="highlight lavender">Most Valuable Player</a> among 150+ colleagues.`
+            briefDescription: `Led pricing and profitability strategy for a major U.S. hotel chain managing <a href="#" class="highlight lavender">$20M monthly revenue</a>. Advanced data analytics using <a href="#" class="highlight blue">SQL and Python</a> for demand forecasting and revenue optimization.`,
+            expandedContent: `
+                <ul>
+                    <li>Deputy lead of 13-person team managing end-to-end hotel revenue optimization.</li>
+                    <li>Built demand forecasting models using SQL and Python for pricing decisions.</li>
+                    <li>Named <strong>Most Valuable Player</strong> among 150+ colleagues across India and Argentina offices.</li>
+                    <li>Delivered actionable insights that directly impacted discount strategies and profitability.</li>
+                </ul>
+            `
         },
         {
             title: "Software Engineering Intern",
             company: "Baker Hughes / General Electric",
             companyUrl: "https://www.bakerhughes.com/",
             date: "2022",
-            description: `Automated e-commerce report generation using <a href="#" class="highlight blue">Java and CronJobs</a>, saving 12+ hours/month. Gained B2B insights in the oil and gas industry.`
+            briefDescription: `Automated e-commerce report generation using <a href="#" class="highlight blue">Java and CronJobs</a>, saving 12+ hours/month. Gained B2B insights in the oil and gas industry.`,
+            expandedContent: `
+                <ul>
+                    <li>First exposure to B2B business operations in oil and gas industry.</li>
+                    <li>Learned how a company with ~57,000 employees operates at scale.</li>
+                    <li>Built automation solutions using Java and Spring framework.</li>
+                    <li>Reduced manual reporting effort by 12+ hours per month through CronJob automation.</li>
+                </ul>
+            `
         },
         {
             title: "Research Engineer",
             company: "Cisco Center of Excellence, RVCE",
             companyUrl: "#",
             date: "2021 — 2022",
-            description: `Built <a href="#" class="highlight blue">Crowd Management System</a> integrating OpenPose and BLE beacon localization (40%+ accuracy, 90% faster alerts). Developed <a href="#" class="highlight lavender">YOLOv3-based</a> airport security detection improving false positive rate by 5-8%.`
+            briefDescription: `Built <a href="#" class="highlight blue">Crowd Management System</a> integrating OpenPose and BLE beacon localization. Developed <a href="#" class="highlight lavender">YOLOv3-based</a> airport security detection system.`,
+            expandedContent: `
+                <ul>
+                    <li>Achieved 40%+ accuracy improvement in crowd localization using OpenPose + BLE beacons.</li>
+                    <li>Reduced overcrowding alert response time by 90%.</li>
+                    <li>Developed YOLOv3-based threat detection for airport security, improving false positive rate by 5-8%.</li>
+                    <li>Research work conducted at the Cisco Center of Excellence at R.V. College of Engineering.</li>
+                </ul>
+            `
         }
     ],
 

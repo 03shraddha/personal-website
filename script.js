@@ -231,18 +231,29 @@ function loadContent() {
     document.getElementById('social-substack').href = social.substack;
     document.getElementById('social-email').href = `mailto:${social.email}`;
 
-    // Experiences
-    const experiencesHtml = CONTENT.experiences.map(exp => `
-        <article class="experience-item">
+    // Experiences with expandable details
+    const experiencesHtml = CONTENT.experiences.map((exp, index) => `
+        <article class="experience-item" data-index="${index}">
             <div class="experience-header">
                 <h3><a href="${exp.companyUrl}" ${exp.companyUrl.startsWith('http') ? 'target="_blank"' : ''} class="highlight peach">${exp.title}</a></h3>
                 <span class="experience-date">${exp.date}</span>
             </div>
             <p class="experience-company">${exp.company}</p>
-            <p>${exp.description}</p>
+            <p class="experience-brief">${exp.briefDescription}</p>
+
+            <div class="experience-expanded">
+                ${exp.expandedContent}
+            </div>
+
+            <button class="experience-toggle" data-index="${index}">
+                View project details <span class="toggle-arrow">→</span>
+            </button>
         </article>
     `).join('');
     document.getElementById('experiences-list').innerHTML = experiencesHtml;
+
+    // Initialize experience toggles
+    initExperienceToggles();
 
     // Projects (for tabs)
     const projectsHtml = CONTENT.projects.map(p => `
@@ -293,6 +304,35 @@ function loadContent() {
 
     // Footer
     document.getElementById('footer-text').innerHTML = `${CONTENT.footer} · <span class="year">${new Date().getFullYear()}</span>`;
+}
+
+/**
+ * Experience Toggle - Expand/Collapse project details
+ */
+function initExperienceToggles() {
+    const toggleBtns = document.querySelectorAll('.experience-toggle');
+
+    toggleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const index = btn.dataset.index;
+            const card = document.querySelector(`.experience-item[data-index="${index}"]`);
+            const expanded = card.querySelector('.experience-expanded');
+            const isExpanded = expanded.classList.contains('active');
+
+            if (isExpanded) {
+                // Collapse
+                expanded.classList.remove('active');
+                btn.innerHTML = 'View project details <span class="toggle-arrow">→</span>';
+            } else {
+                // Expand
+                expanded.classList.add('active');
+                btn.innerHTML = 'View less <span class="toggle-arrow">↑</span>';
+
+                // Scroll to keep card header visible
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    });
 }
 
 /**
