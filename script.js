@@ -291,21 +291,6 @@ function loadContent() {
         `).join('');
     document.getElementById('thoughts-list').innerHTML = thoughtsHtml;
 
-    // Philosophy
-    document.getElementById('philosophy-quote').textContent = `"${CONTENT.philosophy.quote}"`;
-    const philosophyHtml = CONTENT.philosophy.paragraphs.map(p => `<p>${p}</p>`).join('');
-    document.getElementById('philosophy-content').innerHTML = philosophyHtml;
-
-    // Content Worth Consuming
-    const consumeHtml = CONTENT.contentWorthConsuming.map(item => `
-        <article class="consume-item">
-            <span class="consume-type">${item.type}</span>
-            <h3><a href="${item.url}" ${item.url.startsWith('http') ? 'target="_blank"' : ''} class="highlight ${item.highlight}">${item.title}</a></h3>
-            <p class="consume-author">${item.author}</p>
-        </article>
-    `).join('');
-    document.getElementById('consume-list').innerHTML = consumeHtml;
-
     // Footer
     document.getElementById('footer-text').innerHTML = `${CONTENT.footer} · <span class="year">${new Date().getFullYear()}</span>`;
 }

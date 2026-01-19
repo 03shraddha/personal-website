@@ -1,6 +1,31 @@
 {
   "photos": {
-    "polaroids": [],
+    "polaroids": [
+      {
+        "id": 1,
+        "src": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop",
+        "caption": "mountain views",
+        "zoom": 100,
+        "posX": 0,
+        "posY": 0
+      },
+      {
+        "id": 2,
+        "src": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&h=400&fit=crop",
+        "caption": "starry nights",
+        "zoom": 100,
+        "posX": 0,
+        "posY": 0
+      },
+      {
+        "id": 3,
+        "src": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+        "caption": "golden hour",
+        "zoom": 100,
+        "posX": 0,
+        "posY": 0
+      }
+    ],
     "film": [],
     "digital": []
   }
