@@ -255,15 +255,27 @@ function loadContent() {
     // Initialize experience toggles
     initExperienceToggles();
 
-    // Projects (for tabs)
-    const projectsHtml = CONTENT.projects.map(p => `
-        <article class="content-card">
+    // Projects (for tabs) with expandable details
+    const projectsHtml = CONTENT.projects.map((p, index) => `
+        <article class="content-card project-card" data-project-index="${index}">
             <span class="card-tag">Project</span>
-            <h3><a href="${p.url}" class="highlight ${p.highlight}">${p.name}</a></h3>
-            <p>${p.description}</p>
+            <h3><span class="highlight ${p.highlight}">${p.name}</span></h3>
+            <p class="project-brief">${p.briefDescription}</p>
+
+            <div class="project-expanded">
+                ${p.expandedContent}
+                ${p.url && p.url !== '#' ? `<a href="${p.url}" target="_blank" rel="noopener noreferrer" class="project-cta highlight ${p.highlight}">View Project →</a>` : ''}
+            </div>
+
+            <button class="project-toggle" data-project-index="${index}">
+                View details <span class="toggle-arrow">→</span>
+            </button>
         </article>
     `).join('');
     document.getElementById('projects-grid').innerHTML = projectsHtml;
+
+    // Initialize project toggles
+    initProjectToggles();
 
     // Communities (for tabs)
     const communitiesHtml = CONTENT.communities.map(c => `
@@ -323,6 +335,35 @@ function initExperienceToggles() {
                 // Collapse
                 expanded.classList.remove('active');
                 btn.innerHTML = 'View project details <span class="toggle-arrow">→</span>';
+            } else {
+                // Expand
+                expanded.classList.add('active');
+                btn.innerHTML = 'View less <span class="toggle-arrow">↑</span>';
+
+                // Scroll to keep card header visible
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    });
+}
+
+/**
+ * Project Toggle - Expand/Collapse project details
+ */
+function initProjectToggles() {
+    const toggleBtns = document.querySelectorAll('.project-toggle');
+
+    toggleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const index = btn.dataset.projectIndex;
+            const card = document.querySelector(`.project-card[data-project-index="${index}"]`);
+            const expanded = card.querySelector('.project-expanded');
+            const isExpanded = expanded.classList.contains('active');
+
+            if (isExpanded) {
+                // Collapse
+                expanded.classList.remove('active');
+                btn.innerHTML = 'View details <span class="toggle-arrow">→</span>';
             } else {
                 // Expand
                 expanded.classList.add('active');

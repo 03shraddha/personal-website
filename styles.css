@@ -919,6 +919,84 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 /* ===================================
+   Project Cards - Expandable
+   =================================== */
+
+.project-card {
+    position: relative;
+}
+
+.project-brief {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin-bottom: 12px;
+}
+
+.project-expanded {
+    display: none;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+    margin-top: 12px;
+}
+
+.project-expanded.active {
+    display: block;
+    animation: fadeInExpand 0.3s ease;
+}
+
+.project-expanded p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    color: var(--color-text);
+}
+
+.project-expanded p:last-of-type {
+    margin-bottom: 16px;
+}
+
+/* Star bullet styling for project details */
+.project-expanded p strong {
+    color: var(--color-text);
+}
+
+/* Project CTA Button */
+.project-cta {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    margin-top: 8px;
+    padding: 8px 0;
+    transition: opacity 0.2s ease;
+}
+
+.project-cta:hover {
+    opacity: 0.8;
+}
+
+/* Project Toggle Button */
+.project-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 8px 0;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    margin-top: 4px;
+}
+
+.project-toggle:hover {
+    color: var(--color-text);
+}
+
+/* ===================================
    Thoughts Section (formerly Fieldnotes)
    =================================== */
 
