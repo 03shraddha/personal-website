@@ -145,7 +145,7 @@ const CONTENT = {
     // ==========================================
     experiences: [
         {
-            title: "Product Management / Customer Success",
+            title: "Product Management in Healthcare",
             company: "ZS Associates",
             companyUrl: "https://www.zs.com/",
             date: "2025 — Present",

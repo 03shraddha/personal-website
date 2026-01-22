@@ -203,9 +203,17 @@ function loadContent() {
 
         <div class="about-subsection">
             <h3 class="about-subtitle">${about.background.title}</h3>
-            <ul class="about-list">
-                ${about.background.items.map(item => `<li>${item}</li>`).join('')}
-            </ul>
+            <div class="background-content">
+                <ul class="about-list background-preview">
+                    ${about.background.items.slice(0, 2).map(item => `<li>${item}</li>`).join('')}
+                </ul>
+                <span class="background-ellipsis">...</span>
+                <button class="background-toggle" data-expanded="false">Read more →</button>
+                <ul class="about-list background-full">
+                    ${about.background.items.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+                <button class="background-toggle-less">Show less ↑</button>
+            </div>
         </div>
 
         <div class="about-subsection">
@@ -223,6 +231,9 @@ function loadContent() {
         </div>
     `;
     document.getElementById('about-content').innerHTML = aboutHtml;
+
+    // Initialize background toggle
+    initBackgroundToggle();
 
     // Social Links
     const social = CONTENT.socialLinks;
@@ -373,6 +384,35 @@ function initProjectToggles() {
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         });
+    });
+}
+
+/**
+ * Background Toggle - Expand/Collapse "A Little Bit of This" section
+ */
+function initBackgroundToggle() {
+    const readMoreBtn = document.querySelector('.background-toggle');
+    const showLessBtn = document.querySelector('.background-toggle-less');
+    const preview = document.querySelector('.background-preview');
+    const full = document.querySelector('.background-full');
+    const ellipsis = document.querySelector('.background-ellipsis');
+
+    if (!readMoreBtn || !showLessBtn) return;
+
+    readMoreBtn.addEventListener('click', () => {
+        preview.classList.add('hidden');
+        ellipsis.classList.add('hidden');
+        readMoreBtn.classList.add('hidden');
+        full.classList.add('active');
+        showLessBtn.classList.add('active');
+    });
+
+    showLessBtn.addEventListener('click', () => {
+        full.classList.remove('active');
+        showLessBtn.classList.remove('active');
+        preview.classList.remove('hidden');
+        ellipsis.classList.remove('hidden');
+        readMoreBtn.classList.remove('hidden');
     });
 }
 

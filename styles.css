@@ -563,6 +563,86 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 /* ===================================
+   Background Section - Progressive Disclosure
+   =================================== */
+
+.background-content {
+    position: relative;
+}
+
+.background-preview {
+    margin-bottom: 0;
+}
+
+.background-preview.hidden {
+    display: none;
+}
+
+.background-ellipsis {
+    display: inline;
+    color: var(--color-text-muted);
+    font-size: 17px;
+}
+
+.background-ellipsis.hidden {
+    display: none;
+}
+
+.background-full {
+    display: none;
+    margin-top: 0;
+}
+
+.background-full.active {
+    display: block;
+    animation: fadeInExpand 0.3s ease;
+}
+
+.background-toggle {
+    display: inline;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    border-bottom: 1px solid var(--highlight-peach);
+    margin-left: 4px;
+}
+
+.background-toggle:hover {
+    color: var(--color-text);
+}
+
+.background-toggle.hidden {
+    display: none;
+}
+
+.background-toggle-less {
+    display: none;
+    background: none;
+    border: none;
+    padding: 8px 0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    border-bottom: 1px solid var(--highlight-peach);
+    margin-top: 12px;
+}
+
+.background-toggle-less:hover {
+    color: var(--color-text);
+}
+
+.background-toggle-less.active {
+    display: inline-block;
+}
+
+/* ===================================
    Highlighted Links - The Signature Feature
    =================================== */
 
@@ -848,7 +928,8 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .experience-expanded h4 {
-    font-size: 16px;
+    font-family: var(--font-body);
+    font-size: 17px;
     font-weight: 600;
     margin: 24px 0 12px 0;
     color: var(--color-text);
@@ -859,9 +940,11 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .experience-expanded p {
-    font-size: 15px;
-    line-height: 1.6;
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.7;
     margin-bottom: 16px;
+    color: var(--color-text);
 }
 
 .experience-expanded ul {
@@ -874,8 +957,9 @@ a, button, .tab, .highlight, [role="button"] {
     position: relative;
     padding-left: 20px;
     margin-bottom: 10px;
-    font-size: 15px;
-    line-height: 1.6;
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.7;
     color: var(--color-text);
 }
 
@@ -946,8 +1030,9 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .project-expanded p {
-    font-size: 14px;
-    line-height: 1.6;
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.7;
     margin-bottom: 12px;
     color: var(--color-text);
 }
@@ -964,7 +1049,8 @@ a, button, .tab, .highlight, [role="button"] {
 /* Project CTA Button */
 .project-cta {
     display: inline-block;
-    font-size: 14px;
+    font-family: var(--font-body);
+    font-size: 16px;
     font-weight: 500;
     text-decoration: none;
     margin-top: 8px;
