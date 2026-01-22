@@ -282,15 +282,29 @@ function loadContent() {
     `;
     document.getElementById('projects-grid').innerHTML = projectsHtml;
 
-    // Communities (for tabs)
-    const communitiesHtml = CONTENT.communities.map(c => `
-        <article class="content-card">
+    // Communities (for tabs) with expandable details
+    const communitiesHtml = CONTENT.communities.map((c, index) => `
+        <article class="content-card community-card" data-community-index="${index}">
             <span class="card-tag">Community</span>
-            <h3><a href="${c.url}" class="highlight ${c.highlight}">${c.name}</a></h3>
-            <p>${c.description}</p>
+            <div class="community-header">
+                ${c.logo ? `<img src="${c.logo}" alt="${c.name} logo" class="community-logo" onerror="this.style.display='none'">` : ''}
+                <h3><a href="${c.url}" target="_blank" class="highlight ${c.highlight}">${c.name}</a></h3>
+            </div>
+            <p class="community-brief">${c.briefDescription}</p>
+
+            <div class="community-expanded">
+                ${c.expandedContent}
+            </div>
+
+            <button class="community-toggle" data-community-index="${index}">
+                View details <span class="toggle-arrow">→</span>
+            </button>
         </article>
     `).join('');
     document.getElementById('communities-grid').innerHTML = communitiesHtml;
+
+    // Initialize community toggles
+    initCommunityToggles();
 
     // Thoughts (grouped by year) - merge content.js with localStorage
     const storedThoughts = localStorage.getItem('thoughts-entries');
@@ -407,6 +421,35 @@ function initBackgroundToggle() {
         preview.classList.remove('hidden');
         ellipsis.classList.remove('hidden');
         readMoreBtn.classList.remove('hidden');
+    });
+}
+
+/**
+ * Community Toggle - Expand/Collapse community details
+ */
+function initCommunityToggles() {
+    const toggleBtns = document.querySelectorAll('.community-toggle');
+
+    toggleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const index = btn.dataset.communityIndex;
+            const card = document.querySelector(`.community-card[data-community-index="${index}"]`);
+            const expanded = card.querySelector('.community-expanded');
+            const isExpanded = expanded.classList.contains('active');
+
+            if (isExpanded) {
+                // Collapse
+                expanded.classList.remove('active');
+                btn.innerHTML = 'View details <span class="toggle-arrow">→</span>';
+            } else {
+                // Expand
+                expanded.classList.add('active');
+                btn.innerHTML = 'View less <span class="toggle-arrow">↑</span>';
+
+                // Scroll to keep card header visible
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
     });
 }
 

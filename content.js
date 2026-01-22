@@ -300,26 +300,63 @@ const CONTENT = {
         {
             name: "The Apprentice Project",
             highlight: "peach",
-            description: "Financial literacy educator creating 35+ videos on SIPs, taxes, and investments (100+ hours).",
-            url: "#"
+            logo: "https://images.squarespace-cdn.com/content/v1/5a739640d74cff6c5f53a9cf/1607502050498-C7BTAQXDP54B9W33OV85/TAP+logo.png",
+            briefDescription: "Financial literacy educator creating 35+ videos on SIPs, taxes, and investments (100+ hours).",
+            url: "https://www.theapprenticeproject.org/",
+            expandedContent: `
+                <p>★ <strong>Finance Literacy Consultant:</strong><br>
+                Spent 100+ hours creating 35+ financial literacy videos, breaking down topics like SIPs, taxes, and investments for underserved kids.</p>
+
+                <p>★ Created educational content focused on making complex financial concepts accessible to young learners from underserved communities.</p>
+
+                <p>★ <a href="https://drive.google.com/file/d/1Pqsm-pzSy5xCBxrR7xgTF3pqDwsoBvqr/view?usp=sharing" target="_blank" class="project-cta highlight peach">View my experience @ TAP →</a></p>
+            `
         },
         {
             name: "Make A Difference (MAD)",
             highlight: "blue",
-            description: "Academic volunteer tutoring Grade 12 Physics and fundraising volunteer.",
-            url: "#"
+            logo: "https://makeadiff.in/static/logo-c89124d06d891f6c56457b74e9d6fbaf.png",
+            briefDescription: "Academic support volunteer tutoring Grade 12 Physics for NEET and fundraising volunteer.",
+            url: "https://makeadiff.in/",
+            expandedContent: `
+                <p>★ <strong>Academic Support Volunteer:</strong><br>
+                Trained a Grade 12 student in Physics for NEET during COVID through one-on-one tutoring sessions.</p>
+
+                <p>★ <strong>Fundraising Volunteer:</strong><br>
+                Participated in fundraising campaigns supporting children in need.</p>
+
+                <p>★ <a href="https://drive.google.com/file/d/1PgLKBESB1GZSTN7XC7z9OgVqX2_rFTTW/view?usp=sharing" target="_blank" class="project-cta highlight blue">View my experience @ MAD →</a></p>
+            `
         },
         {
             name: "UNICEF",
             highlight: "lavender",
-            description: "Content creator for teacher training on inclusive materials for students with disabilities.",
-            url: "#"
+            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Logo_of_UNICEF.svg/1200px-Logo_of_UNICEF.svg.png",
+            briefDescription: "Content creator for teacher training on inclusive materials for students with disabilities.",
+            url: "https://www.unicef.org/",
+            expandedContent: `
+                <p>★ <strong>Content Creator for Teachers:</strong><br>
+                Helped create a training module to support government school teachers in making inclusive materials for children with disabilities.</p>
+
+                <p>★ Focused on accessibility and inclusive education practices for special needs students in government schools.</p>
+
+                <p>★ <a href="https://drive.google.com/file/d/1anM1oXUa1_jSLn2X-t5-QJs0_r0TycsM/view?usp=sharing" target="_blank" class="project-cta highlight lavender">View my experience @ UNICEF →</a></p>
+            `
         },
         {
             name: "DIKSHA (NCERT)",
             highlight: "peach",
-            description: "Created simplified learning materials for grades 6-8 in government schools.",
-            url: "#"
+            logo: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f6/Diksha_Logo.png/220px-Diksha_Logo.png",
+            briefDescription: "Created simplified NCERT learning materials for grades 6-8 in government schools.",
+            url: "https://diksha.gov.in/",
+            expandedContent: `
+                <p>★ <strong>Content Creator:</strong><br>
+                Helped create simplified NCERT learning materials for classes 6–8 in government schools under the Diksha Project.</p>
+
+                <p>★ Part of the Digital Infrastructure for Knowledge SHAring (DIKSHA) initiative to improve government education.</p>
+
+                <p>★ <a href="https://drive.google.com/file/d/1861I1_Ueh_LcMXlkjF4nYyuQv_1cr3LM/view?usp=sharing" target="_blank" class="project-cta highlight peach">View my experience @ DIKSHA →</a></p>
+            `
         }
     ],
 
