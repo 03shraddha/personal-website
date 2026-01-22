@@ -868,17 +868,20 @@ a, button, .tab, .highlight, [role="button"] {
 .experience-list {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 24px;
 }
 
 .experience-item {
-    padding-bottom: 40px;
-    border-bottom: 1px solid var(--color-border);
+    padding: 32px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.experience-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+.experience-item:hover {
+    border-color: var(--color-text-light);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 .experience-header {
@@ -1581,6 +1584,10 @@ a, button, .tab, .highlight, [role="button"] {
     .tab {
         padding: 8px 16px;
         font-size: 13px;
+    }
+
+    .experience-item {
+        padding: 24px;
     }
 
     .experience-header {

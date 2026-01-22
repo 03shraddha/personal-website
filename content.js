@@ -300,8 +300,7 @@ const CONTENT = {
         {
             name: "The Apprentice Project",
             highlight: "peach",
-            logo: "https://media.licdn.com/dms/image/v2/C4D0BAQHdkHKTEZ-dUA/company-logo_200_200/company-logo_200_200/0/1630556556081/theapprenticeproject_logo",
-            fallbackEmoji: "📚",
+            logo: "https://media.licdn.com/dms/image/v2/C510BAQGZwW9Pp717mA/company-logo_200_200/company-logo_200_200/0/1630594091865/the_apprentice_project_2018_logo?e=2147483647&v=beta&t=qPHbmPBSJvwP9P9hbQbCdEnVkGnbShgVkGlT2lBEEPQ",
             briefDescription: "Financial literacy educator creating 35+ videos on SIPs, taxes, and investments (100+ hours).",
             url: "https://www.theapprenticeproject.org/",
             expandedContent: `
@@ -316,9 +315,8 @@ const CONTENT = {
         {
             name: "Make A Difference (MAD)",
             highlight: "blue",
-            logo: "",
-            fallbackEmoji: "💙",
-            briefDescription: "Academic support volunteer tutoring Grade 12 Physics for NEET and fundraising volunteer.",
+            logo: "https://media.licdn.com/dms/image/v2/C510BAQHSolnkv_Jrog/company-logo_200_200/company-logo_200_200/0/1631417254927/make_a_difference_2_logo?e=2147483647&v=beta&t=J7NLD7tkeMazKUC0Yqqp9vL8NaAHXzQb0lbgnjqRKZI",
+            briefDescription: "Trained a Grade 12 student in Physics for NEET during COVID through one-on-one tutoring",
             url: "https://makeadiff.in/",
             expandedContent: `
                 <p>★ <strong>Academic Support Volunteer:</strong><br>
@@ -349,7 +347,7 @@ const CONTENT = {
         {
             name: "DIKSHA (NCERT)",
             highlight: "peach",
-            logo: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f6/Diksha_Logo.png/220px-Diksha_Logo.png",
+            logo: "https://vajiramandravi.com/current-affairs/wp-content/uploads/2025/04/diksha_platform-1.jpg",
             fallbackEmoji: "📖",
             briefDescription: "Created simplified NCERT learning materials for grades 6-8 in government schools.",
             url: "https://diksha.gov.in/",
