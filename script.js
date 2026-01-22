@@ -283,11 +283,16 @@ function loadContent() {
     document.getElementById('projects-grid').innerHTML = projectsHtml;
 
     // Communities (for tabs) with expandable details
-    const communitiesHtml = CONTENT.communities.map((c, index) => `
+    const communitiesHtml = CONTENT.communities.map((c, index) => {
+        const logoHtml = c.logo
+            ? `<img src="${c.logo}" alt="${c.name} logo" class="community-logo" onerror="this.outerHTML='<span class=\\'community-emoji\\'>${c.fallbackEmoji || '🏢'}</span>'">`
+            : `<span class="community-emoji">${c.fallbackEmoji || '🏢'}</span>`;
+
+        return `
         <article class="content-card community-card" data-community-index="${index}">
             <span class="card-tag">Community</span>
             <div class="community-header">
-                ${c.logo ? `<img src="${c.logo}" alt="${c.name} logo" class="community-logo" onerror="this.style.display='none'">` : ''}
+                ${logoHtml}
                 <h3><a href="${c.url}" target="_blank" class="highlight ${c.highlight}">${c.name}</a></h3>
             </div>
             <p class="community-brief">${c.briefDescription}</p>
@@ -300,19 +305,123 @@ function loadContent() {
                 View details <span class="toggle-arrow">→</span>
             </button>
         </article>
-    `).join('');
+    `}).join('');
     document.getElementById('communities-grid').innerHTML = communitiesHtml;
 
     // Initialize community toggles
     initCommunityToggles();
 
-    // Thoughts (grouped by year) - merge content.js with localStorage
-    const storedThoughts = localStorage.getItem('thoughts-entries');
-    const userThoughts = storedThoughts ? JSON.parse(storedThoughts) : [];
-    const allThoughts = [...CONTENT.thoughts, ...userThoughts];
+    // Thoughts - Load from Substack RSS feed
+    loadSubstackPosts();
 
+    // Footer
+    document.getElementById('footer-text').innerHTML = `${CONTENT.footer} · <span class="year">${new Date().getFullYear()}</span>`;
+}
+
+/**
+ * Substack RSS Feed - Load posts for Thoughts section
+ */
+async function loadSubstackPosts() {
+    const CACHE_KEY = 'substack-posts-cache';
+    const CACHE_EXPIRY = 5 * 60 * 60 * 1000; // 5 hours in milliseconds
+    const RSS_URL = 'https://shraddhaha.substack.com/feed';
+    const CORS_PROXY = 'https://api.allorigins.win/get?url=';
+
+    // Check cache first
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+        const { posts, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_EXPIRY) {
+            renderThoughtsPosts(posts);
+            return;
+        }
+    }
+
+    // Show loading state
+    document.getElementById('thoughts-list').innerHTML = '<p class="thoughts-loading">Loading posts...</p>';
+
+    try {
+        const response = await fetch(CORS_PROXY + encodeURIComponent(RSS_URL));
+        const data = await response.json();
+
+        if (!data.contents) {
+            throw new Error('No content received');
+        }
+
+        // Parse XML
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(data.contents, 'text/xml');
+        const items = xml.querySelectorAll('item');
+
+        const posts = [];
+        items.forEach((item, index) => {
+            if (index >= 10) return; // Limit to 10 posts
+
+            const title = item.querySelector('title')?.textContent || 'Untitled';
+            const link = item.querySelector('link')?.textContent || '#';
+            const pubDate = item.querySelector('pubDate')?.textContent;
+
+            // Format date
+            let formattedDate = '';
+            if (pubDate) {
+                const date = new Date(pubDate);
+                formattedDate = date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+            }
+
+            posts.push({ title, link, date: formattedDate });
+        });
+
+        // Cache the results
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+            posts,
+            timestamp: Date.now()
+        }));
+
+        renderThoughtsPosts(posts);
+
+    } catch (error) {
+        console.error('Error fetching Substack RSS:', error);
+        // Fallback to static content
+        renderThoughtsFallback();
+    }
+}
+
+function renderThoughtsPosts(posts) {
+    if (!posts || posts.length === 0) {
+        renderThoughtsFallback();
+        return;
+    }
+
+    const postsHtml = posts.map((post, index) => `
+        <li class="thoughts-item">
+            <span class="thoughts-number">${index + 1}.</span>
+            <div class="thoughts-content">
+                <a href="${post.link}" target="_blank" rel="noopener noreferrer" class="thoughts-title">${post.title}</a>
+                ${post.date ? `<span class="thoughts-date">${post.date}</span>` : ''}
+            </div>
+        </li>
+    `).join('');
+
+    const thoughtsHtml = `
+        <ol class="thoughts-posts-list">
+            ${postsHtml}
+        </ol>
+        <a href="https://shraddhaha.substack.com" target="_blank" rel="noopener noreferrer" class="thoughts-view-all">
+            View all posts on Substack →
+        </a>
+    `;
+
+    document.getElementById('thoughts-list').innerHTML = thoughtsHtml;
+}
+
+function renderThoughtsFallback() {
+    // Fallback to static content from CONTENT.thoughts
     const thoughtsByYear = {};
-    allThoughts.forEach(thought => {
+    CONTENT.thoughts.forEach(thought => {
         if (!thoughtsByYear[thought.year]) {
             thoughtsByYear[thought.year] = [];
         }
@@ -320,7 +429,7 @@ function loadContent() {
     });
 
     const thoughtsHtml = Object.keys(thoughtsByYear)
-        .sort((a, b) => b - a) // Sort years descending
+        .sort((a, b) => b - a)
         .map(year => `
             <div class="thoughts-year-group">
                 <span class="thoughts-year-label">${year}</span>
@@ -331,10 +440,12 @@ function loadContent() {
                 </ul>
             </div>
         `).join('');
-    document.getElementById('thoughts-list').innerHTML = thoughtsHtml;
 
-    // Footer
-    document.getElementById('footer-text').innerHTML = `${CONTENT.footer} · <span class="year">${new Date().getFullYear()}</span>`;
+    document.getElementById('thoughts-list').innerHTML = thoughtsHtml + `
+        <a href="https://shraddhaha.substack.com" target="_blank" rel="noopener noreferrer" class="thoughts-view-all">
+            View all posts on Substack →
+        </a>
+    `;
 }
 
 /**

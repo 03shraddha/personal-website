@@ -1111,6 +1111,16 @@ a, button, .tab, .highlight, [role="button"] {
     padding: 4px;
 }
 
+.community-emoji {
+    font-size: 40px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
 .community-header h3 {
     margin: 0;
 }
@@ -1233,6 +1243,76 @@ a, button, .tab, .highlight, [role="button"] {
 
 .thoughts-links a:hover {
     border-bottom-color: var(--highlight-peach);
+}
+
+/* Substack RSS Feed Styles */
+.thoughts-loading {
+    color: var(--color-text-muted);
+    font-size: 15px;
+}
+
+.thoughts-posts-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px 0;
+    counter-reset: none;
+}
+
+.thoughts-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+}
+
+.thoughts-item:last-child {
+    margin-bottom: 0;
+}
+
+.thoughts-number {
+    font-size: 16px;
+    color: var(--color-text-muted);
+    font-weight: 500;
+    min-width: 24px;
+    flex-shrink: 0;
+}
+
+.thoughts-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.thoughts-title {
+    font-size: 17px;
+    color: var(--color-text);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+    line-height: 1.5;
+}
+
+.thoughts-title:hover {
+    border-bottom-color: var(--highlight-peach);
+}
+
+.thoughts-date {
+    font-size: 13px;
+    color: var(--color-text-muted);
+}
+
+.thoughts-view-all {
+    display: inline-block;
+    font-size: 15px;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--highlight-peach);
+    transition: color 0.2s ease;
+    margin-top: 16px;
+}
+
+.thoughts-view-all:hover {
+    color: var(--color-text);
 }
 
 /* ===================================

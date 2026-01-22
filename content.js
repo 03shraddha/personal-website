@@ -300,7 +300,8 @@ const CONTENT = {
         {
             name: "The Apprentice Project",
             highlight: "peach",
-            logo: "https://images.squarespace-cdn.com/content/v1/5a739640d74cff6c5f53a9cf/1607502050498-C7BTAQXDP54B9W33OV85/TAP+logo.png",
+            logo: "https://media.licdn.com/dms/image/v2/C4D0BAQHdkHKTEZ-dUA/company-logo_200_200/company-logo_200_200/0/1630556556081/theapprenticeproject_logo",
+            fallbackEmoji: "📚",
             briefDescription: "Financial literacy educator creating 35+ videos on SIPs, taxes, and investments (100+ hours).",
             url: "https://www.theapprenticeproject.org/",
             expandedContent: `
@@ -315,7 +316,8 @@ const CONTENT = {
         {
             name: "Make A Difference (MAD)",
             highlight: "blue",
-            logo: "https://makeadiff.in/static/logo-c89124d06d891f6c56457b74e9d6fbaf.png",
+            logo: "",
+            fallbackEmoji: "💙",
             briefDescription: "Academic support volunteer tutoring Grade 12 Physics for NEET and fundraising volunteer.",
             url: "https://makeadiff.in/",
             expandedContent: `
@@ -332,6 +334,7 @@ const CONTENT = {
             name: "UNICEF",
             highlight: "lavender",
             logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Logo_of_UNICEF.svg/1200px-Logo_of_UNICEF.svg.png",
+            fallbackEmoji: "🌍",
             briefDescription: "Content creator for teacher training on inclusive materials for students with disabilities.",
             url: "https://www.unicef.org/",
             expandedContent: `
@@ -347,6 +350,7 @@ const CONTENT = {
             name: "DIKSHA (NCERT)",
             highlight: "peach",
             logo: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f6/Diksha_Logo.png/220px-Diksha_Logo.png",
+            fallbackEmoji: "📖",
             briefDescription: "Created simplified NCERT learning materials for grades 6-8 in government schools.",
             url: "https://diksha.gov.in/",
             expandedContent: `
