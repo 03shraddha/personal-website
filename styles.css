@@ -562,6 +562,77 @@ a, button, .tab, .highlight, [role="button"] {
     flex-shrink: 0;
 }
 
+/* Beyond Work - Progressive Disclosure */
+.beyond-work-content {
+    position: relative;
+}
+
+.beyond-work-preview {
+    margin-top: 16px;
+}
+
+.beyond-work-preview.hidden {
+    display: none;
+}
+
+.beyond-work-full {
+    display: none;
+    margin-top: 16px;
+}
+
+.beyond-work-full.active {
+    display: flex;
+    animation: fadeInExpand 0.3s ease;
+}
+
+.beyond-work-toggle {
+    display: block;
+    background: none;
+    border: 1px solid var(--highlight-peach);
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 16px;
+}
+
+.beyond-work-toggle:hover {
+    background: var(--highlight-peach);
+    border-color: var(--highlight-peach);
+}
+
+.beyond-work-toggle.hidden {
+    display: none;
+}
+
+.beyond-work-toggle-less {
+    display: none;
+    background: none;
+    border: 1px solid var(--highlight-peach);
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 16px;
+}
+
+.beyond-work-toggle-less:hover {
+    background: var(--highlight-peach);
+    border-color: var(--highlight-peach);
+}
+
+.beyond-work-toggle-less.active {
+    display: inline-block;
+}
+
 /* ===================================
    Background Section - Progressive Disclosure
    =================================== */
@@ -579,7 +650,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .background-ellipsis {
-    display: inline;
+    display: none; /* Hidden since button is now on its own line */
     color: var(--color-text-muted);
     font-size: 17px;
 }
@@ -599,21 +670,24 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .background-toggle {
-    display: inline;
+    display: block;
     background: none;
-    border: none;
-    padding: 0;
+    border: 1px solid var(--highlight-peach);
+    border-radius: 6px;
+    padding: 10px 20px;
     font-family: var(--font-body);
-    font-size: 16px;
-    color: var(--color-text-muted);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text);
     cursor: pointer;
-    transition: color 0.2s ease;
-    border-bottom: 1px solid var(--highlight-peach);
-    margin-left: 4px;
+    transition: all 0.2s ease;
+    margin-top: 16px;
+    margin-left: 0;
 }
 
 .background-toggle:hover {
-    color: var(--color-text);
+    background: var(--highlight-peach);
+    border-color: var(--highlight-peach);
 }
 
 .background-toggle.hidden {
@@ -623,19 +697,21 @@ a, button, .tab, .highlight, [role="button"] {
 .background-toggle-less {
     display: none;
     background: none;
-    border: none;
-    padding: 8px 0;
+    border: 1px solid var(--highlight-peach);
+    border-radius: 6px;
+    padding: 10px 20px;
     font-family: var(--font-body);
-    font-size: 16px;
-    color: var(--color-text-muted);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text);
     cursor: pointer;
-    transition: color 0.2s ease;
-    border-bottom: 1px solid var(--highlight-peach);
-    margin-top: 12px;
+    transition: all 0.2s ease;
+    margin-top: 16px;
 }
 
 .background-toggle-less:hover {
-    color: var(--color-text);
+    background: var(--highlight-peach);
+    border-color: var(--highlight-peach);
 }
 
 .background-toggle-less.active {

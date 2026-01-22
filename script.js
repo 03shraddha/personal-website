@@ -218,15 +218,29 @@ function loadContent() {
 
         <div class="about-subsection">
             <h3 class="about-subtitle">${about.beyondWork.title}</h3>
-            <div class="beyond-work-grid">
-                ${about.beyondWork.items.map(item => `
-                    <div class="beyond-work-item">
-                        <span class="beyond-work-emoji">${item.emoji}</span>
-                        <div>
-                            <strong>${item.label}:</strong> ${item.text}
+            <div class="beyond-work-content">
+                <div class="beyond-work-grid beyond-work-preview">
+                    ${about.beyondWork.items.slice(0, 2).map(item => `
+                        <div class="beyond-work-item">
+                            <span class="beyond-work-emoji">${item.emoji}</span>
+                            <div>
+                                <strong>${item.label}:</strong> ${item.text}
+                            </div>
                         </div>
-                    </div>
-                `).join('')}
+                    `).join('')}
+                </div>
+                <button class="beyond-work-toggle">Read more →</button>
+                <div class="beyond-work-grid beyond-work-full">
+                    ${about.beyondWork.items.map(item => `
+                        <div class="beyond-work-item">
+                            <span class="beyond-work-emoji">${item.emoji}</span>
+                            <div>
+                                <strong>${item.label}:</strong> ${item.text}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="beyond-work-toggle-less">Show less ↑</button>
             </div>
         </div>
     `;
@@ -234,6 +248,9 @@ function loadContent() {
 
     // Initialize background toggle
     initBackgroundToggle();
+
+    // Initialize beyond work toggle
+    initBeyondWorkToggle();
 
     // Social Links
     const social = CONTENT.socialLinks;
@@ -531,6 +548,32 @@ function initBackgroundToggle() {
         showLessBtn.classList.remove('active');
         preview.classList.remove('hidden');
         ellipsis.classList.remove('hidden');
+        readMoreBtn.classList.remove('hidden');
+    });
+}
+
+/**
+ * Beyond Work Toggle - Expand/Collapse "What Fills My Cup" section
+ */
+function initBeyondWorkToggle() {
+    const readMoreBtn = document.querySelector('.beyond-work-toggle');
+    const showLessBtn = document.querySelector('.beyond-work-toggle-less');
+    const preview = document.querySelector('.beyond-work-preview');
+    const full = document.querySelector('.beyond-work-full');
+
+    if (!readMoreBtn || !showLessBtn) return;
+
+    readMoreBtn.addEventListener('click', () => {
+        preview.classList.add('hidden');
+        readMoreBtn.classList.add('hidden');
+        full.classList.add('active');
+        showLessBtn.classList.add('active');
+    });
+
+    showLessBtn.addEventListener('click', () => {
+        full.classList.remove('active');
+        showLessBtn.classList.remove('active');
+        preview.classList.remove('hidden');
         readMoreBtn.classList.remove('hidden');
     });
 }
