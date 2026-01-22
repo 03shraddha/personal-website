@@ -266,27 +266,21 @@ function loadContent() {
     // Initialize experience toggles
     initExperienceToggles();
 
-    // Projects (for tabs) with expandable details
-    const projectsHtml = CONTENT.projects.map((p, index) => `
-        <article class="content-card project-card" data-project-index="${index}">
-            <span class="card-tag">Project</span>
-            <h3><span class="highlight ${p.highlight}">${p.name}</span></h3>
-            <p class="project-brief">${p.briefDescription}</p>
-
-            <div class="project-expanded">
-                ${p.expandedContent}
-                ${p.url && p.url !== '#' ? `<a href="${p.url}" target="_blank" rel="noopener noreferrer" class="project-cta highlight ${p.highlight}">View Project →</a>` : ''}
+    // Projects (for tabs) - Sticky note placeholder
+    const projectsHtml = `
+        <div class="projects-empty-state">
+            <div class="sticky-note">
+                <span class="sticky-note-emoji">🔨</span>
+                <h3 class="sticky-note-title">Work in Progress</h3>
+                <p class="sticky-note-text">
+                    This space is for projects built while<br>
+                    experimenting with AI tools.
+                </p>
+                <p class="sticky-note-cta">Check back soon to see what I'm building!</p>
             </div>
-
-            <button class="project-toggle" data-project-index="${index}">
-                View details <span class="toggle-arrow">→</span>
-            </button>
-        </article>
-    `).join('');
+        </div>
+    `;
     document.getElementById('projects-grid').innerHTML = projectsHtml;
-
-    // Initialize project toggles
-    initProjectToggles();
 
     // Communities (for tabs)
     const communitiesHtml = CONTENT.communities.map(c => `

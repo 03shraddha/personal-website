@@ -145,15 +145,16 @@ const CONTENT = {
     // ==========================================
     experiences: [
         {
-            title: "Product Management in Healthcare",
-            company: "ZS Associates",
+            title: "Product & Analytics in Healthcare and Life Sciences",
+            company: "ZS Associates - Boutique Pharma Consulting Firm",
             companyUrl: "https://www.zs.com/",
-            date: "2025 — Present",
-            briefDescription: `Working on <a href="#" class="highlight blue">Quill</a>, an AI-driven platform for Medical Legal Regulatory (MLR) reviews in pharmaceuticals. Responsibilities include product solutioning, deployment oversight, and client feedback iteration.`,
+            date: "2023 — Present",
+            briefDescription: `Working on Quill, an AI-driven platform for Medical Legal Regulatory (MLR) reviews in the healthcare industry. Responsibilities include product solutioning, deployment oversight, and client feedback iteration.`,
             expandedContent: `
                 <h4>Project – GenAI Deployment for a Niche Pharma Use Case (2025 & 2026)</h4>
                 <p>★ <strong>Awards and Recognition:</strong><br>
-                Won Client Impact Champion Award for pulling crazy hours with my team to deliver a key feature for ZS's Quill Product, used by one of the world's biggest pharma clients</p>
+                - Fast-tracked promotion achieved in 4 cycles, compared to the firm average of 5 cycles.
+                <br> - Won Client Impact Champion Award for delivering a key feature for ZS's Quill Product, used by one of the world's biggest pharma companies</p>
 
                 <p>★ I work on the Quill Team at ZS. Quill helps with MLR. In the pharmaceutical industry, Medical Legal Review (MLR) is the process where medical, legal, and regulatory experts carefully check all promotional and scientific documents, such as ads, brochures, websites, manuscripts, and patient materials, to ensure they are accurate, scientifically truthful, comply with regulations, follow company policies, properly reference data, do not mislead, and protect the company from legal or regulatory risks before being shared with healthcare professionals or the public.</p>
 
@@ -164,7 +165,7 @@ const CONTENT = {
                 Earned the "Most Valuable Player" award among 100+ peers across India and Argentina for high quality of work, led the training of a team to win the "Most Meaningful Client Impact" award.</p>
 
                 <p>★ <strong>Pricing Profitability Strategy:</strong><br>
-                Managed $20M in monthly revenue across 30+ hotels, driving 8% YoY growth by optimizing pricing strategies through data analytics, market trends, and demand forecasting to maximize profitability.</p>
+                Managed $20M in monthly revenue across 30+ hotels, driving ~8% YoY growth by optimizing pricing strategies through data analytics, market trends, and demand forecasting to maximize profitability.</p>
 
                 <p>★ <strong>Advanced Data & Business Analytics:</strong><br>
                 Leveraged SQL and Python for demand forecasting, segmentation analysis, price elasticity modeling, competitor benchmarking driving insights that optimized revenue across 1,200 hotels</p>
@@ -174,14 +175,14 @@ const CONTENT = {
             `
         },
         {
-            title: "Software Engineering Intern",
-            company: "Baker Hughes (General Electric)",
+            title: "Digital Technology Intern",
+            company: "Baker Hughes (A General Electric Company)",
             companyUrl: "https://www.bakerhughes.com/",
-            date: "2022",
-            briefDescription: `Automated e-commerce report generation using <a href="#" class="highlight blue">Java and cron jobs</a>, saving 12+ hours/month and optimizing shopbakerhughes.com reports for B2B decision-making in the oil & gas industry.`,
+            date: "2023",
+            briefDescription: `Developed and automated e-commerce reporting using Java and Cron jobs, saving 12+ hours per month and enabling faster, data-driven B2B decision-making for shopbakerhughes.com in the oil & gas industry.`,
             expandedContent: `
                 <p>★ <strong>Implemented automation solution:</strong><br>
-                Automated e-commerce report generation using Java and cron jobs, saving 12+ hours/month and optimizing shopbakerhughes.com reports for B2B decision-making in the oil & gas industry.</p>
+                Developed a Java-based automated reporting tool that periodically generated B2B analytics reports from shopbakerhughes.com data, replacing manual processes and enabling business insights.</p>
 
                 <p>★ Gained industry insights, understanding B2B operations in oil & gas and renewable energy while working on the Baker Hughes website.</p>
 
@@ -189,11 +190,12 @@ const CONTENT = {
             `
         },
         {
-            title: "Research Engineer",
-            company: "Cisco CoE, RVCE",
-            companyUrl: "#",
+            title: "Research Engineering Intern, Cisco Center of Excellence at RVCE",
+            company: "Cisco Center of Excellence at RVCE",
+            companyUrl: "https://rvce.edu.in/department/mca/coe_centre_of_excellence_in_internet_of_things_cisco_rvce/",
             date: "2021 — 2022",
-            briefDescription: `Built <a href="#" class="highlight blue">Crowd Management System</a> using BLE and OpenPose. Developed <a href="#" class="highlight lavender">YOLOv3-based</a> airport security detection for dangerous item identification.`,
+            briefDescription: `Project 1 - Built a crowd management system using Bluetooth Low Energy (BLE) for wireless communication and OpenPose. 
+            <br> Project 2 - Developed YOLOv3-based airport security detection for dangerous item identification.`,
             expandedContent: `
                 <h4>🔸 Crowd Management using BLE and OpenPose:</h4>
                 <p>★ Developed and implemented a real-time crowd management system integrating OpenPose-based pose estimation and Bluetooth Low Energy (BLE) beacon localization to detect and manage overcrowding.</p>
@@ -210,10 +212,10 @@ const CONTENT = {
         },
         {
             title: "RF Antenna Intern",
-            company: "RF Antenna Lab",
-            companyUrl: "#",
-            date: "2021",
-            briefDescription: `Designed and implemented an SDR-based channel estimation system using <a href="#" class="highlight blue">LabVIEW and USRP 2920</a>, improving SNR by 9 dB for wireless signal reliability.`,
+            company: "Telimart",
+            companyUrl: "The company is an expert OEM & ODM Antenna Designer & Manufacturer",
+            date: "2022",
+            briefDescription: `Using LabVIEW software and USRP 2920 radio hardware, we built a system that analyzes how a wireless channel affects a signal and compensates for noise and distortion. The system estimates channel conditions and improves signal quality, resulting in a 9 dB improvement in signal-to-noise ratio and more reliable wireless communication.`,
             expandedContent: `
                 <p>★ <strong>Antenna Engineering:</strong><br>
                 Designed and implemented an SDR-based channel estimation and equalization system using LabVIEW and USRP 2920, improving SNR by 9 dB and enhancing wireless signal reliability by mitigating ISI and multipath distortions.</p>
