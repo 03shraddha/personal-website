@@ -192,7 +192,7 @@ function loadContent() {
         <div class="about-subsection">
             <p><strong>${about.learnAboutMe.title}</strong></p>
             <ul class="about-list learn-about-list">
-                ${about.learnAboutMe.items.map(item => `<li><a href="${item.url}" target="_blank" class="highlight ${item.highlight}">${item.text}</a> – <em>${item.source}</em></li>`).join('')}
+                ${about.learnAboutMe.items.map(item => `<li><a href="${item.url}" target="_blank" class="highlight ${item.highlight}">${item.text}</a> <em>${item.source}</em></li>`).join('')}
             </ul>
         </div>
 
