@@ -525,40 +525,41 @@ a, button, .tab, .highlight, [role="button"] {
     border-color: var(--color-text);
 }
 
-/* Learn about me list - styled as colored card boxes */
+/* Learn about me list - bullet points with inline highlights */
 .learn-about-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-top: 20px;
+    margin-top: 16px;
 }
 
 .learn-about-list li {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 0;
-    padding-left: 0;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    padding-left: 20px;
+    position: relative;
 }
 
 .learn-about-list li::before {
-    display: none;
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--color-text-muted);
+    font-size: 18px;
 }
 
 .learn-about-list a.highlight {
-    display: block;
-    padding: 14px 18px;
-    border-radius: 8px;
+    display: inline;
+    padding: 4px 10px;
+    border-radius: 4px;
     border-bottom: none;
     font-size: 16px;
-    font-weight: 500;
-    line-height: 1.5;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    line-height: 1.6;
+    transition: all 0.2s ease;
 }
 
 .learn-about-list a.highlight:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    filter: brightness(0.95);
 }
 
 .learn-about-list a.highlight.blue {
@@ -575,8 +576,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .learn-about-list em {
     color: var(--color-text-muted);
-    font-size: 14px;
-    padding-left: 4px;
+    font-size: 15px;
 }
 
 .beyond-work-grid {
@@ -1730,18 +1730,17 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     /* Learn about me section - better spacing */
-    .learn-about-list {
-        gap: 12px;
-        margin-top: 16px;
+    .learn-about-list li {
+        margin-bottom: 14px;
     }
 
     .learn-about-list a.highlight {
-        padding: 12px 16px;
+        padding: 4px 8px;
         font-size: 15px;
     }
 
     .learn-about-list em {
-        font-size: 13px;
+        font-size: 14px;
     }
 
     /* About subsections need breathing room */
@@ -3501,9 +3500,9 @@ a, button, .tab, .highlight, [role="button"] {
         line-height: 1.6;
     }
 
-    /* Learn about me cards smaller on tiny screens */
+    /* Learn about me - smaller on tiny screens */
     .learn-about-list a.highlight {
-        padding: 10px 14px;
+        padding: 3px 8px;
         font-size: 14px;
     }
 
