@@ -69,6 +69,7 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    overflow-x: hidden;
 }
 
 body {
@@ -79,6 +80,8 @@ body {
     -webkit-font-smoothing: antialiased;
     transition: background-color 0.3s ease, color 0.3s ease;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    min-height: 100vh;
 }
 
 /* Selection */
@@ -1564,9 +1567,11 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 /* ===================================
-   Responsive Design
+   Responsive Design - Mobile First
+   Comprehensive mobile styling for optimal UX
    =================================== */
 
+/* Tablet breakpoint (901px - 768px) */
 @media (max-width: 900px) {
     .sidebar {
         position: fixed;
@@ -1592,7 +1597,11 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .nav-link {
-        font-size: 12px;
+        font-size: 14px;
+        padding: 8px 4px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
     }
 
     .main-content {
@@ -1606,9 +1615,19 @@ a, button, .tab, .highlight, [role="button"] {
         right: 24px;
     }
 
+    /* Larger touch targets for social icons */
+    .social-links a,
+    .social-links button {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .social-links svg {
-        width: 16px;
-        height: 16px;
+        width: 20px;
+        height: 20px;
     }
 
     .name {
@@ -1632,69 +1651,207 @@ a, button, .tab, .highlight, [role="button"] {
     }
 }
 
+/* Mobile breakpoint (600px and below) */
 @media (max-width: 600px) {
+    /* Global mobile padding - consistent 20px */
     .main-content {
-        padding: 90px 20px 40px;
+        padding: 88px 20px 48px;
+        max-width: 100%;
+        overflow-x: hidden;
     }
 
     .sidebar {
         padding: 14px 20px;
     }
 
+    /* Typography - Ensure 16px minimum */
     .name {
-        font-size: 36px;
+        font-size: 32px;
+        line-height: 1.2;
+        margin-bottom: 20px;
     }
 
     .intro {
         font-size: 16px;
+        line-height: 1.7;
+        margin-bottom: 20px;
     }
 
+    .about-story {
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    .contact-line {
+        font-size: 16px;
+    }
+
+    /* Section spacing - increased vertical rhythm */
     .section {
-        padding-bottom: 80px;
+        padding-top: 16px;
+        padding-bottom: 56px;
     }
 
+    .section-title {
+        font-size: 28px;
+        margin-bottom: 24px;
+    }
+
+    /* Tabs - Larger touch targets */
     .tabs {
-        gap: 6px;
+        gap: 8px;
+        flex-wrap: wrap;
     }
 
     .tab {
-        padding: 8px 16px;
-        font-size: 13px;
+        padding: 12px 20px;
+        font-size: 14px;
+        min-height: 44px;
     }
 
+    /* Experience cards - reduced padding */
     .experience-item {
-        padding: 24px;
+        padding: 20px;
     }
 
     .experience-header {
         flex-direction: column;
         gap: 4px;
+        margin-bottom: 8px;
     }
 
+    .experience-header h3 {
+        font-size: 17px;
+    }
+
+    .experience-date {
+        font-size: 14px;
+    }
+
+    .experience-company {
+        font-size: 14px;
+    }
+
+    /* Ensure 16px minimum for all body text */
     .experience-brief {
-        font-size: 15px;
+        font-size: 16px;
+        line-height: 1.7;
     }
 
     .experience-expanded h4 {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .experience-expanded p,
     .experience-expanded li {
-        font-size: 15px;
+        font-size: 16px;
+        line-height: 1.7;
     }
 
+    /* Toggle buttons - larger touch target */
+    .experience-toggle,
+    .community-toggle,
+    .background-toggle,
+    .beyond-work-toggle {
+        min-height: 44px;
+        padding: 12px 0;
+        font-size: 14px;
+    }
+
+    /* Community cards */
     .community-expanded p {
-        font-size: 15px;
+        font-size: 16px;
+        line-height: 1.7;
     }
 
+    .community-brief {
+        font-size: 16px;
+    }
+
+    /* Content cards - reduced padding */
+    .content-card {
+        padding: 20px;
+    }
+
+    /* Photo grid */
     .photo-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
     }
 
+    /* Social links spacing */
     .social-links {
-        gap: 12px;
+        gap: 8px;
+        right: 16px;
+        top: 16px;
+    }
+
+    .social-links a,
+    .social-links button {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Unique abilities list */
+    .unique-abilities ul {
+        font-size: 16px;
+    }
+
+    .unique-abilities li {
+        padding: 8px 0;
+        line-height: 1.6;
+    }
+
+    /* About section */
+    .about-list li {
+        font-size: 16px;
+        line-height: 1.7;
+        padding: 6px 0;
+    }
+
+    .about-subsection {
+        margin-bottom: 32px;
+    }
+
+    .about-subtitle {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+
+    /* Beyond work items */
+    .beyond-work-item {
+        font-size: 16px;
+    }
+
+    /* Thoughts section */
+    .thoughts-item {
+        padding: 12px 0;
+    }
+
+    .thoughts-title {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .thoughts-date {
+        font-size: 14px;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 32px 0;
+        font-size: 14px;
+    }
+
+    /* Prevent horizontal scroll */
+    body {
+        overflow-x: hidden;
+    }
+
+    /* Ensure images don't overflow */
+    img {
+        max-width: 100%;
+        height: auto;
     }
 }
 
@@ -2996,9 +3153,11 @@ a, button, .tab, .highlight, [role="button"] {
    =================================== */
 
 @media (max-width: 900px) {
-    /* Show hamburger menu */
+    /* Show hamburger menu - 44px minimum touch target */
     .mobile-menu-toggle {
         display: flex;
+        width: 48px;
+        height: 48px;
     }
 
     /* Transform sidebar into slide-out mobile menu */
@@ -3043,7 +3202,7 @@ a, button, .tab, .highlight, [role="button"] {
         width: 280px;
         height: 100%;
         background: var(--color-bg);
-        padding: 40px 32px;
+        padding: 48px 24px;
         transform: translateX(-100%);
         transition: transform 0.3s ease;
         z-index: 251;
@@ -3056,17 +3215,27 @@ a, button, .tab, .highlight, [role="button"] {
     .sidebar ul {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 4px;
     }
 
     .sidebar li {
         margin-bottom: 0;
     }
 
+    /* Navigation links - 48px touch targets with proper spacing */
     .nav-link {
         font-size: 18px;
-        padding: 12px 0;
-        display: block;
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        min-height: 48px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link:active {
+        background-color: var(--color-card-bg);
     }
 
     /* Main content adjustments */
@@ -3074,17 +3243,30 @@ a, button, .tab, .highlight, [role="button"] {
         margin-left: 0;
         padding: 80px 24px 60px;
         max-width: 100%;
+        overflow-x: hidden;
     }
 
     .social-links {
-        top: 20px;
+        top: 18px;
         right: 20px;
-        gap: 12px;
+        gap: 8px;
     }
 
-    /* Show FAB on mobile */
+    /* Larger touch targets for social icons */
+    .social-links a,
+    .social-links button {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Show FAB on mobile - proper size */
     .fab-add-content {
         display: flex;
+        width: 56px;
+        height: 56px;
     }
 
     /* Hide desktop add content button on smaller screens */
@@ -3166,19 +3348,23 @@ a, button, .tab, .highlight, [role="button"] {
         right: 14px;
     }
 
-    /* Category pills wrap better on mobile */
+    /* Category pills - 44px minimum touch target */
     .category-pills {
-        gap: 6px;
+        gap: 8px;
     }
 
     .category-pill {
-        padding: 6px 12px;
-        font-size: 12px;
+        padding: 10px 16px;
+        font-size: 14px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
     }
 
     /* Detail view mobile */
     .detail-title {
-        font-size: 24px;
+        font-size: 22px;
+        line-height: 1.3;
     }
 
     .detail-content {
@@ -3186,12 +3372,20 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .detail-meta {
-        font-size: 13px;
+        font-size: 14px;
     }
 
     .detail-original-link {
         width: 100%;
         justify-content: center;
+        min-height: 48px;
+        font-size: 16px;
+    }
+
+    /* View toggle buttons */
+    .view-toggle-btn {
+        min-height: 44px;
+        padding: 10px 16px;
     }
 
     /* Photo gallery on mobile */
@@ -3205,29 +3399,69 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .polaroid-caption {
-        font-size: 12px;
+        font-size: 14px;
         bottom: 6px;
+    }
+
+    /* Modal close button - larger touch target */
+    .modal-close-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* Panel close button */
+    .panel-close {
+        width: 44px;
+        height: 44px;
     }
 }
 
-/* Extra small screens */
+/* Extra small screens (375px and below) */
 @media (max-width: 375px) {
     .main-content {
-        padding: 70px 16px 40px;
+        padding: 84px 16px 40px;
     }
 
     .calendar-day {
-        min-height: 45px;
+        min-height: 44px;
     }
 
     .name {
         font-size: 28px;
+        margin-bottom: 16px;
     }
 
     .section-title {
-        font-size: 26px;
+        font-size: 24px;
+        margin-bottom: 20px;
     }
 
+    .intro {
+        font-size: 16px;
+    }
+
+    /* Maintain 16px minimum */
+    .experience-brief,
+    .community-brief,
+    .experience-expanded p,
+    .experience-expanded li,
+    .community-expanded p {
+        font-size: 16px;
+    }
+
+    /* Tabs stack vertically on very small screens */
+    .tabs {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .tab {
+        width: 100%;
+        text-align: center;
+        padding: 14px 16px;
+    }
+
+    /* Category pills */
     .category-pills {
         flex-wrap: wrap;
     }
@@ -3235,6 +3469,30 @@ a, button, .tab, .highlight, [role="button"] {
     .category-pill {
         flex: 1 1 45%;
         justify-content: center;
+        min-height: 44px;
+    }
+
+    /* Cards - minimal padding */
+    .experience-item,
+    .content-card {
+        padding: 16px;
+    }
+
+    /* Social links - tighter but still accessible */
+    .social-links {
+        gap: 4px;
+        right: 12px;
+    }
+
+    .social-links a,
+    .social-links button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .social-links svg {
+        width: 18px;
+        height: 18px;
     }
 }
 
@@ -3724,7 +3982,7 @@ a, button, .tab, .highlight, [role="button"] {
     height: 140px;
     padding: 16px;
     font-family: var(--font-body);
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.6;
     color: #333;
     background: transparent;
@@ -3811,8 +4069,8 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .notebook-page {
-        padding: 28px 24px;
-        min-height: 200px;
+        padding: 24px 20px;
+        min-height: 180px;
     }
 
     .notebook-page.left-page {
@@ -3826,44 +4084,58 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .note-message {
-        font-size: 18px;
+        font-size: 16px;
+        line-height: 1.7;
     }
 
+    /* Page nav - 44px minimum touch target */
     .page-nav {
-        width: 36px;
-        height: 36px;
+        width: 44px;
+        height: 44px;
     }
 
     .page-nav.prev {
         left: 8px;
         top: auto;
-        bottom: -50px;
+        bottom: -56px;
         transform: none;
     }
 
     .page-nav.next {
         right: 8px;
         top: auto;
-        bottom: -50px;
+        bottom: -56px;
         transform: none;
     }
 
     .page-counter {
-        margin-top: 60px;
+        margin-top: 68px;
+        font-size: 14px;
     }
 
     .write-note-form {
-        padding: 24px;
+        padding: 24px 20px;
         max-width: 100%;
     }
 
     .write-note-form h3 {
-        font-size: 24px;
+        font-size: 20px;
+    }
+
+    .write-note-intro {
+        font-size: 16px;
     }
 
     #note-textarea {
-        font-size: 18px;
+        font-size: 16px;
         height: 120px;
+    }
+
+    /* Write note button - proper touch target */
+    .write-note-btn {
+        min-height: 48px;
+        padding: 14px 24px;
+        font-size: 16px;
     }
 }
 
