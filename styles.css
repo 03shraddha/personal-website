@@ -1671,6 +1671,23 @@ a, button, .tab, .highlight, [role="button"] {
         gap: 4px;
     }
 
+    .experience-brief {
+        font-size: 15px;
+    }
+
+    .experience-expanded h4 {
+        font-size: 15px;
+    }
+
+    .experience-expanded p,
+    .experience-expanded li {
+        font-size: 15px;
+    }
+
+    .community-expanded p {
+        font-size: 15px;
+    }
+
     .photo-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
@@ -3848,6 +3865,162 @@ a, button, .tab, .highlight, [role="button"] {
         font-size: 18px;
         height: 120px;
     }
+}
+
+/* ===================================
+   Mobile Preview Toggle
+   =================================== */
+
+/* Toggle Button */
+.mobile-preview-toggle {
+    display: none;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: var(--color-text-muted);
+    transition: color 0.2s ease;
+}
+
+.mobile-preview-toggle:hover {
+    color: var(--color-text);
+}
+
+.mobile-preview-toggle svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Show phone icon by default, desktop icon when active */
+.mobile-preview-toggle .desktop-icon {
+    display: none;
+}
+
+.mobile-preview-toggle.active .phone-icon {
+    display: none;
+}
+
+.mobile-preview-toggle.active .desktop-icon {
+    display: block;
+}
+
+/* Show toggle only on larger screens */
+@media (min-width: 901px) {
+    .mobile-preview-toggle {
+        display: block;
+    }
+}
+
+/* Mobile Preview Frame */
+.mobile-preview-frame {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 375px;
+    height: 812px;
+    max-height: 90vh;
+    background: var(--color-bg);
+    border: 12px solid #1a1a1a;
+    border-radius: 40px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    z-index: 9999;
+    display: none;
+}
+
+.mobile-preview-frame.active {
+    display: block;
+}
+
+/* Phone notch */
+.mobile-preview-frame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 28px;
+    background: #1a1a1a;
+    border-radius: 0 0 20px 20px;
+    z-index: 10001;
+}
+
+/* Home indicator */
+.mobile-preview-frame::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 134px;
+    height: 5px;
+    background: var(--color-text-muted);
+    border-radius: 3px;
+    z-index: 10001;
+}
+
+[data-theme="dark"] .mobile-preview-frame {
+    border-color: #333;
+}
+
+[data-theme="dark"] .mobile-preview-frame::before {
+    background: #333;
+}
+
+/* Iframe inside the frame */
+.mobile-preview-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Overlay behind the phone frame */
+.mobile-preview-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9998;
+    display: none;
+}
+
+.mobile-preview-overlay.active {
+    display: block;
+}
+
+/* Close button for mobile preview */
+.mobile-preview-close {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    color: var(--color-text);
+    font-size: 24px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10000;
+    transition: all 0.2s ease;
+}
+
+.mobile-preview-close:hover {
+    background: var(--color-card-bg);
+    transform: scale(1.05);
+}
+
+.mobile-preview-close.active {
+    display: flex;
 }
 
 /* Print Styles */
