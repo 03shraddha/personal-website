@@ -1246,8 +1246,8 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .community-brief {
-    font-size: 15px;
-    line-height: 1.6;
+    font-size: 17px;
+    line-height: 1.7;
     color: var(--color-text);
     margin-bottom: 12px;
 }
@@ -1702,68 +1702,80 @@ a, button, .tab, .highlight, [role="button"] {
         padding: 12px 24px;
     }
 
-    /* Typography - Keep readable sizes */
+    /* Typography - Match desktop sizes */
     .name {
-        font-size: 32px;
+        font-size: 26px;
+        font-weight: 500;
         line-height: 1.3;
         margin-bottom: 16px;
     }
 
     .intro {
-        font-size: 16px;
+        font-size: 17px;
         line-height: 1.7;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
     }
 
     .about-story,
+    .about-content p,
     .about-subsection p {
-        font-size: 16px;
+        font-size: 17px;
         line-height: 1.7;
     }
 
     .contact-line {
         font-size: 16px;
+        line-height: 1.75;
     }
 
     /* Section spacing */
     .section {
         padding-top: 20px;
-        padding-bottom: 40px;
+        padding-bottom: 60px;
     }
 
     .section-title {
-        font-size: 24px;
-        margin-bottom: 16px;
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 8px;
     }
 
-    /* Learn about me section - Mobile adjustments */
+    .section-intro {
+        font-size: 16px;
+        margin-bottom: 32px;
+    }
+
+    /* Learn about me section */
     .learn-about-list li {
-        margin-bottom: 12px;
-        font-size: 15px;
+        margin-bottom: 14px;
+        font-size: 16px;
+        line-height: 1.7;
     }
 
     .learn-about-list em {
-        font-size: 13px;
+        font-size: 14px;
     }
 
     /* About subsections */
     .about-subsection {
-        margin-top: 28px;
-        margin-bottom: 24px;
+        margin-top: 32px;
+        margin-bottom: 32px;
     }
 
     .about-subsection p strong {
         font-size: 17px;
-        line-height: 1.5;
+        line-height: 1.7;
     }
 
     .about-subtitle {
         font-size: 18px;
+        font-weight: 600;
         margin-bottom: 12px;
     }
 
     .about-subtitle-meta {
-        font-size: 14px;
+        font-size: 16px;
+        font-weight: 600;
     }
 
     /* Tabs */
@@ -1775,7 +1787,7 @@ a, button, .tab, .highlight, [role="button"] {
     .tab {
         padding: 10px 16px;
         font-size: 14px;
-        min-height: 40px;
+        min-height: 44px;
     }
 
     /* Experience cards */
@@ -1802,17 +1814,18 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .experience-brief {
-        font-size: 16px;
+        font-size: 17px;
         line-height: 1.7;
     }
 
     .experience-expanded h4 {
         font-size: 16px;
+        font-weight: 600;
     }
 
     .experience-expanded p,
     .experience-expanded li {
-        font-size: 16px;
+        font-size: 17px;
         line-height: 1.7;
     }
 
@@ -1829,19 +1842,42 @@ a, button, .tab, .highlight, [role="button"] {
     /* Community cards */
     .community-expanded p,
     .community-brief {
-        font-size: 16px;
+        font-size: 17px;
         line-height: 1.7;
     }
 
     /* Beyond work */
     .beyond-work-item {
-        font-size: 16px;
+        font-size: 17px;
+        line-height: 1.7;
     }
 
     /* Background list */
     .background-preview li,
     .background-full li {
-        font-size: 16px;
+        font-size: 17px;
+        line-height: 1.7;
+    }
+
+    /* Unique abilities list - match desktop */
+    .unique-abilities h2 {
+        font-size: 17px;
+        font-weight: 600;
+    }
+
+    .unique-abilities ul {
+        font-size: 17px;
+        line-height: 1.7;
+    }
+
+    .unique-abilities li {
+        margin-bottom: 2px;
+        padding-left: 16px;
+    }
+
+    /* About lists */
+    .about-list li {
+        font-size: 17px;
         line-height: 1.7;
     }
 
@@ -1865,39 +1901,8 @@ a, button, .tab, .highlight, [role="button"] {
 
     .social-links a,
     .social-links button {
-        width: 40px;
-        height: 40px;
-    }
-
-    /* Unique abilities list */
-    .unique-abilities ul {
-        font-size: 16px;
-    }
-
-    .unique-abilities li {
-        padding: 8px 0;
-        line-height: 1.6;
-    }
-
-    /* About section */
-    .about-list li {
-        font-size: 16px;
-        line-height: 1.7;
-        padding: 6px 0;
-    }
-
-    .about-subsection {
-        margin-bottom: 32px;
-    }
-
-    .about-subtitle {
-        font-size: 18px;
-        margin-bottom: 12px;
-    }
-
-    /* Beyond work items */
-    .beyond-work-item {
-        font-size: 16px;
+        width: 44px;
+        height: 44px;
     }
 
     /* Thoughts section */
@@ -1906,7 +1911,7 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .thoughts-title {
-        font-size: 16px;
+        font-size: 17px;
         line-height: 1.5;
     }
 
@@ -1917,7 +1922,7 @@ a, button, .tab, .highlight, [role="button"] {
     /* Footer */
     .footer {
         padding: 32px 0;
-        font-size: 14px;
+        font-size: 13px;
     }
 
     /* Prevent horizontal scroll */
@@ -3516,29 +3521,33 @@ a, button, .tab, .highlight, [role="button"] {
 /* Extra small screens (375px and below) */
 @media (max-width: 375px) {
     .main-content {
-        padding: 68px 16px 40px;
+        padding: 68px 20px 40px;
     }
 
     .calendar-day {
         min-height: 40px;
     }
 
+    /* Typography - consistent with desktop, scaled slightly */
     .name {
-        font-size: 28px;
-        margin-bottom: 12px;
-    }
-
-    .section-title {
-        font-size: 22px;
+        font-size: 24px;
+        font-weight: 500;
         margin-bottom: 14px;
     }
 
+    .section-title {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
     .intro {
-        font-size: 15px;
+        font-size: 16px;
         line-height: 1.7;
     }
 
-    /* Body text - readable sizes */
+    /* Body text - consistent 16px minimum */
+    .about-content p,
     .about-subsection p,
     .experience-brief,
     .community-brief,
@@ -3548,23 +3557,30 @@ a, button, .tab, .highlight, [role="button"] {
     .beyond-work-item,
     .background-preview li,
     .background-full li {
-        font-size: 15px;
+        font-size: 16px;
         line-height: 1.7;
     }
 
-    /* Learn about me list - readable text */
+    /* Learn about me list */
     .learn-about-list li {
-        font-size: 14px;
-        margin-bottom: 10px;
+        font-size: 16px;
+        margin-bottom: 12px;
+        line-height: 1.7;
     }
 
-    /* Unique abilities - readable on small screens */
+    .learn-about-list em {
+        font-size: 13px;
+    }
+
+    /* Unique abilities - match desktop style */
     .unique-abilities h2 {
         font-size: 16px;
+        font-weight: 600;
     }
 
     .unique-abilities ul {
-        font-size: 15px;
+        font-size: 16px;
+        line-height: 1.7;
     }
 
     /* Tabs stack vertically */
@@ -3578,6 +3594,7 @@ a, button, .tab, .highlight, [role="button"] {
         text-align: center;
         padding: 12px 14px;
         font-size: 14px;
+        min-height: 44px;
     }
 
     /* Category pills */
@@ -3592,28 +3609,28 @@ a, button, .tab, .highlight, [role="button"] {
         font-size: 14px;
     }
 
-    /* Cards */
+    /* Cards - consistent padding */
     .experience-item,
     .content-card {
-        padding: 16px;
+        padding: 18px;
     }
 
-    /* Social links compact */
+    /* Social links - maintain touch targets */
     .social-links {
         gap: 4px;
-        right: 10px;
-        padding: 4px 8px;
+        right: 12px;
+        top: 12px;
     }
 
     .social-links a,
     .social-links button {
-        width: 36px;
-        height: 36px;
+        width: 44px;
+        height: 44px;
     }
 
     .social-links svg {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
     }
 }
 
