@@ -157,14 +157,11 @@ a, button, .tab, .highlight, [role="button"] {
 
 .social-links {
     position: fixed;
-    top: 32px;
-    right: 32px;
+    top: 24px;
+    right: 24px;
     display: flex;
-    gap: 16px;
+    gap: 12px;
     z-index: 100;
-    background: var(--color-bg);
-    padding: 8px 12px;
-    border-radius: 8px;
 }
 
 .social-links a {
@@ -1688,151 +1685,181 @@ a, button, .tab, .highlight, [role="button"] {
 
 /* Mobile breakpoint (600px and below) */
 @media (max-width: 600px) {
-    /* Global mobile padding - 100px top to clear fixed header */
+    /* Global mobile padding - generous spacing */
     .main-content {
-        padding: 100px 20px 48px;
+        padding: 72px 24px 48px;
         max-width: 100%;
         overflow-x: hidden;
     }
 
     .sidebar {
-        padding: 14px 20px;
+        padding: 12px 24px;
     }
 
-    /* Typography - Ensure 16px minimum */
+    /* Typography - Smaller for mobile */
     .name {
-        font-size: 28px;
+        font-size: 24px;
         line-height: 1.3;
         margin-bottom: 16px;
     }
 
     .intro {
-        font-size: 16px;
+        font-size: 14px;
         line-height: 1.7;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
     }
 
-    .about-story {
-        font-size: 16px;
+    .about-story,
+    .about-subsection p {
+        font-size: 14px;
         line-height: 1.7;
     }
 
     .contact-line {
-        font-size: 16px;
-    }
-
-    /* Section spacing - increased vertical rhythm */
-    .section {
-        padding-top: 24px;
-        padding-bottom: 48px;
-    }
-
-    .section-title {
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
-
-    /* Learn about me section - better spacing */
-    .learn-about-list li {
-        margin-bottom: 14px;
-    }
-
-    .learn-about-list a.highlight {
-        padding: 4px 8px;
-        font-size: 15px;
-    }
-
-    .learn-about-list em {
         font-size: 14px;
     }
 
-    /* About subsections need breathing room */
+    /* Section spacing */
+    .section {
+        padding-top: 20px;
+        padding-bottom: 40px;
+    }
+
+    .section-title {
+        font-size: 20px;
+        margin-bottom: 16px;
+    }
+
+    /* Learn about me section - clean bullet list */
+    .learn-about-list {
+        margin-top: 12px;
+    }
+
+    .learn-about-list li {
+        margin-bottom: 16px;
+        padding-left: 16px;
+        font-size: 14px;
+    }
+
+    .learn-about-list li::before {
+        font-size: 14px;
+    }
+
+    .learn-about-list a.highlight {
+        padding: 3px 8px;
+        font-size: 14px;
+        border-radius: 4px;
+    }
+
+    .learn-about-list em {
+        font-size: 13px;
+        display: block;
+        margin-top: 4px;
+        padding-left: 0;
+    }
+
+    /* About subsections */
     .about-subsection {
-        margin-top: 32px;
-        margin-bottom: 28px;
+        margin-top: 28px;
+        margin-bottom: 24px;
     }
 
     .about-subsection p strong {
-        display: block;
-        margin-bottom: 12px;
-        font-size: 17px;
+        font-size: 15px;
         line-height: 1.5;
     }
 
-    /* Tabs - Larger touch targets */
+    .about-subtitle {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+
+    .about-subtitle-meta {
+        font-size: 13px;
+    }
+
+    /* Tabs */
     .tabs {
-        gap: 8px;
+        gap: 6px;
         flex-wrap: wrap;
     }
 
     .tab {
-        padding: 12px 20px;
-        font-size: 14px;
-        min-height: 44px;
+        padding: 10px 16px;
+        font-size: 13px;
+        min-height: 40px;
     }
 
-    /* Experience cards - reduced padding */
+    /* Experience cards */
     .experience-item {
-        padding: 20px;
+        padding: 16px;
     }
 
     .experience-header {
         flex-direction: column;
-        gap: 4px;
+        gap: 2px;
         margin-bottom: 8px;
     }
 
     .experience-header h3 {
-        font-size: 17px;
+        font-size: 15px;
     }
 
     .experience-date {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .experience-company {
-        font-size: 14px;
+        font-size: 13px;
     }
 
-    /* Ensure 16px minimum for all body text */
     .experience-brief {
-        font-size: 16px;
-        line-height: 1.7;
+        font-size: 14px;
+        line-height: 1.6;
     }
 
     .experience-expanded h4 {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .experience-expanded p,
     .experience-expanded li {
-        font-size: 16px;
-        line-height: 1.7;
+        font-size: 14px;
+        line-height: 1.6;
     }
 
-    /* Toggle buttons - larger touch target */
+    /* Toggle buttons */
     .experience-toggle,
     .community-toggle,
     .background-toggle,
     .beyond-work-toggle {
-        min-height: 44px;
-        padding: 12px 0;
-        font-size: 14px;
+        min-height: 40px;
+        padding: 10px 0;
+        font-size: 13px;
     }
 
     /* Community cards */
-    .community-expanded p {
-        font-size: 16px;
-        line-height: 1.7;
-    }
-
+    .community-expanded p,
     .community-brief {
-        font-size: 16px;
+        font-size: 14px;
+        line-height: 1.6;
     }
 
-    /* Content cards - reduced padding */
+    /* Beyond work */
+    .beyond-work-item {
+        font-size: 14px;
+    }
+
+    /* Background list */
+    .background-preview li,
+    .background-full li {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    /* Content cards */
     .content-card {
-        padding: 20px;
+        padding: 16px;
     }
 
     /* Photo grid */
@@ -3300,28 +3327,36 @@ a, button, .tab, .highlight, [role="button"] {
         background-color: var(--color-card-bg);
     }
 
-    /* Main content adjustments - 80px top to clear hamburger menu */
+    /* Main content adjustments - clear hamburger menu area */
     .main-content {
         margin-left: 0;
-        padding: 80px 24px 60px;
+        padding: 72px 24px 60px;
         max-width: 100%;
         overflow-x: hidden;
     }
 
     .social-links {
-        top: 18px;
-        right: 70px;
-        gap: 6px;
+        top: 16px;
+        right: 16px;
+        gap: 4px;
+        background: var(--color-bg);
+        padding: 6px 10px;
+        border-radius: 6px;
     }
 
-    /* Larger touch targets for social icons */
+    /* Smaller icons on mobile */
     .social-links a,
     .social-links button {
-        width: 44px;
-        height: 44px;
+        width: 32px;
+        height: 32px;
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .social-links svg {
+        width: 16px;
+        height: 16px;
     }
 
     /* Show FAB on mobile - proper size */
@@ -3481,53 +3516,63 @@ a, button, .tab, .highlight, [role="button"] {
 /* Extra small screens (375px and below) */
 @media (max-width: 375px) {
     .main-content {
-        padding: 100px 16px 40px;
+        padding: 68px 16px 40px;
     }
 
     .calendar-day {
-        min-height: 44px;
+        min-height: 40px;
     }
 
     .name {
-        font-size: 26px;
-        margin-bottom: 14px;
+        font-size: 22px;
+        margin-bottom: 12px;
     }
 
     .section-title {
-        font-size: 22px;
-        margin-bottom: 16px;
+        font-size: 18px;
+        margin-bottom: 14px;
     }
 
     .intro {
-        font-size: 15px;
+        font-size: 13px;
         line-height: 1.6;
     }
 
-    /* Learn about me - smaller on tiny screens */
-    .learn-about-list a.highlight {
-        padding: 3px 8px;
-        font-size: 14px;
-    }
-
-    /* Maintain 16px minimum */
+    /* All text smaller on tiny screens */
+    .about-subsection p,
     .experience-brief,
     .community-brief,
     .experience-expanded p,
     .experience-expanded li,
-    .community-expanded p {
-        font-size: 16px;
+    .community-expanded p,
+    .beyond-work-item,
+    .background-preview li,
+    .background-full li {
+        font-size: 13px;
+        line-height: 1.6;
     }
 
-    /* Tabs stack vertically on very small screens */
+    /* Learn about me */
+    .learn-about-list a.highlight {
+        padding: 2px 6px;
+        font-size: 13px;
+    }
+
+    .learn-about-list li {
+        font-size: 13px;
+    }
+
+    /* Tabs stack vertically */
     .tabs {
         flex-direction: column;
-        gap: 8px;
+        gap: 6px;
     }
 
     .tab {
         width: 100%;
         text-align: center;
-        padding: 14px 16px;
+        padding: 12px 14px;
+        font-size: 12px;
     }
 
     /* Category pills */
@@ -3538,30 +3583,32 @@ a, button, .tab, .highlight, [role="button"] {
     .category-pill {
         flex: 1 1 45%;
         justify-content: center;
-        min-height: 44px;
+        min-height: 40px;
+        font-size: 12px;
     }
 
-    /* Cards - minimal padding */
+    /* Cards */
     .experience-item,
     .content-card {
-        padding: 16px;
+        padding: 14px;
     }
 
-    /* Social links - tighter but still accessible */
+    /* Social links compact */
     .social-links {
-        gap: 4px;
-        right: 12px;
+        gap: 2px;
+        right: 10px;
+        padding: 4px 8px;
     }
 
     .social-links a,
     .social-links button {
-        width: 36px;
-        height: 36px;
+        width: 28px;
+        height: 28px;
     }
 
     .social-links svg {
-        width: 18px;
-        height: 18px;
+        width: 14px;
+        height: 14px;
     }
 }
 
