@@ -162,6 +162,9 @@ a, button, .tab, .highlight, [role="button"] {
     display: flex;
     gap: 16px;
     z-index: 100;
+    background: var(--color-bg);
+    padding: 8px 12px;
+    border-radius: 8px;
 }
 
 .social-links a {
@@ -3297,18 +3300,18 @@ a, button, .tab, .highlight, [role="button"] {
         background-color: var(--color-card-bg);
     }
 
-    /* Main content adjustments - 100px top to clear hamburger menu */
+    /* Main content adjustments - 80px top to clear hamburger menu */
     .main-content {
         margin-left: 0;
-        padding: 100px 24px 60px;
+        padding: 80px 24px 60px;
         max-width: 100%;
         overflow-x: hidden;
     }
 
     .social-links {
         top: 18px;
-        right: 20px;
-        gap: 8px;
+        right: 70px;
+        gap: 6px;
     }
 
     /* Larger touch targets for social icons */
