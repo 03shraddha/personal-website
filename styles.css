@@ -3481,6 +3481,11 @@ a, button, .tab, .highlight, [role="button"] {
         overflow-x: hidden;
     }
 
+    /* When nav is collapsed, add top padding for hamburger/social bar */
+    body.nav-collapsed .main-content {
+        padding-top: 68px;
+    }
+
     .social-links {
         top: 8px;
         right: 8px;
