@@ -51,14 +51,13 @@ const CONTENT = {
         background: {
             title: "A Little Bit of This, A Little Bit of That",
             items: [
-                "🪐 I am a Kannadiga, and I live, work, and love BLR. I graduated in Electronics from <strong>R.V. College of Engineering</strong> (loved college, but it's a degree I no longer use)",
+                "🪐 I am a Kannadiga, and I live, work, and love blr. I graduated in Electronics from <strong>R.V. College of Engineering</strong> (loved college, but it's a degree I no longer use)",
                 "🪐 Interned at <strong>Baker Hughes (a General Electric company)</strong>, where I got my first exposure to B2B business in oil and gas and did some automation work using Java and Spring (learned how a company with ~57,000 employees operates)",
-                "🪐 Started applying to consulting jobs because I wanted to work on the business side as well and not be involved solely in tech",
-                "🪐 That led me to <strong>management consulting and ZS Associates</strong>, where I worked on a hospitality analytics project for one of the largest hotel chains in the U.S., where we used analytics to decide pricing and discount strategies and manage end-to-end hotel revenue.",
+                "🪐 Then I switched to <strong>management consulting and ZS Associates</strong>, where I worked on a hospitality analytics project for one of the largest hotel chains in the U.S., where we used analytics to decide pricing and discount strategies and manage end-to-end hotel revenue.",
                 "🪐 Now I work at MAX.AI, where I work on Quill, an <strong>AI-driven platform</strong> that helps pharma teams speed up MLR (Medical Legal Regulatory) reviews, the mandatory process for approving compliant medical and promotional content."
         ]},
         beyondWork: {
-            title: "What Fills My Cup Beyond Work",
+            title: "Things I do when I’m not working",
             items: [
                 { emoji: "💗", label: "Financial Literacy Educator", text: "I have been creating financial literacy videos for The Apprentice Project for over a year. <a href=\"https://drive.google.com/file/d/1BCo0CJTcdwTMQFUdahyWkdsZcWvAkrpV/view\" target=\"_blank\" class=\"highlight-link\">A sample video I made in the pre-AI days</a>" },                { emoji: "💗", label: "Debate Judge & Competitor", text: "My entire personality in college revolved around being a debate nerd. I have competed in 50+ British Parliamentary debates, <a href=\"https://drive.google.com/drive/u/7/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC\" target=\"_blank\" class=\"highlight-link pink\">won 40+ awards, and judged 20+ competitions</a>. I was an invited and remunerated judge at IIT Bombay, IIM Indore, NLS Bangalore, and more."},
                 { emoji: "💗", label: "Bharatanatyam Dancer", text: "I’ve always loved dancing, so my parents signed me up for Indian classical dance classes. I ended up doing Bharatanatyam for over 10 years and finished 4 exam levels." },
@@ -74,7 +73,7 @@ const CONTENT = {
     uniqueAbilities: [
 
         { text: "reciting 100 digits of π from memory", url: "#", highlight: "" },
-        { text: "knowing all the BMTC routes in BLR by heart", url: "#", highlight: "" },
+        { text: "knowing all the BMTC routes in blr by heart", url: "#", highlight: "" },
         { text: "befriending every apartment cat", url: "#", highlight: "" },
         { text: "recognizing obscure Punjabi songs", url: "#", highlight: "" }
     ],
@@ -179,7 +178,7 @@ const CONTENT = {
             company: "Baker Hughes (A General Electric Company)",
             companyUrl: "https://www.bakerhughes.com/",
             date: "2023",
-            briefDescription: `Developed and automated e-commerce reporting using Java and Cron jobs, saving 12+ hours per month and enabling faster, data-driven B2B decision-making for shopbakerhughes.com in the oil & gas industry.`,
+            briefDescription: `Developed and automated e-commerce reporting, saving 12+ hours per month and enabling faster, data-driven B2B decision-making for shopbakerhughes.com in the oil & gas industry.`,
             expandedContent: `
                 <p>★ <strong>Implemented automation solution:</strong><br>
                 Developed a Java-based automated reporting tool that periodically generated B2B analytics reports from shopbakerhughes.com data, replacing manual processes and enabling business insights.</p>
@@ -191,7 +190,7 @@ const CONTENT = {
         },
         {
             title: "Research Engineering Intern, Cisco Center of Excellence at RVCE",
-            company: "Cisco Center of Excellence at RVCE",
+            company: "CISCO Center of Excellence at RVCE",
             companyUrl: "https://rvce.edu.in/department/mca/coe_centre_of_excellence_in_internet_of_things_cisco_rvce/",
             date: "2021 — 2022",
             briefDescription: `Project 1 - Built a crowd management system using Bluetooth Low Energy (BLE) for wireless communication and OpenPose. 
@@ -212,8 +211,8 @@ const CONTENT = {
         },
         {
             title: "RF Antenna Intern",
-            company: "Telimart",
-            companyUrl: "The company is an expert OEM & ODM Antenna Designer & Manufacturer",
+            company: "Telimart - The company is an expert OEM & ODM Antenna Designer & Manufacturer",
+            companyUrl: "",
             date: "2022",
             briefDescription: `Using LabVIEW software and USRP 2920 radio hardware, we built a system that analyzes how a wireless channel affects a signal and compensates for noise and distortion. The system estimates channel conditions and improves signal quality, resulting in a 9 dB improvement in signal-to-noise ratio and more reliable wireless communication.`,
             expandedContent: `
@@ -252,7 +251,7 @@ const CONTENT = {
             briefDescription: "OpenPose + BLE beacon localization achieving 90% reduction in overcrowding alert response time.",
             url: "#",
             expandedContent: `
-                <p>★ Built at Cisco Center of Excellence, R.V. College of Engineering</p>
+                <p>★ Built at CISCO Center of Excellence, R.V. College of Engineering</p>
 
                 <p>★ Integrated OpenPose pose estimation with BLE beacon localization for real-time crowd density monitoring and tracking.</p>
 
