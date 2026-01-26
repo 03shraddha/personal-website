@@ -424,6 +424,7 @@ a, button, .tab, .highlight, [role="button"] {
     content: '✦';
     position: absolute;
     left: 0;
+    top: 0.5em;
     color: var(--color-text-muted);
     font-size: 10px;
 }
@@ -3468,6 +3469,7 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .nav-link.active::after {
+        width: auto;
         background: var(--highlight-blue);
     }
 
