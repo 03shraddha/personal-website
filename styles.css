@@ -3298,6 +3298,12 @@ a, button, .tab, .highlight, [role="button"] {
         overflow-x: hidden;
     }
 
+    /* Ensure sections are visible (override animation opacity) */
+    .section {
+        opacity: 1;
+        transform: none;
+    }
+
     /* ===== SOCIAL LINKS ===== */
     .social-links {
         top: auto;
