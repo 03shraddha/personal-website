@@ -79,7 +79,7 @@ const CONTENT = {
     ],
 
     // Resume line for recruiters
-    resumeLine: `If you're recruiting for product related roles, here's the <a href="https://drive.google.com/file/d/1RYgq1Yahx9fA8f3MXa6L-oN2nfUb8pc8/view" target="_blank" class="highlight peach">link to my resume</a>.`,
+    resumeLine: `If you're recruiting for product related roles, here's the <a href="https://drive.google.com/file/d/1xovKAQtsJ7mqBkhIwwE4n2QkyygFBYNE/view?usp=drive_link" target="_blank" class="highlight peach">link to my resume</a>.`,
 
     // Name in Kannada (for hover effect)
     nameKannada: "ಶ್ರದ್ಧಾ ಕುಲಕರ್ಣಿ",
@@ -92,7 +92,7 @@ const CONTENT = {
         twitter: "https://x.com/shraddhaha",
         substack: "https://substack.com/@shraddhaha",
         email: "meetshraddhakulkarni@gmail.com",
-        resume: "https://drive.google.com/file/d/1RYgq1Yahx9fA8f3MXa6L-oN2nfUb8pc8/view"
+        resume: "https://drive.google.com/file/d/1xovKAQtsJ7mqBkhIwwE4n2QkyygFBYNE/view?usp=drive_link"
     },
 
     // ==========================================
