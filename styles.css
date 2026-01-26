@@ -1714,24 +1714,33 @@ a, button, .tab, .highlight, [role="button"] {
 
     /* About subsections */
     .about-subsection {
-        margin-top: 32px;
-        margin-bottom: 32px;
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    .about-subsection:first-child {
+        margin-top: 24px;
     }
 
     .about-subsection p strong {
         font-size: 17px;
+        font-weight: 600;
         line-height: 1.7;
+        display: block;
+        margin-bottom: 16px;
     }
 
     .about-subtitle {
         font-size: 18px;
         font-weight: 600;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
+        margin-top: 0;
     }
 
     .about-subtitle-meta {
         font-size: 16px;
         font-weight: 600;
+        margin-bottom: 16px;
     }
 
     /* Tabs */
