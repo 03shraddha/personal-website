@@ -4498,6 +4498,144 @@ a, button, .tab, .highlight, [role="button"] {
     display: flex;
 }
 
+/* ===================================
+   Dark Mode - Comprehensive Fixes
+   =================================== */
+
+/* Sticky note (projects empty state) */
+[data-theme="dark"] .sticky-note {
+    background: #2a2520;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .sticky-note::before {
+    background: linear-gradient(to right, #5a4a30, #6a5a40, #5a4a30);
+}
+
+[data-theme="dark"] .sticky-note-title {
+    color: #e8e0d0;
+}
+
+[data-theme="dark"] .sticky-note-text {
+    color: #b8b0a0;
+}
+
+[data-theme="dark"] .sticky-note-cta {
+    color: #908880;
+}
+
+/* Community logo background */
+[data-theme="dark"] .community-logo {
+    background: #2a2a2a;
+}
+
+/* Experience items */
+[data-theme="dark"] .experience-item {
+    background: var(--color-card-bg);
+    border-color: var(--color-border);
+}
+
+/* Toggle buttons (Read more, Show less) */
+[data-theme="dark"] .background-toggle,
+[data-theme="dark"] .beyond-work-toggle,
+[data-theme="dark"] .background-toggle-less,
+[data-theme="dark"] .beyond-work-toggle-less,
+[data-theme="dark"] .experience-toggle,
+[data-theme="dark"] .community-toggle {
+    border-color: var(--color-border);
+    color: var(--color-text);
+}
+
+[data-theme="dark"] .background-toggle:hover,
+[data-theme="dark"] .beyond-work-toggle:hover,
+[data-theme="dark"] .background-toggle-less:hover,
+[data-theme="dark"] .beyond-work-toggle-less:hover {
+    background: var(--highlight-peach);
+    border-color: var(--highlight-peach);
+}
+
+/* Tabs */
+[data-theme="dark"] .tab {
+    border-color: var(--color-border);
+}
+
+[data-theme="dark"] .tab:hover {
+    border-color: var(--color-text-muted);
+}
+
+[data-theme="dark"] .tab.active {
+    background: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-text);
+}
+
+/* Photo tabs */
+[data-theme="dark"] .photo-tab {
+    border-color: var(--color-border);
+}
+
+[data-theme="dark"] .photo-tab:hover {
+    border-color: var(--color-text-muted);
+}
+
+[data-theme="dark"] .photo-tab.active {
+    background: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-text);
+}
+
+/* Photo editor modal */
+[data-theme="dark"] .photo-editor-modal .modal-content {
+    background: var(--color-card-bg);
+}
+
+[data-theme="dark"] .photo-crop-area {
+    background: #1a1a1a;
+}
+
+/* Social links on mobile */
+[data-theme="dark"] .social-links {
+    background: var(--color-bg);
+    border-color: var(--color-border);
+}
+
+/* Hamburger menu */
+[data-theme="dark"] .mobile-menu-toggle {
+    background: var(--color-bg);
+    border-color: var(--color-border);
+}
+
+/* Learn about me list hover */
+[data-theme="dark"] .learn-about-list a.highlight:hover {
+    border-bottom-color: var(--highlight-peach);
+}
+
+/* Thoughts links */
+[data-theme="dark"] .thoughts-title:hover {
+    border-bottom-color: var(--highlight-peach);
+}
+
+/* Content worth consuming cards */
+[data-theme="dark"] .consume-item {
+    border-color: var(--color-border);
+}
+
+/* Fun facts grid */
+[data-theme="dark"] .fun-fact {
+    background: var(--color-card-bg);
+    border-color: var(--color-border);
+}
+
+/* Unique abilities bullet */
+[data-theme="dark"] .unique-abilities li::before {
+    color: var(--color-text-muted);
+}
+
+/* Footer */
+[data-theme="dark"] .footer {
+    color: var(--color-text-light);
+}
+
 /* Print Styles */
 @media print {
     .sidebar,
