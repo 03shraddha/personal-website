@@ -1614,72 +1614,8 @@ a, button, .tab, .highlight, [role="button"] {
    Comprehensive mobile styling for optimal UX
    =================================== */
 
-/* Tablet breakpoint (901px - 768px) */
+/* Tablet breakpoint (900px and below) - Typography and layout only */
 @media (max-width: 900px) {
-    /* Horizontal scrollable tabs - base styles set here, refined in later breakpoint */
-    .sidebar {
-        position: sticky;
-        top: 0;
-        left: 0;
-        transform: none;
-        width: 100%;
-        height: auto;
-        background: var(--color-bg);
-        padding: 0;
-        border-bottom: 1px solid var(--color-border);
-        z-index: 200;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .sidebar ul {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 0;
-        justify-content: center;
-        padding: 0 16px;
-    }
-
-    .sidebar li {
-        margin-bottom: 0;
-        flex-shrink: 0;
-    }
-
-    .nav-link {
-        font-size: 14px;
-        padding: 16px 14px;
-        min-height: 48px;
-        display: inline-flex;
-        align-items: center;
-        white-space: nowrap;
-    }
-
-    .main-content {
-        margin-left: 0;
-        padding: 32px 24px 60px;
-        max-width: 100%;
-    }
-
-    .social-links {
-        top: 12px;
-        right: 16px;
-    }
-
-    /* Touch targets for social icons */
-    .social-links a,
-    .social-links button {
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .social-links svg {
-        width: 20px;
-        height: 20px;
-    }
-
     /* Typography - Match desktop proportionally */
     .name {
         font-size: 26px;
@@ -3272,248 +3208,126 @@ a, button, .tab, .highlight, [role="button"] {
    =================================== */
 
 @media (max-width: 900px) {
-    /* Hamburger menu - hidden by default, shown when collapsed */
+    /* Hide hamburger menu - we use always-visible tabs */
     .mobile-menu-toggle {
-        display: none;
-        position: fixed;
-        top: 8px;
-        left: 12px;
-        z-index: 300;
-        width: 44px;
-        height: 44px;
-        background: var(--color-bg);
-        border: 1px solid var(--color-border);
-        border-radius: 8px;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 4px;
-        padding: 10px;
-        cursor: pointer;
-        transition: all 0.3s ease;
+        display: none !important;
     }
 
-    /* Show hamburger when sidebar is collapsed */
-    .sidebar.collapsed ~ .mobile-menu-toggle,
-    body.nav-collapsed .mobile-menu-toggle {
-        display: flex;
+    /* Hide overlay elements */
+    .sidebar-overlay {
+        display: none !important;
     }
 
-    /* Horizontal scrollable tabs navigation */
+    /* ===== CLEAN MOBILE NAV BAR ===== */
     .sidebar {
-        position: sticky;
+        position: fixed;
         top: 0;
         left: 0;
+        right: 0;
         width: 100%;
         height: auto;
-        transform: none;
-        z-index: 200;
         background: var(--color-bg);
-        padding: 0;
         border-bottom: 1px solid var(--color-border);
+        z-index: 200;
+        padding: 0;
+        transform: none;
         overflow-x: auto;
         overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
-        transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
     .sidebar::-webkit-scrollbar {
         display: none;
     }
 
-    /* Collapsed state - hide tabs */
-    .sidebar.collapsed {
-        transform: translateY(-100%);
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    /* Active state - full screen menu overlay */
-    .sidebar.active {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-        transform: none;
-        opacity: 1;
-        pointer-events: auto;
-        overflow: hidden;
-        z-index: 250;
-    }
-
-    .sidebar-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-    }
-
-    .sidebar.active .sidebar-overlay {
-        display: block;
-        opacity: 1;
-        visibility: visible;
-    }
-
     .sidebar-content {
         display: contents;
-        width: auto;
-        height: auto;
-        background: transparent;
-        padding: 0;
-        transform: none;
-        transition: none;
     }
 
-    /* Full screen menu content */
-    .sidebar.active .sidebar-content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        position: relative;
-        width: 280px;
-        height: 100%;
-        background: var(--color-bg);
-        padding: 60px 24px;
-        transform: none;
-        z-index: 251;
-    }
-
-    /* Horizontal scrollable tab row */
+    /* Horizontal tab row */
     .sidebar ul {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         gap: 0;
-        justify-content: flex-start;
-        padding: 0 12px;
+        padding: 0 16px;
+        margin: 0;
         min-width: max-content;
     }
 
-    /* Vertical layout when menu is active */
-    .sidebar.active ul {
-        flex-direction: column;
-        gap: 4px;
-        padding: 0;
-        min-width: auto;
-    }
-
     .sidebar li {
-        margin-bottom: 0;
+        margin: 0;
         flex-shrink: 0;
     }
 
-    /* No separators - cleaner look */
-    .sidebar li:not(:last-child)::after {
-        display: none;
+    /* Hide any separators */
+    .sidebar li::after {
+        display: none !important;
     }
 
-    /* Navigation links - compact tab style */
+    /* Tab links */
     .nav-link {
-        font-size: 13px;
-        padding: 12px 10px;
-        display: inline-flex;
+        display: flex;
         align-items: center;
-        min-height: 44px;
-        border-radius: 0;
+        padding: 14px 12px;
+        font-size: 14px;
         color: var(--color-text-muted);
-        transition: color 0.2s ease;
         white-space: nowrap;
         position: relative;
-    }
-
-    /* Larger links in full menu */
-    .sidebar.active .nav-link {
-        font-size: 18px;
-        padding: 14px 16px;
         min-height: 48px;
-        border-radius: 8px;
-    }
-
-    .nav-link::after {
-        content: '';
-        position: absolute;
-        left: 10px;
-        right: 10px;
-        bottom: 0;
-        width: auto;
-        height: 2px;
-        background: transparent;
-        transition: background-color 0.2s ease;
-    }
-
-    .sidebar.active .nav-link::after {
-        display: none;
+        transition: color 0.2s ease;
     }
 
     .nav-link:hover {
         color: var(--color-text);
-        background: transparent;
-    }
-
-    .sidebar.active .nav-link:hover {
-        background: var(--color-card-bg);
     }
 
     .nav-link.active {
         color: var(--color-text);
     }
 
-    .nav-link.active::after {
+    /* Active tab underline */
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 12px;
+        right: 12px;
+        height: 2px;
+        background: transparent;
         width: auto;
+    }
+
+    .nav-link.active::after {
         background: var(--highlight-blue);
     }
 
-    /* Main content adjustments */
+    /* ===== MAIN CONTENT ===== */
     .main-content {
         margin-left: 0;
-        padding: 24px 24px 60px;
+        padding: 64px 24px 60px;
         max-width: 100%;
         overflow-x: hidden;
     }
 
-    /* When nav is collapsed, add top padding for hamburger/social bar */
-    body.nav-collapsed .main-content {
-        padding-top: 68px;
-    }
-
-    /* Solid header bar background when collapsed */
-    body.nav-collapsed::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 60px;
-        background: var(--color-bg);
-        border-bottom: 1px solid var(--color-border);
-        z-index: 199;
-    }
-
+    /* ===== SOCIAL LINKS ===== */
     .social-links {
-        top: 8px;
-        right: 8px;
-        gap: 2px;
+        top: auto;
+        bottom: 16px;
+        right: 16px;
+        gap: 8px;
         background: var(--color-bg);
-        padding: 4px 8px;
-        border-radius: 8px;
+        padding: 8px 12px;
+        border-radius: 24px;
         border: 1px solid var(--color-border);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    /* Touch targets - 44px minimum */
     .social-links a,
     .social-links button {
-        width: 44px;
-        height: 44px;
+        width: 36px;
+        height: 36px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -3524,14 +3338,14 @@ a, button, .tab, .highlight, [role="button"] {
         height: 18px;
     }
 
-    /* Show FAB on mobile - proper size */
+    /* Show FAB on mobile */
     .fab-add-content {
         display: flex;
         width: 56px;
         height: 56px;
     }
 
-    /* Hide desktop add content button on smaller screens */
+    /* Hide desktop add content button */
     .add-content-btn {
         display: none;
     }

@@ -57,102 +57,15 @@ function initPageViewCounter() {
 }
 
 /**
- * Mobile Menu Toggle with Scroll Collapse
+ * Mobile Menu - Simple always-visible tabs
  */
 function initMobileMenu() {
-    const menuToggle = document.getElementById('mobile-menu-toggle');
+    // Clean up any old classes that might persist
     const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebar-overlay');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    if (!menuToggle || !sidebar) return;
-
-    let lastScrollY = 0;
-    const scrollThreshold = 80;
-
-    // Scroll handler - collapse/expand navigation
-    function handleScroll() {
-        const currentScrollY = window.scrollY;
-
-        // Only apply on mobile
-        if (window.innerWidth > 900) {
-            sidebar.classList.remove('collapsed');
-            document.body.classList.remove('nav-collapsed');
-            return;
-        }
-
-        // Scrolled down past threshold - collapse
-        if (currentScrollY > scrollThreshold) {
-            sidebar.classList.add('collapsed');
-            document.body.classList.add('nav-collapsed');
-        }
-        // Scrolled back to top - expand
-        else if (currentScrollY < 30) {
-            sidebar.classList.remove('collapsed');
-            document.body.classList.remove('nav-collapsed');
-        }
-
-        lastScrollY = currentScrollY;
+    if (sidebar) {
+        sidebar.classList.remove('collapsed', 'active');
     }
-
-    // Throttle scroll events
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                handleScroll();
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
-
-    // Toggle menu (hamburger click)
-    menuToggle.addEventListener('click', () => {
-        menuToggle.classList.toggle('active');
-        sidebar.classList.toggle('active');
-        // When opening menu, remove collapsed state
-        if (sidebar.classList.contains('active')) {
-            sidebar.classList.remove('collapsed');
-        }
-        document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
-    });
-
-    // Close on overlay click
-    if (sidebarOverlay) {
-        sidebarOverlay.addEventListener('click', () => {
-            menuToggle.classList.remove('active');
-            sidebar.classList.remove('active');
-            document.body.style.overflow = '';
-            // Re-check scroll position to possibly collapse again
-            handleScroll();
-        });
-    }
-
-    // Close on nav link click
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            menuToggle.classList.remove('active');
-            sidebar.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-    });
-
-    // Handle resize
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 900) {
-            sidebar.classList.remove('collapsed');
-            sidebar.classList.remove('active');
-            menuToggle.classList.remove('active');
-            document.body.classList.remove('nav-collapsed');
-            document.body.style.overflow = '';
-        } else {
-            handleScroll();
-        }
-    });
-
-    // Initial check
-    handleScroll();
+    document.body.classList.remove('nav-collapsed');
 }
 
 /**
