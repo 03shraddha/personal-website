@@ -421,10 +421,11 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .unique-abilities li::before {
-    content: '–';
+    content: '✦';
     position: absolute;
     left: 0;
     color: var(--color-text-muted);
+    font-size: 10px;
 }
 
 .resume-line {
@@ -543,11 +544,12 @@ a, button, .tab, .highlight, [role="button"] {
 
 /* Bullet point */
 .learn-about-list li::before {
-    content: '•';
+    content: '✦';
     position: absolute;
     left: 0;
     color: var(--color-text-muted);
-    font-size: 16px;
+    font-size: 10px;
+    top: 5px;
 }
 
 /* Link styling - pastel underline on hover */
@@ -861,10 +863,12 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .achievements li::before {
-    content: '—';
+    content: '✦';
     position: absolute;
     left: 0;
     color: var(--color-text-light);
+    font-size: 10px;
+    top: 5px;
 }
 
 .read-more {
@@ -1084,12 +1088,12 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .experience-expanded li::before {
-    content: "◆";
+    content: "✦";
     position: absolute;
     left: 0;
     color: var(--color-text-muted);
-    font-size: 8px;
-    top: 6px;
+    font-size: 10px;
+    top: 5px;
 }
 
 /* Toggle Button */
