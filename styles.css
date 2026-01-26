@@ -3215,42 +3215,60 @@ a, button, .tab, .highlight, [role="button"] {
    =================================== */
 
 @media (max-width: 900px) {
-    /* ===== HAMBURGER MENU - Always visible ===== */
+    /* ===== HAMBURGER MENU - With label ===== */
     .mobile-menu-toggle {
         display: flex;
         position: fixed;
         top: 16px;
         left: 16px;
         z-index: 301;
-        width: 44px;
         height: 44px;
         background: var(--color-bg);
         border: 1px solid var(--color-border);
-        border-radius: 8px;
-        flex-direction: column;
+        border-radius: 22px;
+        flex-direction: row;
         justify-content: center;
         align-items: center;
-        gap: 5px;
-        padding: 10px;
+        gap: 8px;
+        padding: 0 16px 0 12px;
         cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .hamburger-icon {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        width: 18px;
     }
 
     .mobile-menu-toggle .hamburger-line {
-        width: 20px;
+        width: 18px;
         height: 2px;
         background: var(--color-text);
         transition: all 0.3s ease;
+        border-radius: 1px;
+    }
+
+    .menu-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--color-text);
     }
 
     /* Hamburger to X animation */
     .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
-        transform: rotate(45deg) translate(5px, 5px);
+        transform: rotate(45deg) translate(4px, 4px);
     }
     .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
         opacity: 0;
     }
     .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
-        transform: rotate(-45deg) translate(5px, -5px);
+        transform: rotate(-45deg) translate(4px, -4px);
+    }
+
+    .mobile-menu-toggle.active .menu-label {
+        display: none;
     }
 
     /* ===== SIDEBAR - Full-screen menu ===== */
@@ -3330,7 +3348,7 @@ a, button, .tab, .highlight, [role="button"] {
     /* ===== MAIN CONTENT ===== */
     .main-content {
         margin-left: 0;
-        padding: 24px 24px 60px;
+        padding: 80px 24px 100px;
         max-width: 100%;
         overflow-x: hidden;
     }
@@ -3530,6 +3548,13 @@ a, button, .tab, .highlight, [role="button"] {
         justify-content: center;
     }
 
+    /* Polaroid shows color on hover/touch on mobile */
+    .polaroid:hover .polaroid-image img,
+    .polaroid:active .polaroid-image img,
+    .polaroid:focus .polaroid-image img {
+        filter: grayscale(0%);
+    }
+
     /* Modal close button - larger touch target */
     .modal-close-btn {
         width: 44px;
@@ -3546,7 +3571,7 @@ a, button, .tab, .highlight, [role="button"] {
 /* Extra small screens (375px and below) */
 @media (max-width: 375px) {
     .main-content {
-        padding: 68px 20px 40px;
+        padding: 80px 16px 100px;
     }
 
     .calendar-day {
@@ -4213,55 +4238,65 @@ a, button, .tab, .highlight, [role="button"] {
     visibility: visible;
 }
 
-/* Mobile Guestbook Styles */
+/* Mobile Guestbook - Simple vertical list */
 @media (max-width: 600px) {
     .notebook {
-        flex-direction: column;
+        display: block;
+        background: var(--color-card-bg);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         max-width: 100%;
         min-height: auto;
     }
 
+    /* Hide decorative elements */
+    .notebook::before,
+    .notebook::after,
     .notebook-binding {
-        left: 0;
-        right: 0;
-        top: 50%;
-        bottom: auto;
-        width: 100%;
-        height: 2px;
-        transform: translateY(-50%);
+        display: none;
     }
 
+    /* Single column layout */
     .notebook-page {
-        padding: 24px 20px;
-        min-height: 180px;
+        padding: 0;
+        min-height: auto;
+        border: none !important;
     }
 
-    .notebook-page.left-page {
-        border-right: none;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
+    .notebook-page.left-page,
     .notebook-page.right-page {
-        border-left: none;
-        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        border: none !important;
+    }
+
+    /* Hide second page - show as single list */
+    .notebook-page.right-page {
+        display: none;
+    }
+
+    .page-content {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
     }
 
     .note-message {
         font-size: 16px;
         line-height: 1.7;
+        padding: 16px;
+        background: var(--color-bg);
+        border-radius: 8px;
+        border-left: 3px solid var(--highlight-peach);
     }
 
-    /* Page nav - 44px minimum touch target */
+    .note-date {
+        font-size: 12px;
+        color: var(--color-text-muted);
+    }
+
+    /* Hide page navigation */
     .page-nav {
-        width: 44px;
-        height: 44px;
-    }
-
-    .page-nav.prev {
-        left: 8px;
-        top: auto;
-        bottom: -56px;
-        transform: none;
+        display: none;
     }
 
     .page-nav.next {
