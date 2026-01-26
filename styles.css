@@ -3444,6 +3444,7 @@ a, button, .tab, .highlight, [role="button"] {
         left: 10px;
         right: 10px;
         bottom: 0;
+        width: auto;
         height: 2px;
         background: transparent;
         transition: background-color 0.2s ease;
