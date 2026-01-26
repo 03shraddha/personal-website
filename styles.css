@@ -3486,6 +3486,19 @@ a, button, .tab, .highlight, [role="button"] {
         padding-top: 68px;
     }
 
+    /* Solid header bar background when collapsed */
+    body.nav-collapsed::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: var(--color-bg);
+        border-bottom: 1px solid var(--color-border);
+        z-index: 199;
+    }
+
     .social-links {
         top: 8px;
         right: 8px;
