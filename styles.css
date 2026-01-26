@@ -3262,12 +3262,34 @@ a, button, .tab, .highlight, [role="button"] {
    =================================== */
 
 @media (max-width: 900px) {
-    /* Hide hamburger menu completely */
+    /* Hamburger menu - hidden by default, shown when collapsed */
     .mobile-menu-toggle {
         display: none;
+        position: fixed;
+        top: 8px;
+        left: 12px;
+        z-index: 300;
+        width: 44px;
+        height: 44px;
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        padding: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
     }
 
-    /* Clean horizontal scrollable tabs navigation */
+    /* Show hamburger when sidebar is collapsed */
+    .sidebar.collapsed ~ .mobile-menu-toggle,
+    body.nav-collapsed .mobile-menu-toggle {
+        display: flex;
+    }
+
+    /* Horizontal scrollable tabs navigation */
     .sidebar {
         position: sticky;
         top: 0;
@@ -3282,23 +3304,54 @@ a, button, .tab, .highlight, [role="button"] {
         overflow-x: auto;
         overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* Firefox */
+        scrollbar-width: none;
+        transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
     .sidebar::-webkit-scrollbar {
-        display: none; /* Chrome, Safari */
+        display: none;
     }
 
+    /* Collapsed state - hide tabs */
+    .sidebar.collapsed {
+        transform: translateY(-100%);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* Active state - full screen menu overlay */
     .sidebar.active {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
         transform: none;
+        opacity: 1;
+        pointer-events: auto;
+        overflow: hidden;
+        z-index: 250;
     }
 
     .sidebar-overlay {
         display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
     }
 
     .sidebar.active .sidebar-overlay {
-        display: none;
+        display: block;
+        opacity: 1;
+        visibility: visible;
     }
 
     .sidebar-content {
@@ -3311,8 +3364,18 @@ a, button, .tab, .highlight, [role="button"] {
         transition: none;
     }
 
+    /* Full screen menu content */
     .sidebar.active .sidebar-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        width: 280px;
+        height: 100%;
+        background: var(--color-bg);
+        padding: 60px 24px;
         transform: none;
+        z-index: 251;
     }
 
     /* Horizontal scrollable tab row */
@@ -3322,8 +3385,16 @@ a, button, .tab, .highlight, [role="button"] {
         flex-wrap: nowrap;
         gap: 0;
         justify-content: flex-start;
-        padding: 0 16px;
+        padding: 0 12px;
         min-width: max-content;
+    }
+
+    /* Vertical layout when menu is active */
+    .sidebar.active ul {
+        flex-direction: column;
+        gap: 4px;
+        padding: 0;
+        min-width: auto;
     }
 
     .sidebar li {
@@ -3331,23 +3402,18 @@ a, button, .tab, .highlight, [role="button"] {
         flex-shrink: 0;
     }
 
-    /* Tab separator using pseudo-element */
+    /* No separators - cleaner look */
     .sidebar li:not(:last-child)::after {
-        content: '|';
-        color: var(--color-border);
-        padding: 0 4px;
-        font-size: 14px;
-        display: inline-flex;
-        align-items: center;
+        display: none;
     }
 
-    /* Navigation links - clean tab style */
+    /* Navigation links - compact tab style */
     .nav-link {
-        font-size: 14px;
-        padding: 16px 12px;
+        font-size: 13px;
+        padding: 12px 10px;
         display: inline-flex;
         align-items: center;
-        min-height: 48px;
+        min-height: 44px;
         border-radius: 0;
         color: var(--color-text-muted);
         transition: color 0.2s ease;
@@ -3355,20 +3421,36 @@ a, button, .tab, .highlight, [role="button"] {
         position: relative;
     }
 
+    /* Larger links in full menu */
+    .sidebar.active .nav-link {
+        font-size: 18px;
+        padding: 14px 16px;
+        min-height: 48px;
+        border-radius: 8px;
+    }
+
     .nav-link::after {
         content: '';
         position: absolute;
-        left: 12px;
-        right: 12px;
+        left: 10px;
+        right: 10px;
         bottom: 0;
         height: 2px;
         background: transparent;
         transition: background-color 0.2s ease;
     }
 
+    .sidebar.active .nav-link::after {
+        display: none;
+    }
+
     .nav-link:hover {
         color: var(--color-text);
         background: transparent;
+    }
+
+    .sidebar.active .nav-link:hover {
+        background: var(--color-card-bg);
     }
 
     .nav-link.active {
@@ -3382,14 +3464,14 @@ a, button, .tab, .highlight, [role="button"] {
     /* Main content adjustments */
     .main-content {
         margin-left: 0;
-        padding: 32px 24px 60px;
+        padding: 24px 24px 60px;
         max-width: 100%;
         overflow-x: hidden;
     }
 
     .social-links {
-        top: 16px;
-        right: 16px;
+        top: 12px;
+        right: 12px;
         gap: 4px;
         background: var(--color-bg);
         padding: 6px 10px;
