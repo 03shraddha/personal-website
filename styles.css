@@ -1648,27 +1648,14 @@ a, button, .tab, .highlight, [role="button"] {
 
 /* Mobile breakpoint (600px and below) */
 @media (max-width: 600px) {
-    /* Global mobile padding */
-    .main-content {
-        padding: 24px 20px 48px;
-        max-width: 100%;
-        overflow-x: hidden;
-    }
-
-    /* Horizontal scrollable tabs - smaller padding on mobile */
-    .sidebar {
-        padding: 0;
-        top: 0;
-    }
-
+    /* Nav refinements for smaller screens */
     .sidebar ul {
         padding: 0 12px;
-        justify-content: flex-start;
     }
 
     .nav-link {
         font-size: 13px;
-        padding: 14px 10px;
+        padding: 12px 10px;
     }
 
     /* Typography - Match desktop sizes */
