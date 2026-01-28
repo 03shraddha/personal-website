@@ -13,6 +13,12 @@
  * - Set highlight to "" (empty) for no highlight
  */
 
+// ==========================================
+// 🔗 RESUME LINK - UPDATE THIS ONE PLACE!
+// ==========================================
+// Change this URL and it will update everywhere on the site
+const RESUME_URL = "https://drive.google.com/file/d/1xovKAQtsJ7mqBkhIwwE4n2QkyygFBYNE/view?usp=drive_link";
+
 const CONTENT = {
 
     // ==========================================
@@ -78,8 +84,8 @@ const CONTENT = {
         { text: "recognizing obscure Punjabi songs", url: "#", highlight: "" }
     ],
 
-    // Resume line for recruiters
-    resumeLine: `If you're recruiting for product related roles, here's the <a href="https://drive.google.com/file/d/1xovKAQtsJ7mqBkhIwwE4n2QkyygFBYNE/view?usp=drive_link" target="_blank" class="highlight peach">link to my resume</a>.`,
+    // Resume line for recruiters (uses RESUME_URL constant)
+    resumeLine: `If you're recruiting, here's the <a href="${RESUME_URL}" target="_blank" class="highlight peach">link to my resume</a>.`,
 
     // Name in Kannada (for hover effect)
     nameKannada: "ಶ್ರದ್ಧಾ ಕುಲಕರ್ಣಿ",
@@ -92,7 +98,7 @@ const CONTENT = {
         twitter: "https://x.com/shraddhaha",
         substack: "https://substack.com/@shraddhaha",
         email: "meetshraddhakulkarni@gmail.com",
-        resume: "https://drive.google.com/file/d/1xovKAQtsJ7mqBkhIwwE4n2QkyygFBYNE/view?usp=drive_link"
+        resume: RESUME_URL  // Uses the constant defined at top of file
     },
 
     // ==========================================

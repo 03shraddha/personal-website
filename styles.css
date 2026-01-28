@@ -2507,9 +2507,47 @@ a, button, .tab, .highlight, [role="button"] {
     background: rgba(200, 160, 255, 0.08);
 }
 
+/* Pastel border colors for each day of the week */
 .calendar-day.has-content {
-    border-color: var(--color-text-light);
+    border-width: 2px;
 }
+
+.calendar-day.has-content.day-sun {
+    border-color: #FFB5BA; /* Soft coral/pink */
+}
+
+.calendar-day.has-content.day-mon {
+    border-color: #B5D8FF; /* Soft sky blue */
+}
+
+.calendar-day.has-content.day-tue {
+    border-color: #C5F0C5; /* Soft mint green */
+}
+
+.calendar-day.has-content.day-wed {
+    border-color: #FFD9B5; /* Soft peach */
+}
+
+.calendar-day.has-content.day-thu {
+    border-color: #D4B5FF; /* Soft lavender */
+}
+
+.calendar-day.has-content.day-fri {
+    border-color: #B5F0F0; /* Soft teal */
+}
+
+.calendar-day.has-content.day-sat {
+    border-color: #FFE5B5; /* Soft yellow */
+}
+
+/* Dark mode - slightly brighter pastels for visibility */
+[data-theme="dark"] .calendar-day.has-content.day-sun { border-color: #FF8A92; }
+[data-theme="dark"] .calendar-day.has-content.day-mon { border-color: #7AB8FF; }
+[data-theme="dark"] .calendar-day.has-content.day-tue { border-color: #8AE08A; }
+[data-theme="dark"] .calendar-day.has-content.day-wed { border-color: #FFB87A; }
+[data-theme="dark"] .calendar-day.has-content.day-thu { border-color: #B87AFF; }
+[data-theme="dark"] .calendar-day.has-content.day-fri { border-color: #7AE0E0; }
+[data-theme="dark"] .calendar-day.has-content.day-sat { border-color: #FFD27A; }
 
 .calendar-day-number {
     font-size: 12px;
@@ -2533,8 +2571,8 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .content-dot {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     flex-shrink: 0;
 }
@@ -2617,8 +2655,20 @@ a, button, .tab, .highlight, [role="button"] {
     transition: color 0.2s ease;
 }
 
+.content-clean-link::after {
+    content: ' ↗';
+    opacity: 0;
+    font-size: 12px;
+    color: var(--color-text-muted);
+    transition: opacity 0.2s ease;
+}
+
 .content-clean-link:hover {
     color: var(--color-text-muted);
+}
+
+.content-clean-link:hover::after {
+    opacity: 1;
 }
 
 .content-clean-source {
@@ -2633,6 +2683,98 @@ a, button, .tab, .highlight, [role="button"] {
     padding: 40px 20px;
     color: var(--color-text-muted);
     font-size: 14px;
+}
+
+/* Date-grouped list view */
+.content-date-group {
+    margin-bottom: 24px;
+    padding: 16px;
+    border-radius: 12px;
+    background: transparent;
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.content-date-group.highlighted {
+    background: rgba(0, 0, 0, 0.02);
+    border-left: 2px solid var(--color-text-muted);
+    padding-left: 14px;
+}
+
+.content-date-group.highlight-fade {
+    background: transparent;
+    transition: background-color 1s ease;
+}
+
+.content-date-header {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.content-date-group.highlighted .content-date-header {
+    color: var(--color-text);
+}
+
+/* Category pill in list items */
+.content-item-category {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 8px;
+    background: var(--highlight-peach);
+    color: var(--color-text);
+}
+
+.content-item-category.video {
+    background: var(--highlight-blue);
+}
+
+.content-item-category.book {
+    background: var(--highlight-lavender);
+}
+
+.content-item-category.podcast {
+    background: rgba(120, 200, 180, 0.3);
+}
+
+.content-item-category.newsletter {
+    background: var(--highlight-peach);
+}
+
+/* Dark mode for date groups */
+[data-theme="dark"] .content-date-group.highlighted {
+    background: rgba(255, 255, 255, 0.03);
+    border-left-color: var(--color-text-muted);
+}
+
+[data-theme="dark"] .content-date-group.highlighted .content-date-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .content-item-category {
+    background: rgba(255, 200, 150, 0.2);
+}
+
+[data-theme="dark"] .content-item-category.video {
+    background: rgba(150, 200, 255, 0.2);
+}
+
+[data-theme="dark"] .content-item-category.book {
+    background: rgba(200, 180, 255, 0.2);
+}
+
+[data-theme="dark"] .content-item-category.podcast {
+    background: rgba(120, 200, 180, 0.2);
 }
 
 /* Day Detail Panel */
@@ -3215,6 +3357,11 @@ a, button, .tab, .highlight, [role="button"] {
    =================================== */
 
 @media (max-width: 900px) {
+    /* Prevent horizontal scroll on mobile */
+    html, body {
+        overflow-x: hidden;
+    }
+
     /* ===== HAMBURGER MENU - Clean box design ===== */
     .mobile-menu-toggle {
         display: flex;
@@ -3288,7 +3435,8 @@ a, button, .tab, .highlight, [role="button"] {
         padding: 100px 32px 40px;
         transform: translateX(-100%);
         opacity: 0;
-        transition: transform 0.3s ease, opacity 0.3s ease;
+        visibility: hidden;
+        transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
         overflow-y: auto;
         display: flex;
         flex-direction: column;
@@ -3297,6 +3445,7 @@ a, button, .tab, .highlight, [role="button"] {
     .sidebar.active {
         transform: translateX(0);
         opacity: 1;
+        visibility: visible;
     }
 
     .sidebar-overlay {
@@ -3354,8 +3503,10 @@ a, button, .tab, .highlight, [role="button"] {
     .main-content {
         margin-left: 0;
         padding: 80px 24px 100px;
-        max-width: 100%;
+        max-width: 100vw;
+        width: 100%;
         overflow-x: hidden;
+        box-sizing: border-box;
     }
 
     /* Ensure sections are visible (override animation opacity) */
@@ -3438,8 +3589,8 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .content-dot {
-        width: 5px;
-        height: 5px;
+        width: 6px;
+        height: 6px;
     }
 
     .calendar-weekdays span {
@@ -3449,6 +3600,45 @@ a, button, .tab, .highlight, [role="button"] {
     /* Hide tooltip on mobile - use tap instead */
     .calendar-day-tooltip {
         display: none;
+    }
+
+    /* Date-grouped list view on mobile */
+    .content-date-group {
+        margin-bottom: 20px;
+        padding: 12px;
+    }
+
+    .content-date-header {
+        font-size: 13px;
+        margin-bottom: 10px;
+        padding-bottom: 6px;
+    }
+
+    .content-clean-item {
+        padding: 10px 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 4px;
+    }
+
+    .content-item-category {
+        font-size: 9px;
+        padding: 2px 5px;
+        margin-right: 6px;
+    }
+
+    .content-clean-link {
+        font-size: 15px;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .content-clean-source {
+        font-size: 13px;
+        width: 100%;
+        margin-left: 0;
+        margin-top: 4px;
     }
 
     /* Full-screen panel on mobile */
@@ -3783,26 +3973,26 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 [data-theme="dark"] .notebook {
-    background: #2a2a2a;
+    background: #e8e8e8;
     box-shadow:
-        0 1px 3px rgba(0, 0, 0, 0.2),
-        0 4px 12px rgba(0, 0, 0, 0.3),
-        0 12px 40px rgba(0, 0, 0, 0.4),
-        inset 0 0 60px rgba(0, 0, 0, 0.15);
+        0 1px 3px rgba(0, 0, 0, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.2),
+        0 12px 40px rgba(0, 0, 0, 0.25),
+        inset 0 0 60px rgba(0, 0, 0, 0.05);
 }
 
 [data-theme="dark"] .notebook::before {
     background: linear-gradient(to right,
-        rgba(0, 0, 0, 0.3) 0%,
-        rgba(0, 0, 0, 0.15) 40%,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.05) 40%,
         transparent 100%);
 }
 
 [data-theme="dark"] .notebook::after {
     background: linear-gradient(to bottom,
-        #3a3a3a,
-        #2d2d2d,
-        #3a3a3a);
+        #d0d0d0,
+        #c5c5c5,
+        #d0d0d0);
 }
 
 /* Notebook Binding */
@@ -3841,9 +4031,9 @@ a, button, .tab, .highlight, [role="button"] {
 [data-theme="dark"] .notebook-binding {
     background: linear-gradient(to right,
         transparent 0%,
-        rgba(255,255,255,0.03) 20%,
-        rgba(255,255,255,0.05) 50%,
-        rgba(255,255,255,0.03) 80%,
+        rgba(0,0,0,0.04) 20%,
+        rgba(0,0,0,0.06) 50%,
+        rgba(0,0,0,0.04) 80%,
         transparent 100%);
 }
 
@@ -3851,8 +4041,8 @@ a, button, .tab, .highlight, [role="button"] {
     background: repeating-linear-gradient(to bottom,
         transparent,
         transparent 8px,
-        rgba(255, 255, 255, 0.1) 8px,
-        rgba(255, 255, 255, 0.1) 16px);
+        rgba(0, 0, 0, 0.1) 8px,
+        rgba(0, 0, 0, 0.1) 16px);
 }
 
 /* Notebook Pages */
@@ -3952,11 +4142,11 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 [data-theme="dark"] .notebook-page.left-page {
-    border-right-color: rgba(255, 255, 255, 0.08);
+    border-right-color: rgba(0, 0, 0, 0.08);
 }
 
 [data-theme="dark"] .notebook-page.right-page {
-    border-left-color: rgba(255, 255, 255, 0.08);
+    border-left-color: rgba(0, 0, 0, 0.08);
 }
 
 /* Page Content */
@@ -3978,7 +4168,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 [data-theme="dark"] .note-message {
-    color: #e0e0e0;
+    color: #333;
 }
 
 .note-attribution {
@@ -3992,7 +4182,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 [data-theme="dark"] .note-attribution {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .notebook .note-date {
@@ -4004,7 +4194,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 [data-theme="dark"] .notebook .note-date {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(0, 0, 0, 0.4);
 }
 
 /* Empty page state */
@@ -4016,7 +4206,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 [data-theme="dark"] .page-empty {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(0, 0, 0, 0.4);
 }
 
 /* Page Numbers */
@@ -4029,7 +4219,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 [data-theme="dark"] .page-number {
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(0, 0, 0, 0.35);
 }
 
 .page-number.left {

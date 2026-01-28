@@ -202,6 +202,12 @@ function loadContent() {
 
     document.getElementById('resume-line').innerHTML = CONTENT.resumeLine;
 
+    // Update Resume tab link (uses RESUME_URL constant from content.js)
+    const resumeTabLink = document.getElementById('resume-tab-link');
+    if (resumeTabLink && CONTENT.socialLinks.resume) {
+        resumeTabLink.href = CONTENT.socialLinks.resume;
+    }
+
     // About section content
     const about = CONTENT.aboutContent;
     const aboutHtml = `
@@ -1279,9 +1285,13 @@ function initContentCalendar() {
             const isToday = dateStr === todayStr;
             const hasContent = entries.length > 0;
 
+            // Get day of week (0 = Sunday, 6 = Saturday)
+            const dayOfWeek = new Date(currentYear, currentMonth, day).getDay();
+            const dayNames = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+
             let classes = 'calendar-day';
             if (isToday) classes += ' today';
-            if (hasContent) classes += ' has-content';
+            if (hasContent) classes += ` has-content day-${dayNames[dayOfWeek]}`;
 
             let dotsHtml = '';
             if (hasContent) {
@@ -1317,13 +1327,35 @@ function initContentCalendar() {
 
         calendarGrid.innerHTML = html;
 
-        // Add click handlers to days
+        // Add click handlers to days - switch to list view and scroll to date
         calendarGrid.querySelectorAll('.calendar-day:not(.empty)').forEach(dayEl => {
             dayEl.addEventListener('click', () => {
                 const dateStr = dayEl.dataset.date;
-                openDayPanel(dateStr);
+                switchToListViewWithHighlight(dateStr);
             });
         });
+    }
+
+    // Switch to list view and highlight/scroll to a specific date
+    function switchToListViewWithHighlight(dateStr) {
+        // Switch to list view
+        viewToggleBtns.forEach(b => b.classList.remove('active'));
+        const listBtn = document.querySelector('.view-toggle-btn[data-view="list"]');
+        if (listBtn) listBtn.classList.add('active');
+
+        calendarView.classList.add('hidden');
+        listView.classList.remove('hidden');
+
+        // Render list view with date grouping and highlight
+        renderListView(dateStr);
+
+        // Scroll to the highlighted date after a brief delay for DOM update
+        setTimeout(() => {
+            const highlightedGroup = document.querySelector('.content-date-group.highlighted');
+            if (highlightedGroup) {
+                highlightedGroup.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 100);
     }
 
     // Open day detail panel
@@ -1458,8 +1490,8 @@ function initContentCalendar() {
         });
     });
 
-    // Render list view (chronological) - clean list without category labels
-    function renderListView() {
+    // Render list view (grouped by date) - with optional highlight for a specific date
+    function renderListView(highlightDate = null) {
         const consumeList = document.getElementById('consume-list');
         if (!consumeList) return;
 
@@ -1471,20 +1503,44 @@ function initContentCalendar() {
             return;
         }
 
-        // Simple clean list - no category labels, just title and optional source
-        let html = '<ul class="content-clean-list">';
+        // Group entries by date
+        const groupedByDate = {};
         allEntries.forEach(entry => {
+            const date = entry.date;
+            if (!groupedByDate[date]) {
+                groupedByDate[date] = [];
+            }
+            groupedByDate[date].push(entry);
+        });
+
+        // Sort dates in descending order
+        const sortedDates = Object.keys(groupedByDate).sort((a, b) => new Date(b) - new Date(a));
+
+        // Build HTML with date groups
+        let html = '';
+        sortedDates.forEach(date => {
+            const entries = groupedByDate[date];
+            const isHighlighted = highlightDate === date;
+            const displayDate = formatDateDisplay(date);
+
             html += `
-                <li class="content-clean-item">
-                    <a href="${entry.url && entry.url !== '#' ? entry.url : 'javascript:void(0)'}"
-                       ${entry.url && entry.url !== '#' ? 'target="_blank" rel="noopener noreferrer"' : ''}
-                       class="content-clean-link${!entry.url || entry.url === '#' ? ' list-item-link' : ''}"
-                       data-entry-id="${entry.id}">${entry.title}</a>
-                    ${entry.source ? `<span class="content-clean-source">— ${entry.source}</span>` : ''}
-                </li>
+                <div class="content-date-group${isHighlighted ? ' highlighted' : ''}" data-date="${date}">
+                    <div class="content-date-header">${displayDate}</div>
+                    <ul class="content-clean-list">
+                        ${entries.map(entry => `
+                            <li class="content-clean-item">
+                                <span class="content-item-category ${entry.category}">${entry.category}</span>
+                                <a href="${entry.url && entry.url !== '#' ? entry.url : 'javascript:void(0)'}"
+                                   ${entry.url && entry.url !== '#' ? 'target="_blank" rel="noopener noreferrer"' : ''}
+                                   class="content-clean-link${!entry.url || entry.url === '#' ? ' list-item-link' : ''}"
+                                   data-entry-id="${entry.id}">${entry.title}</a>
+                                ${entry.source ? `<span class="content-clean-source">— ${entry.source}</span>` : ''}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
             `;
         });
-        html += '</ul>';
 
         consumeList.innerHTML = html;
 
@@ -1495,6 +1551,17 @@ function initContentCalendar() {
                 openDetailView(entryId);
             });
         });
+
+        // Remove highlight after a few seconds
+        if (highlightDate) {
+            setTimeout(() => {
+                const highlightedGroup = consumeList.querySelector('.content-date-group.highlighted');
+                if (highlightedGroup) {
+                    highlightedGroup.classList.remove('highlighted');
+                    highlightedGroup.classList.add('highlight-fade');
+                }
+            }, 3000);
+        }
     }
 
     // Add Content Modal elements
