@@ -7,20 +7,25 @@
 const SUPABASE_URL = 'https://ptoykobcidzgewmtiomp.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0b3lrb2JjaWR6Z2V3bXRpb21wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1ODQ0MDYsImV4cCI6MjA4NTE2MDQwNn0.7kP4Dk4paoIzGMfwYmswlyrQhSTSS-3qVMEPjrU0HvE';
 
-// Initialize Supabase client (with fallback if library not loaded)
+// Supabase client - initialized later
 let supabase = null;
-try {
-    if (window.supabase) {
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    } else {
-        console.warn('Supabase library not loaded');
+
+// Initialize Supabase client (called after DOM loads)
+function initSupabase() {
+    try {
+        if (window.supabase) {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log('Supabase initialized');
+        } else {
+            console.warn('Supabase library not loaded');
+        }
+    } catch (err) {
+        console.error('Failed to initialize Supabase:', err);
     }
-} catch (err) {
-    console.error('Failed to initialize Supabase:', err);
 }
 
 // Check for admin mode via URL parameter: ?admin=shraddha
-(function checkAdminMode() {
+function checkAdminMode() {
     const urlParams = new URLSearchParams(window.location.search);
     const adminParam = urlParams.get('admin');
     if (adminParam === 'shraddha') {
@@ -30,9 +35,11 @@ try {
         localStorage.removeItem('admin-authenticated');
         console.log('Admin mode disabled');
     }
-})();
+}
 
 document.addEventListener('DOMContentLoaded', () => {
+    initSupabase();     // Initialize Supabase first
+    checkAdminMode();   // Check admin mode
     loadContent();      // Load content from content.js
     initNavigation();
     initTabs();
