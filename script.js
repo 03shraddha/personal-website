@@ -3,6 +3,13 @@
  * Handles navigation, tabs, scroll behavior, and content loading
  */
 
+// 🔧 SUPABASE CONFIGURATION
+const SUPABASE_URL = 'https://ptoykobcidzgewmtiomp.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0b3lrb2JjaWR6Z2V3bXRpb21wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1ODQ0MDYsImV4cCI6MjA4NTE2MDQwNn0.7kP4Dk4paoIzGMfwYmswlyrQhSTSS-3qVMEPjrU0HvE';
+
+// Initialize Supabase client
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 document.addEventListener('DOMContentLoaded', () => {
     loadContent();      // Load content from content.js
     initNavigation();
@@ -874,59 +881,142 @@ function initPhotoGallery() {
         }
     }
 
-    // Load photos from JSON file and localStorage
-    async function loadPhotosFromStorage() {
-        let jsonPhotos = { polaroids: [], film: [], digital: [] };
-        let storedPhotos = { polaroids: [], film: [], digital: [] };
-
-        // Try to load from JSON file
+    // Load photos from Supabase
+    async function loadPhotosFromSupabase() {
         try {
-            const response = await fetch('./data/photos.json');
-            if (response.ok) {
-                const data = await response.json();
-                jsonPhotos = data.photos || { polaroids: [], film: [], digital: [] };
-                console.log('Loaded photos from JSON file');
+            const { data, error } = await supabase
+                .from('photos')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error loading photos from Supabase:', error);
+                return { polaroids: [], film: [], digital: [] };
             }
+
+            // Group by category
+            const grouped = { polaroids: [], film: [], digital: [] };
+            (data || []).forEach(photo => {
+                const category = photo.category || 'polaroids';
+                if (!grouped[category]) grouped[category] = [];
+                grouped[category].push({
+                    id: photo.id,
+                    src: photo.src,
+                    caption: photo.caption || '',
+                    zoom: photo.zoom || 100,
+                    posX: photo.pos_x || 0,
+                    posY: photo.pos_y || 0
+                });
+            });
+
+            console.log('Loaded photos from Supabase');
+            return grouped;
         } catch (err) {
-            console.log('No photos.json found, using localStorage only');
+            console.error('Error loading photos:', err);
+            return { polaroids: [], film: [], digital: [] };
         }
-
-        // Load from localStorage
-        const stored = localStorage.getItem('polaroid-photos');
-        if (stored) {
-            storedPhotos = JSON.parse(stored);
-        }
-
-        // Merge JSON and localStorage photos, localStorage takes precedence for duplicates
-        const merged = { polaroids: [], film: [], digital: [] };
-        ['polaroids', 'film', 'digital'].forEach(category => {
-            const jsonCat = jsonPhotos[category] || [];
-            const storedCat = storedPhotos[category] || [];
-
-            // Add all JSON photos first
-            jsonCat.forEach(photo => {
-                merged[category].push(photo);
-            });
-
-            // Add localStorage photos, avoiding duplicates by id
-            storedCat.forEach(photo => {
-                if (!merged[category].find(p => p.id === photo.id)) {
-                    merged[category].push(photo);
-                }
-            });
-        });
-
-        return merged;
     }
 
-    // Save photos to localStorage
-    function savePhotosToStorage() {
-        localStorage.setItem('polaroid-photos', JSON.stringify(photos));
+    // Upload image to Supabase Storage
+    async function uploadImageToSupabase(base64Data) {
+        try {
+            // Convert base64 to blob
+            const response = await fetch(base64Data);
+            const blob = await response.blob();
+
+            // Generate unique filename
+            const filename = `photo_${Date.now()}.${blob.type.split('/')[1] || 'jpg'}`;
+
+            // Upload to Supabase Storage
+            const { data, error } = await supabase.storage
+                .from('photos')
+                .upload(filename, blob, {
+                    contentType: blob.type,
+                    upsert: false
+                });
+
+            if (error) {
+                console.error('Error uploading image:', error);
+                return null;
+            }
+
+            // Get public URL
+            const { data: urlData } = supabase.storage
+                .from('photos')
+                .getPublicUrl(filename);
+
+            return urlData.publicUrl;
+        } catch (err) {
+            console.error('Error uploading image:', err);
+            return null;
+        }
+    }
+
+    // Save photo metadata to Supabase
+    async function savePhotoToSupabase(photoData) {
+        try {
+            const { data, error } = await supabase
+                .from('photos')
+                .insert([{
+                    src: photoData.src,
+                    caption: photoData.caption,
+                    category: photoData.category,
+                    zoom: photoData.zoom,
+                    pos_x: photoData.posX,
+                    pos_y: photoData.posY
+                }])
+                .select();
+
+            if (error) {
+                console.error('Error saving photo:', error);
+                return null;
+            }
+
+            return data[0];
+        } catch (err) {
+            console.error('Error saving photo:', err);
+            return null;
+        }
+    }
+
+    // Update photo caption in Supabase
+    async function updatePhotoCaptionInSupabase(photoId, caption) {
+        try {
+            const { error } = await supabase
+                .from('photos')
+                .update({ caption })
+                .eq('id', photoId);
+
+            if (error) {
+                console.error('Error updating caption:', error);
+            }
+        } catch (err) {
+            console.error('Error updating caption:', err);
+        }
+    }
+
+    // Delete photo from Supabase
+    async function deletePhotoFromSupabase(photoId) {
+        try {
+            const { error } = await supabase
+                .from('photos')
+                .delete()
+                .eq('id', photoId);
+
+            if (error) {
+                console.error('Error deleting photo:', error);
+                return false;
+            }
+            return true;
+        } catch (err) {
+            console.error('Error deleting photo:', err);
+            return false;
+        }
     }
 
     // Initialize - load photos
     async function initialize() {
-        photos = await loadPhotosFromStorage();
+        photos = await loadPhotosFromSupabase();
         updateAdminUI();
         renderGallery();
     }
@@ -981,21 +1071,25 @@ function initPhotoGallery() {
     }
 
     // Update caption
-    function updateCaption(photoId, caption) {
+    async function updateCaption(photoId, caption) {
         const categoryPhotos = photos[currentCategory];
         const photo = categoryPhotos.find(p => p.id === photoId);
         if (photo) {
             photo.caption = caption;
-            savePhotosToStorage();
+            await updatePhotoCaptionInSupabase(photoId, caption);
         }
     }
 
     // Delete photo
-    function deletePhoto(photoId) {
+    async function deletePhoto(photoId) {
         if (confirm('Delete this photo?')) {
-            photos[currentCategory] = photos[currentCategory].filter(p => p.id !== photoId);
-            savePhotosToStorage();
-            renderGallery();
+            const deleted = await deletePhotoFromSupabase(photoId);
+            if (deleted) {
+                photos[currentCategory] = photos[currentCategory].filter(p => p.id !== photoId);
+                renderGallery();
+            } else {
+                alert('Failed to delete photo. Please try again.');
+            }
         }
     }
 
@@ -1090,32 +1184,64 @@ function initPhotoGallery() {
     });
 
     // Save photo
-    saveBtn.addEventListener('click', () => {
+    saveBtn.addEventListener('click', async () => {
         if (!currentEditingPhoto) return;
 
-        const newPhoto = {
-            id: Date.now(),
-            src: currentEditingPhoto.src,
-            zoom: parseInt(zoomSlider.value),
-            posX: imgPosition.x,
-            posY: imgPosition.y,
-            caption: captionInput.value
-        };
+        // Show loading state
+        const originalBtnText = saveBtn.textContent;
+        saveBtn.textContent = 'Uploading...';
+        saveBtn.disabled = true;
+
+        // Upload image to Supabase Storage
+        const imageUrl = await uploadImageToSupabase(currentEditingPhoto.src);
+
+        if (!imageUrl) {
+            alert('Failed to upload image. Please try again.');
+            saveBtn.textContent = originalBtnText;
+            saveBtn.disabled = false;
+            return;
+        }
 
         const category = categorySelect.value;
-        if (!photos[category]) photos[category] = [];
-        photos[category].push(newPhoto);
-        savePhotosToStorage();
 
-        // Switch to the category where photo was saved
-        currentCategory = category;
-        photoTabs.forEach(t => {
-            t.classList.toggle('active', t.dataset.photoTab === category);
+        // Save photo metadata to Supabase
+        const savedPhoto = await savePhotoToSupabase({
+            src: imageUrl,
+            caption: captionInput.value,
+            category: category,
+            zoom: parseInt(zoomSlider.value),
+            posX: imgPosition.x,
+            posY: imgPosition.y
         });
 
-        modal.classList.remove('active');
-        currentEditingPhoto = null;
-        renderGallery();
+        // Reset button
+        saveBtn.textContent = originalBtnText;
+        saveBtn.disabled = false;
+
+        if (savedPhoto) {
+            // Add to local photos array
+            if (!photos[category]) photos[category] = [];
+            photos[category].unshift({
+                id: savedPhoto.id,
+                src: savedPhoto.src,
+                caption: savedPhoto.caption || '',
+                zoom: savedPhoto.zoom || 100,
+                posX: savedPhoto.pos_x || 0,
+                posY: savedPhoto.pos_y || 0
+            });
+
+            // Switch to the category where photo was saved
+            currentCategory = category;
+            photoTabs.forEach(t => {
+                t.classList.toggle('active', t.dataset.photoTab === category);
+            });
+
+            modal.classList.remove('active');
+            currentEditingPhoto = null;
+            renderGallery();
+        } else {
+            alert('Failed to save photo. Please try again.');
+        }
     });
 
     // Cancel
@@ -1180,53 +1306,87 @@ function initContentCalendar() {
         'newsletter': 'peach'
     };
 
-    // Load content from JSON file and localStorage
-    async function loadContentFromStorage() {
-        let jsonEntries = [];
-        let storedEntries = [];
-
-        // Try to load from JSON file
+    // Load content from Supabase
+    async function loadContentFromSupabase() {
         try {
-            const response = await fetch('./data/content-data.json');
-            if (response.ok) {
-                const data = await response.json();
-                jsonEntries = data.entries || [];
-                console.log('Loaded', jsonEntries.length, 'entries from JSON file');
+            const { data, error } = await supabase
+                .from('content_entries')
+                .select('*')
+                .order('date', { ascending: false });
+
+            if (error) {
+                console.error('Error loading content from Supabase:', error);
+                return [];
             }
+
+            // Map to expected format
+            return (data || []).map(entry => ({
+                id: entry.id,
+                date: entry.date,
+                title: entry.title,
+                url: entry.url,
+                source: entry.source,
+                category: entry.category,
+                thoughts: entry.thoughts,
+                addedAt: entry.added_at
+            }));
         } catch (err) {
-            console.log('No JSON file found, using localStorage only');
+            console.error('Error loading content:', err);
+            return [];
         }
-
-        // Load from localStorage
-        const stored = localStorage.getItem('content-calendar');
-        storedEntries = stored ? JSON.parse(stored) : [];
-
-        // Also check CONTENT.contentCalendar for backwards compatibility
-        const defaultEntries = (typeof CONTENT !== 'undefined' && CONTENT.contentCalendar) ? CONTENT.contentCalendar : [];
-
-        // Merge all sources and deduplicate by id
-        const allEntries = [...jsonEntries, ...defaultEntries, ...storedEntries];
-        const uniqueEntries = allEntries.reduce((acc, entry) => {
-            if (!acc.find(e => e.id === entry.id)) {
-                acc.push(entry);
-            }
-            return acc;
-        }, []);
-
-        return uniqueEntries;
     }
 
-    // Save to localStorage
-    function saveContentToStorage() {
-        localStorage.setItem('content-calendar', JSON.stringify(contentEntries));
-        console.log('Saved', contentEntries.length, 'entries to localStorage');
+    // Save content entry to Supabase
+    async function saveContentToSupabase(entry) {
+        try {
+            const { data, error } = await supabase
+                .from('content_entries')
+                .insert([{
+                    date: entry.date,
+                    title: entry.title,
+                    url: entry.url,
+                    source: entry.source,
+                    category: entry.category,
+                    thoughts: entry.thoughts
+                }])
+                .select();
+
+            if (error) {
+                console.error('Error saving content:', error);
+                return null;
+            }
+
+            return data[0];
+        } catch (err) {
+            console.error('Error saving content:', err);
+            return null;
+        }
+    }
+
+    // Delete content entry from Supabase
+    async function deleteContentFromSupabase(entryId) {
+        try {
+            const { error } = await supabase
+                .from('content_entries')
+                .delete()
+                .eq('id', entryId);
+
+            if (error) {
+                console.error('Error deleting content:', error);
+                return false;
+            }
+            return true;
+        } catch (err) {
+            console.error('Error deleting content:', err);
+            return false;
+        }
     }
 
     // Initialize - load data and render
     async function initialize() {
         isLoading = true;
         try {
-            contentEntries = await loadContentFromStorage();
+            contentEntries = await loadContentFromSupabase();
         } catch (err) {
             console.error('Error loading content:', err);
             contentEntries = [];
@@ -1648,7 +1808,7 @@ function initContentCalendar() {
     });
 
     // Save content
-    saveBtn.addEventListener('click', () => {
+    saveBtn.addEventListener('click', async () => {
         const date = dateInput.value;
         const title = titleInput.value.trim();
         const url = urlInput.value.trim();
@@ -1670,41 +1830,61 @@ function initContentCalendar() {
             return;
         }
 
+        // Show loading state
+        const originalBtnText = saveBtn.textContent;
+        saveBtn.textContent = 'Saving...';
+        saveBtn.disabled = true;
+
         const newEntry = {
-            id: Date.now(),
             date,
             title,
             url: url || '#',
             category: selectedCategory,
             source,
-            thoughts,
-            addedAt: new Date().toISOString()
+            thoughts
         };
 
-        // Add to entries array
-        contentEntries.push(newEntry);
-        console.log('Added new entry:', newEntry);
+        // Save to Supabase
+        const savedEntry = await saveContentToSupabase(newEntry);
 
-        // Save to localStorage first
-        saveContentToStorage();
+        // Reset button
+        saveBtn.textContent = originalBtnText;
+        saveBtn.disabled = false;
 
-        // Close modal immediately
-        closeAddModal();
+        if (savedEntry) {
+            // Add to local entries array
+            contentEntries.push({
+                id: savedEntry.id,
+                date: savedEntry.date,
+                title: savedEntry.title,
+                url: savedEntry.url,
+                source: savedEntry.source,
+                category: savedEntry.category,
+                thoughts: savedEntry.thoughts,
+                addedAt: savedEntry.added_at
+            });
+            console.log('Added new entry:', savedEntry);
 
-        // Navigate to the month of the new entry
-        const entryDate = new Date(date + 'T00:00:00');
-        currentYear = entryDate.getFullYear();
-        currentMonth = entryDate.getMonth();
+            // Close modal immediately
+            closeAddModal();
 
-        // Re-render calendar to show the new entry
-        renderCalendar();
+            // Navigate to the month of the new entry
+            const entryDate = new Date(date + 'T00:00:00');
+            currentYear = entryDate.getFullYear();
+            currentMonth = entryDate.getMonth();
 
-        // Also update list view if visible
-        if (!listView.classList.contains('hidden')) {
-            renderListView();
+            // Re-render calendar to show the new entry
+            renderCalendar();
+
+            // Also update list view if visible
+            if (!listView.classList.contains('hidden')) {
+                renderListView();
+            }
+
+            console.log('Calendar updated, total entries:', contentEntries.length);
+        } else {
+            alert('Failed to save content. Please try again.');
         }
-
-        console.log('Calendar updated, total entries:', contentEntries.length);
     });
 
     // Keyboard shortcuts
@@ -1750,20 +1930,61 @@ function initGuestbook() {
 
     // State
     let currentSpread = 0;
-    let notes = loadNotesFromStorage();
+    let notes = [];
 
-    // Guestbook starts blank - no sample notes
+    // Load notes from Supabase
+    async function loadNotesFromSupabase() {
+        try {
+            const { data, error } = await supabase
+                .from('guestbook_notes')
+                .select('*')
+                .order('created_at', { ascending: false });
 
-    // Load notes from localStorage
-    function loadNotesFromStorage() {
-        const stored = localStorage.getItem('guestbook-notes');
-        return stored ? JSON.parse(stored) : [];
+            if (error) {
+                console.error('Error loading guestbook notes:', error);
+                return [];
+            }
+
+            // Map to expected format
+            return (data || []).map(note => ({
+                id: note.id,
+                message: note.message,
+                createdAt: note.created_at
+            }));
+        } catch (err) {
+            console.error('Error loading guestbook notes:', err);
+            return [];
+        }
     }
 
-    // Save notes to localStorage
-    function saveNotesToStorage() {
-        localStorage.setItem('guestbook-notes', JSON.stringify(notes));
+    // Save note to Supabase
+    async function saveNoteToSupabase(message) {
+        try {
+            const { data, error } = await supabase
+                .from('guestbook_notes')
+                .insert([{ message }])
+                .select();
+
+            if (error) {
+                console.error('Error saving guestbook note:', error);
+                return null;
+            }
+
+            return data[0];
+        } catch (err) {
+            console.error('Error saving guestbook note:', err);
+            return null;
+        }
     }
+
+    // Initialize notes
+    async function initializeNotes() {
+        notes = await loadNotesFromSupabase();
+        renderSpread();
+    }
+
+    // Start loading notes
+    initializeNotes();
 
     // Format date for display
     function formatDate(dateStr) {
@@ -1930,7 +2151,7 @@ function initGuestbook() {
     });
 
     // Submit note
-    noteSubmit.addEventListener('click', () => {
+    noteSubmit.addEventListener('click', async () => {
         const message = noteTextarea.value.trim();
 
         if (!message) {
@@ -1939,29 +2160,41 @@ function initGuestbook() {
             return;
         }
 
-        // Create new note
-        const newNote = {
-            id: Date.now(),
-            message,
-            createdAt: new Date().toISOString()
-        };
+        // Show loading state
+        noteSubmit.textContent = 'Submitting...';
+        noteSubmit.disabled = true;
 
-        // Add to beginning (newest first)
-        notes.unshift(newNote);
-        saveNotesToStorage();
+        // Save to Supabase
+        const savedNote = await saveNoteToSupabase(message);
 
-        // Close modal
-        closeWriteModal();
+        // Reset button
+        noteSubmit.textContent = 'Submit';
+        noteSubmit.disabled = false;
 
-        // Show success message
-        noteSuccess.classList.add('show');
-        setTimeout(() => {
-            noteSuccess.classList.remove('show');
-        }, 2000);
+        if (savedNote) {
+            // Add to local notes array
+            notes.unshift({
+                id: savedNote.id,
+                message: savedNote.message,
+                createdAt: savedNote.created_at
+            });
 
-        // Go to first page to show new note
-        currentSpread = 0;
-        renderSpread();
+            // Close modal
+            closeWriteModal();
+
+            // Show success message
+            noteSuccess.classList.add('show');
+            setTimeout(() => {
+                noteSuccess.classList.remove('show');
+            }, 2000);
+
+            // Go to first page to show new note
+            currentSpread = 0;
+            renderSpread();
+        } else {
+            // Show error
+            alert('Failed to save note. Please try again.');
+        }
     });
 
     // Keyboard shortcuts
