@@ -7,8 +7,30 @@
 const SUPABASE_URL = 'https://ptoykobcidzgewmtiomp.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0b3lrb2JjaWR6Z2V3bXRpb21wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1ODQ0MDYsImV4cCI6MjA4NTE2MDQwNn0.7kP4Dk4paoIzGMfwYmswlyrQhSTSS-3qVMEPjrU0HvE';
 
-// Initialize Supabase client
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Initialize Supabase client (with fallback if library not loaded)
+let supabase = null;
+try {
+    if (window.supabase) {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } else {
+        console.warn('Supabase library not loaded');
+    }
+} catch (err) {
+    console.error('Failed to initialize Supabase:', err);
+}
+
+// Check for admin mode via URL parameter: ?admin=shraddha
+(function checkAdminMode() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const adminParam = urlParams.get('admin');
+    if (adminParam === 'shraddha') {
+        localStorage.setItem('admin-authenticated', 'true');
+        console.log('Admin mode enabled');
+    } else if (adminParam === 'logout') {
+        localStorage.removeItem('admin-authenticated');
+        console.log('Admin mode disabled');
+    }
+})();
 
 document.addEventListener('DOMContentLoaded', () => {
     loadContent();      // Load content from content.js
@@ -883,6 +905,10 @@ function initPhotoGallery() {
 
     // Load photos from Supabase
     async function loadPhotosFromSupabase() {
+        if (!supabase) {
+            console.warn('Supabase not available, returning empty photos');
+            return { polaroids: [], film: [], digital: [] };
+        }
         try {
             const { data, error } = await supabase
                 .from('photos')
@@ -919,6 +945,10 @@ function initPhotoGallery() {
 
     // Upload image to Supabase Storage
     async function uploadImageToSupabase(base64Data) {
+        if (!supabase) {
+            console.warn('Supabase not available');
+            return null;
+        }
         try {
             // Convert base64 to blob
             const response = await fetch(base64Data);
@@ -954,6 +984,7 @@ function initPhotoGallery() {
 
     // Save photo metadata to Supabase
     async function savePhotoToSupabase(photoData) {
+        if (!supabase) return null;
         try {
             const { data, error } = await supabase
                 .from('photos')
@@ -981,6 +1012,7 @@ function initPhotoGallery() {
 
     // Update photo caption in Supabase
     async function updatePhotoCaptionInSupabase(photoId, caption) {
+        if (!supabase) return;
         try {
             const { error } = await supabase
                 .from('photos')
@@ -997,6 +1029,7 @@ function initPhotoGallery() {
 
     // Delete photo from Supabase
     async function deletePhotoFromSupabase(photoId) {
+        if (!supabase) return false;
         try {
             const { error } = await supabase
                 .from('photos')
@@ -1308,6 +1341,10 @@ function initContentCalendar() {
 
     // Load content from Supabase
     async function loadContentFromSupabase() {
+        if (!supabase) {
+            console.warn('Supabase not available, returning empty content');
+            return [];
+        }
         try {
             const { data, error } = await supabase
                 .from('content_entries')
@@ -1338,6 +1375,7 @@ function initContentCalendar() {
 
     // Save content entry to Supabase
     async function saveContentToSupabase(entry) {
+        if (!supabase) return null;
         try {
             const { data, error } = await supabase
                 .from('content_entries')
@@ -1365,6 +1403,7 @@ function initContentCalendar() {
 
     // Delete content entry from Supabase
     async function deleteContentFromSupabase(entryId) {
+        if (!supabase) return false;
         try {
             const { error } = await supabase
                 .from('content_entries')
@@ -1934,6 +1973,10 @@ function initGuestbook() {
 
     // Load notes from Supabase
     async function loadNotesFromSupabase() {
+        if (!supabase) {
+            console.warn('Supabase not available, returning empty notes');
+            return [];
+        }
         try {
             const { data, error } = await supabase
                 .from('guestbook_notes')
@@ -1959,6 +2002,7 @@ function initGuestbook() {
 
     // Save note to Supabase
     async function saveNoteToSupabase(message) {
+        if (!supabase) return null;
         try {
             const { data, error } = await supabase
                 .from('guestbook_notes')
