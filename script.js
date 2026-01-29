@@ -1009,7 +1009,7 @@ function initPhotoGallery() {
 
     // Save photo metadata to Supabase
     async function savePhotoToSupabase(photoData) {
-        if (!supabase) return null;
+        if (!supabaseClient) return null;
         try {
             const { data, error } = await supabaseClient
                 .from('photos')
@@ -1037,7 +1037,7 @@ function initPhotoGallery() {
 
     // Update photo caption in Supabase
     async function updatePhotoCaptionInSupabase(photoId, caption) {
-        if (!supabase) return;
+        if (!supabaseClient) return;
         try {
             const { error } = await supabaseClient
                 .from('photos')
@@ -1054,7 +1054,7 @@ function initPhotoGallery() {
 
     // Delete photo from Supabase
     async function deletePhotoFromSupabase(photoId) {
-        if (!supabase) return false;
+        if (!supabaseClient) return false;
         try {
             const { error } = await supabaseClient
                 .from('photos')
@@ -1400,7 +1400,7 @@ function initContentCalendar() {
 
     // Save content entry to Supabase
     async function saveContentToSupabase(entry) {
-        if (!supabase) return null;
+        if (!supabaseClient) return null;
         try {
             const { data, error } = await supabaseClient
                 .from('content_entries')
@@ -1428,7 +1428,7 @@ function initContentCalendar() {
 
     // Delete content entry from Supabase
     async function deleteContentFromSupabase(entryId) {
-        if (!supabase) return false;
+        if (!supabaseClient) return false;
         try {
             const { error } = await supabaseClient
                 .from('content_entries')
@@ -2027,7 +2027,7 @@ function initGuestbook() {
 
     // Save note to Supabase
     async function saveNoteToSupabase(message) {
-        if (!supabase) return null;
+        if (!supabaseClient) return null;
         try {
             const { data, error } = await supabaseClient
                 .from('guestbook_notes')
