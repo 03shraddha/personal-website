@@ -334,75 +334,37 @@
             <h2 class="section-title">guestbook</h2>
             <p class="section-intro">leave a note, say hi, share a thought</p>
 
-            <!-- Windows 95 Notepad Window -->
-            <div class="notepad-window">
-                <!-- Title Bar -->
-                <div class="notepad-titlebar">
-                    <div class="notepad-titlebar-icon">
-                        <svg width="16" height="16" viewBox="0 0 16 16">
-                            <rect x="2" y="2" width="12" height="12" fill="#fff" stroke="#000080" stroke-width="1"/>
-                            <rect x="2" y="2" width="12" height="2" fill="#000080"/>
-                            <line x1="4" y1="6" x2="12" y2="6" stroke="#000080" stroke-width="1"/>
-                            <line x1="4" y1="8" x2="12" y2="8" stroke="#000080" stroke-width="1"/>
-                            <line x1="4" y1="10" x2="9" y2="10" stroke="#000080" stroke-width="1"/>
-                        </svg>
-                    </div>
-                    <span class="notepad-title">Guestbook - Notepad</span>
-                    <div class="notepad-titlebar-buttons">
-                        <button class="notepad-btn minimize" aria-label="Minimize">_</button>
-                        <button class="notepad-btn maximize" aria-label="Maximize">□</button>
-                        <button class="notepad-btn close" aria-label="Close">×</button>
+            <!-- Windows 95 Notepad -->
+            <div class="win95-notepad">
+                <div class="win95-titlebar">
+                    <span class="win95-icon">📝</span>
+                    <span class="win95-title-text">Guestbook.txt - Notepad</span>
+                    <div class="win95-controls">
+                        <button type="button">−</button>
+                        <button type="button">□</button>
+                        <button type="button">×</button>
                     </div>
                 </div>
-
-                <!-- Menu Bar -->
-                <div class="notepad-menubar">
-                    <span class="notepad-menu-item"><u>F</u>ile</span>
-                    <span class="notepad-menu-item"><u>E</u>dit</span>
-                    <span class="notepad-menu-item">For<u>m</u>at</span>
-                    <span class="notepad-menu-item"><u>V</u>iew</span>
-                    <span class="notepad-menu-item"><u>H</u>elp</span>
+                <div class="win95-menubar">
+                    <span>File</span>
+                    <span>Edit</span>
+                    <span>Format</span>
+                    <span>View</span>
+                    <span>Help</span>
                 </div>
-
-                <!-- Content Area with Scrollbars -->
-                <div class="notepad-content-wrapper">
-                    <div class="notepad-content">
-                        <div class="notepad-text-area" id="notepad-entries">
-                            <!-- Entries will be loaded here as plain text -->
-                        </div>
-                        <!-- Vertical Scrollbar -->
-                        <div class="notepad-scrollbar-v">
-                            <button class="scrollbar-btn up" aria-label="Scroll up">▲</button>
-                            <div class="scrollbar-track">
-                                <div class="scrollbar-thumb"></div>
-                            </div>
-                            <button class="scrollbar-btn down" aria-label="Scroll down">▼</button>
-                        </div>
-                    </div>
-                    <!-- Horizontal Scrollbar -->
-                    <div class="notepad-scrollbar-h">
-                        <button class="scrollbar-btn left" aria-label="Scroll left">◄</button>
-                        <div class="scrollbar-track"></div>
-                        <button class="scrollbar-btn right" aria-label="Scroll right">►</button>
-                        <div class="scrollbar-corner"></div>
-                    </div>
+                <div class="win95-editor">
+                    <div class="win95-textarea" id="notepad-entries"></div>
                 </div>
-
-                <!-- Input Area -->
-                <div class="notepad-input-area">
-                    <div class="notepad-input-wrapper">
-                        <textarea id="notepad-input" placeholder="Type your message here..." maxlength="280" rows="2"></textarea>
-                        <span class="notepad-char-count"><span id="notepad-char-count">0</span>/280</span>
+                <div class="win95-footer">
+                    <textarea id="notepad-input" class="win95-input" placeholder="Type your message here..." maxlength="280"></textarea>
+                    <div class="win95-actions">
+                        <span class="win95-charcount"><span id="notepad-char-count">0</span>/280</span>
+                        <button type="button" id="notepad-submit" class="win95-btn">Add Entry</button>
                     </div>
-                    <button id="notepad-submit" class="notepad-submit-btn">Add Entry</button>
-                </div>
-
-                <!-- Status Bar with Pagination -->
-                <div class="notepad-statusbar">
-                    <div class="notepad-pagination">
-                        <button id="notepad-prev" class="notepad-nav-btn" aria-label="Previous">« Prev</button>
+                    <div class="win95-pagination">
+                        <button type="button" id="notepad-prev" class="win95-nav-btn">◀ Prev</button>
                         <span id="notepad-page-info">Page 1 of 1</span>
-                        <button id="notepad-next" class="notepad-nav-btn" aria-label="Next">Next »</button>
+                        <button type="button" id="notepad-next" class="win95-nav-btn">Next ▶</button>
                     </div>
                 </div>
             </div>
