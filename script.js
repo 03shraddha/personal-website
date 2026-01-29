@@ -25,7 +25,7 @@ function initSupabase() {
 }
 
 // Admin password hash (SHA-256 of "admin361")
-const ADMIN_PASSWORD_HASH = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918';
+const ADMIN_PASSWORD_HASH = '0a9933ce1f3ee9195af9ac29566e786995291f9fbbe7630bc42fb1f04b67a7ab';
 
 // Simple SHA-256 hash function
 async function sha256(message) {
