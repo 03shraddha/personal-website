@@ -8,13 +8,13 @@ const SUPABASE_URL = 'https://ptoykobcidzgewmtiomp.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0b3lrb2JjaWR6Z2V3bXRpb21wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1ODQ0MDYsImV4cCI6MjA4NTE2MDQwNn0.7kP4Dk4paoIzGMfwYmswlyrQhSTSS-3qVMEPjrU0HvE';
 
 // Supabase client - initialized later
-let supabase = null;
+let supabaseClient = null;
 
 // Initialize Supabase client (called after DOM loads)
 function initSupabase() {
     try {
         if (window.supabase) {
-            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             console.log('Supabase initialized');
         } else {
             console.warn('Supabase library not loaded');
@@ -930,12 +930,12 @@ function initPhotoGallery() {
 
     // Load photos from Supabase
     async function loadPhotosFromSupabase() {
-        if (!supabase) {
+        if (!supabaseClient) {
             console.warn('Supabase not available, returning empty photos');
             return { polaroids: [], film: [], digital: [] };
         }
         try {
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('photos')
                 .select('*')
                 .order('created_at', { ascending: false });
@@ -970,7 +970,7 @@ function initPhotoGallery() {
 
     // Upload image to Supabase Storage
     async function uploadImageToSupabase(base64Data) {
-        if (!supabase) {
+        if (!supabaseClient) {
             console.warn('Supabase not available');
             return null;
         }
@@ -983,7 +983,7 @@ function initPhotoGallery() {
             const filename = `photo_${Date.now()}.${blob.type.split('/')[1] || 'jpg'}`;
 
             // Upload to Supabase Storage
-            const { data, error } = await supabase.storage
+            const { data, error } = await supabaseClient.storage
                 .from('photos')
                 .upload(filename, blob, {
                     contentType: blob.type,
@@ -996,7 +996,7 @@ function initPhotoGallery() {
             }
 
             // Get public URL
-            const { data: urlData } = supabase.storage
+            const { data: urlData } = supabaseClient.storage
                 .from('photos')
                 .getPublicUrl(filename);
 
@@ -1011,7 +1011,7 @@ function initPhotoGallery() {
     async function savePhotoToSupabase(photoData) {
         if (!supabase) return null;
         try {
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('photos')
                 .insert([{
                     src: photoData.src,
@@ -1039,7 +1039,7 @@ function initPhotoGallery() {
     async function updatePhotoCaptionInSupabase(photoId, caption) {
         if (!supabase) return;
         try {
-            const { error } = await supabase
+            const { error } = await supabaseClient
                 .from('photos')
                 .update({ caption })
                 .eq('id', photoId);
@@ -1056,7 +1056,7 @@ function initPhotoGallery() {
     async function deletePhotoFromSupabase(photoId) {
         if (!supabase) return false;
         try {
-            const { error } = await supabase
+            const { error } = await supabaseClient
                 .from('photos')
                 .delete()
                 .eq('id', photoId);
@@ -1366,12 +1366,12 @@ function initContentCalendar() {
 
     // Load content from Supabase
     async function loadContentFromSupabase() {
-        if (!supabase) {
+        if (!supabaseClient) {
             console.warn('Supabase not available, returning empty content');
             return [];
         }
         try {
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('content_entries')
                 .select('*')
                 .order('date', { ascending: false });
@@ -1402,7 +1402,7 @@ function initContentCalendar() {
     async function saveContentToSupabase(entry) {
         if (!supabase) return null;
         try {
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('content_entries')
                 .insert([{
                     date: entry.date,
@@ -1430,7 +1430,7 @@ function initContentCalendar() {
     async function deleteContentFromSupabase(entryId) {
         if (!supabase) return false;
         try {
-            const { error } = await supabase
+            const { error } = await supabaseClient
                 .from('content_entries')
                 .delete()
                 .eq('id', entryId);
@@ -1998,12 +1998,12 @@ function initGuestbook() {
 
     // Load notes from Supabase
     async function loadNotesFromSupabase() {
-        if (!supabase) {
+        if (!supabaseClient) {
             console.warn('Supabase not available, returning empty notes');
             return [];
         }
         try {
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('guestbook_notes')
                 .select('*')
                 .order('created_at', { ascending: false });
@@ -2029,7 +2029,7 @@ function initGuestbook() {
     async function saveNoteToSupabase(message) {
         if (!supabase) return null;
         try {
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('guestbook_notes')
                 .insert([{ message }])
                 .select();
