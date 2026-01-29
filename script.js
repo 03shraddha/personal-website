@@ -24,16 +24,41 @@ function initSupabase() {
     }
 }
 
+// Admin password hash (SHA-256 of "admin361")
+const ADMIN_PASSWORD_HASH = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918';
+
+// Simple SHA-256 hash function
+async function sha256(message) {
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 // Check for admin mode via URL parameter: ?admin=shraddha
-function checkAdminMode() {
+async function checkAdminMode() {
     const urlParams = new URLSearchParams(window.location.search);
     const adminParam = urlParams.get('admin');
+
     if (adminParam === 'shraddha') {
-        localStorage.setItem('admin-authenticated', 'true');
-        console.log('Admin mode enabled');
+        // Prompt for password
+        const password = prompt('Enter admin password:');
+        if (password) {
+            const hashedInput = await sha256(password);
+            if (hashedInput === ADMIN_PASSWORD_HASH) {
+                localStorage.setItem('admin-authenticated', 'true');
+                alert('Admin mode enabled!');
+                // Remove the URL parameter for cleaner URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            } else {
+                alert('Incorrect password');
+                localStorage.removeItem('admin-authenticated');
+            }
+        }
     } else if (adminParam === 'logout') {
         localStorage.removeItem('admin-authenticated');
-        console.log('Admin mode disabled');
+        alert('Admin mode disabled');
+        window.history.replaceState({}, document.title, window.location.pathname);
     }
 }
 
