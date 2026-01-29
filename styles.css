@@ -35,30 +35,6 @@
     --section-gap: 80px;
 }
 
-/* Dark Mode */
-[data-theme="dark"] {
-    --color-bg: #0f0f0f;
-    --color-text: #e8e8e8;
-    --color-text-muted: #888888;
-    --color-text-light: #555555;
-    --color-border: #2a2a2a;
-
-    /* Highlight Colors - Adjusted for dark mode */
-    --highlight-peach: rgba(255, 160, 120, 0.4);
-    --highlight-blue: rgba(120, 170, 255, 0.4);
-    --highlight-lavender: rgba(190, 140, 255, 0.4);
-    --highlight-yellow: rgba(255, 220, 100, 0.5);
-
-    /* Highlight Hover States */
-    --highlight-peach-hover: rgba(255, 160, 120, 0.6);
-    --highlight-blue-hover: rgba(120, 170, 255, 0.6);
-    --highlight-lavender-hover: rgba(190, 140, 255, 0.6);
-    --highlight-yellow-hover: rgba(255, 210, 80, 0.7);
-
-    /* Card backgrounds */
-    --color-card-bg: #1a1a1a;
-}
-
 /* Reset & Base */
 *, *::before, *::after {
     box-sizing: border-box;
@@ -100,21 +76,6 @@ html, body, * {
 
 /* Pointer cursor for clickable elements - larger dark pink flower */
 a, button, .tab, .highlight, [role="button"] {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext x='4' y='22' font-size='22' fill='%23e75480'%3E✿%3C/text%3E%3C/svg%3E") 16 16, pointer;
-}
-
-/* Dark mode - same dark pink flower works on dark backgrounds */
-[data-theme="dark"] html,
-[data-theme="dark"] body,
-[data-theme="dark"] * {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ctext x='4' y='20' font-size='18' fill='%23e75480'%3E✿%3C/text%3E%3C/svg%3E") 14 14, auto;
-}
-
-[data-theme="dark"] a,
-[data-theme="dark"] button,
-[data-theme="dark"] .tab,
-[data-theme="dark"] .highlight,
-[data-theme="dark"] [role="button"] {
     cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext x='4' y='22' font-size='22' fill='%23e75480'%3E✿%3C/text%3E%3C/svg%3E") 16 16, pointer;
 }
 
@@ -182,43 +143,6 @@ a, button, .tab, .highlight, [role="button"] {
 .social-links svg {
     width: 18px;
     height: 18px;
-}
-
-/* Theme Toggle Button */
-.theme-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: var(--color-text-muted);
-    transition: color 0.2s ease, transform 0.2s ease;
-    padding: 0;
-}
-
-.theme-toggle:hover {
-    color: var(--color-text);
-    transform: translateY(-2px);
-}
-
-.theme-toggle svg {
-    width: 18px;
-    height: 18px;
-}
-
-.theme-toggle .moon-icon {
-    display: none;
-}
-
-[data-theme="dark"] .theme-toggle .sun-icon {
-    display: none;
-}
-
-[data-theme="dark"] .theme-toggle .moon-icon {
-    display: block;
 }
 
 /* ===================================
@@ -2326,20 +2250,6 @@ a, button, .tab, .highlight, [role="button"] {
     grid-column: 1 / -1;
 }
 
-/* Dark mode adjustments for polaroids */
-[data-theme="dark"] .polaroid {
-    background: #f8f8f8;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme="dark"] .polaroid:hover {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-}
-
-[data-theme="dark"] .polaroid-frame-preview {
-    background: #f8f8f8;
-}
-
 /* Responsive adjustments */
 @media (max-width: 600px) {
     .polaroid-gallery {
@@ -2568,15 +2478,6 @@ a, button, .tab, .highlight, [role="button"] {
     border-color: #FFE5B5; /* Soft yellow */
 }
 
-/* Dark mode - slightly brighter pastels for visibility */
-[data-theme="dark"] .calendar-day.has-content.day-sun { border-color: #FF8A92; }
-[data-theme="dark"] .calendar-day.has-content.day-mon { border-color: #7AB8FF; }
-[data-theme="dark"] .calendar-day.has-content.day-tue { border-color: #8AE08A; }
-[data-theme="dark"] .calendar-day.has-content.day-wed { border-color: #FFB87A; }
-[data-theme="dark"] .calendar-day.has-content.day-thu { border-color: #B87AFF; }
-[data-theme="dark"] .calendar-day.has-content.day-fri { border-color: #7AE0E0; }
-[data-theme="dark"] .calendar-day.has-content.day-sat { border-color: #FFD27A; }
-
 .calendar-day-number {
     font-size: 12px;
     font-weight: 500;
@@ -2779,32 +2680,6 @@ a, button, .tab, .highlight, [role="button"] {
     background: var(--highlight-peach);
 }
 
-/* Dark mode for date groups */
-[data-theme="dark"] .content-date-group.highlighted {
-    background: rgba(255, 255, 255, 0.03);
-    border-left-color: var(--color-text-muted);
-}
-
-[data-theme="dark"] .content-date-group.highlighted .content-date-header {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
-}
-
-[data-theme="dark"] .content-item-category {
-    background: rgba(255, 200, 150, 0.2);
-}
-
-[data-theme="dark"] .content-item-category.video {
-    background: rgba(150, 200, 255, 0.2);
-}
-
-[data-theme="dark"] .content-item-category.book {
-    background: rgba(200, 180, 255, 0.2);
-}
-
-[data-theme="dark"] .content-item-category.podcast {
-    background: rgba(120, 200, 180, 0.2);
-}
-
 /* Day Detail Panel */
 .content-day-panel {
     position: fixed;
@@ -2850,10 +2725,6 @@ a, button, .tab, .highlight, [role="button"] {
 
 .content-day-panel.active .panel-content {
     transform: translateX(0);
-}
-
-[data-theme="dark"] .panel-content {
-    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .panel-close {
@@ -3372,13 +3243,6 @@ a, button, .tab, .highlight, [role="button"] {
 .fab-add-content svg {
     stroke-width: 2.5;
 }
-
-/* Dark mode adjustments */
-[data-theme="dark"] .panel-item-category.article { background: rgba(245, 168, 85, 0.15); color: #f5a855; }
-[data-theme="dark"] .panel-item-category.substack { color: #ffb088; }
-[data-theme="dark"] .panel-item-category.video { color: #93c5fd; }
-[data-theme="dark"] .panel-item-category.podcast { background: rgba(120, 200, 180, 0.15); color: #6ee7b7; }
-[data-theme="dark"] .panel-item-category.book { color: #c4b5fd; }
 
 /* ===================================
    Mobile Responsive Styles
@@ -4111,17 +3975,6 @@ a, button, .tab, .highlight, [role="button"] {
     text-align: center;
 }
 
-/* Dark mode - keep Win95 look identical */
-[data-theme="dark"] .win95-notepad,
-[data-theme="dark"] .win95-titlebar,
-[data-theme="dark"] .win95-menubar,
-[data-theme="dark"] .win95-editor,
-[data-theme="dark"] .win95-textarea,
-[data-theme="dark"] .win95-footer,
-[data-theme="dark"] .win95-input {
-    /* Keep Win95 colors in dark mode */
-}
-
 /* Mobile responsive */
 @media (max-width: 600px) {
     .win95-notepad {
@@ -4261,14 +4114,6 @@ a, button, .tab, .highlight, [role="button"] {
     z-index: 10001;
 }
 
-[data-theme="dark"] .mobile-preview-frame {
-    border-color: #333;
-}
-
-[data-theme="dark"] .mobile-preview-frame::before {
-    background: #333;
-}
-
 /* Iframe inside the frame */
 .mobile-preview-frame iframe {
     width: 100%;
@@ -4319,144 +4164,6 @@ a, button, .tab, .highlight, [role="button"] {
 
 .mobile-preview-close.active {
     display: flex;
-}
-
-/* ===================================
-   Dark Mode - Comprehensive Fixes
-   =================================== */
-
-/* Sticky note (projects empty state) */
-[data-theme="dark"] .sticky-note {
-    background: #2a2520;
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme="dark"] .sticky-note::before {
-    background: linear-gradient(to right, #5a4a30, #6a5a40, #5a4a30);
-}
-
-[data-theme="dark"] .sticky-note-title {
-    color: #e8e0d0;
-}
-
-[data-theme="dark"] .sticky-note-text {
-    color: #b8b0a0;
-}
-
-[data-theme="dark"] .sticky-note-cta {
-    color: #908880;
-}
-
-/* Community logo background */
-[data-theme="dark"] .community-logo {
-    background: #2a2a2a;
-}
-
-/* Experience items */
-[data-theme="dark"] .experience-item {
-    background: var(--color-card-bg);
-    border-color: var(--color-border);
-}
-
-/* Toggle buttons (Read more, Show less) */
-[data-theme="dark"] .background-toggle,
-[data-theme="dark"] .beyond-work-toggle,
-[data-theme="dark"] .background-toggle-less,
-[data-theme="dark"] .beyond-work-toggle-less,
-[data-theme="dark"] .experience-toggle,
-[data-theme="dark"] .community-toggle {
-    border-color: var(--color-border);
-    color: var(--color-text);
-}
-
-[data-theme="dark"] .background-toggle:hover,
-[data-theme="dark"] .beyond-work-toggle:hover,
-[data-theme="dark"] .background-toggle-less:hover,
-[data-theme="dark"] .beyond-work-toggle-less:hover {
-    background: var(--highlight-peach);
-    border-color: var(--highlight-peach);
-}
-
-/* Tabs */
-[data-theme="dark"] .tab {
-    border-color: var(--color-border);
-}
-
-[data-theme="dark"] .tab:hover {
-    border-color: var(--color-text-muted);
-}
-
-[data-theme="dark"] .tab.active {
-    background: var(--color-text);
-    color: var(--color-bg);
-    border-color: var(--color-text);
-}
-
-/* Photo tabs */
-[data-theme="dark"] .photo-tab {
-    border-color: var(--color-border);
-}
-
-[data-theme="dark"] .photo-tab:hover {
-    border-color: var(--color-text-muted);
-}
-
-[data-theme="dark"] .photo-tab.active {
-    background: var(--color-text);
-    color: var(--color-bg);
-    border-color: var(--color-text);
-}
-
-/* Photo editor modal */
-[data-theme="dark"] .photo-editor-modal .modal-content {
-    background: var(--color-card-bg);
-}
-
-[data-theme="dark"] .photo-crop-area {
-    background: #1a1a1a;
-}
-
-/* Social links on mobile */
-[data-theme="dark"] .social-links {
-    background: var(--color-bg);
-    border-color: var(--color-border);
-}
-
-/* Hamburger menu */
-[data-theme="dark"] .mobile-menu-toggle {
-    background: var(--color-bg);
-    border-color: var(--color-border);
-}
-
-/* Learn about me list hover */
-[data-theme="dark"] .learn-about-list a.highlight:hover {
-    border-bottom-color: var(--highlight-peach);
-}
-
-/* Thoughts links */
-[data-theme="dark"] .thoughts-title:hover {
-    border-bottom-color: var(--highlight-peach);
-}
-
-/* Content worth consuming cards */
-[data-theme="dark"] .consume-item {
-    border-color: var(--color-border);
-}
-
-/* Fun facts grid */
-[data-theme="dark"] .fun-fact {
-    background: var(--color-card-bg);
-    border-color: var(--color-border);
-}
-
-/* Unique abilities bullet */
-[data-theme="dark"] .unique-abilities li::before {
-    color: var(--color-text-muted);
-}
-
-/* Footer */
-[data-theme="dark"] .footer {
-    color: var(--color-text-light);
 }
 
 /* Print Styles */

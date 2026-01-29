@@ -77,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
         initNavigation();
         initTabs();
         initScrollSpy();
-        initThemeToggle();  // Dark mode toggle
         initCustomCursor(); // Custom cursor
         initPhotoGallery(); // Polaroid photo gallery
         initContentCalendar(); // Content consumption calendar
@@ -216,33 +215,6 @@ function initCustomCursor() {
     });
 }
 
-/**
- * Dark Mode Toggle
- */
-function initThemeToggle() {
-    const toggle = document.getElementById('theme-toggle');
-    if (!toggle) return;
-
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    // Check for saved theme preference, otherwise use system preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    } else if (prefersDark) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-    }
-
-    toggle.addEventListener('click', function() {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-    });
-}
 
 /**
  * Load all content from the CONTENT object in content.js
