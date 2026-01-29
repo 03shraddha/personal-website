@@ -1658,16 +1658,16 @@ a, button, .tab, .highlight, [role="button"] {
         padding: 12px 10px;
     }
 
-    /* Typography - Match desktop sizes */
+    /* Typography - Slightly reduced for mobile */
     .name {
-        font-size: 26px;
+        font-size: 24px;
         font-weight: 500;
         line-height: 1.3;
         margin-bottom: 16px;
     }
 
     .intro {
-        font-size: 17px;
+        font-size: 15px;
         line-height: 1.7;
         margin-bottom: 16px;
     }
@@ -1675,12 +1675,12 @@ a, button, .tab, .highlight, [role="button"] {
     .about-story,
     .about-content p,
     .about-subsection p {
-        font-size: 17px;
+        font-size: 15px;
         line-height: 1.7;
     }
 
     .contact-line {
-        font-size: 16px;
+        font-size: 15px;
         line-height: 1.75;
     }
 
@@ -1691,25 +1691,25 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .section-title {
-        font-size: 28px;
+        font-size: 24px;
         font-weight: 600;
         margin-bottom: 8px;
     }
 
     .section-intro {
-        font-size: 16px;
+        font-size: 15px;
         margin-bottom: 32px;
     }
 
     /* Learn about me section */
     .learn-about-list li {
         margin-bottom: 14px;
-        font-size: 16px;
+        font-size: 15px;
         line-height: 1.7;
     }
 
     .learn-about-list em {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     /* About subsections */
@@ -1723,7 +1723,7 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .about-subsection p strong {
-        font-size: 17px;
+        font-size: 15px;
         font-weight: 600;
         line-height: 1.7;
         display: block;
@@ -1731,14 +1731,14 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .about-subtitle {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 600;
         margin-bottom: 8px;
         margin-top: 0;
     }
 
     .about-subtitle-meta {
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 600;
         margin-bottom: 16px;
     }
@@ -1767,30 +1767,30 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .experience-header h3 {
-        font-size: 17px;
+        font-size: 15px;
     }
 
     .experience-date {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .experience-company {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .experience-brief {
-        font-size: 17px;
+        font-size: 15px;
         line-height: 1.7;
     }
 
     .experience-expanded h4 {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 600;
     }
 
     .experience-expanded p,
     .experience-expanded li {
-        font-size: 17px;
+        font-size: 15px;
         line-height: 1.7;
     }
 
@@ -1818,31 +1818,31 @@ a, button, .tab, .highlight, [role="button"] {
     /* Community cards */
     .community-expanded p,
     .community-brief {
-        font-size: 17px;
+        font-size: 15px;
         line-height: 1.7;
     }
 
     /* Beyond work */
     .beyond-work-item {
-        font-size: 17px;
+        font-size: 15px;
         line-height: 1.7;
     }
 
     /* Background list */
     .background-preview li,
     .background-full li {
-        font-size: 17px;
+        font-size: 15px;
         line-height: 1.7;
     }
 
-    /* Unique abilities list - match desktop */
+    /* Unique abilities list */
     .unique-abilities h2 {
-        font-size: 17px;
+        font-size: 15px;
         font-weight: 600;
     }
 
     .unique-abilities ul {
-        font-size: 17px;
+        font-size: 15px;
         line-height: 1.7;
     }
 
@@ -1853,7 +1853,7 @@ a, button, .tab, .highlight, [role="button"] {
 
     /* About lists */
     .about-list li {
-        font-size: 17px;
+        font-size: 15px;
         line-height: 1.7;
     }
 
@@ -1887,12 +1887,12 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .thoughts-title {
-        font-size: 17px;
+        font-size: 15px;
         line-height: 1.5;
     }
 
     .thoughts-date {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     /* Footer */
@@ -3773,25 +3773,25 @@ a, button, .tab, .highlight, [role="button"] {
         min-height: 40px;
     }
 
-    /* Typography - consistent with desktop, scaled slightly */
+    /* Typography - scaled for small phones */
     .name {
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 500;
         margin-bottom: 14px;
     }
 
     .section-title {
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 600;
         margin-bottom: 8px;
     }
 
     .intro {
-        font-size: 16px;
+        font-size: 14px;
         line-height: 1.7;
     }
 
-    /* Body text - consistent 16px minimum */
+    /* Body text - scaled for small phones */
     .about-content p,
     .about-subsection p,
     .experience-brief,
@@ -3802,29 +3802,29 @@ a, button, .tab, .highlight, [role="button"] {
     .beyond-work-item,
     .background-preview li,
     .background-full li {
-        font-size: 16px;
+        font-size: 14px;
         line-height: 1.7;
     }
 
     /* Learn about me list */
     .learn-about-list li {
-        font-size: 16px;
+        font-size: 14px;
         margin-bottom: 12px;
         line-height: 1.7;
     }
 
     .learn-about-list em {
-        font-size: 13px;
+        font-size: 12px;
     }
 
-    /* Unique abilities - match desktop style */
+    /* Unique abilities */
     .unique-abilities h2 {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 600;
     }
 
     .unique-abilities ul {
-        font-size: 16px;
+        font-size: 14px;
         line-height: 1.7;
     }
 
