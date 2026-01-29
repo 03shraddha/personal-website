@@ -2062,6 +2062,34 @@ a, button, .tab, .highlight, [role="button"] {
     letter-spacing: 0.5px;
 }
 
+/* Empty Polaroid Placeholder */
+.polaroid-empty {
+    opacity: 0.7;
+}
+
+.polaroid-empty:hover {
+    transform: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.polaroid-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    border: 2px dashed #ccc;
+}
+
+.polaroid-placeholder-icon {
+    font-size: 48px;
+    opacity: 0.4;
+}
+
+.polaroid-empty .polaroid-caption-display {
+    color: #999;
+    font-style: italic;
+}
+
 /* Polaroid Caption Input (admin only) */
 .polaroid-caption {
     position: absolute;

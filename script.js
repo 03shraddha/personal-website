@@ -1110,10 +1110,20 @@ function initPhotoGallery() {
         const isAdminUser = isAdmin();
 
         if (categoryPhotos.length === 0) {
-            const emptyMsg = isAdminUser
-                ? 'No photos yet. Click "+ Add Photo" to get started!'
-                : 'No photos yet.';
-            gallery.innerHTML = `<div class="polaroid-gallery-empty">${emptyMsg}</div>`;
+            // Show empty polaroid templates
+            const emptyPolaroids = [
+                { caption: 'coming soon...' },
+                { caption: 'memories loading...' },
+                { caption: 'watch this space' }
+            ];
+            gallery.innerHTML = emptyPolaroids.map(p => `
+                <div class="polaroid polaroid-empty">
+                    <div class="polaroid-image polaroid-placeholder">
+                        <span class="polaroid-placeholder-icon">📷</span>
+                    </div>
+                    <div class="polaroid-caption-display">${p.caption}</div>
+                </div>
+            `).join('');
             return;
         }
 
