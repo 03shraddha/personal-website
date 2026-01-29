@@ -37,22 +37,34 @@ function checkAdminMode() {
     }
 }
 
+// Global error handler
+window.onerror = function(msg, url, lineNo, columnNo, error) {
+    console.error('Global error:', msg, 'at', url, lineNo, columnNo, error);
+    return false;
+};
+
 document.addEventListener('DOMContentLoaded', () => {
-    initSupabase();     // Initialize Supabase first
-    checkAdminMode();   // Check admin mode
-    loadContent();      // Load content from content.js
-    initNavigation();
-    initTabs();
-    initScrollSpy();
-    initThemeToggle();  // Dark mode toggle
-    initCustomCursor(); // Custom cursor
-    initPhotoGallery(); // Polaroid photo gallery
-    initContentCalendar(); // Content consumption calendar
-    initMobileMenu();   // Mobile hamburger menu
-    initPageViewCounter(); // Page view counter
-    initGuestbook();    // Virtual guestbook
-    initMobilePreview(); // Mobile preview toggle
-    updateYear();
+    console.log('DOMContentLoaded fired');
+    try {
+        initSupabase();     // Initialize Supabase first
+        checkAdminMode();   // Check admin mode
+        loadContent();      // Load content from content.js
+        initNavigation();
+        initTabs();
+        initScrollSpy();
+        initThemeToggle();  // Dark mode toggle
+        initCustomCursor(); // Custom cursor
+        initPhotoGallery(); // Polaroid photo gallery
+        initContentCalendar(); // Content consumption calendar
+        initMobileMenu();   // Mobile hamburger menu
+        initPageViewCounter(); // Page view counter
+        initGuestbook();    // Virtual guestbook
+        initMobilePreview(); // Mobile preview toggle
+        updateYear();
+        console.log('All initialization complete');
+    } catch (error) {
+        console.error('Error during initialization:', error);
+    }
 });
 
 /**
