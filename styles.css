@@ -3880,655 +3880,448 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 /* ===================================
-   Guestbook - Notebook Design
+   Guestbook - Windows 95/98 Notepad Style
    =================================== */
 
-.write-note-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 28px;
-    font-family: var(--font-body);
-    font-size: 15px;
-    font-weight: 600;
-    color: #fff;
-    background: #1a1a1a;
-    border: none;
-    border-radius: 100px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    margin-bottom: 32px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.write-note-btn:hover {
-    background: #333;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-
-[data-theme="dark"] .write-note-btn {
-    background: #fff;
-    color: #1a1a1a;
-}
-
-[data-theme="dark"] .write-note-btn:hover {
-    background: #f0f0f0;
-}
-
-/* Notebook Container */
-.notebook-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 0;
-}
-
-.notebook {
-    position: relative;
-    display: flex;
+/* Notepad Window Container */
+.notepad-window {
     width: 100%;
-    max-width: 700px;
-    min-height: 400px;
-    background: #FFFEF7;
-    border-radius: 2px 6px 6px 2px;
+    max-width: 560px;
+    background: #c0c0c0;
+    border: 3px solid;
+    border-color: #dfdfdf #404040 #404040 #dfdfdf;
     box-shadow:
-        0 1px 3px rgba(0, 0, 0, 0.08),
-        0 4px 12px rgba(0, 0, 0, 0.1),
-        0 12px 40px rgba(0, 0, 0, 0.12),
-        inset 0 0 60px rgba(0, 0, 0, 0.02);
-    perspective: 2000px;
-    transform-style: preserve-3d;
+        inset 1px 1px 0 #fff,
+        inset -1px -1px 0 #808080,
+        1px 1px 0 #000;
+    font-family: 'MS Sans Serif', 'Segoe UI', Tahoma, sans-serif;
 }
 
-/* Book spine effect on the left edge */
-.notebook::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 12px;
-    background: linear-gradient(to right,
-        rgba(0, 0, 0, 0.08) 0%,
-        rgba(0, 0, 0, 0.03) 40%,
-        transparent 100%);
-    border-radius: 2px 0 0 2px;
-}
-
-/* Page edges effect on the right */
-.notebook::after {
-    content: '';
-    position: absolute;
-    right: -3px;
-    top: 4px;
-    bottom: 4px;
-    width: 3px;
-    background: linear-gradient(to bottom,
-        #f5f4ef,
-        #ebe9e2,
-        #f5f4ef);
-    border-radius: 0 1px 1px 0;
-    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.05);
-}
-
-[data-theme="dark"] .notebook {
-    background: #e8e8e8;
-    box-shadow:
-        0 1px 3px rgba(0, 0, 0, 0.15),
-        0 4px 12px rgba(0, 0, 0, 0.2),
-        0 12px 40px rgba(0, 0, 0, 0.25),
-        inset 0 0 60px rgba(0, 0, 0, 0.05);
-}
-
-[data-theme="dark"] .notebook::before {
-    background: linear-gradient(to right,
-        rgba(0, 0, 0, 0.1) 0%,
-        rgba(0, 0, 0, 0.05) 40%,
-        transparent 100%);
-}
-
-[data-theme="dark"] .notebook::after {
-    background: linear-gradient(to bottom,
-        #d0d0d0,
-        #c5c5c5,
-        #d0d0d0);
-}
-
-/* Notebook Binding */
-.notebook-binding {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 20px;
-    background: linear-gradient(to right,
-        transparent 0%,
-        rgba(0,0,0,0.04) 20%,
-        rgba(0,0,0,0.06) 50%,
-        rgba(0,0,0,0.04) 80%,
-        transparent 100%);
-    transform: translateX(-50%);
-    z-index: 5;
-}
-
-/* Stitching effect on binding */
-.notebook-binding::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 20px;
-    bottom: 20px;
-    width: 1px;
-    background: repeating-linear-gradient(to bottom,
-        transparent,
-        transparent 8px,
-        rgba(0, 0, 0, 0.1) 8px,
-        rgba(0, 0, 0, 0.1) 16px);
-    transform: translateX(-50%);
-}
-
-[data-theme="dark"] .notebook-binding {
-    background: linear-gradient(to right,
-        transparent 0%,
-        rgba(0,0,0,0.04) 20%,
-        rgba(0,0,0,0.06) 50%,
-        rgba(0,0,0,0.04) 80%,
-        transparent 100%);
-}
-
-[data-theme="dark"] .notebook-binding::before {
-    background: repeating-linear-gradient(to bottom,
-        transparent,
-        transparent 8px,
-        rgba(0, 0, 0, 0.1) 8px,
-        rgba(0, 0, 0, 0.1) 16px);
-}
-
-/* Notebook Pages */
-.notebook-page {
-    flex: 1;
-    position: relative;
-    padding: 40px 36px;
+/* Title Bar - Classic blue gradient */
+.notepad-titlebar {
     display: flex;
-    flex-direction: column;
-    min-height: 360px;
-    transform-style: preserve-3d;
-    transition: transform 0.6s ease-in-out, opacity 0.3s ease;
-    backface-visibility: hidden;
-}
-
-.notebook-page.left-page {
-    border-right: 1px solid rgba(0, 0, 0, 0.06);
-    transform-origin: right center;
-}
-
-.notebook-page.right-page {
-    border-left: 1px solid rgba(0, 0, 0, 0.06);
-    transform-origin: left center;
-}
-
-/* Page flip animation states */
-.notebook-page.flipping-out-left {
-    animation: flipOutLeft 0.6s ease-in-out forwards;
-}
-
-.notebook-page.flipping-in-left {
-    animation: flipInLeft 0.6s ease-in-out forwards;
-}
-
-.notebook-page.flipping-out-right {
-    animation: flipOutRight 0.6s ease-in-out forwards;
-}
-
-.notebook-page.flipping-in-right {
-    animation: flipInRight 0.6s ease-in-out forwards;
-}
-
-@keyframes flipOutLeft {
-    0% {
-        transform: rotateY(0deg);
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-    100% {
-        transform: rotateY(-90deg);
-        opacity: 0;
-    }
-}
-
-@keyframes flipInLeft {
-    0% {
-        transform: rotateY(90deg);
-        opacity: 0;
-    }
-    50% {
-        opacity: 0.5;
-    }
-    100% {
-        transform: rotateY(0deg);
-        opacity: 1;
-    }
-}
-
-@keyframes flipOutRight {
-    0% {
-        transform: rotateY(0deg);
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-    100% {
-        transform: rotateY(90deg);
-        opacity: 0;
-    }
-}
-
-@keyframes flipInRight {
-    0% {
-        transform: rotateY(-90deg);
-        opacity: 0;
-    }
-    50% {
-        opacity: 0.5;
-    }
-    100% {
-        transform: rotateY(0deg);
-        opacity: 1;
-    }
-}
-
-[data-theme="dark"] .notebook-page.left-page {
-    border-right-color: rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="dark"] .notebook-page.right-page {
-    border-left-color: rgba(0, 0, 0, 0.08);
-}
-
-/* Page Content */
-.page-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.note-message {
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.7;
-    color: #333;
-    text-align: center;
-    padding: 20px 0;
-    font-weight: 400;
-}
-
-[data-theme="dark"] .note-message {
-    color: #333;
-}
-
-.note-attribution {
-    text-align: right;
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-style: italic;
-    color: rgba(0, 0, 0, 0.5);
-    margin-top: auto;
-    padding-top: 20px;
-}
-
-[data-theme="dark"] .note-attribution {
-    color: rgba(0, 0, 0, 0.5);
-}
-
-.notebook .note-date {
-    display: block;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 2px 2px 3px;
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: #fff;
     font-size: 11px;
-    color: rgba(0, 0, 0, 0.4);
-    margin-top: 4px;
-    font-style: normal;
+    font-weight: bold;
+    user-select: none;
+    height: 18px;
 }
 
-[data-theme="dark"] .notebook .note-date {
-    color: rgba(0, 0, 0, 0.4);
-}
-
-/* Empty page state */
-.page-empty {
-    text-align: center;
-    color: rgba(0, 0, 0, 0.4);
-    font-style: italic;
-    font-size: 14px;
-}
-
-[data-theme="dark"] .page-empty {
-    color: rgba(0, 0, 0, 0.4);
-}
-
-/* Page Numbers */
-.page-number {
-    position: absolute;
-    bottom: 16px;
-    font-family: var(--font-body);
-    font-size: 11px;
-    color: rgba(0, 0, 0, 0.35);
-}
-
-[data-theme="dark"] .page-number {
-    color: rgba(0, 0, 0, 0.35);
-}
-
-.page-number.left {
-    left: 20px;
-}
-
-.page-number.right {
-    right: 20px;
-}
-
-/* Page Curl Effect */
-.page-curl {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.05) 50%);
-}
-
-.left-page .page-curl {
-    bottom: 0;
-    left: 0;
-}
-
-.right-page .page-curl {
-    bottom: 0;
-    right: 0;
-    background: linear-gradient(-135deg, transparent 50%, rgba(0,0,0,0.05) 50%);
-}
-
-[data-theme="dark"] .page-curl {
-    background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.2) 50%);
-}
-
-[data-theme="dark"] .right-page .page-curl {
-    background: linear-gradient(-135deg, transparent 50%, rgba(0,0,0,0.2) 50%);
-}
-
-/* Page Navigation */
-.page-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
+.notepad-titlebar-icon {
+    width: 16px;
+    height: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: 50%;
-    color: var(--color-text-muted);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    z-index: 10;
+    flex-shrink: 0;
 }
 
-.page-nav:hover {
-    color: var(--color-text);
-    border-color: var(--color-text-muted);
-    background: var(--color-card-bg);
+.notepad-titlebar-icon svg {
+    width: 14px;
+    height: 14px;
 }
 
-.page-nav:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
+.notepad-title {
+    flex: 1;
+    padding-left: 2px;
+    font-size: 11px;
+    letter-spacing: 0;
+    text-shadow: none;
 }
 
-.page-nav.prev {
-    left: -20px;
+.notepad-titlebar-buttons {
+    display: flex;
+    gap: 2px;
 }
 
-.page-nav.next {
-    right: -20px;
+.notepad-btn {
+    width: 16px;
+    height: 14px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    font-family: 'Marlett', 'Webdings', sans-serif;
+    box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
 }
 
-/* Page Counter */
-.page-counter {
-    margin-top: 20px;
-    font-family: var(--font-body);
-    font-size: 12px;
-    color: var(--color-text-muted);
+.notepad-btn:active {
+    border-color: #404040 #fff #fff #404040;
+    box-shadow: inset 1px 1px 0 #808080;
 }
 
-/* Write Note Modal */
-.write-note-modal {
-    position: fixed;
-    inset: 0;
+/* Menu Bar */
+.notepad-menubar {
+    display: flex;
+    gap: 0;
+    padding: 1px 2px;
+    background: #c0c0c0;
+    font-size: 11px;
+    height: 20px;
+    align-items: center;
+}
+
+.notepad-menu-item {
+    padding: 2px 8px;
+    cursor: default;
+    color: #000;
+    font-family: 'MS Sans Serif', Tahoma, sans-serif;
+}
+
+.notepad-menu-item:hover {
+    background: #000080;
+    color: #fff;
+}
+
+.notepad-menu-item u {
+    text-decoration: underline;
+}
+
+/* Main Content Wrapper - includes text area and scrollbars */
+.notepad-content-wrapper {
+    margin: 2px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Content Area with scrollbars */
+.notepad-content {
+    display: flex;
+    background: #fff;
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf;
+    height: 300px;
+    position: relative;
+}
+
+.notepad-text-area {
+    flex: 1;
+    padding: 2px 4px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-family: 'Lucida Console', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.3;
+    color: #000;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background: #fff;
+}
+
+/* Hide default scrollbar, use custom */
+.notepad-text-area::-webkit-scrollbar {
+    display: none;
+}
+
+.notepad-text-area {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Custom Vertical Scrollbar */
+.notepad-scrollbar-v {
+    width: 16px;
+    background: #c0c0c0;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #fff;
+}
+
+.notepad-scrollbar-v .scrollbar-track {
+    flex: 1;
+    /* Classic dithered pattern */
+    background-image: url("data:image/svg+xml,%3Csvg width='2' height='2' viewBox='0 0 2 2' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='1' height='1' fill='%23c0c0c0'/%3E%3Crect x='1' y='1' width='1' height='1' fill='%23c0c0c0'/%3E%3Crect x='1' y='0' width='1' height='1' fill='%23fff'/%3E%3Crect x='0' y='1' width='1' height='1' fill='%23fff'/%3E%3C/svg%3E");
+    background-size: 2px 2px;
+    position: relative;
+}
+
+.scrollbar-btn {
+    width: 16px;
+    height: 16px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+    font-size: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    padding: 0;
+    color: #000;
+}
+
+.scrollbar-btn:active {
+    border-color: #404040 #fff #fff #404040;
+    box-shadow: inset 1px 1px 0 #808080;
+}
+
+.scrollbar-thumb {
+    position: absolute;
+    width: 14px;
+    left: 1px;
+    top: 30%;
+    height: 40px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+}
+
+/* Horizontal Scrollbar */
+.notepad-scrollbar-h {
+    height: 16px;
+    background: #c0c0c0;
+    display: flex;
+    border-top: 1px solid #fff;
+}
+
+.notepad-scrollbar-h .scrollbar-track {
+    flex: 1;
+    background-image: url("data:image/svg+xml,%3Csvg width='2' height='2' viewBox='0 0 2 2' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='1' height='1' fill='%23c0c0c0'/%3E%3Crect x='1' y='1' width='1' height='1' fill='%23c0c0c0'/%3E%3Crect x='1' y='0' width='1' height='1' fill='%23fff'/%3E%3Crect x='0' y='1' width='1' height='1' fill='%23fff'/%3E%3C/svg%3E");
+    background-size: 2px 2px;
+}
+
+.notepad-scrollbar-h .scrollbar-btn {
+    width: 16px;
+    height: 16px;
+}
+
+/* Corner piece between scrollbars */
+.scrollbar-corner {
+    width: 16px;
+    height: 16px;
+    background: #c0c0c0;
+}
+
+/* Entry styling */
+.notepad-entry {
+    margin-bottom: 12px;
+}
+
+.notepad-entry:last-child {
+    margin-bottom: 0;
+}
+
+.notepad-entry-date {
+    color: #808080;
+    font-size: 11px;
+}
+
+.notepad-entry-message {
+    color: #000;
+    margin-top: 2px;
+}
+
+.notepad-empty {
+    color: #000;
+    padding: 8px 0;
+    font-family: 'Lucida Console', 'Courier New', monospace;
+}
+
+/* Input Area - Status bar style */
+.notepad-input-area {
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    background: #c0c0c0;
+    align-items: stretch;
+    margin: 0 2px 2px 2px;
+}
+
+.notepad-input-wrapper {
+    flex: 1;
+    position: relative;
+}
+
+#notepad-input {
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.write-note-modal.active {
-    display: flex;
-}
-
-.write-note-form {
-    position: relative;
-    background: var(--color-bg);
-    border-radius: 12px;
-    padding: 32px;
-    width: 90vw;
-    max-width: 440px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 20px 60px rgba(0, 0, 0, 0.08);
-    border: 1px solid var(--color-border);
-    text-align: center;
-}
-
-[data-theme="dark"] .write-note-form {
-    background: var(--color-bg);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 20px 60px rgba(0, 0, 0, 0.2);
-}
-
-.write-note-form h3 {
-    font-family: var(--font-body);
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: 8px;
-    text-align: center;
-}
-
-.write-note-intro {
-    font-size: 14px;
-    color: var(--color-text-muted);
-    margin-bottom: 20px;
-    line-height: 1.5;
-    text-align: center;
-}
-
-.note-textarea-container {
-    position: relative;
-}
-
-#note-textarea {
-    width: 100%;
-    height: 140px;
-    padding: 16px;
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.6;
-    color: #333;
-    background: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    outline: none;
+    min-height: 40px;
+    padding: 2px 4px;
+    font-family: 'Lucida Console', 'Courier New', monospace;
+    font-size: 12px;
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    box-shadow: inset 1px 1px 0 #404040;
+    background: #fff;
     resize: none;
-    transition: border-color 0.2s ease;
+    outline: none;
     box-sizing: border-box;
 }
 
-[data-theme="dark"] #note-textarea {
-    color: #e8e8e8;
+#notepad-input::placeholder {
+    color: #808080;
 }
 
-#note-textarea:focus {
-    border-color: var(--color-text-muted);
-}
-
-#note-textarea::placeholder {
-    color: var(--color-text-light);
-}
-
-.char-counter {
+.notepad-char-count {
     position: absolute;
-    bottom: 12px;
-    right: 12px;
-    font-family: var(--font-body);
+    right: 6px;
+    bottom: 4px;
+    font-size: 9px;
+    color: #808080;
+    background: #fff;
+    padding: 0 2px;
+}
+
+.notepad-submit-btn {
+    padding: 4px 16px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+    font-family: 'MS Sans Serif', Tahoma, sans-serif;
     font-size: 11px;
-    color: var(--color-text-light);
+    cursor: default;
+    white-space: nowrap;
 }
 
-.char-counter.near-limit {
-    color: #e75480;
+.notepad-submit-btn:active {
+    border-color: #404040 #fff #fff #404040;
+    box-shadow: inset 1px 1px 0 #808080;
+    padding: 5px 15px 3px 17px;
 }
 
-.write-note-actions {
+/* Status Bar with Pagination */
+.notepad-statusbar {
     display: flex;
-    gap: 10px;
     justify-content: center;
-    margin-top: 20px;
+    align-items: center;
+    padding: 2px 4px;
+    background: #c0c0c0;
+    font-size: 11px;
+    border-top: 2px solid;
+    border-color: #808080 transparent transparent transparent;
+    box-shadow: inset 0 1px 0 #fff;
+    min-height: 20px;
 }
 
-/* Success Message */
-.note-success {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--color-text);
-    color: var(--color-bg);
-    padding: 16px 32px;
-    border-radius: 100px;
-    font-family: var(--font-body);
-    font-size: 15px;
-    font-weight: 500;
-    z-index: 4000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
+.notepad-pagination {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.note-success.show {
-    opacity: 1;
-    visibility: visible;
+#notepad-page-info {
+    color: #000;
+    min-width: 90px;
+    text-align: center;
+    font-family: 'MS Sans Serif', Tahoma, sans-serif;
+    font-size: 11px;
 }
 
-/* Mobile Guestbook - Simple vertical list */
+.notepad-nav-btn {
+    padding: 2px 10px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+    font-family: 'MS Sans Serif', Tahoma, sans-serif;
+    font-size: 11px;
+    cursor: default;
+}
+
+.notepad-nav-btn:active {
+    border-color: #404040 #fff #fff #404040;
+    box-shadow: inset 1px 1px 0 #808080;
+}
+
+.notepad-nav-btn:disabled {
+    color: #808080;
+    text-shadow: 1px 1px 0 #fff;
+}
+
+/* Dark mode - keep Win95 look */
+[data-theme="dark"] .notepad-window,
+[data-theme="dark"] .notepad-titlebar,
+[data-theme="dark"] .notepad-menubar,
+[data-theme="dark"] .notepad-content,
+[data-theme="dark"] .notepad-text-area,
+[data-theme="dark"] .notepad-input-area,
+[data-theme="dark"] .notepad-statusbar,
+[data-theme="dark"] #notepad-input {
+    /* Keep exact same Win95 colors in dark mode */
+}
+
+/* Mobile responsive */
 @media (max-width: 600px) {
-    .notebook {
-        display: block;
-        background: var(--color-card-bg);
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    .notepad-window {
         max-width: 100%;
-        min-height: auto;
     }
 
-    /* Hide decorative elements */
-    .notebook::before,
-    .notebook::after,
-    .notebook-binding {
-        display: none;
+    .notepad-content {
+        height: 260px;
     }
 
-    /* Single column layout */
-    .notebook-page {
-        padding: 0;
-        min-height: auto;
-        border: none !important;
-    }
-
-    .notebook-page.left-page,
-    .notebook-page.right-page {
-        border: none !important;
-    }
-
-    /* Hide second page - show as single list */
-    .notebook-page.right-page {
-        display: none;
-    }
-
-    .page-content {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .note-message {
-        font-size: 16px;
-        line-height: 1.7;
-        padding: 16px;
-        background: var(--color-bg);
-        border-radius: 8px;
-        border-left: 3px solid var(--highlight-peach);
-    }
-
-    .note-date {
+    .notepad-text-area {
         font-size: 12px;
-        color: var(--color-text-muted);
     }
 
-    /* Hide page navigation */
-    .page-nav {
-        display: none;
+    .notepad-scrollbar-v {
+        width: 14px;
     }
 
-    .page-nav.next {
-        right: 8px;
-        top: auto;
-        bottom: -56px;
-        transform: none;
+    .notepad-scrollbar-h {
+        height: 14px;
     }
 
-    .page-counter {
-        margin-top: 68px;
-        font-size: 14px;
+    .scrollbar-btn {
+        width: 14px;
+        height: 14px;
     }
 
-    .write-note-form {
-        padding: 24px 20px;
-        max-width: 100%;
+    .scrollbar-corner {
+        width: 14px;
+        height: 14px;
     }
 
-    .write-note-form h3 {
-        font-size: 20px;
+    .notepad-input-area {
+        flex-direction: column;
     }
 
-    .write-note-intro {
-        font-size: 16px;
+    #notepad-input {
+        font-size: 16px; /* Prevent zoom on iOS */
+        min-height: 50px;
     }
 
-    #note-textarea {
-        font-size: 16px;
-        height: 120px;
+    .notepad-submit-btn {
+        width: 100%;
+        padding: 8px;
+        font-size: 12px;
     }
 
-    /* Write note button - proper touch target */
-    .write-note-btn {
-        min-height: 48px;
-        padding: 14px 24px;
-        font-size: 16px;
+    .notepad-titlebar {
+        height: 20px;
+    }
+
+    .notepad-title {
+        font-size: 11px;
+    }
+
+    .notepad-menubar {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 375px) {
+    .notepad-content {
+        height: 220px;
+    }
+
+    .notepad-menu-item {
+        padding: 2px 6px;
     }
 }
 

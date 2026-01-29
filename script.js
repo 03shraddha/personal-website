@@ -1997,28 +1997,25 @@ function initContentCalendar() {
 }
 
 /**
- * Guestbook - Virtual Notebook
- * Allows visitors to leave notes in a notebook-style interface
+ * Guestbook - Windows 95 Notepad Style
+ * Plain text entries displayed like a .txt file
  */
 function initGuestbook() {
-    const writeNoteBtn = document.getElementById('write-note-btn');
-    const writeNoteModal = document.getElementById('write-note-modal');
-    const noteModalClose = document.getElementById('note-modal-close');
-    const noteTextarea = document.getElementById('note-textarea');
-    const charCount = document.getElementById('char-count');
-    const noteCancel = document.getElementById('note-cancel');
-    const noteSubmit = document.getElementById('note-submit');
-    const noteSuccess = document.getElementById('note-success');
-    const prevPageBtn = document.getElementById('prev-page');
-    const nextPageBtn = document.getElementById('next-page');
-    const pageCounter = document.getElementById('page-counter');
-    const leftPage = document.getElementById('left-page');
-    const rightPage = document.getElementById('right-page');
+    const entriesContainer = document.getElementById('notepad-entries');
+    const noteInput = document.getElementById('notepad-input');
+    const charCount = document.getElementById('notepad-char-count');
+    const submitBtn = document.getElementById('notepad-submit');
+    const prevBtn = document.getElementById('notepad-prev');
+    const nextBtn = document.getElementById('notepad-next');
+    const pageInfo = document.getElementById('notepad-page-info');
 
-    if (!writeNoteBtn) return;
+    if (!entriesContainer) return;
+
+    // Configuration
+    const ENTRIES_PER_PAGE = 5;
 
     // State
-    let currentSpread = 0;
+    let currentPage = 0;
     let notes = [];
 
     // Load notes from Supabase
@@ -2038,7 +2035,6 @@ function initGuestbook() {
                 return [];
             }
 
-            // Map to expected format
             return (data || []).map(note => ({
                 id: note.id,
                 message: note.message,
@@ -2071,235 +2067,161 @@ function initGuestbook() {
         }
     }
 
+    // Format date like a text file timestamp
+    function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const year = date.getFullYear();
+        const hours = String(date.getHours()).padStart(2, '0');
+        const mins = String(date.getMinutes()).padStart(2, '0');
+        return `${month}/${day}/${year} ${hours}:${mins}`;
+    }
+
+    // Get total pages
+    function getTotalPages() {
+        return Math.max(1, Math.ceil(notes.length / ENTRIES_PER_PAGE));
+    }
+
+    // Render entries as plain text
+    function renderEntries() {
+        const totalPages = getTotalPages();
+        const startIndex = currentPage * ENTRIES_PER_PAGE;
+        const endIndex = startIndex + ENTRIES_PER_PAGE;
+        const pageNotes = notes.slice(startIndex, endIndex);
+
+        if (notes.length === 0) {
+            entriesContainer.innerHTML = `<div class="notepad-empty">
+═══════════════════════════════════════
+         GUESTBOOK.TXT - Empty
+═══════════════════════════════════════
+
+No entries yet.
+
+Type your message below and click
+"Add Entry" to be the first!
+</div>`;
+        } else {
+            // Format entries like a plain text file
+            let content = '';
+            pageNotes.forEach((note, index) => {
+                const entryNum = startIndex + index + 1;
+                content += `<div class="notepad-entry">`;
+                content += `<div class="notepad-entry-date">[${formatDate(note.createdAt)}] Entry #${entryNum}</div>`;
+                content += `<div class="notepad-entry-message">${escapeHtml(note.message)}</div>`;
+                content += `</div>`;
+            });
+            entriesContainer.innerHTML = content;
+        }
+
+        // Update pagination
+        pageInfo.textContent = `Page ${currentPage + 1} of ${totalPages}`;
+        prevBtn.disabled = currentPage === 0;
+        nextBtn.disabled = currentPage >= totalPages - 1;
+    }
+
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
     // Initialize notes
     async function initializeNotes() {
         notes = await loadNotesFromSupabase();
-        renderSpread();
+        renderEntries();
     }
 
-    // Start loading notes
+    // Start loading
     initializeNotes();
 
-    // Format date for display
-    function formatDate(dateStr) {
-        const date = new Date(dateStr);
-        return date.toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric'
+    // Character counter
+    if (noteInput && charCount) {
+        noteInput.addEventListener('input', () => {
+            charCount.textContent = noteInput.value.length;
         });
     }
 
-    // Get total spreads (2 notes per spread)
-    function getTotalSpreads() {
-        return Math.max(1, Math.ceil(notes.length / 2));
+    // Navigation
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                renderEntries();
+            }
+        });
     }
 
-    // Render current spread
-    function renderSpread() {
-        const totalSpreads = getTotalSpreads();
-        const leftNoteIndex = currentSpread * 2;
-        const rightNoteIndex = currentSpread * 2 + 1;
-
-        // Left page
-        const leftNoteMsg = document.getElementById('left-note-message');
-        const leftNoteAttr = document.getElementById('left-note-attribution');
-
-        if (notes[leftNoteIndex]) {
-            const note = notes[leftNoteIndex];
-            leftNoteMsg.innerHTML = `"${note.message}"`;
-            leftNoteAttr.innerHTML = `<span class="note-date">${formatDate(note.createdAt)}</span>`;
-        } else {
-            leftNoteMsg.innerHTML = '<span class="page-empty">No notes yet. Be the first to write one!</span>';
-            leftNoteAttr.innerHTML = '';
-        }
-
-        // Right page
-        const rightNoteMsg = document.getElementById('right-note-message');
-        const rightNoteAttr = document.getElementById('right-note-attribution');
-
-        if (notes[rightNoteIndex]) {
-            const note = notes[rightNoteIndex];
-            rightNoteMsg.innerHTML = `"${note.message}"`;
-            rightNoteAttr.innerHTML = `<span class="note-date">${formatDate(note.createdAt)}</span>`;
-        } else if (notes.length > 0 && leftNoteIndex < notes.length) {
-            rightNoteMsg.innerHTML = '<span class="page-empty">Turn the page for more...</span>';
-            rightNoteAttr.innerHTML = '';
-        } else {
-            rightNoteMsg.innerHTML = '';
-            rightNoteAttr.innerHTML = '';
-        }
-
-        // Update page numbers
-        leftPage.querySelector('.page-number').textContent = currentSpread * 2 + 1;
-        rightPage.querySelector('.page-number').textContent = currentSpread * 2 + 2;
-
-        // Update page counter
-        pageCounter.textContent = `Page ${currentSpread + 1} of ${totalSpreads}`;
-
-        // Update navigation buttons
-        prevPageBtn.disabled = currentSpread === 0;
-        nextPageBtn.disabled = currentSpread >= totalSpreads - 1;
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < getTotalPages() - 1) {
+                currentPage++;
+                renderEntries();
+            }
+        });
     }
 
-    // Animate page flip
-    function animatePageFlip(direction, callback) {
-        const leftPageEl = document.getElementById('left-page');
-        const rightPageEl = document.getElementById('right-page');
+    // Submit new entry
+    if (submitBtn && noteInput) {
+        submitBtn.addEventListener('click', async () => {
+            const message = noteInput.value.trim();
 
-        if (direction === 'next') {
-            // Flip out to the left
-            rightPageEl.classList.add('flipping-out-right');
-            leftPageEl.classList.add('flipping-out-left');
-
-            setTimeout(() => {
-                callback();
-
-                // Remove flip-out classes and add flip-in
-                leftPageEl.classList.remove('flipping-out-left');
-                rightPageEl.classList.remove('flipping-out-right');
-                leftPageEl.classList.add('flipping-in-left');
-                rightPageEl.classList.add('flipping-in-right');
-
-                // Clean up flip-in classes after animation
+            if (!message) {
+                noteInput.style.borderColor = '#ff0000 #808080 #808080 #ff0000';
                 setTimeout(() => {
-                    leftPageEl.classList.remove('flipping-in-left');
-                    rightPageEl.classList.remove('flipping-in-right');
-                }, 600);
-            }, 300);
-        } else {
-            // Flip out to the right (going backwards)
-            leftPageEl.classList.add('flipping-out-right');
-            rightPageEl.classList.add('flipping-out-left');
+                    noteInput.style.borderColor = '';
+                }, 1500);
+                return;
+            }
 
-            setTimeout(() => {
-                callback();
+            // Show loading
+            submitBtn.textContent = 'Saving...';
+            submitBtn.disabled = true;
 
-                // Remove flip-out classes and add flip-in
-                leftPageEl.classList.remove('flipping-out-right');
-                rightPageEl.classList.remove('flipping-out-left');
-                leftPageEl.classList.add('flipping-in-right');
-                rightPageEl.classList.add('flipping-in-left');
+            const savedNote = await saveNoteToSupabase(message);
 
-                // Clean up flip-in classes after animation
+            // Reset button
+            submitBtn.textContent = 'Add Entry';
+            submitBtn.disabled = false;
+
+            if (savedNote) {
+                // Add to local array
+                notes.unshift({
+                    id: savedNote.id,
+                    message: savedNote.message,
+                    createdAt: savedNote.created_at
+                });
+
+                // Clear input
+                noteInput.value = '';
+                charCount.textContent = '0';
+
+                // Go to first page to show new entry
+                currentPage = 0;
+                renderEntries();
+
+                // Brief visual feedback
+                noteInput.placeholder = 'Entry saved!';
                 setTimeout(() => {
-                    leftPageEl.classList.remove('flipping-in-right');
-                    rightPageEl.classList.remove('flipping-in-left');
-                }, 600);
-            }, 300);
-        }
+                    noteInput.placeholder = 'Type your message here...';
+                }, 2000);
+            } else {
+                alert('Error: Could not save entry. Please try again.');
+            }
+        });
+
+        // Submit on Ctrl+Enter
+        noteInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                e.preventDefault();
+                submitBtn.click();
+            }
+        });
     }
-
-    // Navigate pages with animation
-    prevPageBtn.addEventListener('click', () => {
-        if (currentSpread > 0) {
-            animatePageFlip('prev', () => {
-                currentSpread--;
-                renderSpread();
-            });
-        }
-    });
-
-    nextPageBtn.addEventListener('click', () => {
-        if (currentSpread < getTotalSpreads() - 1) {
-            animatePageFlip('next', () => {
-                currentSpread++;
-                renderSpread();
-            });
-        }
-    });
-
-    // Open write note modal
-    function openWriteModal() {
-        noteTextarea.value = '';
-        charCount.textContent = '0';
-        charCount.classList.remove('near-limit');
-        writeNoteModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        setTimeout(() => noteTextarea.focus(), 100);
-    }
-
-    // Close write note modal
-    function closeWriteModal() {
-        writeNoteModal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    // Character counter
-    noteTextarea.addEventListener('input', () => {
-        const count = noteTextarea.value.length;
-        charCount.textContent = count;
-        charCount.classList.toggle('near-limit', count > 250);
-    });
-
-    // Event listeners
-    writeNoteBtn.addEventListener('click', openWriteModal);
-    noteModalClose.addEventListener('click', closeWriteModal);
-    noteCancel.addEventListener('click', closeWriteModal);
-
-    // Close on background click
-    writeNoteModal.addEventListener('click', (e) => {
-        if (e.target === writeNoteModal) {
-            closeWriteModal();
-        }
-    });
-
-    // Submit note
-    noteSubmit.addEventListener('click', async () => {
-        const message = noteTextarea.value.trim();
-
-        if (!message) {
-            noteTextarea.style.borderColor = '#e75480';
-            setTimeout(() => noteTextarea.style.borderColor = '', 2000);
-            return;
-        }
-
-        // Show loading state
-        noteSubmit.textContent = 'Submitting...';
-        noteSubmit.disabled = true;
-
-        // Save to Supabase
-        const savedNote = await saveNoteToSupabase(message);
-
-        // Reset button
-        noteSubmit.textContent = 'Submit';
-        noteSubmit.disabled = false;
-
-        if (savedNote) {
-            // Add to local notes array
-            notes.unshift({
-                id: savedNote.id,
-                message: savedNote.message,
-                createdAt: savedNote.created_at
-            });
-
-            // Close modal
-            closeWriteModal();
-
-            // Show success message
-            noteSuccess.classList.add('show');
-            setTimeout(() => {
-                noteSuccess.classList.remove('show');
-            }, 2000);
-
-            // Go to first page to show new note
-            currentSpread = 0;
-            renderSpread();
-        } else {
-            // Show error
-            alert('Failed to save note. Please try again.');
-        }
-    });
-
-    // Keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && writeNoteModal.classList.contains('active')) {
-            closeWriteModal();
-        }
-    });
 
     // Initial render
-    renderSpread();
+    renderEntries();
 }
 
 /**

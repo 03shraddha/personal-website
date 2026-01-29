@@ -329,70 +329,80 @@
             </div>
         </section>
 
-        <!-- Guestbook Section -->
+        <!-- Guestbook Section - Windows Notepad Style -->
         <section id="guestbook" class="section">
             <h2 class="section-title">guestbook</h2>
-            <p class="section-intro">leave a note, say hi, share a thought :)</p>
+            <p class="section-intro">leave a note, say hi, share a thought</p>
 
-            <!-- Write a Note Button -->
-            <button id="write-note-btn" class="write-note-btn">+ Write a Note</button>
-
-            <!-- Notebook Container -->
-            <div class="notebook-container">
-                <div class="notebook">
-                    <!-- Notebook Binding -->
-                    <div class="notebook-binding"></div>
-
-                    <!-- Left Page -->
-                    <div class="notebook-page left-page" id="left-page">
-                        <div class="page-content">
-                            <div class="note-message" id="left-note-message"></div>
-                            <div class="note-attribution" id="left-note-attribution"></div>
-                        </div>
-                        <div class="page-number left">1</div>
-                        <div class="page-curl"></div>
-                    </div>
-
-                    <!-- Right Page -->
-                    <div class="notebook-page right-page" id="right-page">
-                        <div class="page-content">
-                            <div class="note-message" id="right-note-message"></div>
-                            <div class="note-attribution" id="right-note-attribution"></div>
-                        </div>
-                        <div class="page-number right">2</div>
-                        <div class="page-curl"></div>
-                    </div>
-
-                    <!-- Page Navigation Arrows -->
-                    <button class="page-nav prev" id="prev-page" aria-label="Previous page">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M15 18l-6-6 6-6"/>
+            <!-- Windows 95 Notepad Window -->
+            <div class="notepad-window">
+                <!-- Title Bar -->
+                <div class="notepad-titlebar">
+                    <div class="notepad-titlebar-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16">
+                            <rect x="2" y="2" width="12" height="12" fill="#fff" stroke="#000080" stroke-width="1"/>
+                            <rect x="2" y="2" width="12" height="2" fill="#000080"/>
+                            <line x1="4" y1="6" x2="12" y2="6" stroke="#000080" stroke-width="1"/>
+                            <line x1="4" y1="8" x2="12" y2="8" stroke="#000080" stroke-width="1"/>
+                            <line x1="4" y1="10" x2="9" y2="10" stroke="#000080" stroke-width="1"/>
                         </svg>
-                    </button>
-                    <button class="page-nav next" id="next-page" aria-label="Next page">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </button>
+                    </div>
+                    <span class="notepad-title">Guestbook - Notepad</span>
+                    <div class="notepad-titlebar-buttons">
+                        <button class="notepad-btn minimize" aria-label="Minimize">_</button>
+                        <button class="notepad-btn maximize" aria-label="Maximize">□</button>
+                        <button class="notepad-btn close" aria-label="Close">×</button>
+                    </div>
                 </div>
 
-                <!-- Page Counter -->
-                <div class="page-counter" id="page-counter">Page 1 of 1</div>
-            </div>
+                <!-- Menu Bar -->
+                <div class="notepad-menubar">
+                    <span class="notepad-menu-item"><u>F</u>ile</span>
+                    <span class="notepad-menu-item"><u>E</u>dit</span>
+                    <span class="notepad-menu-item">For<u>m</u>at</span>
+                    <span class="notepad-menu-item"><u>V</u>iew</span>
+                    <span class="notepad-menu-item"><u>H</u>elp</span>
+                </div>
 
-            <!-- Write Note Modal -->
-            <div id="write-note-modal" class="write-note-modal">
-                <div class="write-note-form">
-                    <button class="modal-close-btn" id="note-modal-close" aria-label="Close">&times;</button>
-                    <h3>Write a Note</h3>
-                    <p class="write-note-intro">Leave a message in my guestbook - a hello, a thought, or anything you want me to read.</p>
-                    <div class="note-textarea-container">
-                        <textarea id="note-textarea" placeholder="write your message here..." maxlength="280"></textarea>
-                        <div class="char-counter"><span id="char-count">0</span>/280</div>
+                <!-- Content Area with Scrollbars -->
+                <div class="notepad-content-wrapper">
+                    <div class="notepad-content">
+                        <div class="notepad-text-area" id="notepad-entries">
+                            <!-- Entries will be loaded here as plain text -->
+                        </div>
+                        <!-- Vertical Scrollbar -->
+                        <div class="notepad-scrollbar-v">
+                            <button class="scrollbar-btn up" aria-label="Scroll up">▲</button>
+                            <div class="scrollbar-track">
+                                <div class="scrollbar-thumb"></div>
+                            </div>
+                            <button class="scrollbar-btn down" aria-label="Scroll down">▼</button>
+                        </div>
                     </div>
-                    <div class="write-note-actions">
-                        <button id="note-cancel" class="btn-secondary">Cancel</button>
-                        <button id="note-submit" class="btn-primary">Submit</button>
+                    <!-- Horizontal Scrollbar -->
+                    <div class="notepad-scrollbar-h">
+                        <button class="scrollbar-btn left" aria-label="Scroll left">◄</button>
+                        <div class="scrollbar-track"></div>
+                        <button class="scrollbar-btn right" aria-label="Scroll right">►</button>
+                        <div class="scrollbar-corner"></div>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="notepad-input-area">
+                    <div class="notepad-input-wrapper">
+                        <textarea id="notepad-input" placeholder="Type your message here..." maxlength="280" rows="2"></textarea>
+                        <span class="notepad-char-count"><span id="notepad-char-count">0</span>/280</span>
+                    </div>
+                    <button id="notepad-submit" class="notepad-submit-btn">Add Entry</button>
+                </div>
+
+                <!-- Status Bar with Pagination -->
+                <div class="notepad-statusbar">
+                    <div class="notepad-pagination">
+                        <button id="notepad-prev" class="notepad-nav-btn" aria-label="Previous">« Prev</button>
+                        <span id="notepad-page-info">Page 1 of 1</span>
+                        <button id="notepad-next" class="notepad-nav-btn" aria-label="Next">Next »</button>
                     </div>
                 </div>
             </div>
