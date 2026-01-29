@@ -211,14 +211,20 @@ function initThemeToggle() {
  * Load all content from the CONTENT object in content.js
  */
 function loadContent() {
+    console.log('loadContent called');
     if (typeof CONTENT === 'undefined') {
-        console.warn('content.js not loaded');
+        console.error('CONTENT is undefined - content.js may not have loaded');
         return;
     }
+    console.log('CONTENT loaded, name:', CONTENT.name);
 
     // Personal Info - Name with Kannada hover (in Hello section)
     const nameEl = document.getElementById('name');
-    nameEl.innerHTML = `<span class="name-english">${CONTENT.name}</span><span class="name-kannada">${CONTENT.nameKannada}</span>`;
+    if (!nameEl) {
+        console.error('Element #name not found');
+        return;
+    }
+    nameEl.innerHTML = `<span class="name-english">${CONTENT.name}</span><span class="name-kannada">${CONTENT.nameKannada || ''}</span>`;
 
     // Hello section intro
     document.getElementById('hello-intro').innerHTML = CONTENT.helloIntro;
