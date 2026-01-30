@@ -2054,21 +2054,33 @@ function initGuestbook() {
 
     // Delete note from Supabase (admin only)
     async function deleteNoteFromSupabase(noteId) {
-        if (!supabaseClient) return false;
+        if (!supabaseClient) {
+            console.error('Supabase client not available');
+            return false;
+        }
         try {
-            const { error } = await supabaseClient
+            // Convert to number since Supabase uses integer IDs
+            const numericId = parseInt(noteId, 10);
+            console.log('Deleting note with ID:', numericId);
+
+            const { data, error } = await supabaseClient
                 .from('guestbook_notes')
                 .delete()
-                .eq('id', noteId);
+                .eq('id', numericId)
+                .select();
+
+            console.log('Delete response - data:', data, 'error:', error);
 
             if (error) {
                 console.error('Error deleting guestbook note:', error);
+                alert('Supabase error: ' + error.message);
                 return false;
             }
 
             return true;
         } catch (err) {
             console.error('Error deleting guestbook note:', err);
+            alert('Exception: ' + err.message);
             return false;
         }
     }
@@ -2134,13 +2146,20 @@ Type your message below and click
             if (adminMode) {
                 entriesContainer.querySelectorAll('.notepad-delete-btn').forEach(btn => {
                     btn.addEventListener('click', async (e) => {
-                        const noteId = e.target.dataset.noteId;
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const noteId = btn.dataset.noteId;
+                        console.log('Delete clicked for noteId:', noteId);
                         if (confirm('Are you sure you want to delete this entry?')) {
                             btn.textContent = '...';
                             btn.disabled = true;
+                            console.log('Attempting to delete from Supabase...');
                             const success = await deleteNoteFromSupabase(noteId);
+                            console.log('Delete result:', success);
                             if (success) {
+                                console.log('Notes before filter:', notes.length);
                                 notes = notes.filter(n => String(n.id) !== String(noteId));
+                                console.log('Notes after filter:', notes.length);
                                 // Adjust page if needed
                                 if (currentPage >= getTotalPages() && currentPage > 0) {
                                     currentPage--;
@@ -2149,7 +2168,7 @@ Type your message below and click
                             } else {
                                 btn.textContent = '×';
                                 btn.disabled = false;
-                                alert('Failed to delete entry. Please try again.');
+                                alert('Failed to delete entry. Check console for errors.');
                             }
                         }
                     });
