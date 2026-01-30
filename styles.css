@@ -3848,158 +3848,116 @@ a, button, .tab, .highlight, [role="button"] {
    Paper Clip Photo Frame
    =================================== */
 
+/* ===================================
+   Paper Clip Photo Frame (Image-based)
+   =================================== */
 .paperclip-frame {
+    position: relative;
     display: flex;
     justify-content: center;
     margin-bottom: 32px;
+    animation: frameFloat 6s ease-in-out infinite;
 }
 
-.paperclip-container {
-    position: relative;
+@keyframes frameFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-3px) rotate(0.5deg); }
+    50% { transform: translateY(0) rotate(0deg); }
+    75% { transform: translateY(-2px) rotate(-0.5deg); }
+}
+
+.paperclip-frame:hover {
+    animation: frameBounce 0.6s ease;
+}
+
+@keyframes frameBounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    20% { transform: translateY(-8px) rotate(1deg); }
+    40% { transform: translateY(-2px) rotate(-0.5deg); }
+    60% { transform: translateY(-5px) rotate(0.5deg); }
+    80% { transform: translateY(-1px) rotate(0deg); }
+}
+
+/* Background image - the camera frame */
+.paperclip-bg {
     width: 200px;
-    height: 260px;
+    height: auto;
+    display: block;
+    filter: drop-shadow(2px 4px 12px rgba(0,0,0,0.2));
+    transition: filter 0.3s ease;
 }
 
-/* Paper Clip */
-.paperclip {
+.paperclip-frame:hover .paperclip-bg {
+    filter: drop-shadow(3px 6px 16px rgba(0,0,0,0.25));
+}
+
+/* Photo overlay - positioned on the camera screen */
+.photo-overlay {
     position: absolute;
-    top: -15px;
-    left: 50%;
+    /* Positioned to fit within the camera's LCD screen */
+    top: 9%;
+    left: 42%;
     transform: translateX(-50%);
-    width: 50px;
-    height: 100px;
-    z-index: 10;
-    filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.2));
-    animation: clipSwing 4s ease-in-out infinite;
-    transform-origin: 50% 15px;
-}
-
-@keyframes clipSwing {
-    0%, 100% {
-        transform: translateX(-50%) rotate(0deg);
-    }
-    25% {
-        transform: translateX(-50%) rotate(2deg);
-    }
-    75% {
-        transform: translateX(-50%) rotate(-2deg);
-    }
-}
-
-.paperclip:hover {
-    animation: clipBounce 0.5s ease;
-}
-
-@keyframes clipBounce {
-    0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
-    25% { transform: translateX(-50%) translateY(-5px) rotate(3deg); }
-    50% { transform: translateX(-50%) translateY(0) rotate(-2deg); }
-    75% { transform: translateX(-50%) translateY(-3px) rotate(1deg); }
-}
-
-/* Stacked Papers */
-.papers-stack {
-    position: absolute;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 180px;
-    height: 220px;
-}
-
-.paper {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(145deg, #fefefe 0%, #f8f6f0 50%, #f0ede5 100%);
-    border-radius: 2px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
-}
-
-.paper-back {
-    transform: rotate(4deg) translateY(4px);
-    background: linear-gradient(145deg, #f5f3ed 0%, #ebe8e0 100%);
-    opacity: 0.7;
-}
-
-.paper-middle {
-    transform: rotate(-2deg) translateY(2px);
-    background: linear-gradient(145deg, #faf8f2 0%, #f2efe7 100%);
-    opacity: 0.85;
-}
-
-.paper-front {
-    transform: rotate(0deg);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.08);
-}
-
-/* Paper texture effect */
-.paper-front::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background:
-        repeating-linear-gradient(
-            transparent,
-            transparent 28px,
-            rgba(200, 200, 220, 0.15) 28px,
-            rgba(200, 200, 220, 0.15) 29px
-        );
-    pointer-events: none;
-    border-radius: 2px;
-}
-
-/* Photo Area */
-.photo-area {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    right: 15px;
-    bottom: 15px;
-    border-radius: 2px;
+    width: 42%;
+    aspect-ratio: 1/1;
+    border-radius: 3px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    background: rgba(255, 255, 255, 0.9);
     transition: all 0.3s ease;
 }
 
+.photo-overlay:hover {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+/* Profile photo */
 .profile-photo {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 2px;
+    border-radius: 3px;
+    display: none;
 }
 
+.profile-photo[src]:not([src=""]) {
+    display: block;
+}
+
+/* Placeholder */
 .photo-placeholder {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    color: #bbb;
-    font-size: 12px;
+    gap: 6px;
+    color: #999;
+    font-size: 11px;
     text-align: center;
-    padding: 20px;
+    padding: 15px;
     transition: all 0.3s ease;
 }
 
 .placeholder-icon {
-    font-size: 36px;
-    opacity: 0.6;
+    font-size: 28px;
+    opacity: 0.5;
+    transition: all 0.3s ease;
 }
 
-.photo-area:hover .photo-placeholder {
-    color: #999;
+.placeholder-text {
+    opacity: 0.7;
+    font-family: var(--font-body);
 }
 
-.photo-area:hover .placeholder-icon {
-    opacity: 0.8;
+.photo-overlay:hover .photo-placeholder {
+    color: #777;
+}
+
+.photo-overlay:hover .placeholder-icon {
+    opacity: 0.7;
     transform: scale(1.1);
-    transition: transform 0.2s ease;
 }
 
 /* Hide placeholder when photo is shown */
@@ -4007,28 +3965,54 @@ a, button, .tab, .highlight, [role="button"] {
     display: none;
 }
 
-/* Hover effect on papers */
-.paperclip-container:hover .paper-front {
-    box-shadow: 0 6px 20px rgba(0,0,0,0.12), 0 3px 6px rgba(0,0,0,0.1);
+/* Fallback when image doesn't load */
+.paperclip-frame.fallback {
+    width: 180px;
+    height: 240px;
+    background: linear-gradient(145deg, #fefefe 0%, #f8f6f0 50%, #f0ede5 100%);
+    border-radius: 4px;
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.1),
+        0 2px 4px rgba(0,0,0,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+    position: relative;
 }
 
-/* Dark mode adjustments */
-[data-theme="dark"] .paper {
-    background: linear-gradient(145deg, #2a2a2a 0%, #222 100%);
+.paperclip-frame.fallback::before {
+    content: '📎';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 32px;
+    z-index: 2;
 }
 
-[data-theme="dark"] .paper-front {
+.paperclip-frame.fallback .paperclip-bg {
+    display: none;
+}
+
+.paperclip-frame.fallback .photo-overlay {
+    position: absolute;
+    top: 30px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    width: auto;
+    transform: none;
+}
+
+[data-theme="dark"] .paperclip-frame.fallback {
     background: linear-gradient(145deg, #333 0%, #2a2a2a 100%);
 }
 
-[data-theme="dark"] .paper-front::before {
-    background:
-        repeating-linear-gradient(
-            transparent,
-            transparent 28px,
-            rgba(100, 100, 120, 0.1) 28px,
-            rgba(100, 100, 120, 0.1) 29px
-        );
+/* Dark mode adjustments */
+[data-theme="dark"] .paperclip-bg {
+    filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.4)) brightness(0.9);
+}
+
+[data-theme="dark"] .photo-overlay {
+    background: rgba(40, 40, 40, 0.3);
 }
 
 [data-theme="dark"] .photo-placeholder {
@@ -4037,26 +4021,22 @@ a, button, .tab, .highlight, [role="button"] {
 
 /* Mobile responsive */
 @media (max-width: 600px) {
-    .paperclip-container {
+    .paperclip-bg {
         width: 160px;
-        height: 220px;
     }
 
-    .papers-stack {
-        width: 150px;
-        height: 190px;
+    .photo-overlay {
+        top: 9%;
+        left: 42%;
+        width: 42%;
     }
 
-    .paperclip {
-        width: 40px;
-        height: 80px;
+    .placeholder-icon {
+        font-size: 20px;
     }
 
-    .photo-area {
-        top: 12px;
-        left: 12px;
-        right: 12px;
-        bottom: 12px;
+    .placeholder-text {
+        font-size: 9px;
     }
 }
 
