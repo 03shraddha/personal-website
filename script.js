@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initTabs();
         initScrollSpy();
         initCustomCursor(); // Custom cursor
+        initProfilePhoto(); // Paper clip profile photo
         initPhotoGallery(); // Polaroid photo gallery
         initContentCalendar(); // Content consumption calendar
         initMobileMenu();   // Mobile hamburger menu
@@ -171,6 +172,123 @@ async function initPageViewCounter() {
         console.log('Could not load view count:', err);
         if (viewCountSocial) viewCountSocial.textContent = '--';
     }
+}
+
+/**
+ * Profile Photo - Paper clip frame with photo upload
+ * Photo stored in Supabase (admin only can upload)
+ */
+function initProfilePhoto() {
+    const photoArea = document.getElementById('photo-area');
+    const profilePhoto = document.getElementById('profile-photo');
+    const placeholder = document.getElementById('photo-placeholder');
+    const uploadInput = document.getElementById('profile-photo-upload');
+
+    if (!photoArea || !profilePhoto) return;
+
+    // Check if admin
+    function isAdmin() {
+        return localStorage.getItem('admin-authenticated') === 'true';
+    }
+
+    // Load photo from Supabase
+    async function loadProfilePhoto() {
+        if (!supabaseClient) return;
+
+        try {
+            const { data, error } = await supabaseClient
+                .from('photos')
+                .select('src')
+                .eq('caption', 'profile_photo_main')
+                .order('created_at', { ascending: false })
+                .limit(1);
+
+            if (!error && data && data.length > 0 && data[0].src) {
+                displayPhoto(data[0].src);
+            }
+        } catch (err) {
+            console.log('No profile photo found:', err);
+        }
+    }
+
+    // Display photo
+    function displayPhoto(src) {
+        profilePhoto.src = src;
+        profilePhoto.style.display = 'block';
+        if (placeholder) placeholder.classList.add('hidden');
+    }
+
+    // Save photo to Supabase
+    async function saveProfilePhoto(base64Data) {
+        if (!supabaseClient || !isAdmin()) return false;
+
+        try {
+            // Delete existing profile photo first
+            await supabaseClient
+                .from('photos')
+                .delete()
+                .eq('caption', 'profile_photo_main');
+
+            // Insert new photo
+            const { error } = await supabaseClient
+                .from('photos')
+                .insert([{
+                    src: base64Data,
+                    category: 'digital',
+                    caption: 'profile_photo_main'
+                }]);
+
+            if (error) {
+                console.error('Error saving profile photo:', error);
+                return false;
+            }
+            return true;
+        } catch (err) {
+            console.error('Error saving profile photo:', err);
+            return false;
+        }
+    }
+
+    // Handle upload
+    function handleUpload(file) {
+        if (!isAdmin()) {
+            console.log('Photo upload is admin only');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            const base64 = e.target.result;
+            displayPhoto(base64);
+
+            const saved = await saveProfilePhoto(base64);
+            if (saved) {
+                console.log('Profile photo saved');
+            } else {
+                alert('Failed to save photo');
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Click handler - only trigger upload for admin
+    photoArea.addEventListener('click', () => {
+        if (isAdmin()) {
+            uploadInput.click();
+        }
+    });
+
+    // File input change
+    if (uploadInput) {
+        uploadInput.addEventListener('change', (e) => {
+            if (e.target.files[0]) {
+                handleUpload(e.target.files[0]);
+            }
+        });
+    }
+
+    // Load photo on init
+    loadProfilePhoto();
 }
 
 /**

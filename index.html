@@ -64,6 +64,44 @@
     <main class="main-content">
         <!-- Hello Section (Landing Page) -->
         <section id="hello" class="section hello-section">
+
+            <!-- Paper Clip Photo Frame -->
+            <div class="paperclip-frame">
+                <div class="paperclip-container">
+                    <!-- Paper Clip SVG -->
+                    <svg class="paperclip" viewBox="0 0 60 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M30 10 C15 10 8 20 8 35 L8 85 C8 100 18 110 30 110 C42 110 52 100 52 85 L52 35 C52 25 45 18 35 18 C25 18 18 25 18 35 L18 75 C18 82 23 87 30 87 C37 87 42 82 42 75 L42 35"
+                              stroke="url(#clipGradient)"
+                              stroke-width="3"
+                              stroke-linecap="round"
+                              fill="none"/>
+                        <defs>
+                            <linearGradient id="clipGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#C9B896"/>
+                                <stop offset="50%" style="stop-color:#A89570"/>
+                                <stop offset="100%" style="stop-color:#8B7355"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+
+                    <!-- Stacked Papers -->
+                    <div class="papers-stack">
+                        <div class="paper paper-back"></div>
+                        <div class="paper paper-middle"></div>
+                        <div class="paper paper-front">
+                            <div class="photo-area" id="photo-area">
+                                <img id="profile-photo" class="profile-photo" alt="Profile photo" style="display: none;">
+                                <div class="photo-placeholder" id="photo-placeholder">
+                                    <span class="placeholder-icon">📷</span>
+                                    <span class="placeholder-text">click to add photo</span>
+                                </div>
+                            </div>
+                            <input type="file" id="profile-photo-upload" accept="image/*" hidden>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <h1 id="name" class="name">Loading...</h1>
 
             <p id="hello-intro" class="intro">Loading...</p>
