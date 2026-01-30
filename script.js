@@ -1791,6 +1791,12 @@ function initContentCalendar() {
                                    class="content-clean-link${!entry.url || entry.url === '#' ? ' list-item-link' : ''}"
                                    data-entry-id="${entry.id}">${entry.title}</a>
                                 ${entry.source ? `<span class="content-clean-source">— ${entry.source}</span>` : ''}
+                                ${isAdminUser ? `
+                                    <span class="content-admin-actions">
+                                        <button class="content-edit-btn" data-entry-id="${entry.id}" title="Edit">✏️</button>
+                                        <button class="content-delete-btn" data-entry-id="${entry.id}" title="Delete">🗑️</button>
+                                    </span>
+                                ` : ''}
                             </li>
                         `).join('')}
                     </ul>
@@ -1807,6 +1813,25 @@ function initContentCalendar() {
                 openDetailView(entryId);
             });
         });
+
+        // Add edit button handlers (admin only)
+        if (isAdminUser) {
+            consumeList.querySelectorAll('.content-edit-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const entryId = parseInt(btn.dataset.entryId);
+                    openEditModal(entryId);
+                });
+            });
+
+            consumeList.querySelectorAll('.content-delete-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const entryId = parseInt(btn.dataset.entryId);
+                    deleteEntry(entryId);
+                });
+            });
+        }
 
         // Remove highlight after a few seconds
         if (highlightDate) {
@@ -1864,6 +1889,85 @@ function initContentCalendar() {
     function closeAddModal() {
         addContentModal.classList.remove('active');
         document.body.style.overflow = '';
+        editingEntryId = null; // Reset editing state
+    }
+
+    // Track if we're editing an existing entry
+    let editingEntryId = null;
+
+    // Open edit modal with existing entry data
+    function openEditModal(entryId) {
+        const entry = getEntryById(entryId);
+        if (!entry) return;
+
+        editingEntryId = entryId;
+
+        // Populate form with entry data
+        dateInput.value = entry.date;
+        titleInput.value = entry.title || '';
+        urlInput.value = entry.url || '';
+        sourceInput.value = entry.source || '';
+        if (thoughtsInput) thoughtsInput.value = entry.thoughts || '';
+
+        // Set category
+        selectedCategory = entry.category || 'article';
+        categoryInput.value = selectedCategory;
+        categoryPills.forEach(pill => {
+            pill.classList.toggle('active', pill.dataset.category === selectedCategory);
+        });
+
+        // Update modal title
+        const modalTitle = addContentModal.querySelector('h3');
+        if (modalTitle) modalTitle.textContent = 'Edit Content';
+
+        // Update save button text
+        if (saveBtn) saveBtn.textContent = 'Update Content';
+
+        addContentModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => titleInput.focus(), 100);
+    }
+
+    // Delete entry
+    async function deleteEntry(entryId) {
+        if (!confirm('Are you sure you want to delete this entry?')) return;
+
+        const success = await deleteContentFromSupabase(entryId);
+        if (success) {
+            // Remove from local array
+            contentEntries = contentEntries.filter(e => e.id !== entryId);
+            renderCalendar();
+            renderListView();
+        } else {
+            alert('Failed to delete entry. Please try again.');
+        }
+    }
+
+    // Update content in Supabase
+    async function updateContentInSupabase(entryId, entry) {
+        if (!supabaseClient) return false;
+        try {
+            const { error } = await supabaseClient
+                .from('content_entries')
+                .update({
+                    date: entry.date,
+                    title: entry.title,
+                    url: entry.url,
+                    source: entry.source,
+                    category: entry.category,
+                    thoughts: entry.thoughts
+                })
+                .eq('id', entryId);
+
+            if (error) {
+                console.error('Error updating content:', error);
+                return false;
+            }
+            return true;
+        } catch (err) {
+            console.error('Error updating content:', err);
+            return false;
+        }
     }
 
     // Category pill selection
@@ -1903,7 +2007,7 @@ function initContentCalendar() {
         }
     });
 
-    // Save content
+    // Save content (handles both add and edit)
     saveBtn.addEventListener('click', async () => {
         const date = dateInput.value;
         const title = titleInput.value.trim();
@@ -1928,10 +2032,10 @@ function initContentCalendar() {
 
         // Show loading state
         const originalBtnText = saveBtn.textContent;
-        saveBtn.textContent = 'Saving...';
+        saveBtn.textContent = editingEntryId ? 'Updating...' : 'Saving...';
         saveBtn.disabled = true;
 
-        const newEntry = {
+        const entryData = {
             date,
             title,
             url: url || '#',
@@ -1940,31 +2044,52 @@ function initContentCalendar() {
             thoughts
         };
 
-        // Save to Supabase
-        const savedEntry = await saveContentToSupabase(newEntry);
+        let success = false;
+
+        if (editingEntryId) {
+            // Update existing entry
+            success = await updateContentInSupabase(editingEntryId, entryData);
+            if (success) {
+                // Update local entries array
+                const index = contentEntries.findIndex(e => e.id === editingEntryId);
+                if (index !== -1) {
+                    contentEntries[index] = { ...contentEntries[index], ...entryData };
+                }
+                console.log('Updated entry:', editingEntryId);
+            }
+        } else {
+            // Save new entry to Supabase
+            const savedEntry = await saveContentToSupabase(entryData);
+            if (savedEntry) {
+                success = true;
+                // Add to local entries array
+                contentEntries.push({
+                    id: savedEntry.id,
+                    date: savedEntry.date,
+                    title: savedEntry.title,
+                    url: savedEntry.url,
+                    source: savedEntry.source,
+                    category: savedEntry.category,
+                    thoughts: savedEntry.thoughts,
+                    addedAt: savedEntry.added_at
+                });
+                console.log('Added new entry:', savedEntry);
+            }
+        }
 
         // Reset button
-        saveBtn.textContent = originalBtnText;
+        saveBtn.textContent = 'Save Content';
         saveBtn.disabled = false;
 
-        if (savedEntry) {
-            // Add to local entries array
-            contentEntries.push({
-                id: savedEntry.id,
-                date: savedEntry.date,
-                title: savedEntry.title,
-                url: savedEntry.url,
-                source: savedEntry.source,
-                category: savedEntry.category,
-                thoughts: savedEntry.thoughts,
-                addedAt: savedEntry.added_at
-            });
-            console.log('Added new entry:', savedEntry);
+        // Reset modal title
+        const modalTitle = addContentModal.querySelector('h3');
+        if (modalTitle) modalTitle.textContent = 'Add Content';
 
+        if (success) {
             // Close modal immediately
             closeAddModal();
 
-            // Navigate to the month of the new entry
+            // Navigate to the month of the entry
             const entryDate = new Date(date + 'T00:00:00');
             currentYear = entryDate.getFullYear();
             currentMonth = entryDate.getMonth();
