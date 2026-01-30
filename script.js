@@ -2349,44 +2349,62 @@ function initMiniPaint() {
             const { data, error } = await supabaseClient
                 .from('photos')
                 .select('url')
-                .eq('category', 'paint_profile')
+                .eq('caption', 'paint_profile_photo')
                 .order('created_at', { ascending: false })
                 .limit(1);
 
             if (!error && data && data.length > 0 && data[0].url) {
                 loadImageToCanvas(data[0].url);
+            } else if (error) {
+                console.log('Error loading photo:', error);
             }
         } catch (err) {
-            console.log('No paint photo found');
+            console.log('No paint photo found:', err);
         }
     }
 
     // Save photo to Supabase (admin only)
     async function savePhotoToSupabase(base64Data) {
-        if (!supabaseClient || !isAdmin()) return false;
+        if (!supabaseClient) {
+            console.error('Supabase client not available');
+            return false;
+        }
+        if (!isAdmin()) {
+            console.error('Not in admin mode');
+            return false;
+        }
+
         try {
-            // Delete existing paint_profile photos first
-            await supabaseClient
+            // Delete existing profile photo first (using 'profile' as special marker in caption)
+            const { error: deleteError } = await supabaseClient
                 .from('photos')
                 .delete()
-                .eq('category', 'paint_profile');
+                .eq('caption', 'paint_profile_photo');
 
-            // Insert new photo
-            const { error } = await supabaseClient
+            if (deleteError) {
+                console.log('Delete error (may be ok if no existing photo):', deleteError);
+            }
+
+            // Insert new photo - use 'digital' category which should be allowed
+            const { data, error } = await supabaseClient
                 .from('photos')
                 .insert([{
                     url: base64Data,
-                    category: 'paint_profile',
-                    caption: 'Profile Photo'
-                }]);
+                    category: 'digital',
+                    caption: 'paint_profile_photo'
+                }])
+                .select();
 
             if (error) {
-                console.error('Error saving photo:', error);
+                console.error('Supabase insert error:', error.message, error.details, error.hint);
+                alert('Database error: ' + error.message);
                 return false;
             }
+
+            console.log('Photo saved successfully:', data);
             return true;
         } catch (err) {
-            console.error('Error saving photo:', err);
+            console.error('Exception saving photo:', err);
             return false;
         }
     }
