@@ -3810,7 +3810,7 @@ a, button, .tab, .highlight, [role="button"] {
    =================================== */
 
 .win95-paint {
-    max-width: 220px;
+    max-width: 260px;
     width: 100%;
     background-color: #c0c0c0 !important;
     border-width: 2px;
@@ -3884,10 +3884,9 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .paint-menubar span {
-    padding: 2px 5px;
+    padding: 2px 8px;
     cursor: default;
     color: #000;
-    font-size: 10px;
 }
 
 .paint-menubar span:hover {

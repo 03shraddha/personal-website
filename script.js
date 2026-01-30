@@ -2348,13 +2348,13 @@ function initMiniPaint() {
         try {
             const { data, error } = await supabaseClient
                 .from('photos')
-                .select('url')
+                .select('src')
                 .eq('caption', 'paint_profile_photo')
                 .order('created_at', { ascending: false })
                 .limit(1);
 
-            if (!error && data && data.length > 0 && data[0].url) {
-                loadImageToCanvas(data[0].url);
+            if (!error && data && data.length > 0 && data[0].src) {
+                loadImageToCanvas(data[0].src);
             } else if (error) {
                 console.log('Error loading photo:', error);
             }
@@ -2389,7 +2389,7 @@ function initMiniPaint() {
             const { data, error } = await supabaseClient
                 .from('photos')
                 .insert([{
-                    url: base64Data,
+                    src: base64Data,
                     category: 'digital',
                     caption: 'paint_profile_photo'
                 }])
