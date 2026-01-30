@@ -149,7 +149,8 @@ a, button, .tab, .highlight, [role="button"] {
 .social-view-counter {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
+    height: 20px;
     color: var(--color-text-muted);
     cursor: default;
     transition: color 0.2s ease;
@@ -162,12 +163,14 @@ a, button, .tab, .highlight, [role="button"] {
 .social-view-counter svg {
     width: 18px;
     height: 18px;
+    flex-shrink: 0;
 }
 
 .social-view-counter span {
     font-variant-numeric: tabular-nums;
     font-size: 12px;
     font-weight: 500;
+    line-height: 1;
 }
 
 /* ===================================
@@ -1828,6 +1831,24 @@ a, button, .tab, .highlight, [role="button"] {
     .social-links button {
         width: 44px;
         height: 44px;
+    }
+
+    .social-links svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .social-view-counter {
+        height: 44px;
+    }
+
+    .social-view-counter svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .social-view-counter span {
+        font-size: 13px;
     }
 
     /* Thoughts section */
@@ -3503,6 +3524,10 @@ a, button, .tab, .highlight, [role="button"] {
         height: 20px;
     }
 
+    .social-view-counter {
+        height: 40px;
+    }
+
     .social-view-counter svg {
         width: 20px;
         height: 20px;
@@ -3510,6 +3535,7 @@ a, button, .tab, .highlight, [role="button"] {
 
     .social-view-counter span {
         font-size: 13px;
+        line-height: 1;
     }
 
     /* Pink flower cursor for all clickable elements on mobile */
@@ -3841,6 +3867,19 @@ a, button, .tab, .highlight, [role="button"] {
     .social-links svg {
         width: 18px;
         height: 18px;
+    }
+
+    .social-view-counter {
+        height: 44px;
+    }
+
+    .social-view-counter svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .social-view-counter span {
+        font-size: 12px;
     }
 }
 

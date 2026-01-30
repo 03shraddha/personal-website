@@ -191,7 +191,7 @@ const CONTENT = {
 
                 <p>★ Gained industry insights, understanding B2B operations in oil & gas and renewable energy while working on the Baker Hughes website.</p>
 
-                <p><a href="#" class="project-cta highlight peach">View Project Report →</a></p>
+                <p><a href="https://drive.google.com/file/d/18r8TLXBgY-o53z9-FLcoqB_V9roiikoc/view?usp=sharing" target="_blank" class="project-cta highlight peach">View Project Report →</a></p>
             `
         },
         {
@@ -212,7 +212,7 @@ const CONTENT = {
 
                 <p>★ Enhanced model performance through hyperparameter tuning and data augmentation, achieving a 5–8% reduction in False Positive Rate (FPR) compared to baseline YOLOv3 models, resulting in more accurate and reliable threat identification in high-security simulations.</p>
 
-                <p><a href="#" class="project-cta highlight lavender">View Project Report →</a></p>
+                <p><a href="https://drive.google.com/file/d/14rhDUS789WsbDCCGt9h72PeqaRAf4yTM/view?usp=sharing" target="_blank" class="project-cta highlight lavender">View Project Report →</a></p>
             `
         },
         {
@@ -228,7 +228,7 @@ const CONTENT = {
                 <p>★ <strong>Factory and Business Exposure:</strong><br>
                 Gained hands-on experience with electronics procurement and supply chains, working directly in factories with high-value equipment to understand sourcing, maintenance, and operational workflows.</p>
 
-                <p><a href="#" class="project-cta highlight blue">View Project Demo Video →</a></p>
+                <p><a href="https://drive.google.com/drive/folders/1r1z_3JDRZlsbqScqh7u93lum2I-94oEO?usp=sharing" target="_blank" class="project-cta highlight blue">View Project Demo Video →</a></p>
             `
         }
     ],
