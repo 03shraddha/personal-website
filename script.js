@@ -1368,6 +1368,12 @@ function initContentCalendar() {
 
     if (!calendarGrid) return;
 
+    // Check admin mode and show add button
+    const isAdminUser = localStorage.getItem('admin-authenticated') === 'true';
+    if (addContentBtn && isAdminUser) {
+        addContentBtn.style.display = 'inline-block';
+    }
+
     // State
     let currentDate = new Date();
     let currentYear = currentDate.getFullYear();
