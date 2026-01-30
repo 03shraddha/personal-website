@@ -96,9 +96,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * Page View Counter
- * Uses hits.seeyoufarm.com JSON API to track and display page views
+ * Uses Supabase database to track and display page views
  */
-function initPageViewCounter() {
+async function initPageViewCounter() {
     const viewCountSocial = document.getElementById('view-count-social');
     const viewCountFooter = document.getElementById('view-count');
 
@@ -113,38 +113,65 @@ function initPageViewCounter() {
         return num.toString();
     }
 
-    // Use hits.seeyoufarm.com JSON API for cleaner parsing
-    const url = encodeURIComponent('https://shraddha-kulkarni.com');
+    // Update display
+    function updateDisplay(count) {
+        const shortCount = formatCount(count);
+        if (viewCountSocial) viewCountSocial.textContent = shortCount;
+        if (viewCountFooter) viewCountFooter.textContent = count.toLocaleString();
+    }
 
-    fetch(`https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=${url}&count_bg=%23000000&title_bg=%23000000&title=hits&edge_flat=true`)
-        .then(response => response.text())
-        .then(svg => {
-            // Extract count - the SVG contains text elements with the count
-            const matches = svg.match(/<text[^>]*>(\d+)<\/text>/g);
-            if (matches) {
-                // Find the text element containing just a number
-                for (const match of matches) {
-                    const numMatch = match.match(/>(\d+)</);
-                    if (numMatch && numMatch[1]) {
-                        const count = parseInt(numMatch[1], 10);
-                        const shortCount = formatCount(count);
-                        if (viewCountSocial) viewCountSocial.textContent = shortCount;
-                        if (viewCountFooter) viewCountFooter.textContent = count.toLocaleString();
-                        return;
-                    }
-                }
+    // Check if Supabase is available
+    if (!supabaseClient) {
+        console.log('Supabase not available for page view counter');
+        if (viewCountSocial) viewCountSocial.textContent = '--';
+        return;
+    }
+
+    try {
+        // Increment the view count using Supabase RPC or direct update
+        // Using a simple table with page_id='main' for the main page counter
+        const { data: currentData, error: fetchError } = await supabaseClient
+            .from('page_views')
+            .select('count')
+            .eq('page_id', 'main')
+            .single();
+
+        if (fetchError && fetchError.code === 'PGRST116') {
+            // Row doesn't exist, create it with count = 1
+            const { data: newData, error: insertError } = await supabaseClient
+                .from('page_views')
+                .insert([{ page_id: 'main', count: 1 }])
+                .select()
+                .single();
+
+            if (!insertError && newData) {
+                updateDisplay(newData.count);
+            } else {
+                console.log('Error creating page view counter:', insertError);
+                if (viewCountSocial) viewCountSocial.textContent = '1';
             }
-            // Fallback: show a simple indicator that counter is working
-            if (viewCountSocial) viewCountSocial.textContent = '1';
-            if (viewCountFooter) viewCountFooter.textContent = '1';
-        })
-        .catch(err => {
-            console.log('Could not load view count');
-            const counter = document.getElementById('page-view-counter');
-            if (counter) counter.style.display = 'none';
-            const socialCounter = document.getElementById('social-view-counter');
-            if (socialCounter) socialCounter.style.display = 'none';
-        });
+        } else if (!fetchError && currentData) {
+            // Increment the counter
+            const newCount = currentData.count + 1;
+            const { error: updateError } = await supabaseClient
+                .from('page_views')
+                .update({ count: newCount })
+                .eq('page_id', 'main');
+
+            if (!updateError) {
+                updateDisplay(newCount);
+            } else {
+                console.log('Error updating page view counter:', updateError);
+                updateDisplay(currentData.count);
+            }
+        } else {
+            console.log('Error fetching page views:', fetchError);
+            if (viewCountSocial) viewCountSocial.textContent = '--';
+        }
+    } catch (err) {
+        console.log('Could not load view count:', err);
+        if (viewCountSocial) viewCountSocial.textContent = '--';
+    }
 }
 
 /**
