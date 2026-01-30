@@ -72,7 +72,96 @@
 
             <div class="unique-abilities">
                 <h2>Unique abilities:</h2>
-                <ul id="unique-abilities"></ul>
+                <div class="abilities-illustration">
+                    <!-- Top Left Ability -->
+                    <div class="ability-item ability-top-left">
+                        <span class="ability-text">reciting 100 digits<br>of π from memory</span>
+                    </div>
+
+                    <!-- Left Ability -->
+                    <div class="ability-item ability-left">
+                        <span class="ability-text">knowing all BMTC<br>routes by heart</span>
+                    </div>
+
+                    <!-- Center Character -->
+                    <div class="character-container">
+                        <svg class="character-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Face -->
+                            <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="2.5"/>
+
+                            <!-- Hair - bob cut -->
+                            <path d="M 45 85 Q 40 60, 60 50 Q 80 40, 100 40 Q 120 40, 140 50 Q 160 60, 155 85"
+                                  fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M 45 85 Q 45 100, 45 110" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M 155 85 Q 155 100, 155 110" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+
+                            <!-- Glasses frame -->
+                            <ellipse cx="80" cy="95" rx="18" ry="15" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <ellipse cx="120" cy="95" rx="18" ry="15" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <line x1="98" y1="95" x2="102" y2="95" stroke="currentColor" stroke-width="2"/>
+                            <line x1="62" y1="93" x2="55" y2="90" stroke="currentColor" stroke-width="2"/>
+                            <line x1="138" y1="93" x2="145" y2="90" stroke="currentColor" stroke-width="2"/>
+
+                            <!-- Eyes (with pupils that will move) -->
+                            <g class="eyes">
+                                <circle class="eye-left-pupil" cx="80" cy="95" r="4" fill="currentColor"/>
+                                <circle class="eye-right-pupil" cx="120" cy="95" r="4" fill="currentColor"/>
+                            </g>
+
+                            <!-- Smile -->
+                            <path d="M 75 115 Q 100 125, 125 115" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+
+                            <!-- Blush marks -->
+                            <ellipse cx="65" cy="110" rx="8" ry="4" fill="currentColor" opacity="0.2"/>
+                            <ellipse cx="135" cy="110" rx="8" ry="4" fill="currentColor" opacity="0.2"/>
+                        </svg>
+
+                        <!-- Curved arrows (SVG paths) -->
+                        <svg class="arrows-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Top-left arrow -->
+                            <path class="arrow arrow-top-left"
+                                  d="M 200 150 Q 150 100, 100 80"
+                                  fill="none" stroke="currentColor" stroke-width="2"
+                                  marker-end="url(#arrowhead)"/>
+
+                            <!-- Left arrow -->
+                            <path class="arrow arrow-left"
+                                  d="M 200 150 Q 150 150, 80 150"
+                                  fill="none" stroke="currentColor" stroke-width="2"
+                                  marker-end="url(#arrowhead)"/>
+
+                            <!-- Right arrow -->
+                            <path class="arrow arrow-right"
+                                  d="M 200 150 Q 250 150, 320 150"
+                                  fill="none" stroke="currentColor" stroke-width="2"
+                                  marker-end="url(#arrowhead)"/>
+
+                            <!-- Bottom-right arrow -->
+                            <path class="arrow arrow-bottom-right"
+                                  d="M 200 150 Q 250 200, 300 220"
+                                  fill="none" stroke="currentColor" stroke-width="2"
+                                  marker-end="url(#arrowhead)"/>
+
+                            <!-- Arrowhead marker -->
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="10"
+                                        refX="9" refY="3" orient="auto">
+                                    <polygon points="0 0, 10 3, 0 6" fill="currentColor"/>
+                                </marker>
+                            </defs>
+                        </svg>
+                    </div>
+
+                    <!-- Right Ability -->
+                    <div class="ability-item ability-right">
+                        <span class="ability-text">befriending every<br>apartment cat</span>
+                    </div>
+
+                    <!-- Bottom Right Ability -->
+                    <div class="ability-item ability-bottom-right">
+                        <span class="ability-text">recognizing obscure<br>Punjabi songs</span>
+                    </div>
+                </div>
             </div>
 
             <p id="resume-line" class="resume-line"></p>
