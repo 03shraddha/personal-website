@@ -175,7 +175,7 @@ async function initPageViewCounter() {
 }
 
 /**
- * Profile Photo - Paper clip frame with photo upload
+ * Profile Photo - Paper frame with tape, photo upload
  * Photo stored in Supabase (admin only can upload)
  */
 function initProfilePhoto() {

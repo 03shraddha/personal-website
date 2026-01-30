@@ -3845,73 +3845,115 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 /* ===================================
-   Paper Clip Photo Frame
+   Paper Photo Frame - Taped to Wall
    =================================== */
-
-/* ===================================
-   Paper Clip Photo Frame (Image-based)
-   =================================== */
-.paperclip-frame {
+.paper-photo-frame {
     position: relative;
     display: flex;
-    justify-content: center;
-    margin-bottom: 32px;
-    animation: frameFloat 6s ease-in-out infinite;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
 }
 
-@keyframes frameFloat {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    25% { transform: translateY(-3px) rotate(0.5deg); }
-    50% { transform: translateY(0) rotate(0deg); }
-    75% { transform: translateY(-2px) rotate(-0.5deg); }
+/* The tape at the top */
+.tape {
+    position: relative;
+    width: 60px;
+    height: 24px;
+    background: linear-gradient(
+        180deg,
+        rgba(218, 190, 127, 0.85) 0%,
+        rgba(198, 170, 107, 0.9) 50%,
+        rgba(188, 160, 97, 0.85) 100%
+    );
+    transform: rotate(-2deg);
+    z-index: 10;
+    margin-bottom: -12px;
+    border-radius: 1px;
+    box-shadow:
+        0 1px 2px rgba(0,0,0,0.1),
+        inset 0 0 0 1px rgba(255,255,255,0.1);
 }
 
-.paperclip-frame:hover {
-    animation: frameBounce 0.6s ease;
-}
-
-@keyframes frameBounce {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    20% { transform: translateY(-8px) rotate(1deg); }
-    40% { transform: translateY(-2px) rotate(-0.5deg); }
-    60% { transform: translateY(-5px) rotate(0.5deg); }
-    80% { transform: translateY(-1px) rotate(0deg); }
-}
-
-/* Background image - the camera frame */
-.paperclip-bg {
-    width: 200px;
-    height: auto;
-    display: block;
-    filter: drop-shadow(2px 4px 12px rgba(0,0,0,0.2));
-    transition: filter 0.3s ease;
-}
-
-.paperclip-frame:hover .paperclip-bg {
-    filter: drop-shadow(3px 6px 16px rgba(0,0,0,0.25));
-}
-
-/* Photo overlay - positioned on the camera screen */
-.photo-overlay {
+/* Tape texture overlay */
+.tape::before {
+    content: '';
     position: absolute;
-    /* Positioned to fit within the camera's LCD screen */
-    top: 9%;
-    left: 42%;
-    transform: translateX(-50%);
-    width: 42%;
-    aspect-ratio: 1/1;
-    border-radius: 3px;
-    overflow: hidden;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 2px,
+            rgba(255,255,255,0.03) 2px,
+            rgba(255,255,255,0.03) 4px
+        );
+    border-radius: 1px;
+}
+
+/* Tape edge texture */
+.tape::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -1px;
+    right: -1px;
+    bottom: 0;
+    border-left: 1px solid rgba(180,150,90,0.3);
+    border-right: 1px solid rgba(180,150,90,0.3);
+    pointer-events: none;
+}
+
+/* The paper */
+.paper {
+    position: relative;
+    width: 160px;
+    padding: 12px;
+    background: linear-gradient(
+        165deg,
+        #ffffff 0%,
+        #fdfcfa 40%,
+        #f9f8f5 100%
+    );
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.08),
+        0 4px 20px rgba(0,0,0,0.06),
+        0 1px 3px rgba(0,0,0,0.04);
+    transform: rotate(1deg);
+}
+
+/* Subtle paper texture */
+.paper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.015;
+    pointer-events: none;
+}
+
+/* Photo area inside paper */
+.photo-area {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: #f5f4f2;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.9);
-    transition: all 0.3s ease;
+    overflow: hidden;
+    transition: background 0.2s ease;
 }
 
-.photo-overlay:hover {
-    background: rgba(255, 255, 255, 0.95);
+.photo-area:hover {
+    background: #f0efed;
 }
 
 /* Profile photo */
@@ -3919,7 +3961,6 @@ a, button, .tab, .highlight, [role="button"] {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 3px;
     display: none;
 }
 
@@ -3927,37 +3968,28 @@ a, button, .tab, .highlight, [role="button"] {
     display: block;
 }
 
-/* Placeholder */
+/* Placeholder text */
 .photo-placeholder {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
-    color: #999;
-    font-size: 11px;
+    justify-content: center;
+    gap: 8px;
+    color: #bbb;
+    font-size: 12px;
     text-align: center;
-    padding: 15px;
-    transition: all 0.3s ease;
-}
-
-.placeholder-icon {
-    font-size: 28px;
-    opacity: 0.5;
-    transition: all 0.3s ease;
+    padding: 20px;
+    transition: color 0.2s ease;
 }
 
 .placeholder-text {
-    opacity: 0.7;
     font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.02em;
 }
 
-.photo-overlay:hover .photo-placeholder {
-    color: #777;
-}
-
-.photo-overlay:hover .placeholder-icon {
-    opacity: 0.7;
-    transform: scale(1.1);
+.photo-area:hover .photo-placeholder {
+    color: #999;
 }
 
 /* Hide placeholder when photo is shown */
@@ -3965,78 +3997,63 @@ a, button, .tab, .highlight, [role="button"] {
     display: none;
 }
 
-/* Fallback when image doesn't load */
-.paperclip-frame.fallback {
-    width: 180px;
-    height: 240px;
-    background: linear-gradient(145deg, #fefefe 0%, #f8f6f0 50%, #f0ede5 100%);
-    border-radius: 4px;
+/* Hover effect on paper */
+.paper-photo-frame:hover .paper {
     box-shadow:
         0 4px 12px rgba(0,0,0,0.1),
-        0 2px 4px rgba(0,0,0,0.08),
-        inset 0 1px 0 rgba(255,255,255,0.8);
-    position: relative;
-}
-
-.paperclip-frame.fallback::before {
-    content: '📎';
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 32px;
-    z-index: 2;
-}
-
-.paperclip-frame.fallback .paperclip-bg {
-    display: none;
-}
-
-.paperclip-frame.fallback .photo-overlay {
-    position: absolute;
-    top: 30px;
-    left: 15px;
-    right: 15px;
-    bottom: 15px;
-    width: auto;
-    transform: none;
-}
-
-[data-theme="dark"] .paperclip-frame.fallback {
-    background: linear-gradient(145deg, #333 0%, #2a2a2a 100%);
+        0 6px 24px rgba(0,0,0,0.08),
+        0 2px 4px rgba(0,0,0,0.05);
 }
 
 /* Dark mode adjustments */
-[data-theme="dark"] .paperclip-bg {
-    filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.4)) brightness(0.9);
+[data-theme="dark"] .paper {
+    background: linear-gradient(
+        165deg,
+        #2a2a2a 0%,
+        #252525 40%,
+        #222222 100%
+    );
 }
 
-[data-theme="dark"] .photo-overlay {
-    background: rgba(40, 40, 40, 0.3);
+[data-theme="dark"] .photo-area {
+    background: #1a1a1a;
+}
+
+[data-theme="dark"] .photo-area:hover {
+    background: #1f1f1f;
 }
 
 [data-theme="dark"] .photo-placeholder {
+    color: #555;
+}
+
+[data-theme="dark"] .photo-area:hover .photo-placeholder {
     color: #666;
+}
+
+[data-theme="dark"] .tape {
+    background: linear-gradient(
+        180deg,
+        rgba(180, 155, 100, 0.7) 0%,
+        rgba(160, 135, 80, 0.75) 50%,
+        rgba(150, 125, 70, 0.7) 100%
+    );
 }
 
 /* Mobile responsive */
 @media (max-width: 600px) {
-    .paperclip-bg {
-        width: 160px;
+    .paper {
+        width: 140px;
+        padding: 10px;
     }
 
-    .photo-overlay {
-        top: 9%;
-        left: 42%;
-        width: 42%;
-    }
-
-    .placeholder-icon {
-        font-size: 20px;
+    .tape {
+        width: 50px;
+        height: 20px;
     }
 
     .placeholder-text {
-        font-size: 9px;
+        font-size: 10px;
     }
 }
 

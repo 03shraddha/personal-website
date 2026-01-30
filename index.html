@@ -65,14 +65,15 @@
         <!-- Hello Section (Landing Page) -->
         <section id="hello" class="section hello-section">
 
-            <!-- Paper Clip Photo Frame -->
-            <div class="paperclip-frame" id="paperclip-frame">
-                <img src="assets/camera.png?v=2" alt="" class="paperclip-bg" onerror="this.parentElement.classList.add('fallback')">
-                <div class="photo-overlay" id="photo-area">
-                    <img id="profile-photo" class="profile-photo" alt="Profile photo">
-                    <div class="photo-placeholder" id="photo-placeholder">
-                        <span class="placeholder-icon">📷</span>
-                        <span class="placeholder-text">click to add photo</span>
+            <!-- Paper Photo Frame -->
+            <div class="paper-photo-frame" id="paper-photo-frame">
+                <div class="tape"></div>
+                <div class="paper">
+                    <div class="photo-area" id="photo-area">
+                        <img id="profile-photo" class="profile-photo" alt="Profile photo">
+                        <div class="photo-placeholder" id="photo-placeholder">
+                            <span class="placeholder-text">click to add photo</span>
+                        </div>
                     </div>
                 </div>
                 <input type="file" id="profile-photo-upload" accept="image/*" hidden>
