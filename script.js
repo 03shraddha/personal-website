@@ -460,74 +460,109 @@ function loadContent() {
 
 /**
  * Substack RSS Feed - Load posts for Thoughts section
+ * Optimized: Shows cached/fallback content immediately, refreshes in background
  */
 async function loadSubstackPosts() {
     const CACHE_KEY = 'substack-posts-cache';
-    const CACHE_EXPIRY = 5 * 60 * 60 * 1000; // 5 hours in milliseconds
+    const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours cache
     const RSS_URL = 'https://shraddhaha.substack.com/feed';
-    const CORS_PROXY = 'https://api.allorigins.win/get?url=';
 
-    // Check cache first
+    // Check cache first - show immediately if available (even if stale)
     const cached = localStorage.getItem(CACHE_KEY);
     if (cached) {
-        const { posts, timestamp } = JSON.parse(cached);
-        if (Date.now() - timestamp < CACHE_EXPIRY) {
+        try {
+            const { posts, timestamp } = JSON.parse(cached);
             renderThoughtsPosts(posts);
-            return;
-        }
-    }
 
-    // Show loading state
-    document.getElementById('thoughts-list').innerHTML = '<p class="thoughts-loading">Loading posts...</p>';
-
-    try {
-        const response = await fetch(CORS_PROXY + encodeURIComponent(RSS_URL));
-        const data = await response.json();
-
-        if (!data.contents) {
-            throw new Error('No content received');
-        }
-
-        // Parse XML
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(data.contents, 'text/xml');
-        const items = xml.querySelectorAll('item');
-
-        const posts = [];
-        items.forEach((item, index) => {
-            if (index >= 10) return; // Limit to 10 posts
-
-            const title = item.querySelector('title')?.textContent || 'Untitled';
-            const link = item.querySelector('link')?.textContent || '#';
-            const pubDate = item.querySelector('pubDate')?.textContent;
-
-            // Format date
-            let formattedDate = '';
-            if (pubDate) {
-                const date = new Date(pubDate);
-                formattedDate = date.toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric'
-                });
+            // If cache is still fresh, we're done
+            if (Date.now() - timestamp < CACHE_EXPIRY) {
+                return;
             }
-
-            posts.push({ title, link, date: formattedDate });
-        });
-
-        // Cache the results
-        localStorage.setItem(CACHE_KEY, JSON.stringify({
-            posts,
-            timestamp: Date.now()
-        }));
-
-        renderThoughtsPosts(posts);
-
-    } catch (error) {
-        console.error('Error fetching Substack RSS:', error);
-        // Fallback to static content
+            // Otherwise, continue to refresh in background (content already shown)
+        } catch (e) {
+            // Invalid cache, continue to fetch
+        }
+    } else {
+        // No cache - show fallback immediately while loading
         renderThoughtsFallback();
     }
+
+    // Fetch fresh data in background
+    fetchSubstackInBackground(RSS_URL, CACHE_KEY);
+}
+
+// Background fetch - doesn't block UI
+async function fetchSubstackInBackground(RSS_URL, CACHE_KEY) {
+    // Multiple CORS proxies as fallbacks
+    const CORS_PROXIES = [
+        'https://api.allorigins.win/get?url=',
+        'https://corsproxy.io/?'
+    ];
+
+    for (const proxy of CORS_PROXIES) {
+        try {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+
+            const response = await fetch(proxy + encodeURIComponent(RSS_URL), {
+                signal: controller.signal
+            });
+            clearTimeout(timeout);
+
+            let data;
+            if (proxy.includes('allorigins')) {
+                data = await response.json();
+                if (!data.contents) continue;
+                data = data.contents;
+            } else {
+                data = await response.text();
+            }
+
+            // Parse XML
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(data, 'text/xml');
+            const items = xml.querySelectorAll('item');
+
+            if (items.length === 0) continue;
+
+            const posts = [];
+            items.forEach((item, index) => {
+                if (index >= 10) return;
+
+                const title = item.querySelector('title')?.textContent || 'Untitled';
+                const link = item.querySelector('link')?.textContent || '#';
+                const pubDate = item.querySelector('pubDate')?.textContent;
+
+                let formattedDate = '';
+                if (pubDate) {
+                    const date = new Date(pubDate);
+                    formattedDate = date.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                    });
+                }
+
+                posts.push({ title, link, date: formattedDate });
+            });
+
+            // Cache the results
+            localStorage.setItem(CACHE_KEY, JSON.stringify({
+                posts,
+                timestamp: Date.now()
+            }));
+
+            // Update UI with fresh data
+            renderThoughtsPosts(posts);
+            return; // Success, exit
+
+        } catch (error) {
+            console.log(`Proxy ${proxy} failed:`, error.message);
+            continue; // Try next proxy
+        }
+    }
+    // All proxies failed - keep showing cached/fallback content
+    console.log('All Substack proxies failed, using cached/fallback content');
 }
 
 function renderThoughtsPosts(posts) {
