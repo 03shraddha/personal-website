@@ -47,9 +47,10 @@ async function checkAdminMode() {
             const hashedInput = await sha256(password);
             if (hashedInput === ADMIN_PASSWORD_HASH) {
                 localStorage.setItem('admin-authenticated', 'true');
-                alert('Admin mode enabled!');
-                // Remove the URL parameter for cleaner URL
-                window.history.replaceState({}, document.title, window.location.pathname);
+                alert('Admin mode enabled! Page will reload.');
+                // Reload page without the admin parameter to show admin UI
+                window.location.href = window.location.pathname;
+                return;
             } else {
                 alert('Incorrect password');
                 localStorage.removeItem('admin-authenticated');
@@ -57,8 +58,10 @@ async function checkAdminMode() {
         }
     } else if (adminParam === 'logout') {
         localStorage.removeItem('admin-authenticated');
-        alert('Admin mode disabled');
-        window.history.replaceState({}, document.title, window.location.pathname);
+        alert('Admin mode disabled. Page will reload.');
+        // Reload page to hide admin UI
+        window.location.href = window.location.pathname;
+        return;
     }
 }
 
@@ -2049,6 +2052,32 @@ function initGuestbook() {
         }
     }
 
+    // Delete note from Supabase (admin only)
+    async function deleteNoteFromSupabase(noteId) {
+        if (!supabaseClient) return false;
+        try {
+            const { error } = await supabaseClient
+                .from('guestbook_notes')
+                .delete()
+                .eq('id', noteId);
+
+            if (error) {
+                console.error('Error deleting guestbook note:', error);
+                return false;
+            }
+
+            return true;
+        } catch (err) {
+            console.error('Error deleting guestbook note:', err);
+            return false;
+        }
+    }
+
+    // Check if user is admin
+    function isAdmin() {
+        return localStorage.getItem('admin-authenticated') === 'true';
+    }
+
     // Format date like a text file timestamp
     function formatDate(dateStr) {
         const date = new Date(dateStr);
@@ -2071,6 +2100,7 @@ function initGuestbook() {
         const startIndex = currentPage * ENTRIES_PER_PAGE;
         const endIndex = startIndex + ENTRIES_PER_PAGE;
         const pageNotes = notes.slice(startIndex, endIndex);
+        const adminMode = isAdmin();
 
         if (notes.length === 0) {
             entriesContainer.innerHTML = `<div class="notepad-empty">
@@ -2088,12 +2118,43 @@ Type your message below and click
             let content = '';
             pageNotes.forEach((note, index) => {
                 const entryNum = startIndex + index + 1;
-                content += `<div class="notepad-entry">`;
+                content += `<div class="notepad-entry" data-note-id="${note.id}">`;
+                content += `<div class="notepad-entry-header">`;
                 content += `<div class="notepad-entry-date">[${formatDate(note.createdAt)}] Entry #${entryNum}</div>`;
+                if (adminMode) {
+                    content += `<button class="notepad-delete-btn" data-note-id="${note.id}" title="Delete entry">×</button>`;
+                }
+                content += `</div>`;
                 content += `<div class="notepad-entry-message">${escapeHtml(note.message)}</div>`;
                 content += `</div>`;
             });
             entriesContainer.innerHTML = content;
+
+            // Add delete event listeners if admin
+            if (adminMode) {
+                entriesContainer.querySelectorAll('.notepad-delete-btn').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        const noteId = e.target.dataset.noteId;
+                        if (confirm('Are you sure you want to delete this entry?')) {
+                            btn.textContent = '...';
+                            btn.disabled = true;
+                            const success = await deleteNoteFromSupabase(noteId);
+                            if (success) {
+                                notes = notes.filter(n => n.id !== noteId);
+                                // Adjust page if needed
+                                if (currentPage >= getTotalPages() && currentPage > 0) {
+                                    currentPage--;
+                                }
+                                renderEntries();
+                            } else {
+                                btn.textContent = '×';
+                                btn.disabled = false;
+                                alert('Failed to delete entry. Please try again.');
+                            }
+                        }
+                    });
+                });
+            }
         }
 
         // Update pagination

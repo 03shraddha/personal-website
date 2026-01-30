@@ -3873,10 +3873,47 @@ a, button, .tab, .highlight, [role="button"] {
     border-bottom: none;
 }
 
+.notepad-entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
 .notepad-entry-date {
     color: #808080;
     font-size: 11px;
-    margin-bottom: 4px;
+}
+
+.notepad-delete-btn {
+    background: #c0c0c0;
+    border: 2px outset #dfdfdf;
+    color: #000;
+    font-family: 'MS Sans Serif', 'Segoe UI', Tahoma, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    width: 20px;
+    height: 18px;
+    padding: 0;
+    cursor: pointer;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notepad-delete-btn:hover {
+    background: #d4d4d4;
+}
+
+.notepad-delete-btn:active {
+    border: 2px inset #808080;
+    background: #a0a0a0;
+}
+
+.notepad-delete-btn:disabled {
+    color: #808080;
+    cursor: not-allowed;
 }
 
 .notepad-entry-message {
@@ -4009,6 +4046,16 @@ a, button, .tab, .highlight, [role="button"] {
 
     .win95-btn {
         padding: 6px 12px;
+    }
+
+    .notepad-delete-btn {
+        width: 24px;
+        height: 22px;
+        font-size: 14px;
+    }
+
+    .notepad-entry-header {
+        gap: 8px;
     }
 }
 
