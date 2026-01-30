@@ -86,67 +86,92 @@
                     <!-- Center Character -->
                     <div class="character-container">
                         <svg class="character-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Face -->
-                            <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                            <!-- Face circle -->
+                            <circle cx="100" cy="105" r="55" fill="none" stroke="currentColor" stroke-width="2.5"/>
 
-                            <!-- Hair - bob cut -->
-                            <path d="M 45 85 Q 40 60, 60 50 Q 80 40, 100 40 Q 120 40, 140 50 Q 160 60, 155 85"
+                            <!-- Hair - cute bob with bangs -->
+                            <!-- Top of head / hair outline -->
+                            <path d="M 48 90 Q 45 55, 70 45 Q 85 38, 100 38 Q 115 38, 130 45 Q 155 55, 152 90"
                                   fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-                            <path d="M 45 85 Q 45 100, 45 110" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-                            <path d="M 155 85 Q 155 100, 155 110" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
 
-                            <!-- Glasses frame -->
-                            <ellipse cx="80" cy="95" rx="18" ry="15" fill="none" stroke="currentColor" stroke-width="2"/>
-                            <ellipse cx="120" cy="95" rx="18" ry="15" fill="none" stroke="currentColor" stroke-width="2"/>
-                            <line x1="98" y1="95" x2="102" y2="95" stroke="currentColor" stroke-width="2"/>
-                            <line x1="62" y1="93" x2="55" y2="90" stroke="currentColor" stroke-width="2"/>
-                            <line x1="138" y1="93" x2="145" y2="90" stroke="currentColor" stroke-width="2"/>
+                            <!-- Bangs/fringe -->
+                            <path d="M 65 75 Q 65 65, 70 60" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M 80 75 Q 82 60, 85 58" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M 95 75 Q 100 58, 100 55" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M 110 75 Q 108 60, 115 58" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M 125 75 Q 125 65, 130 60" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
 
-                            <!-- Eyes (with pupils that will move) -->
+                            <!-- Side hair pieces -->
+                            <path d="M 48 90 Q 48 105, 50 125 Q 52 135, 58 138"
+                                  fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M 152 90 Q 152 105, 150 125 Q 148 135, 142 138"
+                                  fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+
+                            <!-- Round glasses -->
+                            <circle cx="78" cy="98" r="16" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                            <circle cx="122" cy="98" r="16" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                            <!-- Bridge -->
+                            <line x1="94" y1="98" x2="106" y2="98" stroke="currentColor" stroke-width="2.5"/>
+                            <!-- Temples -->
+                            <path d="M 62 96 Q 55 94, 50 92" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                            <path d="M 138 96 Q 145 94, 150 92" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+                            <!-- Eyes - big cute eyes -->
                             <g class="eyes">
-                                <circle class="eye-left-pupil" cx="80" cy="95" r="4" fill="currentColor"/>
-                                <circle class="eye-right-pupil" cx="120" cy="95" r="4" fill="currentColor"/>
+                                <!-- Left eye -->
+                                <circle cx="78" cy="96" r="6" fill="currentColor"/>
+                                <circle class="eye-left-pupil" cx="78" cy="96" r="5" fill="currentColor"/>
+                                <circle cx="76" cy="94" r="2" fill="white"/>
+
+                                <!-- Right eye -->
+                                <circle cx="122" cy="96" r="6" fill="currentColor"/>
+                                <circle class="eye-right-pupil" cx="122" cy="96" r="5" fill="currentColor"/>
+                                <circle cx="120" cy="94" r="2" fill="white"/>
                             </g>
 
-                            <!-- Smile -->
-                            <path d="M 75 115 Q 100 125, 125 115" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <!-- Cute smile -->
+                            <path d="M 80 122 Q 100 132, 120 122" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
 
-                            <!-- Blush marks -->
-                            <ellipse cx="65" cy="110" rx="8" ry="4" fill="currentColor" opacity="0.2"/>
-                            <ellipse cx="135" cy="110" rx="8" ry="4" fill="currentColor" opacity="0.2"/>
+                            <!-- Blush marks - rounder and cuter -->
+                            <circle cx="60" cy="115" r="6" fill="currentColor" opacity="0.15"/>
+                            <circle cx="140" cy="115" r="6" fill="currentColor" opacity="0.15"/>
+
+                            <!-- Extra blush detail -->
+                            <circle cx="58" cy="113" r="3" fill="currentColor" opacity="0.1"/>
+                            <circle cx="142" cy="113" r="3" fill="currentColor" opacity="0.1"/>
                         </svg>
 
-                        <!-- Curved arrows (SVG paths) -->
+                        <!-- Curved arrows (SVG paths) - more organic -->
                         <svg class="arrows-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Top-left arrow -->
+                            <!-- Top-left arrow - curvy -->
                             <path class="arrow arrow-top-left"
-                                  d="M 200 150 Q 150 100, 100 80"
-                                  fill="none" stroke="currentColor" stroke-width="2"
+                                  d="M 200 150 Q 170 130, 150 110 Q 135 95, 110 85"
+                                  fill="none" stroke="currentColor" stroke-width="1.5"
                                   marker-end="url(#arrowhead)"/>
 
-                            <!-- Left arrow -->
+                            <!-- Left arrow - curvy -->
                             <path class="arrow arrow-left"
-                                  d="M 200 150 Q 150 150, 80 150"
-                                  fill="none" stroke="currentColor" stroke-width="2"
+                                  d="M 200 150 Q 160 148, 130 150 Q 105 152, 85 150"
+                                  fill="none" stroke="currentColor" stroke-width="1.5"
                                   marker-end="url(#arrowhead)"/>
 
-                            <!-- Right arrow -->
+                            <!-- Right arrow - curvy -->
                             <path class="arrow arrow-right"
-                                  d="M 200 150 Q 250 150, 320 150"
-                                  fill="none" stroke="currentColor" stroke-width="2"
+                                  d="M 200 150 Q 240 152, 270 150 Q 295 148, 315 150"
+                                  fill="none" stroke="currentColor" stroke-width="1.5"
                                   marker-end="url(#arrowhead)"/>
 
-                            <!-- Bottom-right arrow -->
+                            <!-- Bottom-right arrow - curvy -->
                             <path class="arrow arrow-bottom-right"
-                                  d="M 200 150 Q 250 200, 300 220"
-                                  fill="none" stroke="currentColor" stroke-width="2"
+                                  d="M 200 150 Q 230 170, 250 190 Q 265 205, 290 215"
+                                  fill="none" stroke="currentColor" stroke-width="1.5"
                                   marker-end="url(#arrowhead)"/>
 
                             <!-- Arrowhead marker -->
                             <defs>
-                                <marker id="arrowhead" markerWidth="10" markerHeight="10"
-                                        refX="9" refY="3" orient="auto">
-                                    <polygon points="0 0, 10 3, 0 6" fill="currentColor"/>
+                                <marker id="arrowhead" markerWidth="8" markerHeight="8"
+                                        refX="7" refY="3" orient="auto">
+                                    <polygon points="0 0, 8 3, 0 6" fill="currentColor"/>
                                 </marker>
                             </defs>
                         </svg>
