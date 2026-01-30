@@ -228,7 +228,7 @@ const CONTENT = {
                 <p>★ <strong>Factory and Business Exposure:</strong><br>
                 Gained hands-on experience with electronics procurement and supply chains, working directly in factories with high-value equipment to understand sourcing, maintenance, and operational workflows.</p>
 
-                <p><a href="https://drive.google.com/drive/u/3/folders/1--wQMzytUqu9Vs_D_4w7W1oAs0IGPNT1" target="_blank" class="project-cta highlight blue">View Project Demo Video →</a></p>
+                <p><a href="https://drive.google.com/drive/folders/1--wQMzytUqu9Vs_D_4w7W1oAs0IGPNT1?usp=sharing" target="_blank" class="project-cta highlight blue">View Project Demo Video →</a></p>
             `
         }
     ],
