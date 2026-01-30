@@ -86,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();   // Mobile hamburger menu
         initPageViewCounter(); // Page view counter
         initGuestbook();    // Virtual guestbook
-        initMobilePreview(); // Mobile preview toggle
         updateYear();
         console.log('All initialization complete');
     } catch (error) {
@@ -2302,64 +2301,3 @@ Type your message below and click
     renderEntries();
 }
 
-/**
- * Mobile Preview Toggle
- * Shows the website in a phone-sized frame to preview mobile layout
- */
-function initMobilePreview() {
-    const toggle = document.getElementById('mobile-preview-toggle');
-    const overlay = document.getElementById('mobile-preview-overlay');
-    const frame = document.getElementById('mobile-preview-frame');
-    const iframe = document.getElementById('mobile-preview-iframe');
-    const closeBtn = document.getElementById('mobile-preview-close');
-
-    if (!toggle || !overlay || !frame || !iframe || !closeBtn) return;
-
-    let isActive = false;
-
-    function openPreview() {
-        isActive = true;
-        toggle.classList.add('active');
-        overlay.classList.add('active');
-        frame.classList.add('active');
-        closeBtn.classList.add('active');
-        document.body.style.overflow = 'hidden';
-
-        // Load current page in iframe
-        iframe.src = window.location.href;
-    }
-
-    function closePreview() {
-        isActive = false;
-        toggle.classList.remove('active');
-        overlay.classList.remove('active');
-        frame.classList.remove('active');
-        closeBtn.classList.remove('active');
-        document.body.style.overflow = '';
-
-        // Clear iframe
-        iframe.src = 'about:blank';
-    }
-
-    // Toggle button click
-    toggle.addEventListener('click', () => {
-        if (isActive) {
-            closePreview();
-        } else {
-            openPreview();
-        }
-    });
-
-    // Close button click
-    closeBtn.addEventListener('click', closePreview);
-
-    // Overlay click closes preview
-    overlay.addEventListener('click', closePreview);
-
-    // Escape key closes preview
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && isActive) {
-            closePreview();
-        }
-    });
-}
