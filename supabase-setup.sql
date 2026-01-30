@@ -68,7 +68,38 @@ TO anon, authenticated
 USING (true);
 
 
--- 3. CONTENT ENTRIES TABLE (Calendar)
+-- 3. PAGE VIEWS TABLE
+-- =====================================================
+CREATE TABLE IF NOT EXISTS page_views (
+    id BIGSERIAL PRIMARY KEY,
+    page_id TEXT UNIQUE NOT NULL,
+    count INTEGER DEFAULT 0,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Enable Row Level Security
+ALTER TABLE page_views ENABLE ROW LEVEL SECURITY;
+
+-- Allow anyone to read page views
+CREATE POLICY "Anyone can read page views"
+ON page_views FOR SELECT
+TO anon, authenticated
+USING (true);
+
+-- Allow anyone to insert page views
+CREATE POLICY "Anyone can insert page views"
+ON page_views FOR INSERT
+TO anon, authenticated
+WITH CHECK (true);
+
+-- Allow anyone to update page views
+CREATE POLICY "Anyone can update page views"
+ON page_views FOR UPDATE
+TO anon, authenticated
+USING (true);
+
+
+-- 4. CONTENT ENTRIES TABLE (Calendar)
 -- =====================================================
 CREATE TABLE IF NOT EXISTS content_entries (
     id BIGSERIAL PRIMARY KEY,
