@@ -145,6 +145,27 @@ a, button, .tab, .highlight, [role="button"] {
     height: 18px;
 }
 
+/* Individual icon adjustments for visual balance */
+#social-twitter svg {
+    width: 19px;
+    height: 19px;
+}
+
+#social-linkedin svg {
+    width: 17px;
+    height: 17px;
+}
+
+#social-substack svg {
+    width: 18px;
+    height: 18px;
+}
+
+#social-email svg {
+    width: 18px;
+    height: 18px;
+}
+
 /* Social View Counter */
 .social-view-counter {
     display: flex;
@@ -1838,6 +1859,27 @@ a, button, .tab, .highlight, [role="button"] {
         height: 20px;
     }
 
+    /* Individual icon adjustments for visual balance */
+    #social-twitter svg {
+        width: 21px;
+        height: 21px;
+    }
+
+    #social-linkedin svg {
+        width: 19px;
+        height: 19px;
+    }
+
+    #social-substack svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    #social-email svg {
+        width: 20px;
+        height: 20px;
+    }
+
     .social-view-counter {
         height: 44px;
     }
@@ -3524,6 +3566,27 @@ a, button, .tab, .highlight, [role="button"] {
         height: 20px;
     }
 
+    /* Individual icon adjustments for visual balance on mobile */
+    #social-twitter svg {
+        width: 21px;
+        height: 21px;
+    }
+
+    #social-linkedin svg {
+        width: 19px;
+        height: 19px;
+    }
+
+    #social-substack svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    #social-email svg {
+        width: 20px;
+        height: 20px;
+    }
+
     .social-view-counter {
         height: 40px;
     }
@@ -3865,6 +3928,27 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .social-links svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Individual icon adjustments for visual balance */
+    #social-twitter svg {
+        width: 19px;
+        height: 19px;
+    }
+
+    #social-linkedin svg {
+        width: 17px;
+        height: 17px;
+    }
+
+    #social-substack svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    #social-email svg {
         width: 18px;
         height: 18px;
     }
