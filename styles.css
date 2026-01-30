@@ -3806,6 +3806,220 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 /* ===================================
+   Windows 95 Paint - Mini Photo Frame
+   =================================== */
+
+.win95-paint {
+    max-width: 340px;
+    width: 100%;
+    background: #c0c0c0;
+    border: 2px outset #dfdfdf;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    font-family: 'MS Sans Serif', 'Segoe UI', Tahoma, sans-serif;
+    margin: 20px 0;
+}
+
+.paint-titlebar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: white;
+    padding: 2px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.paint-icon {
+    font-size: 12px;
+    margin-right: 4px;
+}
+
+.paint-title-text {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.paint-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.paint-controls button {
+    width: 16px;
+    height: 14px;
+    background: #c0c0c0;
+    border: 1px outset #dfdfdf;
+    font-size: 9px;
+    line-height: 1;
+    padding: 0;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paint-menubar {
+    background: #c0c0c0;
+    padding: 1px 0;
+    display: flex;
+    gap: 0;
+    font-size: 11px;
+    border-bottom: 1px solid #808080;
+}
+
+.paint-menubar span {
+    padding: 2px 8px;
+    cursor: default;
+}
+
+.paint-menubar span:hover {
+    background: #000080;
+    color: white;
+}
+
+.paint-workspace {
+    display: flex;
+    background: #c0c0c0;
+    padding: 2px;
+}
+
+.paint-tools {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 2px;
+    background: #c0c0c0;
+    border: 1px inset #808080;
+    margin-right: 2px;
+}
+
+.paint-tool {
+    width: 24px;
+    height: 24px;
+    background: #c0c0c0;
+    border: 1px outset #dfdfdf;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.paint-tool:active,
+.paint-tool.active {
+    border: 1px inset #808080;
+    background: #a0a0a0;
+}
+
+.paint-canvas-area {
+    flex: 1;
+    background: #808080;
+    border: 1px inset #808080;
+    padding: 2px;
+    position: relative;
+    min-height: 120px;
+}
+
+#paint-canvas {
+    display: block;
+    width: 100%;
+    height: 120px;
+    background: #fff;
+    cursor: crosshair;
+}
+
+.paint-upload-prompt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #808080;
+    font-size: 11px;
+    cursor: pointer;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+.paint-upload-prompt span:first-child {
+    font-size: 24px;
+}
+
+.paint-upload-prompt.hidden {
+    display: none;
+}
+
+.paint-palette {
+    background: #c0c0c0;
+    padding: 3px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #808080;
+}
+
+.paint-colors {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 1px;
+}
+
+.paint-color {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #000;
+    padding: 0;
+    cursor: pointer;
+}
+
+.paint-color.active {
+    outline: 2px solid #000080;
+    outline-offset: 1px;
+}
+
+.paint-clear {
+    background: #c0c0c0;
+    border: 2px outset #dfdfdf;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-family: 'MS Sans Serif', 'Segoe UI', Tahoma, sans-serif;
+    cursor: pointer;
+}
+
+.paint-clear:active {
+    border: 2px inset #808080;
+}
+
+/* Paint mobile styles */
+@media (max-width: 600px) {
+    .win95-paint {
+        max-width: 100%;
+    }
+
+    .paint-tool {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+
+    #paint-canvas {
+        height: 100px;
+    }
+
+    .paint-color {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* ===================================
    Guestbook - Windows 95 Notepad Style
    =================================== */
 

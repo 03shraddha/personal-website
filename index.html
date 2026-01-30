@@ -65,6 +65,64 @@
         <!-- Hello Section (Landing Page) -->
         <section id="hello" class="section hello-section">
             <h1 id="name" class="name">Loading...</h1>
+
+            <!-- Windows 95 Paint - Mini Photo Frame -->
+            <div class="win95-paint">
+                <div class="paint-titlebar">
+                    <span class="paint-icon">🎨</span>
+                    <span class="paint-title-text">untitled - Paint</span>
+                    <div class="paint-controls">
+                        <button type="button">−</button>
+                        <button type="button">□</button>
+                        <button type="button">×</button>
+                    </div>
+                </div>
+                <div class="paint-menubar">
+                    <span>File</span>
+                    <span>Edit</span>
+                    <span>View</span>
+                    <span>Image</span>
+                    <span>Colors</span>
+                    <span>Help</span>
+                </div>
+                <div class="paint-workspace">
+                    <div class="paint-tools">
+                        <button class="paint-tool" data-tool="pencil" title="Pencil">✏️</button>
+                        <button class="paint-tool" data-tool="brush" title="Brush">🖌️</button>
+                        <button class="paint-tool" data-tool="eraser" title="Eraser">🧽</button>
+                    </div>
+                    <div class="paint-canvas-area">
+                        <canvas id="paint-canvas"></canvas>
+                        <input type="file" id="paint-upload" accept="image/*" hidden>
+                        <div class="paint-upload-prompt" id="paint-upload-prompt">
+                            <span>📷</span>
+                            <span>click to add photo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="paint-palette">
+                    <div class="paint-colors">
+                        <button class="paint-color active" data-color="#000000" style="background:#000000"></button>
+                        <button class="paint-color" data-color="#808080" style="background:#808080"></button>
+                        <button class="paint-color" data-color="#800000" style="background:#800000"></button>
+                        <button class="paint-color" data-color="#808000" style="background:#808000"></button>
+                        <button class="paint-color" data-color="#008000" style="background:#008000"></button>
+                        <button class="paint-color" data-color="#008080" style="background:#008080"></button>
+                        <button class="paint-color" data-color="#000080" style="background:#000080"></button>
+                        <button class="paint-color" data-color="#800080" style="background:#800080"></button>
+                        <button class="paint-color" data-color="#ffffff" style="background:#ffffff"></button>
+                        <button class="paint-color" data-color="#c0c0c0" style="background:#c0c0c0"></button>
+                        <button class="paint-color" data-color="#ff0000" style="background:#ff0000"></button>
+                        <button class="paint-color" data-color="#ffff00" style="background:#ffff00"></button>
+                        <button class="paint-color" data-color="#00ff00" style="background:#00ff00"></button>
+                        <button class="paint-color" data-color="#00ffff" style="background:#00ffff"></button>
+                        <button class="paint-color" data-color="#0000ff" style="background:#0000ff"></button>
+                        <button class="paint-color" data-color="#ff00ff" style="background:#ff00ff"></button>
+                    </div>
+                    <button class="paint-clear" id="paint-clear" title="Clear drawing">Clear</button>
+                </div>
+            </div>
+
             <p id="hello-intro" class="intro">Loading...</p>
             <p id="contact-line" class="contact-line"></p>
 

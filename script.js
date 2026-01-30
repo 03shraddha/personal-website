@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();   // Mobile hamburger menu
         initPageViewCounter(); // Page view counter
         initGuestbook();    // Virtual guestbook
+        initMiniPaint();    // Mini Paint photo frame
         updateYear();
         console.log('All initialization complete');
     } catch (error) {
@@ -2299,5 +2300,260 @@ Type your message below and click
 
     // Initial render
     renderEntries();
+}
+
+/**
+ * Mini Paint - Windows 95 style photo frame with drawing
+ * Allows uploading a photo and drawing on it (stored in localStorage)
+ */
+function initMiniPaint() {
+    const canvas = document.getElementById('paint-canvas');
+    const uploadInput = document.getElementById('paint-upload');
+    const uploadPrompt = document.getElementById('paint-upload-prompt');
+    const clearBtn = document.getElementById('paint-clear');
+    const colorBtns = document.querySelectorAll('.paint-color');
+    const toolBtns = document.querySelectorAll('.paint-tool');
+
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    const STORAGE_KEY = 'mini-paint-data';
+
+    // State
+    let isDrawing = false;
+    let currentColor = '#000000';
+    let currentTool = 'pencil';
+    let brushSize = 2;
+    let hasImage = false;
+    let imageData = null;
+
+    // Set canvas size
+    function resizeCanvas() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        const width = rect.width - 4; // Account for padding
+        const height = 120;
+
+        // Store current content
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = canvas.height;
+        tempCanvas.getContext('2d').drawImage(canvas, 0, 0);
+
+        canvas.width = width;
+        canvas.height = height;
+
+        // Restore content
+        ctx.drawImage(tempCanvas, 0, 0);
+    }
+
+    // Load saved data from localStorage
+    function loadFromStorage() {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const data = JSON.parse(saved);
+                const img = new Image();
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0);
+                    hasImage = true;
+                    if (uploadPrompt) uploadPrompt.classList.add('hidden');
+                };
+                img.src = data.canvas;
+                if (data.hasImage) {
+                    imageData = data.imageData;
+                }
+            }
+        } catch (e) {
+            console.log('No saved paint data');
+        }
+    }
+
+    // Save to localStorage
+    function saveToStorage() {
+        try {
+            const data = {
+                canvas: canvas.toDataURL(),
+                hasImage: hasImage,
+                imageData: imageData
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (e) {
+            console.log('Could not save paint data');
+        }
+    }
+
+    // Handle image upload
+    function handleImageUpload(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                // Clear canvas
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Calculate aspect ratio to fit image
+                const scale = Math.min(
+                    canvas.width / img.width,
+                    canvas.height / img.height
+                );
+                const x = (canvas.width - img.width * scale) / 2;
+                const y = (canvas.height - img.height * scale) / 2;
+
+                ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+                hasImage = true;
+                imageData = e.target.result;
+                if (uploadPrompt) uploadPrompt.classList.add('hidden');
+                saveToStorage();
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Get position relative to canvas
+    function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const x = (e.clientX || e.touches[0].clientX) - rect.left;
+        const y = (e.clientY || e.touches[0].clientY) - rect.top;
+        return { x, y };
+    }
+
+    // Start drawing
+    function startDraw(e) {
+        e.preventDefault();
+        isDrawing = true;
+        const pos = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+    }
+
+    // Draw
+    function draw(e) {
+        if (!isDrawing) return;
+        e.preventDefault();
+
+        const pos = getPos(e);
+
+        if (currentTool === 'eraser') {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineWidth = brushSize * 4;
+        } else {
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.strokeStyle = currentColor;
+            ctx.lineWidth = currentTool === 'brush' ? brushSize * 2 : brushSize;
+        }
+
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+    }
+
+    // Stop drawing
+    function stopDraw() {
+        if (isDrawing) {
+            isDrawing = false;
+            ctx.beginPath();
+            saveToStorage();
+        }
+    }
+
+    // Initialize canvas
+    resizeCanvas();
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    loadFromStorage();
+
+    // Event listeners
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDraw);
+    canvas.addEventListener('mouseleave', stopDraw);
+
+    // Touch support
+    canvas.addEventListener('touchstart', startDraw, { passive: false });
+    canvas.addEventListener('touchmove', draw, { passive: false });
+    canvas.addEventListener('touchend', stopDraw);
+
+    // Upload prompt click
+    if (uploadPrompt) {
+        uploadPrompt.addEventListener('click', () => {
+            uploadInput.click();
+        });
+    }
+
+    // Also allow clicking canvas to upload if no image
+    canvas.addEventListener('click', (e) => {
+        if (!hasImage && !isDrawing) {
+            uploadInput.click();
+        }
+    });
+
+    // File input change
+    if (uploadInput) {
+        uploadInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handleImageUpload(file);
+            }
+        });
+    }
+
+    // Color selection
+    colorBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            colorBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentColor = btn.dataset.color;
+        });
+    });
+
+    // Tool selection
+    toolBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            toolBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTool = btn.dataset.tool;
+        });
+    });
+
+    // Clear button - only clears drawings, keeps image
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            if (imageData) {
+                // Reload just the image
+                const img = new Image();
+                img.onload = () => {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    const scale = Math.min(
+                        canvas.width / img.width,
+                        canvas.height / img.height
+                    );
+                    const x = (canvas.width - img.width * scale) / 2;
+                    const y = (canvas.height - img.height * scale) / 2;
+                    ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+                    saveToStorage();
+                };
+                img.src = imageData;
+            } else {
+                // Clear everything
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                hasImage = false;
+                if (uploadPrompt) uploadPrompt.classList.remove('hidden');
+                localStorage.removeItem(STORAGE_KEY);
+            }
+        });
+    }
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        loadFromStorage();
+    });
 }
 
