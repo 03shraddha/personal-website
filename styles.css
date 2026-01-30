@@ -149,10 +149,8 @@ a, button, .tab, .highlight, [role="button"] {
 .social-view-counter {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     color: var(--color-text-muted);
-    font-size: 12px;
-    font-weight: 500;
     cursor: default;
     transition: color 0.2s ease;
 }
@@ -162,14 +160,14 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .social-view-counter svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
 }
 
 .social-view-counter span {
     font-variant-numeric: tabular-nums;
-    font-size: 11px;
-    letter-spacing: 0.02em;
+    font-size: 12px;
+    font-weight: 500;
 }
 
 /* ===================================
@@ -3466,17 +3464,13 @@ a, button, .tab, .highlight, [role="button"] {
         height: 20px;
     }
 
-    .social-view-counter {
-        font-size: 13px;
-    }
-
     .social-view-counter svg {
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
     }
 
     .social-view-counter span {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     /* Pink flower cursor for all clickable elements on mobile */
