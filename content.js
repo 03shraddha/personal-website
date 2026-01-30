@@ -218,7 +218,7 @@ const CONTENT = {
         {
             title: "RF Antenna Intern",
             company: "Telimart - The company is an expert OEM & ODM Antenna Designer & Manufacturer",
-            companyUrl: "",
+            companyUrl: "https://www.telimart.com/",
             date: "2022",
             briefDescription: `Using LabVIEW software and USRP 2920 radio hardware, we built a system that analyzes how a wireless channel affects a signal and compensates for noise and distortion. The system estimates channel conditions and improves signal quality, resulting in a 9 dB improvement in signal-to-noise ratio and more reliable wireless communication.`,
             expandedContent: `
