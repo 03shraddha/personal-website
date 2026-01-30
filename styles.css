@@ -4035,26 +4035,9 @@ a, button, .tab, .highlight, [role="button"] {
 /* Paint mobile styles */
 @media (max-width: 600px) {
     .win95-paint {
-        max-width: 100%;
-    }
-
-    .paint-tool {
-        width: 32px;
-        height: 32px;
-        font-size: 16px;
-    }
-
-    #paint-canvas {
-        height: 280px;
-    }
-
-    .paint-canvas-area {
-        min-height: 280px;
-    }
-
-    .paint-color {
-        width: 20px;
-        height: 20px;
+        max-width: 260px;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 

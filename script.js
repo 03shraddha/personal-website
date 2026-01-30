@@ -2417,6 +2417,10 @@ function initMiniPaint() {
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+            // Enable high quality image smoothing
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+
             const scale = Math.min(
                 canvas.width / img.width,
                 canvas.height / img.height
