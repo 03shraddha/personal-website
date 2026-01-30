@@ -287,7 +287,8 @@ function loadContent() {
     // Unique abilities - now using illustrated version in HTML
     // (abilities are hardcoded in the illustration, no dynamic loading needed)
 
-    document.getElementById('resume-line').innerHTML = CONTENT.resumeLine;
+    // Resume line now integrated into helloIntro
+    // document.getElementById('resume-line').innerHTML = CONTENT.resumeLine;
 
     // Update Resume tab link (uses RESUME_URL constant from content.js)
     const resumeTabLink = document.getElementById('resume-tab-link');
