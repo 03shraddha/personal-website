@@ -99,8 +99,19 @@ document.addEventListener('DOMContentLoaded', () => {
  * Uses hits.seeyoufarm.com JSON API to track and display page views
  */
 function initPageViewCounter() {
-    const viewCountEl = document.getElementById('view-count');
-    if (!viewCountEl) return;
+    const viewCountSocial = document.getElementById('view-count-social');
+    const viewCountFooter = document.getElementById('view-count');
+
+    // Format number to short form (1.1K, 12.1K, 1.2M)
+    function formatCount(num) {
+        if (num >= 1000000) {
+            return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+        }
+        if (num >= 1000) {
+            return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+        }
+        return num.toString();
+    }
 
     // Use hits.seeyoufarm.com JSON API for cleaner parsing
     const url = encodeURIComponent('https://shraddha-kulkarni.com');
@@ -116,18 +127,23 @@ function initPageViewCounter() {
                     const numMatch = match.match(/>(\d+)</);
                     if (numMatch && numMatch[1]) {
                         const count = parseInt(numMatch[1], 10);
-                        viewCountEl.textContent = count.toLocaleString();
+                        const shortCount = formatCount(count);
+                        if (viewCountSocial) viewCountSocial.textContent = shortCount;
+                        if (viewCountFooter) viewCountFooter.textContent = count.toLocaleString();
                         return;
                     }
                 }
             }
             // Fallback: show a simple indicator that counter is working
-            viewCountEl.textContent = '1';
+            if (viewCountSocial) viewCountSocial.textContent = '1';
+            if (viewCountFooter) viewCountFooter.textContent = '1';
         })
         .catch(err => {
             console.log('Could not load view count');
             const counter = document.getElementById('page-view-counter');
             if (counter) counter.style.display = 'none';
+            const socialCounter = document.getElementById('social-view-counter');
+            if (socialCounter) socialCounter.style.display = 'none';
         });
 }
 

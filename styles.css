@@ -145,6 +145,33 @@ a, button, .tab, .highlight, [role="button"] {
     height: 18px;
 }
 
+/* Social View Counter */
+.social-view-counter {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-text-muted);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: default;
+    transition: color 0.2s ease;
+}
+
+.social-view-counter:hover {
+    color: var(--color-text);
+}
+
+.social-view-counter svg {
+    width: 16px;
+    height: 16px;
+}
+
+.social-view-counter span {
+    font-variant-numeric: tabular-nums;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+}
+
 /* ===================================
    Mobile Menu Toggle (Hamburger)
    =================================== */
@@ -3437,6 +3464,19 @@ a, button, .tab, .highlight, [role="button"] {
     .social-links svg {
         width: 20px;
         height: 20px;
+    }
+
+    .social-view-counter {
+        font-size: 13px;
+    }
+
+    .social-view-counter svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .social-view-counter span {
+        font-size: 12px;
     }
 
     /* Pink flower cursor for all clickable elements on mobile */
