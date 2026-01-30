@@ -2318,7 +2318,7 @@ function initMiniPaint() {
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
-    const CANVAS_HEIGHT = 220;
+    const CANVAS_HEIGHT = 320;
 
     // State
     let isDrawing = false;

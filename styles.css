@@ -3942,13 +3942,13 @@ a, button, .tab, .highlight, [role="button"] {
     border-color: #808080 #ffffff #ffffff #808080;
     padding: 1px;
     position: relative;
-    min-height: 220px;
+    min-height: 320px;
 }
 
 #paint-canvas {
     display: block;
     width: 100%;
-    height: 220px;
+    height: 320px;
     background-color: #ffffff !important;
     cursor: crosshair;
     border: none;
@@ -4045,11 +4045,11 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     #paint-canvas {
-        height: 180px;
+        height: 280px;
     }
 
     .paint-canvas-area {
-        min-height: 180px;
+        min-height: 280px;
     }
 
     .paint-color {
