@@ -2304,7 +2304,8 @@ Type your message below and click
 
 /**
  * Mini Paint - Windows 95 style photo frame with drawing
- * Allows uploading a photo and drawing on it (no persistence - clears on refresh)
+ * Photo is stored in Supabase (admin only can upload)
+ * Drawings are temporary (clear on refresh)
  */
 function initMiniPaint() {
     const canvas = document.getElementById('paint-canvas');
@@ -2317,6 +2318,7 @@ function initMiniPaint() {
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
+    const CANVAS_HEIGHT = 220;
 
     // State
     let isDrawing = false;
@@ -2326,37 +2328,112 @@ function initMiniPaint() {
     let hasImage = false;
     let imageData = null;
 
-    // Set canvas size
+    // Check admin mode
+    function isAdmin() {
+        return localStorage.getItem('admin-authenticated') === 'true';
+    }
+
+    // Initialize canvas
     function initCanvas() {
         const rect = canvas.parentElement.getBoundingClientRect();
         canvas.width = rect.width - 6;
-        canvas.height = 140;
+        canvas.height = CANVAS_HEIGHT;
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    // Handle image upload
-    function handleImageUpload(file) {
+    // Load photo from Supabase
+    async function loadPhotoFromSupabase() {
+        if (!supabaseClient) return;
+        try {
+            const { data, error } = await supabaseClient
+                .from('photos')
+                .select('url')
+                .eq('category', 'paint_profile')
+                .order('created_at', { ascending: false })
+                .limit(1);
+
+            if (!error && data && data.length > 0 && data[0].url) {
+                loadImageToCanvas(data[0].url);
+            }
+        } catch (err) {
+            console.log('No paint photo found');
+        }
+    }
+
+    // Save photo to Supabase (admin only)
+    async function savePhotoToSupabase(base64Data) {
+        if (!supabaseClient || !isAdmin()) return false;
+        try {
+            // Delete existing paint_profile photos first
+            await supabaseClient
+                .from('photos')
+                .delete()
+                .eq('category', 'paint_profile');
+
+            // Insert new photo
+            const { error } = await supabaseClient
+                .from('photos')
+                .insert([{
+                    url: base64Data,
+                    category: 'paint_profile',
+                    caption: 'Profile Photo'
+                }]);
+
+            if (error) {
+                console.error('Error saving photo:', error);
+                return false;
+            }
+            return true;
+        } catch (err) {
+            console.error('Error saving photo:', err);
+            return false;
+        }
+    }
+
+    // Load image to canvas
+    function loadImageToCanvas(src) {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const scale = Math.min(
+                canvas.width / img.width,
+                canvas.height / img.height
+            );
+            const x = (canvas.width - img.width * scale) / 2;
+            const y = (canvas.height - img.height * scale) / 2;
+
+            ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+            hasImage = true;
+            imageData = src;
+            if (uploadPrompt) uploadPrompt.classList.add('hidden');
+        };
+        img.onerror = () => console.log('Failed to load image');
+        img.src = src;
+    }
+
+    // Handle image upload (admin only)
+    async function handleImageUpload(file) {
+        if (!isAdmin()) {
+            alert('Only admin can upload photos');
+            return;
+        }
+
         const reader = new FileReader();
-        reader.onload = (e) => {
-            const img = new Image();
-            img.onload = () => {
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+        reader.onload = async (e) => {
+            const base64 = e.target.result;
+            loadImageToCanvas(base64);
 
-                const scale = Math.min(
-                    canvas.width / img.width,
-                    canvas.height / img.height
-                );
-                const x = (canvas.width - img.width * scale) / 2;
-                const y = (canvas.height - img.height * scale) / 2;
-
-                ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-                hasImage = true;
-                imageData = e.target.result;
-                if (uploadPrompt) uploadPrompt.classList.add('hidden');
-            };
-            img.src = e.target.result;
+            // Save to Supabase
+            const saved = await savePhotoToSupabase(base64);
+            if (saved) {
+                console.log('Photo saved to database');
+            } else {
+                alert('Failed to save photo to database');
+            }
         };
         reader.readAsDataURL(file);
     }
@@ -2415,6 +2492,7 @@ function initMiniPaint() {
 
     // Initialize
     initCanvas();
+    loadPhotoFromSupabase();
 
     // Mouse events
     canvas.addEventListener('mousedown', startDraw);
@@ -2427,17 +2505,24 @@ function initMiniPaint() {
     canvas.addEventListener('touchmove', draw, { passive: false });
     canvas.addEventListener('touchend', stopDraw);
 
-    // Upload prompt click
-    if (uploadPrompt) {
-        uploadPrompt.addEventListener('click', () => uploadInput.click());
+    // Upload - admin only
+    function triggerUpload() {
+        if (isAdmin()) {
+            uploadInput.click();
+        } else if (!hasImage) {
+            // Non-admin can't upload, just show message briefly
+            console.log('Photo upload is admin only');
+        }
     }
 
-    // Canvas click to upload if no image
+    if (uploadPrompt) {
+        uploadPrompt.addEventListener('click', triggerUpload);
+    }
+
     canvas.addEventListener('click', () => {
-        if (!hasImage) uploadInput.click();
+        if (!hasImage && isAdmin()) triggerUpload();
     });
 
-    // File input
     if (uploadInput) {
         uploadInput.addEventListener('change', (e) => {
             if (e.target.files[0]) handleImageUpload(e.target.files[0]);
@@ -2462,27 +2547,14 @@ function initMiniPaint() {
         });
     });
 
-    // Clear button
+    // Clear button - clears drawings, reloads photo
     if (clearBtn) {
         clearBtn.addEventListener('click', () => {
             if (imageData) {
-                // Reload just the image (clears drawings)
-                const img = new Image();
-                img.onload = () => {
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
-                    const x = (canvas.width - img.width * scale) / 2;
-                    const y = (canvas.height - img.height * scale) / 2;
-                    ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-                };
-                img.src = imageData;
+                loadImageToCanvas(imageData);
             } else {
-                // Clear everything
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
-                hasImage = false;
-                if (uploadPrompt) uploadPrompt.classList.remove('hidden');
             }
         });
     }
@@ -2492,11 +2564,8 @@ function initMiniPaint() {
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
-            const tempData = canvas.toDataURL();
             initCanvas();
-            const img = new Image();
-            img.onload = () => ctx.drawImage(img, 0, 0);
-            img.src = tempData;
+            if (imageData) loadImageToCanvas(imageData);
         }, 100);
     });
 }

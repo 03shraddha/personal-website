@@ -3810,7 +3810,7 @@ a, button, .tab, .highlight, [role="button"] {
    =================================== */
 
 .win95-paint {
-    max-width: 380px;
+    max-width: 280px;
     width: 100%;
     background-color: #c0c0c0 !important;
     border-width: 2px;
@@ -3942,13 +3942,13 @@ a, button, .tab, .highlight, [role="button"] {
     border-color: #808080 #ffffff #ffffff #808080;
     padding: 1px;
     position: relative;
-    min-height: 140px;
+    min-height: 220px;
 }
 
 #paint-canvas {
     display: block;
     width: 100%;
-    height: 140px;
+    height: 220px;
     background-color: #ffffff !important;
     cursor: crosshair;
     border: none;
@@ -4045,11 +4045,11 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     #paint-canvas {
-        height: 120px;
+        height: 180px;
     }
 
     .paint-canvas-area {
-        min-height: 120px;
+        min-height: 180px;
     }
 
     .paint-color {
