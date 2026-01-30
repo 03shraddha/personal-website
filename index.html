@@ -72,106 +72,10 @@
 
             <div class="unique-abilities">
                 <h2>Unique abilities:</h2>
-                <div class="abilities-illustration">
-                    <!-- Top Left Ability -->
-                    <div class="ability-item ability-top-left">
-                        <span class="ability-text">reciting 100 digits<br>of π from memory</span>
-                    </div>
-
-                    <!-- Left Ability -->
-                    <div class="ability-item ability-left">
-                        <span class="ability-text">knowing all BMTC<br>routes by heart</span>
-                    </div>
-
-                    <!-- Center Character -->
-                    <div class="character-container">
-                        <svg class="character-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Face -->
-                            <circle cx="100" cy="100" r="50" fill="none" stroke="currentColor" stroke-width="2"/>
-
-                            <!-- Long straight hair - left side -->
-                            <path d="M 52 85 L 52 160" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-                            <path d="M 58 82 L 58 155" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-
-                            <!-- Long straight hair - right side -->
-                            <path d="M 148 85 L 148 160" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-                            <path d="M 142 82 L 142 155" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-
-                            <!-- Top of head hair -->
-                            <path d="M 52 85 Q 50 60, 75 55 Q 87 52, 100 52 Q 113 52, 125 55 Q 150 60, 148 85"
-                                  fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-
-                            <!-- Glasses -->
-                            <circle cx="80" cy="95" r="14" fill="none" stroke="currentColor" stroke-width="2"/>
-                            <circle cx="120" cy="95" r="14" fill="none" stroke="currentColor" stroke-width="2"/>
-                            <line x1="94" y1="95" x2="106" y2="95" stroke="currentColor" stroke-width="2"/>
-
-                            <!-- Eyes with pupils that move on hover -->
-                            <g class="eyes">
-                                <circle cx="80" cy="95" r="5" fill="currentColor"/>
-                                <circle class="eye-left-pupil" cx="80" cy="95" r="4" fill="currentColor"/>
-                                <circle cx="78" cy="93" r="1.5" fill="white"/>
-
-                                <circle cx="120" cy="95" r="5" fill="currentColor"/>
-                                <circle class="eye-right-pupil" cx="120" cy="95" r="4" fill="currentColor"/>
-                                <circle cx="118" cy="93" r="1.5" fill="white"/>
-                            </g>
-
-                            <!-- Simple smile -->
-                            <path d="M 85 115 Q 100 120, 115 115" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-
-                            <!-- Blush -->
-                            <circle cx="65" cy="110" r="5" fill="currentColor" opacity="0.2"/>
-                            <circle cx="135" cy="110" r="5" fill="currentColor" opacity="0.2"/>
-                        </svg>
-
-                        <!-- Curved arrows (SVG paths) - more organic -->
-                        <svg class="arrows-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Top-left arrow - curvy -->
-                            <path class="arrow arrow-top-left"
-                                  d="M 200 150 Q 170 130, 150 110 Q 135 95, 110 85"
-                                  fill="none" stroke="currentColor" stroke-width="1.5"
-                                  marker-end="url(#arrowhead)"/>
-
-                            <!-- Left arrow - curvy -->
-                            <path class="arrow arrow-left"
-                                  d="M 200 150 Q 160 148, 130 150 Q 105 152, 85 150"
-                                  fill="none" stroke="currentColor" stroke-width="1.5"
-                                  marker-end="url(#arrowhead)"/>
-
-                            <!-- Right arrow - curvy -->
-                            <path class="arrow arrow-right"
-                                  d="M 200 150 Q 240 152, 270 150 Q 295 148, 315 150"
-                                  fill="none" stroke="currentColor" stroke-width="1.5"
-                                  marker-end="url(#arrowhead)"/>
-
-                            <!-- Bottom-right arrow - curvy -->
-                            <path class="arrow arrow-bottom-right"
-                                  d="M 200 150 Q 230 170, 250 190 Q 265 205, 290 215"
-                                  fill="none" stroke="currentColor" stroke-width="1.5"
-                                  marker-end="url(#arrowhead)"/>
-
-                            <!-- Arrowhead marker -->
-                            <defs>
-                                <marker id="arrowhead" markerWidth="8" markerHeight="8"
-                                        refX="7" refY="3" orient="auto">
-                                    <polygon points="0 0, 8 3, 0 6" fill="currentColor"/>
-                                </marker>
-                            </defs>
-                        </svg>
-                    </div>
-
-                    <!-- Right Ability -->
-                    <div class="ability-item ability-right">
-                        <span class="ability-text">befriending every<br>apartment cat</span>
-                    </div>
-
-                    <!-- Bottom Right Ability -->
-                    <div class="ability-item ability-bottom-right">
-                        <span class="ability-text">recognizing obscure<br>Punjabi songs</span>
-                    </div>
-                </div>
+                <ul id="unique-abilities"></ul>
             </div>
+
+            <p id="resume-line" class="resume-line"></p>
         </section>
 
         <!-- About Section -->

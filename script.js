@@ -284,11 +284,19 @@ function loadContent() {
     document.getElementById('hello-intro').innerHTML = CONTENT.helloIntro;
     document.getElementById('contact-line').innerHTML = CONTENT.contactLine;
 
-    // Unique abilities - now using illustrated version in HTML
-    // (abilities are hardcoded in the illustration, no dynamic loading needed)
+    // Unique abilities as bullet points (now in Hello section)
+    const abilitiesHtml = CONTENT.uniqueAbilities.map(ability => {
+        if (ability.highlight && ability.url) {
+            return `<li><a href="${ability.url}" ${ability.url.startsWith('http') ? 'target="_blank"' : ''} class="highlight ${ability.highlight}">${ability.text}</a></li>`;
+        } else if (ability.highlight) {
+            return `<li><span class="highlight ${ability.highlight}">${ability.text}</span></li>`;
+        } else {
+            return `<li>${ability.text}</li>`;
+        }
+    }).join('');
+    document.getElementById('unique-abilities').innerHTML = abilitiesHtml;
 
-    // Resume line now integrated into helloIntro
-    // document.getElementById('resume-line').innerHTML = CONTENT.resumeLine;
+    document.getElementById('resume-line').innerHTML = CONTENT.resumeLine;
 
     // Update Resume tab link (uses RESUME_URL constant from content.js)
     const resumeTabLink = document.getElementById('resume-tab-link');
