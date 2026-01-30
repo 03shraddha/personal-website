@@ -2140,7 +2140,7 @@ Type your message below and click
                             btn.disabled = true;
                             const success = await deleteNoteFromSupabase(noteId);
                             if (success) {
-                                notes = notes.filter(n => n.id !== noteId);
+                                notes = notes.filter(n => String(n.id) !== String(noteId));
                                 // Adjust page if needed
                                 if (currentPage >= getTotalPages() && currentPage > 0) {
                                     currentPage--;
