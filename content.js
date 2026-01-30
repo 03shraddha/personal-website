@@ -191,7 +191,7 @@ const CONTENT = {
 
                 <p>★ Gained industry insights, understanding B2B operations in oil & gas and renewable energy while working on the Baker Hughes website.</p>
 
-                <p><a href="https://drive.google.com/file/d/18r8TLXBgY-o53z9-FLcoqB_V9roiikoc/view?usp=sharing" target="_blank" class="project-cta highlight peach">View Project Report →</a></p>
+                <p><a href="https://drive.google.com/file/d/1GqZ-EVwdi0j0RQUfEV25okyE9NyUkOoC/view?usp=sharing" target="_blank" class="project-cta highlight peach">View Internship Certificate →</a></p>
             `
         },
         {
