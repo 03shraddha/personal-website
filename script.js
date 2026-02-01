@@ -904,8 +904,8 @@ function updateScrollSpy(sections, navLinks) {
 
 /**
  * Scroll-Triggered Text Reveal Effect
- * Creates a "highlighter pen" effect where text reveals word-by-word as user scrolls
- * Uses scroll position to create a "reading line" that moves down the page
+ * Sequential word-by-word reveal like reading - left to right, line by line
+ * Line 1 completes before Line 2 starts
  */
 function initTextReveal() {
     console.log('initTextReveal called');
@@ -984,54 +984,71 @@ function initTextReveal() {
         });
     });
 
-    // Collect ALL words
+    // Collect ALL words with positions
     const allWords = Array.from(document.querySelectorAll('.reveal-word'));
     console.log('Text reveal initialized for', elementCount, 'elements,', allWords.length, 'words');
 
-    // Cache word positions (Y coordinate relative to document)
+    // Get position data for each word (Y and X coordinates)
     const wordData = allWords.map(word => {
         const rect = word.getBoundingClientRect();
         return {
             element: word,
-            top: rect.top + window.scrollY
+            top: Math.round(rect.top + window.scrollY),
+            left: rect.left
         };
     });
 
-    // Sort by vertical position
-    wordData.sort((a, b) => a.top - b.top);
+    // Sort by reading order: Y position first (5px tolerance for same line), then X position
+    wordData.sort((a, b) => {
+        const yDiff = a.top - b.top;
+        if (Math.abs(yDiff) < 8) {
+            return a.left - b.left;
+        }
+        return yDiff;
+    });
 
-    // Calculate the range of word positions
-    const firstWordTop = wordData.length > 0 ? wordData[0].top : 0;
-    const lastWordTop = wordData.length > 0 ? wordData[wordData.length - 1].top : 0;
+    // Assign sequential index (reading order)
+    wordData.forEach((word, index) => {
+        word.index = index;
+    });
 
-    // The "reading line" position based on scroll
-    // At scroll=0, reading line is at top of viewport
-    // As user scrolls, reading line moves down
+    const totalWords = wordData.length;
+    if (totalWords === 0) return;
+
+    // Get content boundaries
+    const firstWordTop = wordData[0].top;
+    const lastWordTop = wordData[totalWords - 1].top;
+
     function updateReveal() {
         const scrollY = window.scrollY;
         const viewportHeight = window.innerHeight;
 
-        // Reading line position: starts at 20% from top of viewport, moves down with scroll
-        // This creates a natural reading feel where text reveals as it enters the upper portion of screen
-        const readingLineY = scrollY + (viewportHeight * 0.3);
+        // Reading line at 20% from top of viewport
+        const readingLineY = scrollY + (viewportHeight * 0.2);
 
-        // Reveal range: words within this range are partially revealed
-        const revealRange = viewportHeight * 0.4;
+        // For each word, check if it's above the reading line
+        // Words reveal sequentially - a word only reveals if all words before it
+        // (in reading order) that are on the same or higher lines are revealed
 
-        wordData.forEach(({ element, top }) => {
-            // How far past the reading line is this word?
-            const distanceFromLine = readingLineY - top;
+        wordData.forEach(({ element, top, index }) => {
+            // How far is this word from the reading line?
+            const distanceAboveLine = readingLineY - top;
 
-            if (distanceFromLine <= 0) {
-                // Word is below reading line - fully faded
+            if (distanceAboveLine < 0) {
+                // Word is below reading line - stay faded
                 element.style.color = fadedColor;
-            } else if (distanceFromLine >= revealRange) {
-                // Word is well above reading line - fully revealed
-                element.style.color = fullColor;
             } else {
-                // Word is in the reveal zone - interpolate color
-                const progress = distanceFromLine / revealRange;
-                element.style.color = interpolateColor(fadedColor, fullColor, progress);
+                // Word is at or above reading line
+                // Calculate reveal progress based on how far above the line
+                // Words reveal progressively within a small range
+                const revealDistance = 50; // pixels to fully reveal
+                const progress = Math.min(1, distanceAboveLine / revealDistance);
+
+                if (progress >= 1) {
+                    element.style.color = fullColor;
+                } else {
+                    element.style.color = interpolateColor(fadedColor, fullColor, progress);
+                }
             }
         });
     }
