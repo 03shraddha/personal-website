@@ -907,8 +907,11 @@ function updateScrollSpy(sections, navLinks) {
  * Creates a "highlighter pen" effect where text reveals as user scrolls
  */
 function initTextReveal() {
+    console.log('initTextReveal called');
+
     // Respect reduced motion preference
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        console.log('Reduced motion preference detected, skipping');
         return;
     }
 
@@ -918,14 +921,20 @@ function initTextReveal() {
         return;
     }
 
+    console.log('GSAP and ScrollTrigger available');
+
     // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
+
+    // Color values (using actual hex instead of CSS variables for GSAP compatibility)
+    const fadedColor = '#b5b5b5';  // --color-text-light
+    const fullColor = '#1a1a1a';   // --color-text
 
     // Define selectors for elements to animate
     const selectors = [
         // Hello Section
         '#name', '#hello-intro', '.unique-abilities h2',
-        '.unique-abilities li', '#resume-line',
+        '.unique-abilities li',
         // About Section
         '#about .section-title', '#about .section-intro',
         '#about-content p', '#about-content .about-subtitle',
@@ -935,13 +944,18 @@ function initTextReveal() {
         '.experience-header h3', '.experience-company', '.experience-brief'
     ];
 
+    let elementCount = 0;
+
     // Process each element
     selectors.forEach(selector => {
         document.querySelectorAll(selector).forEach(el => {
             // Skip if already initialized
             if (el.dataset.revealInit) return;
             el.dataset.revealInit = 'true';
-            el.classList.add('reveal-text');
+
+            // Set initial faded color directly
+            el.style.color = fadedColor;
+            elementCount++;
 
             // Create ScrollTrigger animation
             gsap.to(el, {
@@ -951,13 +965,13 @@ function initTextReveal() {
                     end: 'top 25%',
                     scrub: 0.5,
                 },
-                color: 'var(--color-text)',
+                color: fullColor,
                 ease: 'none',
-                onComplete: () => el.classList.add('revealed')
             });
         });
     });
 
+    console.log('Text reveal initialized for', elementCount, 'elements');
     ScrollTrigger.refresh();
 }
 
