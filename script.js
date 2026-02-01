@@ -749,7 +749,6 @@ function initBeyondWorkToggle() {
         showLessBtn.classList.remove('active');
         preview.classList.remove('hidden');
         readMoreBtn.classList.remove('hidden');
-        }
     });
 }
 
