@@ -1024,8 +1024,8 @@ function initTextReveal() {
         const scrollY = window.scrollY;
         const viewportHeight = window.innerHeight;
 
-        // Reading line at 20% from top of viewport
-        const readingLineY = scrollY + (viewportHeight * 0.2);
+        // Reading line at 35% from top of viewport
+        const readingLineY = scrollY + (viewportHeight * 0.35);
 
         // Map the reading line position to a word index
         // This creates true sequential reveal - word by word in reading order
