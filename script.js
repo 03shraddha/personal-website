@@ -1015,10 +1015,11 @@ function initTextReveal() {
     const totalWords = wordData.length;
     if (totalWords === 0) return;
 
-    // Get content boundaries
+    // Get content boundaries for scroll mapping
     const firstWordTop = wordData[0].top;
     const lastWordTop = wordData[totalWords - 1].top;
-    const contentHeight = lastWordTop - firstWordTop;
+
+    console.log('Total words:', totalWords, 'First:', firstWordTop, 'Last:', lastWordTop);
 
     function updateReveal() {
         const scrollY = window.scrollY;
@@ -1027,64 +1028,37 @@ function initTextReveal() {
         // Reading line at 35% from top of viewport
         const readingLineY = scrollY + (viewportHeight * 0.35);
 
-        // Map the reading line position to a word index
-        // This creates true sequential reveal - word by word in reading order
+        // STRICT SEQUENTIAL REVEAL:
+        // Map scroll position directly to word index
+        // scrollY=0 → some words revealed (content visible on load)
+        // As scroll increases → more words reveal in strict order
 
-        // For each word, calculate how "revealed" it should be based on:
-        // 1. Whether its line has been reached by the reading line
-        // 2. Its position within that line (left to right)
+        // Calculate scroll range: from when first word enters view to when last word is reached
+        const scrollStart = firstWordTop - (viewportHeight * 0.35);
+        const scrollEnd = lastWordTop - (viewportHeight * 0.35);
+        const scrollRange = scrollEnd - scrollStart;
 
-        // Group words by line (same Y position within tolerance)
-        const lineGroups = [];
-        let currentLine = [];
-        let currentLineTop = wordData[0].top;
+        // How far through the content have we scrolled? (0 to 1+)
+        const scrollProgress = (scrollY - scrollStart) / scrollRange;
 
-        wordData.forEach((word, i) => {
-            if (Math.abs(word.top - currentLineTop) < 8) {
-                currentLine.push(word);
+        // Map scroll progress to word index
+        // Multiply by total words to get current reveal position
+        const currentRevealIndex = scrollProgress * totalWords;
+
+        // Reveal words strictly by index
+        wordData.forEach(({ element, index }) => {
+            // How far past this word's turn are we?
+            const wordProgress = currentRevealIndex - index;
+
+            if (wordProgress <= 0) {
+                // Haven't reached this word yet - fully faded
+                element.style.color = fadedColor;
+            } else if (wordProgress >= 1) {
+                // Past this word - fully revealed
+                element.style.color = fullColor;
             } else {
-                if (currentLine.length > 0) {
-                    lineGroups.push({ top: currentLineTop, words: currentLine });
-                }
-                currentLine = [word];
-                currentLineTop = word.top;
-            }
-        });
-        if (currentLine.length > 0) {
-            lineGroups.push({ top: currentLineTop, words: currentLine });
-        }
-
-        // Process each line
-        lineGroups.forEach((line, lineIndex) => {
-            const lineTop = line.top;
-            const distanceAboveLine = readingLineY - lineTop;
-
-            if (distanceAboveLine < 0) {
-                // Line is below reading line - all words faded
-                line.words.forEach(({ element }) => {
-                    element.style.color = fadedColor;
-                });
-            } else {
-                // Line is at or above reading line
-                // Reveal words left-to-right based on how far above the line we are
-                const wordsInLine = line.words.length;
-
-                // How many "word widths" of scroll have passed since this line was reached
-                // Each 15px of scroll reveals one more word
-                const pixelsPerWord = 15;
-                const wordsToReveal = distanceAboveLine / pixelsPerWord;
-
-                line.words.forEach(({ element }, wordIndexInLine) => {
-                    const wordProgress = wordsToReveal - wordIndexInLine;
-
-                    if (wordProgress <= 0) {
-                        element.style.color = fadedColor;
-                    } else if (wordProgress >= 1) {
-                        element.style.color = fullColor;
-                    } else {
-                        element.style.color = interpolateColor(fadedColor, fullColor, wordProgress);
-                    }
-                });
+                // Currently revealing this word - interpolate
+                element.style.color = interpolateColor(fadedColor, fullColor, wordProgress);
             }
         });
     }
