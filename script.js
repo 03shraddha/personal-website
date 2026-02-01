@@ -998,15 +998,19 @@ function initTextReveal() {
     // Collect ALL words and sort by vertical position
     const allWords = Array.from(document.querySelectorAll('.reveal-word'));
 
+    // Mobile detection for adjusted trigger points
+    const isMobile = window.innerWidth <= 768;
+
     // Each word gets its own ScrollTrigger based on its position
     // This creates a natural top-to-bottom reveal like reading
+    // Mobile uses wider trigger range since users scroll faster on touch
     allWords.forEach(word => {
         gsap.to(word, {
             scrollTrigger: {
                 trigger: word,
-                start: 'top 90%',
-                end: 'top 60%',
-                scrub: 0.3,
+                start: isMobile ? 'top 95%' : 'top 90%',
+                end: isMobile ? 'top 70%' : 'top 60%',
+                scrub: isMobile ? 0.2 : 0.3,
             },
             color: fullColor,
             ease: 'none',

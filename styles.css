@@ -1972,6 +1972,13 @@ a .reveal-word {
     background-color: var(--color-highlight);
 }
 
+/* Mobile optimizations - faster transitions for touch scrolling */
+@media (max-width: 768px) {
+    .reveal-word {
+        transition: color 0.03s ease-out;
+    }
+}
+
 /* Reduced Motion Support - show all text immediately */
 @media (prefers-reduced-motion: reduce) {
     .reveal-word {
