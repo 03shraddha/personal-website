@@ -971,8 +971,9 @@ function initTextReveal() {
     // Define selectors for elements to animate
     const selectors = [
         // Hello Section
-        '#name', '#hello-intro', '.unique-abilities h2',
-        '.unique-abilities li',
+        '#name', '#hello-intro', '#contact-line',
+        '.unique-abilities h2', '.unique-abilities li',
+        '#resume-line',
         // About Section
         '#about .section-title', '#about .section-intro',
         '#about-content p', '#about-content .about-subtitle',
@@ -983,46 +984,36 @@ function initTextReveal() {
     ];
 
     let elementCount = 0;
-    let wordCount = 0;
 
-    // Process each element
+    // First pass: split all text into words
     selectors.forEach(selector => {
         document.querySelectorAll(selector).forEach(el => {
-            // Skip if already initialized
             if (el.dataset.revealInit) return;
             el.dataset.revealInit = 'true';
             elementCount++;
-
-            // Split text into word spans
             splitTextIntoWords(el);
-
-            // Get all word spans in this element
-            const words = el.querySelectorAll('.reveal-word');
-            wordCount += words.length;
-
-            if (words.length === 0) return;
-
-            // Create a timeline for this element's words
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: el,
-                    start: 'top 85%',
-                    end: 'top 25%',
-                    scrub: 0.5,
-                }
-            });
-
-            // Animate each word with stagger
-            tl.to(words, {
-                color: fullColor,
-                duration: 1,
-                stagger: 0.1,
-                ease: 'none',
-            });
         });
     });
 
-    console.log('Text reveal initialized for', elementCount, 'elements,', wordCount, 'words');
+    // Collect ALL words and sort by vertical position
+    const allWords = Array.from(document.querySelectorAll('.reveal-word'));
+
+    // Each word gets its own ScrollTrigger based on its position
+    // This creates a natural top-to-bottom reveal like reading
+    allWords.forEach(word => {
+        gsap.to(word, {
+            scrollTrigger: {
+                trigger: word,
+                start: 'top 90%',
+                end: 'top 60%',
+                scrub: 0.3,
+            },
+            color: fullColor,
+            ease: 'none',
+        });
+    });
+
+    console.log('Text reveal initialized for', elementCount, 'elements,', allWords.length, 'words');
     ScrollTrigger.refresh();
 }
 
