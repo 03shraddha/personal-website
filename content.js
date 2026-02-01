@@ -46,10 +46,13 @@ const CONTENT = {
             ]
         },
         corporateStory: {
-            title: "Corporate Story",
+            title: "My job, explained",
             subtitle: "Areas of interest: Product management | Analytics",
             paragraphs: [
-            `Before working on ZS’s GenAI product, Quill, I did analytics for hospitality clients. I used SQL and Python to turn very unstructured data (can’t believe I’m saying this either, but yes, it was unstructured) into real business insights for hotel chains generating millions in revenue.`,
+
+            `I’ve mostly followed my curiosity, and that’s taken me across a few different roles. I studied ECE in college, did a software engineering internship, moved into analytics, and now work on the product team at a consulting firm.
+
+Before joining ZS’s GenAI product, Quill, I worked in analytics with hospitality clients. Using SQL and Python, I made sense of messy, unstructured hotel CRM data and turned it into insights that helped hotel chains generating millions in revenue.`,
             `In just two years in corporate, I’ve led teams that won multiple client awards. I was named Most Valuable Player out of 150+ colleagues across the India and Argentina offices, and also received ZS’s Impact Award for delivering a GenAI solution for the firm’s largest client, competing with hundreds of teams in the same practice area.`
              ]
 

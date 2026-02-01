@@ -895,11 +895,8 @@ function updateScrollSpy(sections, navLinks) {
  * Line 1 completes before Line 2 starts
  */
 function initTextReveal() {
-    console.log('initTextReveal called');
-
     // Respect reduced motion preference
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        console.log('Reduced motion preference detected, skipping');
         return;
     }
 
@@ -979,7 +976,6 @@ function initTextReveal() {
 
     // Collect ALL words with positions
     const allWords = Array.from(document.querySelectorAll('.reveal-word'));
-    console.log('Text reveal initialized for', elementCount, 'elements,', allWords.length, 'words');
 
     if (allWords.length === 0) return;
 
@@ -1038,13 +1034,11 @@ function initTextReveal() {
     const firstWordTop = sortedWords[0].top;
     const lastWordTop = sortedWords[totalWords - 1].top;
 
-    console.log('Lines:', totalLines, 'Total words:', totalWords, 'Line height:', lineHeight);
-
     function updateRevealStrict() {
         const scrollY = window.scrollY;
         const viewportHeight = window.innerHeight;
 
-        // Reading position at 30% from top
+        // Reading position at 35% from top of viewport
         const readingLineY = scrollY + (viewportHeight * 0.35);
 
         // Find the first incomplete line
