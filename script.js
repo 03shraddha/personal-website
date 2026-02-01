@@ -998,55 +998,75 @@ function initTextReveal() {
         };
     });
 
-    // Sort by reading order: Y position first (5px tolerance for same line), then X position
-    wordData.sort((a, b) => {
-        const yDiff = a.top - b.top;
-        if (Math.abs(yDiff) < 8) {
-            return a.left - b.left;
+    // GROUP WORDS INTO LINES FIRST (strict line-by-line)
+    // Sort all words by Y position first
+    wordData.sort((a, b) => a.top - b.top);
+
+    // Group into lines (words within 10px vertically = same line)
+    const lines = [];
+    let currentLine = [];
+    let currentLineY = wordData.length > 0 ? wordData[0].top : 0;
+
+    wordData.forEach(word => {
+        if (Math.abs(word.top - currentLineY) <= 10) {
+            currentLine.push(word);
+        } else {
+            // New line - save current and start new
+            if (currentLine.length > 0) {
+                // Sort words in this line by X (left to right)
+                currentLine.sort((a, b) => a.left - b.left);
+                lines.push(currentLine);
+            }
+            currentLine = [word];
+            currentLineY = word.top;
         }
-        return yDiff;
+    });
+    // Don't forget last line
+    if (currentLine.length > 0) {
+        currentLine.sort((a, b) => a.left - b.left);
+        lines.push(currentLine);
+    }
+
+    // Now flatten lines into single array with proper sequential indices
+    // Line 1 words get indices 0 to N, Line 2 gets N+1 to M, etc.
+    const sortedWords = [];
+    lines.forEach(line => {
+        line.forEach(word => {
+            word.index = sortedWords.length;
+            sortedWords.push(word);
+        });
     });
 
-    // Assign sequential index (reading order)
-    wordData.forEach((word, index) => {
-        word.index = index;
-    });
-
-    const totalWords = wordData.length;
+    const totalWords = sortedWords.length;
     if (totalWords === 0) return;
 
     // Get content boundaries for scroll mapping
-    const firstWordTop = wordData[0].top;
-    const lastWordTop = wordData[totalWords - 1].top;
+    const firstWordTop = sortedWords[0].top;
+    const lastWordTop = sortedWords[totalWords - 1].top;
 
-    console.log('Total words:', totalWords, 'First:', firstWordTop, 'Last:', lastWordTop);
+    console.log('Lines:', lines.length, 'Total words:', totalWords);
 
     function updateReveal() {
         const scrollY = window.scrollY;
         const viewportHeight = window.innerHeight;
 
-        // Reading line at 30% from top of viewport
-        const readingLineY = scrollY + (viewportHeight * 0.30);
+        // STRICT LINE-BY-LINE REVEAL
+        // Map scroll position to word index
+        // Each line must complete before next line starts
 
-        // STRICT SEQUENTIAL REVEAL:
-        // Map scroll position directly to word index
-        // scrollY=0 → some words revealed (content visible on load)
-        // As scroll increases → more words reveal in strict order
-
-        // Calculate scroll range: from when first word enters view to when last word is reached
+        // Calculate scroll range
         const scrollStart = firstWordTop - (viewportHeight * 0.30);
         const scrollEnd = lastWordTop - (viewportHeight * 0.30);
         const scrollRange = scrollEnd - scrollStart;
 
-        // How far through the content have we scrolled? (0 to 1+)
-        const scrollProgress = (scrollY - scrollStart) / scrollRange;
+        // Current scroll progress (0 to 1)
+        const scrollProgress = Math.max(0, (scrollY - scrollStart) / scrollRange);
 
-        // Map scroll progress to word index
-        // Multiply by total words to get current reveal position
+        // Map to word index - this controls which word we're at
         const currentRevealIndex = scrollProgress * totalWords;
 
-        // Reveal words strictly by index
-        wordData.forEach(({ element, index }) => {
+        // Reveal words strictly by their sequential index
+        sortedWords.forEach(({ element, index }) => {
             // How far past this word's turn are we?
             const wordProgress = currentRevealIndex - index;
 
