@@ -1950,6 +1950,40 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 /* ===================================
+   Scroll-Triggered Text Reveal Effect
+   =================================== */
+
+.reveal-text {
+    color: var(--color-text-light);
+    transition: color 0.1s ease-out;
+}
+
+.reveal-text.revealed {
+    color: var(--color-text);
+}
+
+/* Highlights maintain background, opacity fades */
+.reveal-text .highlight {
+    opacity: 0.6;
+    transition: opacity 0.15s ease-out;
+}
+
+.reveal-text .highlight.revealed {
+    opacity: 1;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .reveal-text {
+        color: var(--color-text) !important;
+        transition: none !important;
+    }
+    .reveal-text .highlight {
+        opacity: 1 !important;
+    }
+}
+
+/* ===================================
    Photos Section - Polaroid Gallery
    =================================== */
 

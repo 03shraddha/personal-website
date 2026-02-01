@@ -86,6 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();   // Mobile hamburger menu
         initPageViewCounter(); // Page view counter
         initGuestbook();    // Virtual guestbook
+
+        // Initialize text reveal after content is loaded
+        setTimeout(() => {
+            initTextReveal();
+        }, 150);
+
         updateYear();
         console.log('All initialization complete');
     } catch (error) {
@@ -648,6 +654,11 @@ function initExperienceToggles() {
                 // Scroll to keep card header visible
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
+
+            // Refresh ScrollTrigger after content size changes
+            if (typeof ScrollTrigger !== 'undefined') {
+                setTimeout(() => ScrollTrigger.refresh(), 100);
+            }
         });
     });
 }
@@ -699,6 +710,10 @@ function initBackgroundToggle() {
         readMoreBtn.classList.add('hidden');
         full.classList.add('active');
         showLessBtn.classList.add('active');
+        // Refresh ScrollTrigger after content size changes
+        if (typeof ScrollTrigger !== 'undefined') {
+            setTimeout(() => ScrollTrigger.refresh(), 100);
+        }
     });
 
     showLessBtn.addEventListener('click', () => {
@@ -707,6 +722,10 @@ function initBackgroundToggle() {
         preview.classList.remove('hidden');
         ellipsis.classList.remove('hidden');
         readMoreBtn.classList.remove('hidden');
+        // Refresh ScrollTrigger after content size changes
+        if (typeof ScrollTrigger !== 'undefined') {
+            setTimeout(() => ScrollTrigger.refresh(), 100);
+        }
     });
 }
 
@@ -726,6 +745,10 @@ function initBeyondWorkToggle() {
         readMoreBtn.classList.add('hidden');
         full.classList.add('active');
         showLessBtn.classList.add('active');
+        // Refresh ScrollTrigger after content size changes
+        if (typeof ScrollTrigger !== 'undefined') {
+            setTimeout(() => ScrollTrigger.refresh(), 100);
+        }
     });
 
     showLessBtn.addEventListener('click', () => {
@@ -733,6 +756,10 @@ function initBeyondWorkToggle() {
         showLessBtn.classList.remove('active');
         preview.classList.remove('hidden');
         readMoreBtn.classList.remove('hidden');
+        // Refresh ScrollTrigger after content size changes
+        if (typeof ScrollTrigger !== 'undefined') {
+            setTimeout(() => ScrollTrigger.refresh(), 100);
+        }
     });
 }
 
@@ -760,6 +787,11 @@ function initCommunityToggles() {
 
                 // Scroll to keep card header visible
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            // Refresh ScrollTrigger after content size changes
+            if (typeof ScrollTrigger !== 'undefined') {
+                setTimeout(() => ScrollTrigger.refresh(), 100);
             }
         });
     });
@@ -868,6 +900,77 @@ function updateScrollSpy(sections, navLinks) {
             }
         });
     }
+}
+
+/**
+ * Scroll-Triggered Text Reveal Effect
+ * Creates a "highlighter pen" effect where text reveals as user scrolls
+ */
+function initTextReveal() {
+    // Respect reduced motion preference
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    // Check if GSAP and ScrollTrigger are available
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        console.warn('GSAP/ScrollTrigger not loaded, text reveal disabled');
+        return;
+    }
+
+    // Register ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Define selectors for elements to animate
+    const selectors = [
+        // Hello Section
+        '#name', '#hello-intro', '.unique-abilities h2',
+        '.unique-abilities li', '#resume-line',
+        // About Section
+        '#about .section-title', '#about .section-intro',
+        '#about-content p', '#about-content .about-subtitle',
+        '#about-content .about-list li', '.beyond-work-item',
+        // Work Section
+        '#work .section-title', '#work .section-intro',
+        '.experience-header h3', '.experience-company', '.experience-brief'
+    ];
+
+    // Process each element
+    selectors.forEach(selector => {
+        document.querySelectorAll(selector).forEach(el => {
+            // Skip if already initialized
+            if (el.dataset.revealInit) return;
+            el.dataset.revealInit = 'true';
+            el.classList.add('reveal-text');
+
+            // Create ScrollTrigger animation
+            gsap.to(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%',
+                    end: 'top 25%',
+                    scrub: 0.5,
+                },
+                color: 'var(--color-text)',
+                ease: 'none',
+                onComplete: () => el.classList.add('revealed')
+            });
+        });
+    });
+
+    ScrollTrigger.refresh();
+}
+
+/**
+ * Refresh text reveal for dynamically loaded content
+ */
+function refreshTextReveal() {
+    setTimeout(() => {
+        initTextReveal();
+        if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.refresh();
+        }
+    }, 100);
 }
 
 /**
