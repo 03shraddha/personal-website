@@ -1018,6 +1018,7 @@ function initTextReveal() {
     // Get content boundaries
     const firstWordTop = wordData[0].top;
     const lastWordTop = wordData[totalWords - 1].top;
+    const contentHeight = lastWordTop - firstWordTop;
 
     function updateReveal() {
         const scrollY = window.scrollY;
@@ -1026,29 +1027,64 @@ function initTextReveal() {
         // Reading line at 20% from top of viewport
         const readingLineY = scrollY + (viewportHeight * 0.2);
 
-        // For each word, check if it's above the reading line
-        // Words reveal sequentially - a word only reveals if all words before it
-        // (in reading order) that are on the same or higher lines are revealed
+        // Map the reading line position to a word index
+        // This creates true sequential reveal - word by word in reading order
 
-        wordData.forEach(({ element, top, index }) => {
-            // How far is this word from the reading line?
-            const distanceAboveLine = readingLineY - top;
+        // For each word, calculate how "revealed" it should be based on:
+        // 1. Whether its line has been reached by the reading line
+        // 2. Its position within that line (left to right)
+
+        // Group words by line (same Y position within tolerance)
+        const lineGroups = [];
+        let currentLine = [];
+        let currentLineTop = wordData[0].top;
+
+        wordData.forEach((word, i) => {
+            if (Math.abs(word.top - currentLineTop) < 8) {
+                currentLine.push(word);
+            } else {
+                if (currentLine.length > 0) {
+                    lineGroups.push({ top: currentLineTop, words: currentLine });
+                }
+                currentLine = [word];
+                currentLineTop = word.top;
+            }
+        });
+        if (currentLine.length > 0) {
+            lineGroups.push({ top: currentLineTop, words: currentLine });
+        }
+
+        // Process each line
+        lineGroups.forEach((line, lineIndex) => {
+            const lineTop = line.top;
+            const distanceAboveLine = readingLineY - lineTop;
 
             if (distanceAboveLine < 0) {
-                // Word is below reading line - stay faded
-                element.style.color = fadedColor;
+                // Line is below reading line - all words faded
+                line.words.forEach(({ element }) => {
+                    element.style.color = fadedColor;
+                });
             } else {
-                // Word is at or above reading line
-                // Calculate reveal progress based on how far above the line
-                // Words reveal progressively within a small range
-                const revealDistance = 50; // pixels to fully reveal
-                const progress = Math.min(1, distanceAboveLine / revealDistance);
+                // Line is at or above reading line
+                // Reveal words left-to-right based on how far above the line we are
+                const wordsInLine = line.words.length;
 
-                if (progress >= 1) {
-                    element.style.color = fullColor;
-                } else {
-                    element.style.color = interpolateColor(fadedColor, fullColor, progress);
-                }
+                // How many "word widths" of scroll have passed since this line was reached
+                // Each 15px of scroll reveals one more word
+                const pixelsPerWord = 15;
+                const wordsToReveal = distanceAboveLine / pixelsPerWord;
+
+                line.words.forEach(({ element }, wordIndexInLine) => {
+                    const wordProgress = wordsToReveal - wordIndexInLine;
+
+                    if (wordProgress <= 0) {
+                        element.style.color = fadedColor;
+                    } else if (wordProgress >= 1) {
+                        element.style.color = fullColor;
+                    } else {
+                        element.style.color = interpolateColor(fadedColor, fullColor, wordProgress);
+                    }
+                });
             }
         });
     }
