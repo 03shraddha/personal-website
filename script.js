@@ -904,7 +904,7 @@ function updateScrollSpy(sections, navLinks) {
 
 /**
  * Scroll-Triggered Text Reveal Effect
- * Creates a "highlighter pen" effect where text reveals as user scrolls
+ * Creates a "highlighter pen" effect where text reveals word-by-word as user scrolls
  */
 function initTextReveal() {
     console.log('initTextReveal called');
@@ -930,6 +930,44 @@ function initTextReveal() {
     const fadedColor = '#b5b5b5';  // --color-text-light
     const fullColor = '#1a1a1a';   // --color-text
 
+    // Function to split text into word spans while preserving HTML
+    function splitTextIntoWords(element) {
+        const walker = document.createTreeWalker(
+            element,
+            NodeFilter.SHOW_TEXT,
+            null,
+            false
+        );
+
+        const textNodes = [];
+        while (walker.nextNode()) {
+            textNodes.push(walker.currentNode);
+        }
+
+        textNodes.forEach(textNode => {
+            const text = textNode.textContent;
+            if (!text.trim()) return;
+
+            const words = text.split(/(\s+)/);
+            const fragment = document.createDocumentFragment();
+
+            words.forEach(word => {
+                if (word.match(/^\s+$/)) {
+                    // Preserve whitespace
+                    fragment.appendChild(document.createTextNode(word));
+                } else if (word) {
+                    const span = document.createElement('span');
+                    span.className = 'reveal-word';
+                    span.textContent = word;
+                    span.style.color = fadedColor;
+                    fragment.appendChild(span);
+                }
+            });
+
+            textNode.parentNode.replaceChild(fragment, textNode);
+        });
+    }
+
     // Define selectors for elements to animate
     const selectors = [
         // Hello Section
@@ -945,6 +983,7 @@ function initTextReveal() {
     ];
 
     let elementCount = 0;
+    let wordCount = 0;
 
     // Process each element
     selectors.forEach(selector => {
@@ -952,26 +991,38 @@ function initTextReveal() {
             // Skip if already initialized
             if (el.dataset.revealInit) return;
             el.dataset.revealInit = 'true';
-
-            // Set initial faded color directly
-            el.style.color = fadedColor;
             elementCount++;
 
-            // Create ScrollTrigger animation
-            gsap.to(el, {
+            // Split text into word spans
+            splitTextIntoWords(el);
+
+            // Get all word spans in this element
+            const words = el.querySelectorAll('.reveal-word');
+            wordCount += words.length;
+
+            if (words.length === 0) return;
+
+            // Create a timeline for this element's words
+            const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: el,
                     start: 'top 85%',
                     end: 'top 25%',
                     scrub: 0.5,
-                },
+                }
+            });
+
+            // Animate each word with stagger
+            tl.to(words, {
                 color: fullColor,
+                duration: 1,
+                stagger: 0.1,
                 ease: 'none',
             });
         });
     });
 
-    console.log('Text reveal initialized for', elementCount, 'elements');
+    console.log('Text reveal initialized for', elementCount, 'elements,', wordCount, 'words');
     ScrollTrigger.refresh();
 }
 
