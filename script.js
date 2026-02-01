@@ -905,6 +905,7 @@ function updateScrollSpy(sections, navLinks) {
 /**
  * Scroll-Triggered Text Reveal Effect
  * Creates a "highlighter pen" effect where text reveals word-by-word as user scrolls
+ * Uses scroll position to create a "reading line" that moves down the page
  */
 function initTextReveal() {
     console.log('initTextReveal called');
@@ -915,20 +916,9 @@ function initTextReveal() {
         return;
     }
 
-    // Check if GSAP and ScrollTrigger are available
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-        console.warn('GSAP/ScrollTrigger not loaded, text reveal disabled');
-        return;
-    }
-
-    console.log('GSAP and ScrollTrigger available');
-
-    // Register ScrollTrigger plugin
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Color values (using actual hex instead of CSS variables for GSAP compatibility)
-    const fadedColor = '#b5b5b5';  // --color-text-light
-    const fullColor = '#1a1a1a';   // --color-text
+    // Color values
+    const fadedColor = '#b5b5b5';
+    const fullColor = '#1a1a1a';
 
     // Function to split text into word spans while preserving HTML
     function splitTextIntoWords(element) {
@@ -953,7 +943,6 @@ function initTextReveal() {
 
             words.forEach(word => {
                 if (word.match(/^\s+$/)) {
-                    // Preserve whitespace
                     fragment.appendChild(document.createTextNode(word));
                 } else if (word) {
                     const span = document.createElement('span');
@@ -995,30 +984,95 @@ function initTextReveal() {
         });
     });
 
-    // Collect ALL words and sort by vertical position
+    // Collect ALL words
     const allWords = Array.from(document.querySelectorAll('.reveal-word'));
+    console.log('Text reveal initialized for', elementCount, 'elements,', allWords.length, 'words');
 
-    // Mobile detection for adjusted trigger points
-    const isMobile = window.innerWidth <= 768;
-
-    // Each word gets its own ScrollTrigger based on its position
-    // This creates a natural top-to-bottom reveal like reading
-    // Mobile uses wider trigger range since users scroll faster on touch
-    allWords.forEach(word => {
-        gsap.to(word, {
-            scrollTrigger: {
-                trigger: word,
-                start: isMobile ? 'top 95%' : 'top 90%',
-                end: isMobile ? 'top 70%' : 'top 60%',
-                scrub: isMobile ? 0.2 : 0.3,
-            },
-            color: fullColor,
-            ease: 'none',
-        });
+    // Cache word positions (Y coordinate relative to document)
+    const wordData = allWords.map(word => {
+        const rect = word.getBoundingClientRect();
+        return {
+            element: word,
+            top: rect.top + window.scrollY
+        };
     });
 
-    console.log('Text reveal initialized for', elementCount, 'elements,', allWords.length, 'words');
-    ScrollTrigger.refresh();
+    // Sort by vertical position
+    wordData.sort((a, b) => a.top - b.top);
+
+    // Calculate the range of word positions
+    const firstWordTop = wordData.length > 0 ? wordData[0].top : 0;
+    const lastWordTop = wordData.length > 0 ? wordData[wordData.length - 1].top : 0;
+
+    // The "reading line" position based on scroll
+    // At scroll=0, reading line is at top of viewport
+    // As user scrolls, reading line moves down
+    function updateReveal() {
+        const scrollY = window.scrollY;
+        const viewportHeight = window.innerHeight;
+
+        // Reading line position: starts at 20% from top of viewport, moves down with scroll
+        // This creates a natural reading feel where text reveals as it enters the upper portion of screen
+        const readingLineY = scrollY + (viewportHeight * 0.3);
+
+        // Reveal range: words within this range are partially revealed
+        const revealRange = viewportHeight * 0.4;
+
+        wordData.forEach(({ element, top }) => {
+            // How far past the reading line is this word?
+            const distanceFromLine = readingLineY - top;
+
+            if (distanceFromLine <= 0) {
+                // Word is below reading line - fully faded
+                element.style.color = fadedColor;
+            } else if (distanceFromLine >= revealRange) {
+                // Word is well above reading line - fully revealed
+                element.style.color = fullColor;
+            } else {
+                // Word is in the reveal zone - interpolate color
+                const progress = distanceFromLine / revealRange;
+                element.style.color = interpolateColor(fadedColor, fullColor, progress);
+            }
+        });
+    }
+
+    // Color interpolation helper
+    function interpolateColor(color1, color2, progress) {
+        const hex1 = color1.replace('#', '');
+        const hex2 = color2.replace('#', '');
+
+        const r1 = parseInt(hex1.substr(0, 2), 16);
+        const g1 = parseInt(hex1.substr(2, 2), 16);
+        const b1 = parseInt(hex1.substr(4, 2), 16);
+
+        const r2 = parseInt(hex2.substr(0, 2), 16);
+        const g2 = parseInt(hex2.substr(2, 2), 16);
+        const b2 = parseInt(hex2.substr(4, 2), 16);
+
+        const r = Math.round(r1 + (r2 - r1) * progress);
+        const g = Math.round(g1 + (g2 - g1) * progress);
+        const b = Math.round(b1 + (b2 - b1) * progress);
+
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    // Use requestAnimationFrame for smooth updates
+    let ticking = false;
+    function onScroll() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                updateReveal();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+
+    // Listen for scroll events
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Initial update
+    updateReveal();
 }
 
 /**
