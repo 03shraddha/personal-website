@@ -988,97 +988,115 @@ function initTextReveal() {
     const allWords = Array.from(document.querySelectorAll('.reveal-word'));
     console.log('Text reveal initialized for', elementCount, 'elements,', allWords.length, 'words');
 
-    // Get position data for each word (Y and X coordinates)
+    if (allWords.length === 0) return;
+
+    // Get typical line height from first word's parent
+    const computedStyle = window.getComputedStyle(allWords[0].parentElement || allWords[0]);
+    const lineHeight = parseInt(computedStyle.lineHeight) || 28;
+
+    // Get position data and calculate LINE NUMBER for each word
     const wordData = allWords.map(word => {
         const rect = word.getBoundingClientRect();
+        const absoluteTop = rect.top + window.scrollY;
         return {
             element: word,
-            top: Math.round(rect.top + window.scrollY),
-            left: rect.left
+            top: absoluteTop,
+            left: rect.left,
+            // Calculate line number based on position (group by line height)
+            lineNum: Math.round(absoluteTop / (lineHeight * 0.8))
         };
     });
 
-    // GROUP WORDS INTO LINES FIRST (strict line-by-line)
-    // Sort all words by Y position first
-    wordData.sort((a, b) => a.top - b.top);
-
-    // Group into lines (words within 10px vertically = same line)
-    const lines = [];
-    let currentLine = [];
-    let currentLineY = wordData.length > 0 ? wordData[0].top : 0;
-
+    // Group words by their line number
+    const lineMap = new Map();
     wordData.forEach(word => {
-        if (Math.abs(word.top - currentLineY) <= 10) {
-            currentLine.push(word);
-        } else {
-            // New line - save current and start new
-            if (currentLine.length > 0) {
-                // Sort words in this line by X (left to right)
-                currentLine.sort((a, b) => a.left - b.left);
-                lines.push(currentLine);
-            }
-            currentLine = [word];
-            currentLineY = word.top;
+        if (!lineMap.has(word.lineNum)) {
+            lineMap.set(word.lineNum, []);
         }
+        lineMap.get(word.lineNum).push(word);
     });
-    // Don't forget last line
-    if (currentLine.length > 0) {
-        currentLine.sort((a, b) => a.left - b.left);
-        lines.push(currentLine);
-    }
 
-    // Now flatten lines into single array with proper sequential indices
-    // Line 1 words get indices 0 to N, Line 2 gets N+1 to M, etc.
+    // Sort line numbers and create ordered lines array
+    const sortedLineNums = Array.from(lineMap.keys()).sort((a, b) => a - b);
+    const lines = sortedLineNums.map(lineNum => {
+        const wordsInLine = lineMap.get(lineNum);
+        // Sort words within each line by X position (left to right)
+        wordsInLine.sort((a, b) => a.left - b.left);
+        return wordsInLine;
+    });
+
+    // Flatten into single array with sequential indices
+    // CRITICAL: Line 1 gets indices 0-N, Line 2 gets N+1-M, etc.
     const sortedWords = [];
-    lines.forEach(line => {
-        line.forEach(word => {
+    lines.forEach((line, lineIndex) => {
+        line.forEach((word, wordInLineIndex) => {
             word.index = sortedWords.length;
+            word.lineIndex = lineIndex;
             sortedWords.push(word);
         });
     });
 
     const totalWords = sortedWords.length;
+    const totalLines = lines.length;
+
     if (totalWords === 0) return;
 
-    // Get content boundaries for scroll mapping
+    // Get content boundaries
     const firstWordTop = sortedWords[0].top;
     const lastWordTop = sortedWords[totalWords - 1].top;
 
-    console.log('Lines:', lines.length, 'Total words:', totalWords);
+    console.log('Lines:', totalLines, 'Total words:', totalWords, 'Line height:', lineHeight);
 
-    function updateReveal() {
+    function updateRevealStrict() {
         const scrollY = window.scrollY;
         const viewportHeight = window.innerHeight;
 
-        // STRICT LINE-BY-LINE REVEAL
-        // Map scroll position to word index
-        // Each line must complete before next line starts
+        // Reading position at 30% from top
+        const readingLineY = scrollY + (viewportHeight * 0.30);
 
-        // Calculate scroll range
-        const scrollStart = firstWordTop - (viewportHeight * 0.30);
-        const scrollEnd = lastWordTop - (viewportHeight * 0.30);
-        const scrollRange = scrollEnd - scrollStart;
-
-        // Current scroll progress (0 to 1)
-        const scrollProgress = Math.max(0, (scrollY - scrollStart) / scrollRange);
-
-        // Map to word index - this controls which word we're at
-        const currentRevealIndex = scrollProgress * totalWords;
-
-        // Reveal words strictly by their sequential index
-        sortedWords.forEach(({ element, index }) => {
-            // How far past this word's turn are we?
-            const wordProgress = currentRevealIndex - index;
-
-            if (wordProgress <= 0) {
-                // Haven't reached this word yet - fully faded
-                element.style.color = fadedColor;
-            } else if (wordProgress >= 1) {
-                // Past this word - fully revealed
-                element.style.color = fullColor;
+        // Find the first incomplete line
+        let activeLineIndex = 0;
+        for (let i = 0; i < lines.length; i++) {
+            const lineTop = lines[i][0].top;
+            if (readingLineY >= lineTop) {
+                activeLineIndex = i;
             } else {
-                // Currently revealing this word - interpolate
-                element.style.color = interpolateColor(fadedColor, fullColor, wordProgress);
+                break;
+            }
+        }
+
+        // Process each line
+        lines.forEach((line, lineIndex) => {
+            const lineTop = line[0].top;
+            const wordsInLine = line.length;
+
+            if (lineIndex < activeLineIndex) {
+                // Previous lines - fully revealed
+                line.forEach(({ element }) => {
+                    element.style.color = fullColor;
+                });
+            } else if (lineIndex === activeLineIndex) {
+                // Active line - reveal word by word
+                const distancePastLine = readingLineY - lineTop;
+                const pixelsPerWord = 18;
+                const wordsToReveal = Math.max(0, distancePastLine / pixelsPerWord);
+
+                line.forEach(({ element }, wordIndexInLine) => {
+                    const wordProgress = wordsToReveal - wordIndexInLine;
+
+                    if (wordProgress <= 0) {
+                        element.style.color = fadedColor;
+                    } else if (wordProgress >= 1) {
+                        element.style.color = fullColor;
+                    } else {
+                        element.style.color = interpolateColor(fadedColor, fullColor, wordProgress);
+                    }
+                });
+            } else {
+                // Future lines - all faded
+                line.forEach(({ element }) => {
+                    element.style.color = fadedColor;
+                });
             }
         });
     }
@@ -1108,7 +1126,7 @@ function initTextReveal() {
     function onScroll() {
         if (!ticking) {
             requestAnimationFrame(() => {
-                updateReveal();
+                updateRevealStrict();
                 ticking = false;
             });
             ticking = true;
