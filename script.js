@@ -653,11 +653,9 @@ function initExperienceToggles() {
 
                 // Scroll to keep card header visible
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
 
-            // Refresh ScrollTrigger after content size changes
-            if (typeof ScrollTrigger !== 'undefined') {
-                setTimeout(() => ScrollTrigger.refresh(), 100);
+                // Refresh text reveal for new content
+                setTimeout(() => refreshTextReveal(), 150);
             }
         });
     });
@@ -687,6 +685,9 @@ function initProjectToggles() {
 
                 // Scroll to keep card header visible
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                // Refresh text reveal for new content
+                setTimeout(() => refreshTextReveal(), 150);
             }
         });
     });
@@ -710,10 +711,8 @@ function initBackgroundToggle() {
         readMoreBtn.classList.add('hidden');
         full.classList.add('active');
         showLessBtn.classList.add('active');
-        // Refresh ScrollTrigger after content size changes
-        if (typeof ScrollTrigger !== 'undefined') {
-            setTimeout(() => ScrollTrigger.refresh(), 100);
-        }
+        // Refresh text reveal for new content
+        setTimeout(() => refreshTextReveal(), 150);
     });
 
     showLessBtn.addEventListener('click', () => {
@@ -722,10 +721,6 @@ function initBackgroundToggle() {
         preview.classList.remove('hidden');
         ellipsis.classList.remove('hidden');
         readMoreBtn.classList.remove('hidden');
-        // Refresh ScrollTrigger after content size changes
-        if (typeof ScrollTrigger !== 'undefined') {
-            setTimeout(() => ScrollTrigger.refresh(), 100);
-        }
     });
 }
 
@@ -745,10 +740,8 @@ function initBeyondWorkToggle() {
         readMoreBtn.classList.add('hidden');
         full.classList.add('active');
         showLessBtn.classList.add('active');
-        // Refresh ScrollTrigger after content size changes
-        if (typeof ScrollTrigger !== 'undefined') {
-            setTimeout(() => ScrollTrigger.refresh(), 100);
-        }
+        // Refresh text reveal for new content
+        setTimeout(() => refreshTextReveal(), 150);
     });
 
     showLessBtn.addEventListener('click', () => {
@@ -756,9 +749,6 @@ function initBeyondWorkToggle() {
         showLessBtn.classList.remove('active');
         preview.classList.remove('hidden');
         readMoreBtn.classList.remove('hidden');
-        // Refresh ScrollTrigger after content size changes
-        if (typeof ScrollTrigger !== 'undefined') {
-            setTimeout(() => ScrollTrigger.refresh(), 100);
         }
     });
 }
@@ -787,11 +777,9 @@ function initCommunityToggles() {
 
                 // Scroll to keep card header visible
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
 
-            // Refresh ScrollTrigger after content size changes
-            if (typeof ScrollTrigger !== 'undefined') {
-                setTimeout(() => ScrollTrigger.refresh(), 100);
+                // Refresh text reveal for new content
+                setTimeout(() => refreshTextReveal(), 150);
             }
         });
     });
@@ -969,7 +957,13 @@ function initTextReveal() {
         '#about-content .about-list li', '.beyond-work-item',
         // Work Section
         '#work .section-title', '#work .section-intro',
-        '.experience-header h3', '.experience-company', '.experience-brief'
+        '.experience-header h3', '.experience-company', '.experience-brief',
+        // Expanded Content (loaded on click)
+        '.experience-expanded p', '.experience-expanded li',
+        '.experience-expanded h4', '.experience-expanded .project-cta',
+        '.project-expanded p', '.project-expanded li',
+        '.community-expanded p', '.community-expanded li',
+        '.background-expanded p', '.beyond-work-expanded p'
     ];
 
     let elementCount = 0;
