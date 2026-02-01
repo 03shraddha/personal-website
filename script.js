@@ -1025,8 +1025,8 @@ function initTextReveal() {
         const scrollY = window.scrollY;
         const viewportHeight = window.innerHeight;
 
-        // Reading line at 35% from top of viewport
-        const readingLineY = scrollY + (viewportHeight * 0.35);
+        // Reading line at 30% from top of viewport
+        const readingLineY = scrollY + (viewportHeight * 0.30);
 
         // STRICT SEQUENTIAL REVEAL:
         // Map scroll position directly to word index
@@ -1034,8 +1034,8 @@ function initTextReveal() {
         // As scroll increases → more words reveal in strict order
 
         // Calculate scroll range: from when first word enters view to when last word is reached
-        const scrollStart = firstWordTop - (viewportHeight * 0.35);
-        const scrollEnd = lastWordTop - (viewportHeight * 0.35);
+        const scrollStart = firstWordTop - (viewportHeight * 0.30);
+        const scrollEnd = lastWordTop - (viewportHeight * 0.30);
         const scrollRange = scrollEnd - scrollStart;
 
         // How far through the content have we scrolled? (0 to 1+)
