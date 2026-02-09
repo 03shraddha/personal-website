@@ -1101,86 +1101,269 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 /* ===================================
-   Projects Section - Sticky Note Empty State
+   Projects Section - Card Layout
    =================================== */
 
-.projects-empty-state {
+.project-list {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 300px;
-    padding: 40px 20px;
+    flex-direction: column;
+    gap: 24px;
 }
 
-.sticky-note {
-    background: #FFF9E6;
-    max-width: 400px;
-    padding: 40px;
-    transform: rotate(-1.5deg);
-    box-shadow:
-        2px 2px 8px rgba(0, 0, 0, 0.08),
-        0 0 0 1px rgba(0, 0, 0, 0.02);
-    text-align: center;
-    position: relative;
+.project-card {
+    padding: 32px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.sticky-note::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(to right, #E8D9A0, #F0E4B0, #E8D9A0);
+.project-card:hover {
+    border-color: var(--color-text-light);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
-.sticky-note-emoji {
-    font-size: 32px;
-    display: block;
+.project-card .card-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    margin-bottom: 12px;
+}
+
+.project-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.project-brief {
+    font-size: 17px;
+    line-height: 1.7;
     margin-bottom: 16px;
 }
 
-.sticky-note-title {
-    font-family: 'Special Elite', 'Courier New', monospace;
-    font-size: 22px;
-    font-weight: 400;
-    color: #4A4A4A;
-    margin: 0 0 16px 0;
+/* Project Links (GitHub / Demo) */
+.project-links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
 }
 
-.sticky-note-text {
-    font-family: 'Special Elite', 'Courier New', monospace;
-    font-size: 16px;
-    line-height: 1.8;
-    color: #666666;
-    margin: 0 0 16px 0;
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.2s ease;
 }
 
-.sticky-note-cta {
-    font-family: 'Special Elite', 'Courier New', monospace;
-    font-size: 15px;
-    color: #888888;
-    margin: 0;
-    font-style: italic;
+.project-link:hover {
+    border-color: var(--color-text);
+    color: var(--color-text);
+}
+
+.project-link svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+/* Project Expanded Content */
+.project-expanded {
+    display: none;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+    margin-top: 16px;
+}
+
+.project-expanded.active {
+    display: block;
+    animation: fadeInExpand 0.3s ease;
+}
+
+.project-expanded h4 {
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 600;
+    margin: 24px 0 12px 0;
+    color: var(--color-text);
+}
+
+.project-expanded h4:first-child {
+    margin-top: 0;
+}
+
+.project-expanded p {
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+    color: var(--color-text);
+}
+
+/* Project Toggle Button */
+.project-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 8px 0;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    margin-top: 8px;
+}
+
+.project-toggle:hover {
+    color: var(--color-text);
+}
+
+/* Project Admin Delete Button */
+.project-admin-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--color-border);
+}
+
+.project-admin-btn {
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+}
+
+.project-edit-btn {
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+}
+
+.project-edit-btn:hover {
+    border-color: var(--color-text);
+    color: var(--color-text);
+}
+
+.project-delete-btn {
+    color: #e75480;
+    border: 1px solid #e75480;
+}
+
+.project-delete-btn:hover {
+    background: #e75480;
+    color: #fff;
+}
+
+/* Add Project Button */
+.add-project-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    background: #1a1a1a;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 24px;
+}
+
+.add-project-btn:hover {
+    background: #333;
+}
+
+[data-theme="dark"] .add-project-btn {
+    background: #fff;
+    color: #1a1a1a;
+}
+
+[data-theme="dark"] .add-project-btn:hover {
+    background: #e0e0e0;
+}
+
+/* Project Modal */
+.project-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 5000;
+    padding: 20px;
+}
+
+.project-modal.active {
+    display: flex;
+}
+
+.project-modal-content {
+    background: var(--color-bg);
+    border-radius: 12px;
+    padding: 32px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.project-modal-content h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: var(--color-text);
 }
 
 /* Mobile responsive */
 @media (max-width: 480px) {
-    .sticky-note {
-        max-width: 320px;
-        padding: 32px 24px;
+    .project-card {
+        padding: 20px;
     }
 
-    .sticky-note-title {
-        font-size: 20px;
+    .project-card h3 {
+        font-size: 16px;
     }
 
-    .sticky-note-text {
+    .project-brief {
         font-size: 15px;
     }
 
-    .sticky-note-cta {
-        font-size: 14px;
+    .project-links {
+        gap: 8px;
+    }
+
+    .project-link {
+        padding: 5px 12px;
+        font-size: 12px;
+    }
+
+    .project-toggle {
+        min-height: 44px;
+    }
+
+    .project-modal-content {
+        padding: 24px;
     }
 }
 

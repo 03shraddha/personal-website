@@ -140,6 +140,48 @@ TO anon, authenticated
 USING (true);
 
 
+-- 5. PROJECTS TABLE
+-- =====================================================
+CREATE TABLE IF NOT EXISTS projects (
+    id BIGSERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    highlight TEXT DEFAULT 'blue',
+    brief_description TEXT NOT NULL,
+    expanded_content TEXT,
+    github_url TEXT,
+    demo_url TEXT,
+    sort_order INTEGER DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Enable Row Level Security
+ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
+
+-- Allow anyone to read projects
+CREATE POLICY "Anyone can read projects"
+ON projects FOR SELECT
+TO anon, authenticated
+USING (true);
+
+-- Allow anyone to insert projects (admin check done in frontend)
+CREATE POLICY "Anyone can insert projects"
+ON projects FOR INSERT
+TO anon, authenticated
+WITH CHECK (true);
+
+-- Allow anyone to update projects
+CREATE POLICY "Anyone can update projects"
+ON projects FOR UPDATE
+TO anon, authenticated
+USING (true);
+
+-- Allow anyone to delete projects
+CREATE POLICY "Anyone can delete projects"
+ON projects FOR DELETE
+TO anon, authenticated
+USING (true);
+
+
 -- =====================================================
 -- STORAGE BUCKET FOR PHOTOS
 -- =====================================================

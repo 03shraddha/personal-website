@@ -110,14 +110,56 @@
                 </div>
 
                 <div class="tab-content hidden" id="tab-projects">
-                    <div id="projects-grid" class="content-grid">
-                        <!-- Loaded from content.js -->
+                    <button id="add-project-btn" class="add-project-btn" style="display:none;">+ Add Project</button>
+                    <div id="projects-list" class="project-list">
+                        <!-- Loaded from Supabase -->
                     </div>
                 </div>
 
                 <div class="tab-content hidden" id="tab-communities">
                     <div id="communities-grid" class="content-grid">
                         <!-- Loaded from content.js -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Add/Edit Modal -->
+            <div id="project-modal" class="project-modal">
+                <div class="project-modal-content">
+                    <button class="modal-close-btn" id="project-modal-close" aria-label="Close">&times;</button>
+                    <h3 id="project-modal-title">Add Project</h3>
+                    <input type="hidden" id="project-edit-id">
+                    <div class="form-group">
+                        <label for="project-name">Project Title <span class="required">*</span></label>
+                        <input type="text" id="project-name" placeholder="e.g., Crowd Management System" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-brief">Short Description <span class="required">*</span></label>
+                        <input type="text" id="project-brief" placeholder="One-line summary of the project" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-expanded">Full Description (HTML)</label>
+                        <textarea id="project-expanded" placeholder="Detailed description with HTML tags..." rows="6"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-github">GitHub URL</label>
+                        <input type="url" id="project-github" placeholder="https://github.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label for="project-demo">Demo URL</label>
+                        <input type="url" id="project-demo" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label for="project-highlight">Highlight Color</label>
+                        <select id="project-highlight">
+                            <option value="blue">Blue</option>
+                            <option value="peach">Peach</option>
+                            <option value="lavender">Lavender</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button id="project-cancel" class="btn-secondary">Cancel</button>
+                        <button id="project-save" class="btn-primary">Save Project</button>
                     </div>
                 </div>
             </div>

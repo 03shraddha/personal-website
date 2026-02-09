@@ -412,21 +412,8 @@ function loadContent() {
     // Initialize experience toggles
     initExperienceToggles();
 
-    // Projects (for tabs) - Sticky note placeholder
-    const projectsHtml = `
-        <div class="projects-empty-state">
-            <div class="sticky-note">
-                <span class="sticky-note-emoji">🔨</span>
-                <h3 class="sticky-note-title">Work in Progress</h3>
-                <p class="sticky-note-text">
-                    This space is for projects built while<br>
-                    experimenting with AI tools.
-                </p>
-                <p class="sticky-note-cta">Check back soon to see what I'm building!</p>
-            </div>
-        </div>
-    `;
-    document.getElementById('projects-grid').innerHTML = projectsHtml;
+    // Projects (for tabs) - Load from Supabase, fallback to content.js
+    initProjectsSection();
 
     // Communities (for tabs) with expandable details
     const communitiesHtml = CONTENT.communities.map((c, index) => {
@@ -659,6 +646,368 @@ function initExperienceToggles() {
             }
         });
     });
+}
+
+/**
+ * Projects Section - Supabase-backed cards with admin CRUD
+ */
+function initProjectsSection() {
+    const projectsList = document.getElementById('projects-list');
+    const addProjectBtn = document.getElementById('add-project-btn');
+    const projectModal = document.getElementById('project-modal');
+    const projectModalTitle = document.getElementById('project-modal-title');
+    const projectModalClose = document.getElementById('project-modal-close');
+    const projectSaveBtn = document.getElementById('project-save');
+    const projectCancelBtn = document.getElementById('project-cancel');
+    const projectEditId = document.getElementById('project-edit-id');
+
+    if (!projectsList) return;
+
+    let projects = [];
+    let currentProjectEditId = null;
+
+    function isAdmin() {
+        return localStorage.getItem('admin-authenticated') === 'true';
+    }
+
+    // Show add button for admins
+    if (addProjectBtn && isAdmin()) {
+        addProjectBtn.style.display = 'inline-block';
+    }
+
+    // Load projects from Supabase
+    async function loadProjectsFromSupabase() {
+        if (!supabaseClient) {
+            console.warn('Supabase not available for projects, using content.js fallback');
+            return null;
+        }
+        try {
+            const { data, error } = await supabaseClient
+                .from('projects')
+                .select('*')
+                .order('sort_order', { ascending: true })
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error loading projects from Supabase:', error);
+                return null;
+            }
+
+            return (data || []).map(p => ({
+                id: p.id,
+                name: p.name,
+                highlight: p.highlight || 'blue',
+                briefDescription: p.brief_description,
+                expandedContent: p.expanded_content || '',
+                githubUrl: p.github_url || '',
+                demoUrl: p.demo_url || '',
+                sortOrder: p.sort_order || 0
+            }));
+        } catch (err) {
+            console.error('Error loading projects:', err);
+            return null;
+        }
+    }
+
+    // Save project to Supabase
+    async function saveProjectToSupabase(project) {
+        if (!supabaseClient) return null;
+        try {
+            const { data, error } = await supabaseClient
+                .from('projects')
+                .insert([{
+                    name: project.name,
+                    highlight: project.highlight,
+                    brief_description: project.briefDescription,
+                    expanded_content: project.expandedContent,
+                    github_url: project.githubUrl,
+                    demo_url: project.demoUrl,
+                    sort_order: project.sortOrder || 0
+                }])
+                .select();
+
+            if (error) {
+                console.error('Error saving project:', error);
+                return null;
+            }
+            return data[0];
+        } catch (err) {
+            console.error('Error saving project:', err);
+            return null;
+        }
+    }
+
+    // Update project in Supabase
+    async function updateProjectInSupabase(projectId, project) {
+        if (!supabaseClient) return false;
+        try {
+            const { error } = await supabaseClient
+                .from('projects')
+                .update({
+                    name: project.name,
+                    highlight: project.highlight,
+                    brief_description: project.briefDescription,
+                    expanded_content: project.expandedContent,
+                    github_url: project.githubUrl,
+                    demo_url: project.demoUrl
+                })
+                .eq('id', projectId);
+
+            if (error) {
+                console.error('Error updating project:', error);
+                return false;
+            }
+            return true;
+        } catch (err) {
+            console.error('Error updating project:', err);
+            return false;
+        }
+    }
+
+    // Delete project from Supabase
+    async function deleteProjectFromSupabase(projectId) {
+        if (!supabaseClient) return false;
+        try {
+            const { error } = await supabaseClient
+                .from('projects')
+                .delete()
+                .eq('id', projectId);
+
+            if (error) {
+                console.error('Error deleting project:', error);
+                return false;
+            }
+            return true;
+        } catch (err) {
+            console.error('Error deleting project:', err);
+            return false;
+        }
+    }
+
+    // Render project cards
+    function renderProjects() {
+        const isAdminUser = isAdmin();
+
+        if (projects.length === 0) {
+            projectsList.innerHTML = '<p style="text-align:center; color: var(--color-text-muted); padding: 40px 0;">No projects yet.</p>';
+            return;
+        }
+
+        const githubSvg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>';
+        const externalSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
+
+        projectsList.innerHTML = projects.map((proj, index) => {
+            const linksHtml = (proj.githubUrl || proj.demoUrl) ? `
+                <div class="project-links">
+                    ${proj.githubUrl ? `<a href="${proj.githubUrl}" target="_blank" rel="noopener noreferrer" class="project-link">${githubSvg} GitHub</a>` : ''}
+                    ${proj.demoUrl ? `<a href="${proj.demoUrl}" target="_blank" rel="noopener noreferrer" class="project-link">${externalSvg} Demo</a>` : ''}
+                </div>
+            ` : '';
+
+            const expandedHtml = proj.expandedContent ? `
+                <div class="project-expanded">
+                    ${proj.expandedContent}
+                </div>
+                <button class="project-toggle" data-project-index="${index}">
+                    View details <span class="toggle-arrow">&rarr;</span>
+                </button>
+            ` : '';
+
+            const adminHtml = isAdminUser ? `
+                <div class="project-admin-actions">
+                    <button class="project-admin-btn project-edit-btn" data-project-id="${proj.id}">Edit</button>
+                    <button class="project-admin-btn project-delete-btn" data-project-id="${proj.id}">Delete</button>
+                </div>
+            ` : '';
+
+            return `
+                <article class="project-card" data-project-index="${index}">
+                    <span class="card-tag">Project</span>
+                    <h3><span class="highlight ${proj.highlight}">${proj.name}</span></h3>
+                    <p class="project-brief">${proj.briefDescription}</p>
+                    ${linksHtml}
+                    ${expandedHtml}
+                    ${adminHtml}
+                </article>
+            `;
+        }).join('');
+
+        // Initialize toggle buttons
+        initProjectToggles();
+
+        // Bind admin actions
+        if (isAdminUser) {
+            projectsList.querySelectorAll('.project-edit-btn').forEach(btn => {
+                btn.addEventListener('click', () => openEditModal(parseInt(btn.dataset.projectId)));
+            });
+            projectsList.querySelectorAll('.project-delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => handleDelete(parseInt(btn.dataset.projectId)));
+            });
+        }
+    }
+
+    // Open modal for adding
+    function openAddModal() {
+        currentProjectEditId = null;
+        projectModalTitle.textContent = 'Add Project';
+        projectEditId.value = '';
+        document.getElementById('project-name').value = '';
+        document.getElementById('project-brief').value = '';
+        document.getElementById('project-expanded').value = '';
+        document.getElementById('project-github').value = '';
+        document.getElementById('project-demo').value = '';
+        document.getElementById('project-highlight').value = 'blue';
+        projectSaveBtn.textContent = 'Save Project';
+        projectModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Open modal for editing
+    function openEditModal(projectId) {
+        const proj = projects.find(p => p.id === projectId);
+        if (!proj) return;
+
+        currentProjectEditId = projectId;
+        projectModalTitle.textContent = 'Edit Project';
+        projectEditId.value = projectId;
+        document.getElementById('project-name').value = proj.name;
+        document.getElementById('project-brief').value = proj.briefDescription;
+        document.getElementById('project-expanded').value = proj.expandedContent || '';
+        document.getElementById('project-github').value = proj.githubUrl || '';
+        document.getElementById('project-demo').value = proj.demoUrl || '';
+        document.getElementById('project-highlight').value = proj.highlight || 'blue';
+        projectSaveBtn.textContent = 'Update Project';
+        projectModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Close modal
+    function closeModal() {
+        projectModal.classList.remove('active');
+        document.body.style.overflow = '';
+        currentProjectEditId = null;
+    }
+
+    // Handle save
+    async function handleSave() {
+        const name = document.getElementById('project-name').value.trim();
+        const briefDescription = document.getElementById('project-brief').value.trim();
+        const expandedContent = document.getElementById('project-expanded').value.trim();
+        const githubUrl = document.getElementById('project-github').value.trim();
+        const demoUrl = document.getElementById('project-demo').value.trim();
+        const highlight = document.getElementById('project-highlight').value;
+
+        if (!name || !briefDescription) {
+            alert('Project title and short description are required.');
+            return;
+        }
+
+        const originalText = projectSaveBtn.textContent;
+        projectSaveBtn.textContent = currentProjectEditId ? 'Updating...' : 'Saving...';
+        projectSaveBtn.disabled = true;
+
+        const projectData = { name, briefDescription, expandedContent, githubUrl, demoUrl, highlight };
+
+        let success = false;
+
+        if (currentProjectEditId) {
+            success = await updateProjectInSupabase(currentProjectEditId, projectData);
+            if (success) {
+                const idx = projects.findIndex(p => p.id === currentProjectEditId);
+                if (idx !== -1) {
+                    projects[idx] = { ...projects[idx], ...projectData };
+                }
+            }
+        } else {
+            const saved = await saveProjectToSupabase(projectData);
+            if (saved) {
+                success = true;
+                projects.push({
+                    id: saved.id,
+                    name: saved.name,
+                    highlight: saved.highlight,
+                    briefDescription: saved.brief_description,
+                    expandedContent: saved.expanded_content || '',
+                    githubUrl: saved.github_url || '',
+                    demoUrl: saved.demo_url || '',
+                    sortOrder: saved.sort_order || 0
+                });
+            }
+        }
+
+        projectSaveBtn.textContent = originalText;
+        projectSaveBtn.disabled = false;
+
+        if (success) {
+            closeModal();
+            renderProjects();
+        } else {
+            alert('Failed to save project. Please try again.');
+        }
+    }
+
+    // Handle delete
+    async function handleDelete(projectId) {
+        if (!confirm('Are you sure you want to delete this project?')) return;
+
+        const success = await deleteProjectFromSupabase(projectId);
+        if (success) {
+            projects = projects.filter(p => p.id !== projectId);
+            renderProjects();
+        } else {
+            alert('Failed to delete project. Please try again.');
+        }
+    }
+
+    // Event listeners
+    if (addProjectBtn) {
+        addProjectBtn.addEventListener('click', openAddModal);
+    }
+    if (projectModalClose) {
+        projectModalClose.addEventListener('click', closeModal);
+    }
+    if (projectCancelBtn) {
+        projectCancelBtn.addEventListener('click', closeModal);
+    }
+    if (projectSaveBtn) {
+        projectSaveBtn.addEventListener('click', handleSave);
+    }
+    if (projectModal) {
+        projectModal.addEventListener('click', (e) => {
+            if (e.target === projectModal) closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && projectModal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    }
+
+    // Load and render
+    async function init() {
+        // Try Supabase first
+        const supabaseProjects = await loadProjectsFromSupabase();
+
+        if (supabaseProjects !== null && supabaseProjects.length > 0) {
+            projects = supabaseProjects;
+        } else {
+            // Fallback to content.js
+            projects = (CONTENT.projects || []).map((p, i) => ({
+                id: i + 1,
+                name: p.name,
+                highlight: p.highlight || 'blue',
+                briefDescription: p.briefDescription,
+                expandedContent: p.expandedContent || '',
+                githubUrl: '',
+                demoUrl: '',
+                sortOrder: i
+            }));
+        }
+
+        renderProjects();
+    }
+
+    init();
 }
 
 /**
