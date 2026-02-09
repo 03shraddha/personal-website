@@ -1309,8 +1309,8 @@ function initTextReveal() {
         const scrollY = window.scrollY;
         const viewportHeight = window.innerHeight;
 
-        // Reading position at 10% from top of viewport
-        const readingLineY = scrollY + (viewportHeight * 0.10);
+        // Reading position at 40% from top of viewport
+        const readingLineY = scrollY + (viewportHeight * 0.40);
 
         // Find the first incomplete line
         let activeLineIndex = 0;
