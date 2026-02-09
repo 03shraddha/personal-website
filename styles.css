@@ -2959,6 +2959,45 @@ a .reveal-word {
     font-size: 14px;
 }
 
+/* Pagination */
+.content-list-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 24px 0 8px;
+    border-top: 1px solid var(--color-border);
+    margin-top: 8px;
+}
+
+.pagination-btn {
+    padding: 8px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: var(--font-body);
+    color: var(--color-text-muted);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    border-color: var(--color-text);
+    color: var(--color-text);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.pagination-info {
+    font-size: 13px;
+    color: var(--color-text-muted);
+}
+
 /* Date-grouped list view */
 .content-date-group {
     margin-bottom: 24px;

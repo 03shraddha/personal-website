@@ -2348,6 +2348,9 @@ function initContentCalendar() {
     });
 
     // Render list view (grouped by date) - with optional highlight for a specific date
+    let listPage = 0;
+    const LIST_PAGE_SIZE = 7;
+
     function renderListView(highlightDate = null) {
         const consumeList = document.getElementById('consume-list');
         if (!consumeList) return;
@@ -2373,9 +2376,30 @@ function initContentCalendar() {
         // Sort dates in descending order
         const sortedDates = Object.keys(groupedByDate).sort((a, b) => new Date(b) - new Date(a));
 
+        // Paginate by date groups (7 date groups per page)
+        const totalPages = Math.ceil(sortedDates.length / LIST_PAGE_SIZE);
+        if (listPage >= totalPages) listPage = totalPages - 1;
+        if (listPage < 0) listPage = 0;
+
+        const startIdx = listPage * LIST_PAGE_SIZE;
+        const paginatedDates = sortedDates.slice(startIdx, startIdx + LIST_PAGE_SIZE);
+
+        // If highlightDate exists but not on current page, jump to its page
+        if (highlightDate) {
+            const highlightIdx = sortedDates.indexOf(highlightDate);
+            if (highlightIdx >= 0) {
+                const targetPage = Math.floor(highlightIdx / LIST_PAGE_SIZE);
+                if (targetPage !== listPage) {
+                    listPage = targetPage;
+                    renderListView(highlightDate);
+                    return;
+                }
+            }
+        }
+
         // Build HTML with date groups
         let html = '';
-        sortedDates.forEach(date => {
+        paginatedDates.forEach(date => {
             const entries = groupedByDate[date];
             const isHighlighted = highlightDate === date;
             const displayDate = formatDateDisplay(date);
@@ -2405,7 +2429,40 @@ function initContentCalendar() {
             `;
         });
 
+        // Pagination controls
+        if (totalPages > 1) {
+            html += `
+                <div class="content-list-pagination">
+                    <button class="pagination-btn pagination-prev" ${listPage === 0 ? 'disabled' : ''}>
+                        &larr; Newer
+                    </button>
+                    <span class="pagination-info">${listPage + 1} / ${totalPages}</span>
+                    <button class="pagination-btn pagination-next" ${listPage >= totalPages - 1 ? 'disabled' : ''}>
+                        Older &rarr;
+                    </button>
+                </div>
+            `;
+        }
+
         consumeList.innerHTML = html;
+
+        // Bind pagination buttons
+        const prevBtn = consumeList.querySelector('.pagination-prev');
+        const nextBtn = consumeList.querySelector('.pagination-next');
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                listPage--;
+                renderListView();
+                consumeList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                listPage++;
+                renderListView();
+                consumeList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        }
 
         // Add click handlers to items without URLs to open detail view
         consumeList.querySelectorAll('.list-item-link').forEach(link => {
