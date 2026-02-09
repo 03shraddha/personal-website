@@ -215,7 +215,7 @@ Before joining ZS’s GenAI product, Quill, I worked in analytics with hospitali
 
                 <p>★ Enhanced model performance through hyperparameter tuning and data augmentation, achieving a 5–8% reduction in False Positive Rate (FPR) compared to baseline YOLOv3 models, resulting in more accurate and reliable threat identification in high-security simulations.</p>
 
-                <p><a href="https://drive.google.com/file/d/14rhDUS789WsbDCCGt9h72PeqaRAf4yTM/view?usp=sharing" target="_blank" class="project-cta highlight lavender">View Project Report →</a></p>
+                <p><a href="https://drive.google.com/file/d/1b1JwcLYDSjBlx3HCvV5PL1hISu4E7UEk/view?usp=sharing" target="_blank" class="project-cta highlight lavender">View Project Report →</a></p>
             `
         },
         {
