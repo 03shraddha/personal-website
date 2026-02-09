@@ -456,8 +456,8 @@ function loadContent() {
  * Optimized: Shows cached/fallback content immediately, refreshes in background
  */
 async function loadSubstackPosts() {
-    const CACHE_KEY = 'substack-posts-cache';
-    const CACHE_EXPIRY = 7 * 24 * 60 * 60 * 1000; // 7 day cache
+    const CACHE_KEY = 'substack-posts-v2';
+    const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hour cache
     const RSS_URL = 'https://shraddhaha.substack.com/feed';
 
     // Always show content immediately - cache first, then fallback
