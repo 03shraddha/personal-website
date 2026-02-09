@@ -718,23 +718,28 @@ function initProjectsSection() {
     async function saveProjectToSupabase(project) {
         if (!supabaseClient) return null;
         try {
+            const row = {
+                name: project.name,
+                highlight: project.highlight || 'blue',
+                brief_description: project.briefDescription,
+                expanded_content: project.expandedContent || null,
+                github_url: project.githubUrl || null,
+                demo_url: project.demoUrl || null,
+                sort_order: project.sortOrder || 0
+            };
+            console.log('Inserting project row:', row);
+
             const { data, error } = await supabaseClient
                 .from('projects')
-                .insert([{
-                    name: project.name,
-                    highlight: project.highlight,
-                    brief_description: project.briefDescription,
-                    expanded_content: project.expandedContent,
-                    github_url: project.githubUrl,
-                    demo_url: project.demoUrl,
-                    sort_order: project.sortOrder || 0
-                }])
+                .insert([row])
                 .select();
 
             if (error) {
-                console.error('Error saving project:', error);
+                console.error('Supabase insert error:', error.message, error.details, error.hint);
+                alert('Save error: ' + error.message);
                 return null;
             }
+            console.log('Project saved:', data[0]);
             return data[0];
         } catch (err) {
             console.error('Error saving project:', err);
@@ -895,6 +900,7 @@ function initProjectsSection() {
 
     // Handle save
     async function handleSave() {
+        console.log('Project save clicked');
         const name = document.getElementById('project-name').value.trim();
         const briefDescription = document.getElementById('project-brief').value.trim();
         const expandedContent = document.getElementById('project-expanded').value.trim();
@@ -907,11 +913,17 @@ function initProjectsSection() {
             return;
         }
 
+        if (!supabaseClient) {
+            alert('Supabase is not connected. Cannot save project.');
+            return;
+        }
+
         const originalText = projectSaveBtn.textContent;
         projectSaveBtn.textContent = currentProjectEditId ? 'Updating...' : 'Saving...';
         projectSaveBtn.disabled = true;
 
         const projectData = { name, briefDescription, expandedContent, githubUrl, demoUrl, highlight };
+        console.log('Saving project data:', projectData);
 
         let success = false;
 
