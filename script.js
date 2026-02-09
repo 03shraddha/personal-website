@@ -457,30 +457,35 @@ function loadContent() {
  */
 async function loadSubstackPosts() {
     const CACHE_KEY = 'substack-posts-cache';
-    const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours cache
+    const CACHE_EXPIRY = 7 * 24 * 60 * 60 * 1000; // 7 day cache
     const RSS_URL = 'https://shraddhaha.substack.com/feed';
 
-    // Check cache first - show immediately if available (even if stale)
+    // Always show content immediately - cache first, then fallback
+    let hasCachedContent = false;
     const cached = localStorage.getItem(CACHE_KEY);
     if (cached) {
         try {
             const { posts, timestamp } = JSON.parse(cached);
-            renderThoughtsPosts(posts);
+            if (posts && posts.length > 0) {
+                renderThoughtsPosts(posts);
+                hasCachedContent = true;
 
-            // If cache is still fresh, we're done
-            if (Date.now() - timestamp < CACHE_EXPIRY) {
-                return;
+                // If cache is still fresh, we're done
+                if (Date.now() - timestamp < CACHE_EXPIRY) {
+                    return;
+                }
             }
-            // Otherwise, continue to refresh in background (content already shown)
         } catch (e) {
-            // Invalid cache, continue to fetch
+            // Invalid cache, continue
         }
-    } else {
-        // No cache - show fallback immediately while loading
+    }
+
+    if (!hasCachedContent) {
+        // No valid cache - show real posts from content.js immediately
         renderThoughtsFallback();
     }
 
-    // Fetch fresh data in background
+    // Refresh in background (UI already shows content)
     fetchSubstackInBackground(RSS_URL, CACHE_KEY);
 }
 
@@ -789,7 +794,7 @@ function initProjectsSection() {
         const isAdminUser = isAdmin();
 
         if (projects.length === 0) {
-            projectsList.innerHTML = '<p style="text-align:center; color: var(--color-text-muted); padding: 40px 0;">No projects yet.</p>';
+            projectsList.innerHTML = '';
             return;
         }
 
@@ -985,25 +990,8 @@ function initProjectsSection() {
 
     // Load and render
     async function init() {
-        // Try Supabase first
         const supabaseProjects = await loadProjectsFromSupabase();
-
-        if (supabaseProjects !== null && supabaseProjects.length > 0) {
-            projects = supabaseProjects;
-        } else {
-            // Fallback to content.js
-            projects = (CONTENT.projects || []).map((p, i) => ({
-                id: i + 1,
-                name: p.name,
-                highlight: p.highlight || 'blue',
-                briefDescription: p.briefDescription,
-                expandedContent: p.expandedContent || '',
-                githubUrl: '',
-                demoUrl: '',
-                sortOrder: i
-            }));
-        }
-
+        projects = (supabaseProjects !== null) ? supabaseProjects : [];
         renderProjects();
     }
 
