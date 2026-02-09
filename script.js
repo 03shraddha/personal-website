@@ -565,7 +565,7 @@ async function fetchSubstackInBackground(RSS_URL, CACHE_KEY) {
 
 function renderThoughtsPosts(posts) {
     if (!posts || posts.length === 0) {
-        renderThoughtsFallback();
+        document.getElementById('thoughts-list').innerHTML = '';
         return;
     }
 
@@ -592,33 +592,13 @@ function renderThoughtsPosts(posts) {
 }
 
 function renderThoughtsFallback() {
-    // Fallback to static content from CONTENT.thoughts
-    const thoughtsByYear = {};
-    CONTENT.thoughts.forEach(thought => {
-        if (!thoughtsByYear[thought.year]) {
-            thoughtsByYear[thought.year] = [];
-        }
-        thoughtsByYear[thought.year].push(thought);
-    });
-
-    const thoughtsHtml = Object.keys(thoughtsByYear)
-        .sort((a, b) => b - a)
-        .map(year => `
-            <div class="thoughts-year-group">
-                <span class="thoughts-year-label">${year}</span>
-                <ul class="thoughts-links">
-                    ${thoughtsByYear[year].map(t => `
-                        <li><a href="${t.url}" target="_blank" rel="noopener noreferrer">${t.title}</a></li>
-                    `).join('')}
-                </ul>
-            </div>
-        `).join('');
-
-    document.getElementById('thoughts-list').innerHTML = thoughtsHtml + `
-        <a href="https://shraddhaha.substack.com" target="_blank" rel="noopener noreferrer" class="thoughts-view-all">
-            View all posts on Substack →
-        </a>
-    `;
+    // Fallback to static content from CONTENT.thoughts (same numbered format as RSS)
+    const posts = CONTENT.thoughts.map(t => ({
+        title: t.title,
+        link: t.url,
+        date: ''
+    }));
+    renderThoughtsPosts(posts);
 }
 
 /**
