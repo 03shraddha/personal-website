@@ -110,7 +110,7 @@
                 </div>
 
                 <div class="tab-content hidden" id="tab-projects">
-                    <button id="add-project-btn" class="add-project-btn" style="display:none;">+ Add Project</button>
+                    <button id="add-project-btn" class="add-project-btn" style="display:none;" onclick="projectOpenAddModal()">+ Add Project</button>
                     <div id="projects-list" class="project-list">
                         <!-- Loaded from Supabase -->
                     </div>
@@ -126,7 +126,7 @@
             <!-- Project Add/Edit Modal -->
             <div id="project-modal" class="project-modal">
                 <div class="project-modal-content">
-                    <button class="modal-close-btn" id="project-modal-close" aria-label="Close">&times;</button>
+                    <button class="modal-close-btn" id="project-modal-close" aria-label="Close" onclick="projectCloseModal()">&times;</button>
                     <h3 id="project-modal-title">Add Project</h3>
                     <input type="hidden" id="project-edit-id">
                     <div class="form-group">
@@ -158,8 +158,8 @@
                         </select>
                     </div>
                     <div class="modal-actions">
-                        <button type="button" id="project-cancel" class="btn-secondary">Cancel</button>
-                        <button type="button" id="project-save" class="btn-primary">Save Project</button>
+                        <button type="button" id="project-cancel" class="btn-secondary" onclick="projectCloseModal()">Cancel</button>
+                        <button type="button" id="project-save" class="btn-primary" onclick="window.projectSaveItem()">Save Project</button>
                     </div>
                 </div>
             </div>
