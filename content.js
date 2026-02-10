@@ -17,7 +17,7 @@
 // 🔗 RESUME LINK - UPDATE THIS ONE PLACE!
 // ==========================================
 // Change this URL and it will update everywhere on the site
-const RESUME_URL = "https://drive.google.com/file/d/1Tf59FTUpNajy0O04LLtoaGH7BQtt9PDr/view?usp=sharing";
+const RESUME_URL = "https://drive.google.com/file/d/1bxYS4M32wnF_q--YI1ClLcFkrz0SxOW6/view?usp=sharing";
 
 const CONTENT = {
 
