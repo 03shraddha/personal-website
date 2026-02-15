@@ -433,9 +433,8 @@ a, button, .tab, .highlight, [role="button"] {
 
 .tab-subtitle {
     color: var(--color-text-muted);
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 400;
-    font-style: italic;
     margin-bottom: 20px;
     margin-top: 0;
     opacity: 0.7;
