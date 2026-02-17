@@ -668,6 +668,84 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 /* ===================================
+   Corporate Story - Progressive Disclosure
+   =================================== */
+
+.corporate-content {
+    position: relative;
+}
+
+.corporate-preview.hidden {
+    display: none;
+}
+
+.corporate-full {
+    display: none;
+    margin-top: 0;
+}
+
+.corporate-full.active {
+    display: block;
+    animation: fadeInExpand 0.3s ease;
+}
+
+.corporate-toggle {
+    display: inline-block;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 400;
+    color: #0000EE;
+    text-decoration: none;
+    border-bottom: 1px solid #0000EE;
+    padding-bottom: 1px;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+    margin-top: 8px;
+}
+
+.corporate-toggle:hover {
+    color: #551A8B;
+    border-bottom-color: #551A8B;
+    background: none;
+}
+
+.corporate-toggle.hidden {
+    display: none;
+}
+
+.corporate-toggle-less {
+    display: none;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 400;
+    color: #551A8B;
+    text-decoration: none;
+    border-bottom: 1px solid #551A8B;
+    padding-bottom: 1px;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+    margin-top: 8px;
+}
+
+.corporate-toggle-less:hover {
+    color: #0000EE;
+    border-bottom-color: #0000EE;
+    background: none;
+}
+
+.corporate-toggle-less.active {
+    display: inline-block;
+}
+
+/* ===================================
    Background Section - Progressive Disclosure
    =================================== */
 

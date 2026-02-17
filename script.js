@@ -327,7 +327,16 @@ function loadContent() {
         <div class="about-subsection">
             <h3 class="about-subtitle">${about.corporateStory.title}</h3>
             <p class="about-subtitle-meta">${about.corporateStory.subtitle}</p>
-            ${about.corporateStory.paragraphs.map(p => `<p>${p}</p>`).join('')}
+            <div class="corporate-content">
+                <div class="corporate-preview">
+                    ${about.corporateStory.paragraphs.slice(0, 2).map(p => `<p>${p}</p>`).join('')}
+                </div>
+                <button class="corporate-toggle">Read more →</button>
+                <div class="corporate-full">
+                    ${about.corporateStory.paragraphs.map(p => `<p>${p}</p>`).join('')}
+                </div>
+                <button class="corporate-toggle-less">Show less ↑</button>
+            </div>
         </div>
 
         <div class="about-subsection">
@@ -374,6 +383,9 @@ function loadContent() {
         </div>
     `;
     document.getElementById('about-content').innerHTML = aboutHtml;
+
+    // Initialize corporate story toggle
+    initCorporateToggle();
 
     // Initialize background toggle
     initBackgroundToggle();
@@ -961,6 +973,33 @@ function initProjectToggles() {
                 setTimeout(() => refreshTextReveal(), 150);
             }
         });
+    });
+}
+
+/**
+ * Corporate Story Toggle - Expand/Collapse "My job, explained" section
+ */
+function initCorporateToggle() {
+    const readMoreBtn = document.querySelector('.corporate-toggle');
+    const showLessBtn = document.querySelector('.corporate-toggle-less');
+    const preview = document.querySelector('.corporate-preview');
+    const full = document.querySelector('.corporate-full');
+
+    if (!readMoreBtn || !showLessBtn) return;
+
+    readMoreBtn.addEventListener('click', () => {
+        preview.classList.add('hidden');
+        readMoreBtn.classList.add('hidden');
+        full.classList.add('active');
+        showLessBtn.classList.add('active');
+        setTimeout(() => refreshTextReveal(), 150);
+    });
+
+    showLessBtn.addEventListener('click', () => {
+        full.classList.remove('active');
+        showLessBtn.classList.remove('active');
+        preview.classList.remove('hidden');
+        readMoreBtn.classList.remove('hidden');
     });
 }
 
