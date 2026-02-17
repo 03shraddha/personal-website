@@ -41,8 +41,7 @@ const CONTENT = {
             items: [
                 { text: "Recommendations from past teammates", url: "https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/details/recommendations/?detailScreenTabIndex=0", source: "LinkedIn", highlight: "blue" },
                 { text: "College senior on my debate journey", url: "https://www.instagram.com/thenalsariv/p/Cwk-XEmvvy6/#", source: "Instagram", highlight: "peach" },
-                { text: "College junior on my club leadership", url: "https://www.instagram.com/rvcedebsoc/p/Cr9_QcFpt94/", source: "Instagram", highlight: "peach" },
-                { text: "Organizations training future debate champions", url: "https://drive.google.com/file/u/7/d/1HcWGH1M3RsFmPSolJ3hlpTHIEp95An3g/view?usp=sharing", source: "Email", highlight: "lavender" }
+                { text: "College junior on my club leadership", url: "https://www.instagram.com/rvcedebsoc/p/Cr9_QcFpt94/", source: "Instagram", highlight: "peach" }
             ]
         },
         corporateStory: {
