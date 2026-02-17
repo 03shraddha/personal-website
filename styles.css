@@ -617,8 +617,8 @@ a, button, .tab, .highlight, [role="button"] {
     border: none;
     border-radius: 0;
     padding: 0;
-    font-family: 'Times New Roman', 'MS Serif', serif;
-    font-size: 15px;
+    font-family: var(--font-body);
+    font-size: 14px;
     font-weight: 400;
     color: #0000EE;
     text-decoration: underline;
@@ -647,8 +647,8 @@ a, button, .tab, .highlight, [role="button"] {
     border: none;
     border-radius: 0;
     padding: 0;
-    font-family: 'Times New Roman', 'MS Serif', serif;
-    font-size: 15px;
+    font-family: var(--font-body);
+    font-size: 14px;
     font-weight: 400;
     color: #551A8B;
     text-decoration: underline;
@@ -709,8 +709,8 @@ a, button, .tab, .highlight, [role="button"] {
     border: none;
     border-radius: 0;
     padding: 0;
-    font-family: 'Times New Roman', 'MS Serif', serif;
-    font-size: 15px;
+    font-family: var(--font-body);
+    font-size: 14px;
     font-weight: 400;
     color: #0000EE;
     text-decoration: underline;
@@ -740,8 +740,8 @@ a, button, .tab, .highlight, [role="button"] {
     border: none;
     border-radius: 0;
     padding: 0;
-    font-family: 'Times New Roman', 'MS Serif', serif;
-    font-size: 15px;
+    font-family: var(--font-body);
+    font-size: 14px;
     font-weight: 400;
     color: #551A8B;
     text-decoration: underline;

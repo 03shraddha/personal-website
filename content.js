@@ -37,7 +37,7 @@ const CONTENT = {
         mainText: `I work at <a href="https://www.zs.com/" target="_blank" class="highlight peach">ZS Associates</a>, a boutique, pharma-focused management consulting firm. Currently, I'm part of the <a href="https://www.zs.com/solutions/artificial-intelligence-and-analytics/max-ai" target="_blank" class="highlight blue">MAX.AI team</a>, where I help build GenAI products for some of the biggest pharma companies in the world`,
         debateText: `For four years in college, I was a debate nerd and spent my weekends competing in debate tournaments, winning 50+ <a href="https://drive.google.com/drive/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC" target="_blank" class="highlight lavender">awards</a> at national and international levels.`,
         learnAboutMe: {
-            title: `The best way to learn about me is through the people I've worked with:`,
+            title: `the best way to learn about me is through the people i've worked with:`,
             items: [
                 { text: "Recommendations from past teammates", url: "https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/details/recommendations/?detailScreenTabIndex=0", source: "LinkedIn", highlight: "blue" },
                 { text: "College senior on my debate journey", url: "https://www.instagram.com/thenalsariv/p/Cwk-XEmvvy6/#", source: "Instagram", highlight: "peach" },
@@ -45,7 +45,7 @@ const CONTENT = {
             ]
         },
         corporateStory: {
-            title: "My job, explained",
+            title: "my job, explained",
             subtitle: "Areas of interest: Product management | Analytics",
             paragraphs: [
 
