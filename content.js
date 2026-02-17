@@ -65,7 +65,7 @@ const CONTENT = {
                 "🪐 Now I work at MAX.AI, where I work on Quill, an <strong>AI-driven platform</strong> that helps pharma teams speed up MLR (Medical Legal Regulatory) reviews, the mandatory process for approving compliant medical and promotional content."
         ]},
         beyondWork: {
-            title: "things I do when I'm not working",
+            title: "things i do when i'm not working",
             items: [
                 { emoji: "💗", label: "Financial Literacy Educator", text: "I have been creating financial literacy videos for The Apprentice Project for over a year." },                { emoji: "💗", label: "Debate Judge & Competitor", text: "My entire personality in college revolved around being a debate nerd. I have competed in 50+ British Parliamentary debates, <a href=\"https://drive.google.com/drive/u/7/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC\" target=\"_blank\" class=\"highlight-link pink\">won 40+ awards, and judged 20+ competitions</a>. I was an invited and remunerated judge at IIT Bombay, IIM Indore, NLS Bangalore, and more."},
                 { emoji: "💗", label: "Bharatanatyam Dancer", text: "I’ve always loved dancing, so my parents signed me up for Indian classical dance classes. I ended up doing Bharatanatyam for over 10 years and finished 4 exam levels." },
