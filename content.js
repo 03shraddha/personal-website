@@ -50,15 +50,15 @@ const CONTENT = {
             subtitle: "Areas of interest: Product management | Analytics",
             paragraphs: [
 
-            `I’ve mostly followed my curiosity, and that’s taken me across a few different roles. I studied ECE in college, did a software engineering internship, moved into analytics, and now work on the product team at a consulting firm.
+            `I've mostly followed my curiosity, and that's taken me across a few different roles.`,
 
-Before joining ZS’s GenAI product, Quill, I worked in analytics with hospitality clients. Using SQL and Python, I made sense of messy, unstructured hotel CRM data and turned it into insights that helped hotel chains generating millions in revenue.`,
+            `I studied ECE in college, did a software engineering internship, moved into analytics, and now work on the product team at a consulting firm. Before joining ZS's GenAI product, Quill, I worked in analytics with hospitality clients. Using SQL and Python, I made sense of messy, unstructured hotel CRM data and turned it into insights that helped hotel chains generating millions in revenue.`,
             `In just two years in corporate, I’ve led teams that won multiple client awards. I was named Most Valuable Player out of 150+ colleagues across the India and Argentina offices, and also received ZS’s Impact Award for delivering a GenAI solution for the firm’s largest client, competing with hundreds of teams in the same practice area.`
              ]
 
         },
         background: {
-            title: "A Little Bit of This, A Little Bit of That",
+            title: "a little bit of this, a little bit of that",
             items: [
                 "🪐 I am a Kannadiga, and I live, work, and love blr. I graduated in Electronics from <strong>R.V. College of Engineering</strong> (loved college, but it's a degree I no longer use)",
                 "🪐 Interned at <strong>Baker Hughes (a General Electric company)</strong>, where I got my first exposure to B2B business in oil and gas and did some automation work using Java and Spring (learned how a company with ~57,000 employees operates)",
@@ -66,7 +66,7 @@ Before joining ZS’s GenAI product, Quill, I worked in analytics with hospitali
                 "🪐 Now I work at MAX.AI, where I work on Quill, an <strong>AI-driven platform</strong> that helps pharma teams speed up MLR (Medical Legal Regulatory) reviews, the mandatory process for approving compliant medical and promotional content."
         ]},
         beyondWork: {
-            title: "Things I do when I’m not working",
+            title: "things I do when I'm not working",
             items: [
                 { emoji: "💗", label: "Financial Literacy Educator", text: "I have been creating financial literacy videos for The Apprentice Project for over a year." },                { emoji: "💗", label: "Debate Judge & Competitor", text: "My entire personality in college revolved around being a debate nerd. I have competed in 50+ British Parliamentary debates, <a href=\"https://drive.google.com/drive/u/7/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC\" target=\"_blank\" class=\"highlight-link pink\">won 40+ awards, and judged 20+ competitions</a>. I was an invited and remunerated judge at IIT Bombay, IIM Indore, NLS Bangalore, and more."},
                 { emoji: "💗", label: "Bharatanatyam Dancer", text: "I’ve always loved dancing, so my parents signed me up for Indian classical dance classes. I ended up doing Bharatanatyam for over 10 years and finished 4 exam levels." },

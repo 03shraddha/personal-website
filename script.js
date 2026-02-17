@@ -2934,7 +2934,7 @@ Type your message below and click
             // Format entries like a plain text file
             let content = '';
             pageNotes.forEach((note, index) => {
-                const entryNum = startIndex + index + 1;
+                const entryNum = notes.length - (startIndex + index);
                 content += `<div class="notepad-entry" data-note-id="${note.id}">`;
                 content += `<div class="notepad-entry-header">`;
                 content += `<div class="notepad-entry-date">[${formatDate(note.createdAt)}] Entry #${entryNum}</div>`;
