@@ -2834,17 +2834,10 @@ function initGuestbook() {
     const noteInput = document.getElementById('notepad-input');
     const charCount = document.getElementById('notepad-char-count');
     const submitBtn = document.getElementById('notepad-submit');
-    const prevBtn = document.getElementById('notepad-prev');
-    const nextBtn = document.getElementById('notepad-next');
-    const pageInfo = document.getElementById('notepad-page-info');
 
     if (!entriesContainer) return;
 
-    // Configuration
-    const ENTRIES_PER_PAGE = 5;
-
     // State
-    let currentPage = 0;
     let notes = [];
 
     // Load notes from Supabase
@@ -2945,17 +2938,9 @@ function initGuestbook() {
         return `${month}/${day}/${year} ${hours}:${mins}`;
     }
 
-    // Get total pages
-    function getTotalPages() {
-        return Math.max(1, Math.ceil(notes.length / ENTRIES_PER_PAGE));
-    }
-
     // Render entries as plain text
     function renderEntries() {
-        const totalPages = getTotalPages();
-        const startIndex = currentPage * ENTRIES_PER_PAGE;
-        const endIndex = startIndex + ENTRIES_PER_PAGE;
-        const pageNotes = notes.slice(startIndex, endIndex);
+        const pageNotes = notes;
         const adminMode = isAdmin();
 
         if (notes.length === 0) {
@@ -2973,7 +2958,7 @@ Type your message below and click
             // Format entries like a plain text file
             let content = '';
             pageNotes.forEach((note, index) => {
-                const entryNum = notes.length - (startIndex + index);
+                const entryNum = notes.length - index;
                 content += `<div class="notepad-entry" data-note-id="${note.id}">`;
                 content += `<div class="notepad-entry-header">`;
                 content += `<div class="notepad-entry-date">[${formatDate(note.createdAt)}] Entry #${entryNum}</div>`;
@@ -3004,10 +2989,6 @@ Type your message below and click
                                 console.log('Notes before filter:', notes.length);
                                 notes = notes.filter(n => String(n.id) !== String(noteId));
                                 console.log('Notes after filter:', notes.length);
-                                // Adjust page if needed
-                                if (currentPage >= getTotalPages() && currentPage > 0) {
-                                    currentPage--;
-                                }
                                 renderEntries();
                             } else {
                                 btn.textContent = '×';
@@ -3020,10 +3001,6 @@ Type your message below and click
             }
         }
 
-        // Update pagination
-        pageInfo.textContent = `Page ${currentPage + 1} of ${totalPages}`;
-        prevBtn.disabled = currentPage === 0;
-        nextBtn.disabled = currentPage >= totalPages - 1;
     }
 
     // Escape HTML to prevent XSS
@@ -3046,25 +3023,6 @@ Type your message below and click
     if (noteInput && charCount) {
         noteInput.addEventListener('input', () => {
             charCount.textContent = noteInput.value.length;
-        });
-    }
-
-    // Navigation
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            if (currentPage > 0) {
-                currentPage--;
-                renderEntries();
-            }
-        });
-    }
-
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            if (currentPage < getTotalPages() - 1) {
-                currentPage++;
-                renderEntries();
-            }
         });
     }
 
@@ -3103,8 +3061,6 @@ Type your message below and click
                 noteInput.value = '';
                 charCount.textContent = '0';
 
-                // Go to first page to show new entry
-                currentPage = 0;
                 renderEntries();
 
                 // Brief visual feedback
