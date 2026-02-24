@@ -1,0 +1,44 @@
+# Shraddha Kulkarni
+
+> Shraddha Kulkarni is a product manager and analytics professional based in Bangalore, India. She works at ZS Associates on Quill, an AI-driven platform for Medical Legal Regulatory (MLR) reviews in the pharmaceutical industry. This is her personal website at shraddha-kulkarni.com.
+
+AI-focused Product Manager with 3 years of enterprise SaaS experience in a consulting firm. Experienced in ML pipeline fundamentals, prompt engineering, LLM evaluation frameworks, and rapid prototyping using Claude/code-assisted workflows to deliver production-ready AI features.
+
+## About
+
+Shraddha has a background in electronics engineering (R.V. College of Engineering), has worked across software engineering, analytics, and product management. She currently works on GenAI products for pharmaceutical clients at ZS Associates. Before that, she did hospitality analytics work, managing $20M in monthly hotel revenue across 30+ properties using SQL and Python. She was named Most Valuable Player among 150+ colleagues and won the Client Impact Champion Award.
+
+Outside work, she spent four years as a competitive debater, winning 50+ awards at national and international competitions and judging at IIT Bombay, IIM Indore, NLS Bangalore, and more. She has also done Bharatanatyam for 10+ years, and volunteers as a financial literacy educator.
+
+## Work Experience
+
+- **ZS Associates (2023–present)** – Product Management & Analytics in Healthcare. Works on Quill, an AI-driven MLR review platform for pharma companies. Previously did hospitality analytics for a major U.S. hotel chain.
+- **Baker Hughes / GE (2023)** – Digital Technology Intern. Built Java-based automated B2B reporting for shopbakerhughes.com, saving 12+ hours/month.
+- **Cisco Center of Excellence at RVCE (2021–2022)** – Research Engineering Intern. Built crowd management systems with OpenPose + BLE beacons; developed YOLOv3-based airport security detection.
+- **Telimart (2022)** – RF Antenna Intern. Built SDR channel estimation system using LabVIEW and USRP 2920, improving SNR by 9 dB.
+
+## Projects
+
+- **Quill (MLR Review Platform)** – AI-driven platform for Medical Legal Regulatory reviews in pharma at ZS Associates.
+- **Crowd Management System** – OpenPose + BLE beacon localization for real-time crowd density monitoring. 90% reduction in overcrowding alert response time.
+- **Airport Security Detection** – YOLOv3-based object detection for dangerous item identification at Cisco CoE.
+- **SDR Channel Estimation** – Software-defined radio system using LabVIEW and USRP 2920, improving signal-to-noise ratio by 9 dB.
+
+## Writing
+
+Shraddha writes essays on her Substack at https://substack.com/@shraddhaha. Recent topics include the trad wife trend, railway exams vs UPSC, democracy, the gig economy, AI perceptions in Bangalore, and personal reflections.
+
+## Volunteering & Community
+
+- **The Apprentice Project** – Created 35+ financial literacy videos (100+ hours) on SIPs, taxes, and investments for underserved kids.
+- **Make A Difference (MAD)** – NEET Physics tutor for a Grade 12 student during COVID; fundraising volunteer.
+- **UNICEF** – Content creator for teacher training on inclusive materials for students with disabilities.
+- **DIKSHA (NCERT)** – Created simplified NCERT learning materials for grades 6–8 in government schools.
+
+## Contact
+
+- Website: https://shraddha-kulkarni.com
+- LinkedIn: https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/
+- Twitter/X: https://x.com/shraddhaha
+- Substack: https://substack.com/@shraddhaha
+- Email: meetshraddhakulkarni@gmail.com
