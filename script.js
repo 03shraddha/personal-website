@@ -460,7 +460,7 @@ function loadContent() {
     loadSubstackPosts();
 
     // Footer
-    document.getElementById('footer-text').innerHTML = `${CONTENT.footer} · <span class="year">${new Date().getFullYear()}</span>`;
+    document.getElementById('footer-text').innerHTML = `${CONTENT.footer} · <a href="/llms.txt" target="_blank" style="opacity:0.5; text-decoration:none; border-bottom: 1px dashed currentColor;">llms.txt</a> · <span class="year">${new Date().getFullYear()}</span>`;
 }
 
 /**
