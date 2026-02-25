@@ -44,7 +44,7 @@
 
 html {
     scroll-behavior: smooth;
-    font-size: 16px;
+    font-size: clamp(15px, 1vw, 18px);
     overflow-x: hidden;
 }
 
@@ -93,7 +93,7 @@ a, button, .tab, .highlight, [role="button"] {
     align-items: center;
     gap: 5px;
     font-family: var(--font-body);
-    font-size: 12px;
+    font-size: 0.75rem;
     color: var(--color-text-light);
     margin-top: 8px;
 }
@@ -189,7 +189,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .social-view-counter span {
     font-variant-numeric: tabular-nums;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 500;
     line-height: 1;
 }
@@ -268,7 +268,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .nav-link {
-    font-size: 16px;
+    font-size: 1rem;
     color: var(--color-text-light);
     text-decoration: none;
     letter-spacing: 0;
@@ -319,7 +319,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .name {
     font-family: var(--font-body);
-    font-size: 26px;
+    font-size: 1.625rem;
     font-weight: 500;
     letter-spacing: -0.01em;
     line-height: 1.3;
@@ -343,7 +343,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .intro {
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.65;
     color: var(--color-text);
     max-width: 540px;
@@ -351,7 +351,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .about-story {
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.7;
     color: var(--color-text);
     max-width: 540px;
@@ -359,7 +359,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .contact-line {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.75;
     color: var(--color-text);
     max-width: 540px;
@@ -373,7 +373,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .unique-abilities h2 {
     font-family: var(--font-body);
-    font-size: 17px;
+    font-size: 1.0625rem;
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: 8px;
@@ -382,7 +382,7 @@ a, button, .tab, .highlight, [role="button"] {
 .unique-abilities ul {
     list-style: none;
     padding-left: 0;
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.7;
     color: var(--color-text);
 }
@@ -399,12 +399,12 @@ a, button, .tab, .highlight, [role="button"] {
     left: 0;
     top: 0.5em;
     color: var(--color-text-muted);
-    font-size: 10px;
+    font-size: 0.625rem;
 }
 
 .resume-line {
     display: block;
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.6;
     color: var(--color-text-muted);
     max-width: 540px;
@@ -415,7 +415,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .section-title {
     font-family: var(--font-body);
-    font-size: 32px;
+    font-size: 2rem;
     font-weight: 600;
     text-transform: lowercase;
     letter-spacing: -0.02em;
@@ -427,13 +427,13 @@ a, button, .tab, .highlight, [role="button"] {
     color: var(--color-text-muted);
     margin-bottom: 32px;
     margin-top: 4px;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
 }
 
 .tab-subtitle {
     color: var(--color-text);
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 500;
     margin-bottom: 20px;
     margin-top: 0;
@@ -455,7 +455,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .about-content p {
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.7;
     margin-bottom: 16px;
 }
@@ -471,14 +471,14 @@ a, button, .tab, .highlight, [role="button"] {
 
 .about-subtitle {
     font-family: var(--font-body);
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: 12px;
 }
 
 .about-subtitle-meta {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: 16px;
@@ -494,7 +494,7 @@ a, button, .tab, .highlight, [role="button"] {
     position: relative;
     padding-left: 0;
     margin-bottom: 10px;
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.7;
 }
 
@@ -521,7 +521,7 @@ a, button, .tab, .highlight, [role="button"] {
     position: relative;
     padding-left: 20px;
     margin-bottom: 14px;
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.7;
 }
 
@@ -531,7 +531,7 @@ a, button, .tab, .highlight, [role="button"] {
     position: absolute;
     left: 0;
     color: var(--color-text-muted);
-    font-size: 10px;
+    font-size: 0.625rem;
     top: 5px;
 }
 
@@ -559,7 +559,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 /* Source label - inline after arrow */
 .learn-about-list em {
-    font-size: 14px;
+    font-size: 0.875rem;
     font-style: italic;
     color: var(--color-text-muted);
     margin-left: 4px;
@@ -580,7 +580,7 @@ a, button, .tab, .highlight, [role="button"] {
 .beyond-work-item {
     display: flex;
     gap: 12px;
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.7;
 }
 
@@ -618,7 +618,7 @@ a, button, .tab, .highlight, [role="button"] {
     border-radius: 0;
     padding: 0;
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
     color: #0000EE;
     text-decoration: none;
@@ -646,7 +646,7 @@ a, button, .tab, .highlight, [role="button"] {
     border-radius: 0;
     padding: 0;
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
     color: #551A8B;
     text-decoration: none;
@@ -696,7 +696,7 @@ a, button, .tab, .highlight, [role="button"] {
     border-radius: 0;
     padding: 0;
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
     color: #0000EE;
     text-decoration: none;
@@ -724,7 +724,7 @@ a, button, .tab, .highlight, [role="button"] {
     border-radius: 0;
     padding: 0;
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
     color: #551A8B;
     text-decoration: none;
@@ -764,7 +764,7 @@ a, button, .tab, .highlight, [role="button"] {
 .background-ellipsis {
     display: none; /* Hidden since button is now on its own line */
     color: var(--color-text-muted);
-    font-size: 17px;
+    font-size: 1.0625rem;
 }
 
 .background-ellipsis.hidden {
@@ -788,7 +788,7 @@ a, button, .tab, .highlight, [role="button"] {
     border-radius: 0;
     padding: 0;
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
     color: #0000EE;
     text-decoration: none;
@@ -817,7 +817,7 @@ a, button, .tab, .highlight, [role="button"] {
     border-radius: 0;
     padding: 0;
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
     color: #551A8B;
     text-decoration: none;
@@ -919,7 +919,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .cool-things h2 {
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 600;
     font-style: normal;
     color: var(--color-text);
@@ -935,7 +935,7 @@ a, button, .tab, .highlight, [role="button"] {
     position: relative;
     padding-left: 16px;
     margin-bottom: 10px;
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.7;
 }
 
@@ -944,13 +944,13 @@ a, button, .tab, .highlight, [role="button"] {
     position: absolute;
     left: 0;
     color: var(--color-text-light);
-    font-size: 10px;
+    font-size: 0.625rem;
     top: 5px;
 }
 
 .read-more {
     display: inline-block;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--color-text-muted);
     text-decoration: none;
     transition: color 0.2s ease;
@@ -979,7 +979,7 @@ a, button, .tab, .highlight, [role="button"] {
 .tab {
     padding: 10px 20px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 500;
     color: var(--color-text-muted);
     background: transparent;
@@ -1038,7 +1038,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .card-tag {
     display: inline-block;
-    font-size: 11px;
+    font-size: 0.6875rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -1047,14 +1047,14 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .content-card h3 {
-    font-size: 17px;
+    font-size: 1.0625rem;
     font-weight: 600;
     margin-bottom: 8px;
     line-height: 1.4;
 }
 
 .content-card p {
-    font-size: 16px;
+    font-size: 1rem;
     color: var(--color-text-muted);
     line-height: 1.6;
 }
@@ -1092,25 +1092,25 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .experience-header h3 {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 600;
 }
 
 .experience-date {
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--color-text-muted);
     white-space: nowrap;
 }
 
 .experience-company {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--color-text-muted);
     margin-bottom: 12px;
 }
 
 /* Experience Brief Description */
 .experience-brief {
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.7;
     margin-bottom: 16px;
 }
@@ -1130,7 +1130,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .experience-expanded h4 {
     font-family: var(--font-body);
-    font-size: 17px;
+    font-size: 1.0625rem;
     font-weight: 600;
     margin: 24px 0 12px 0;
     color: var(--color-text);
@@ -1142,7 +1142,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .experience-expanded p {
     font-family: var(--font-body);
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.7;
     margin-bottom: 16px;
     color: var(--color-text);
@@ -1159,7 +1159,7 @@ a, button, .tab, .highlight, [role="button"] {
     padding-left: 20px;
     margin-bottom: 10px;
     font-family: var(--font-body);
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.7;
     color: var(--color-text);
 }
@@ -1169,7 +1169,7 @@ a, button, .tab, .highlight, [role="button"] {
     position: absolute;
     left: 0;
     color: var(--color-text-muted);
-    font-size: 10px;
+    font-size: 0.625rem;
     top: 5px;
 }
 
@@ -1182,7 +1182,7 @@ a, button, .tab, .highlight, [role="button"] {
     border: none;
     padding: 8px 0;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--color-text-muted);
     cursor: pointer;
     transition: color 0.2s ease;
@@ -1228,7 +1228,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .project-card .card-tag {
     display: inline-block;
-    font-size: 11px;
+    font-size: 0.6875rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -1237,13 +1237,13 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .project-card h3 {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 600;
     margin-bottom: 4px;
 }
 
 .project-brief {
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.7;
     margin-bottom: 16px;
 }
@@ -1261,7 +1261,7 @@ a, button, .tab, .highlight, [role="button"] {
     align-items: center;
     gap: 6px;
     padding: 6px 14px;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 500;
     color: var(--color-text-muted);
     background: transparent;
@@ -1297,7 +1297,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .project-expanded h4 {
     font-family: var(--font-body);
-    font-size: 17px;
+    font-size: 1.0625rem;
     font-weight: 600;
     margin: 24px 0 12px 0;
     color: var(--color-text);
@@ -1309,7 +1309,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .project-expanded p {
     font-family: var(--font-body);
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.7;
     margin-bottom: 16px;
     color: var(--color-text);
@@ -1324,7 +1324,7 @@ a, button, .tab, .highlight, [role="button"] {
     border: none;
     padding: 8px 0;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--color-text-muted);
     cursor: pointer;
     transition: color 0.2s ease;
@@ -1346,7 +1346,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .project-admin-btn {
     padding: 4px 12px;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 500;
     border-radius: 6px;
     cursor: pointer;
@@ -1377,7 +1377,7 @@ a, button, .tab, .highlight, [role="button"] {
 /* Add Project Button */
 .add-project-btn {
     padding: 10px 20px;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 500;
     color: #fff;
     background: #1a1a1a;
@@ -1432,7 +1432,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .project-modal-content h3 {
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 24px;
     color: var(--color-text);
@@ -1445,11 +1445,11 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .project-card h3 {
-        font-size: 16px;
+        font-size: 1rem;
     }
 
     .project-brief {
-        font-size: 15px;
+        font-size: 0.9375rem;
     }
 
     .project-links {
@@ -1458,7 +1458,7 @@ a, button, .tab, .highlight, [role="button"] {
 
     .project-link {
         padding: 5px 12px;
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     .project-toggle {
@@ -1496,7 +1496,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .community-emoji {
-    font-size: 40px;
+    font-size: 2.5rem;
     width: 60px;
     height: 60px;
     display: flex;
@@ -1510,7 +1510,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .community-brief {
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.7;
     color: var(--color-text);
     margin-bottom: 12px;
@@ -1530,7 +1530,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .community-expanded p {
     font-family: var(--font-body);
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.7;
     margin-bottom: 12px;
     color: var(--color-text);
@@ -1553,7 +1553,7 @@ a, button, .tab, .highlight, [role="button"] {
     border: none;
     padding: 8px 0;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--color-text-muted);
     cursor: pointer;
     transition: color 0.2s ease;
@@ -1595,7 +1595,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .thoughts-year-label {
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--color-text-light);
     font-weight: 500;
     margin-bottom: 12px;
@@ -1618,7 +1618,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .thoughts-links a {
-    font-size: 17px;
+    font-size: 1.0625rem;
     color: var(--color-text);
     text-decoration: none;
     border-bottom: 1px solid transparent;
@@ -1632,7 +1632,7 @@ a, button, .tab, .highlight, [role="button"] {
 /* Substack RSS Feed Styles */
 .thoughts-loading {
     color: var(--color-text-muted);
-    font-size: 15px;
+    font-size: 0.9375rem;
 }
 
 .thoughts-posts-list {
@@ -1654,7 +1654,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .thoughts-number {
-    font-size: 16px;
+    font-size: 1rem;
     color: var(--color-text-muted);
     font-weight: 500;
     min-width: 24px;
@@ -1668,7 +1668,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .thoughts-title {
-    font-size: 17px;
+    font-size: 1.0625rem;
     color: var(--color-text);
     text-decoration: none;
     border-bottom: 1px solid transparent;
@@ -1681,13 +1681,13 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .thoughts-date {
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--color-text-muted);
 }
 
 .thoughts-view-all {
     display: inline-block;
-    font-size: 15px;
+    font-size: 0.9375rem;
     color: var(--color-text-muted);
     text-decoration: none;
     border-bottom: 1px solid var(--highlight-peach);
@@ -1709,7 +1709,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .philosophy-quote {
     font-family: var(--font-serif);
-    font-size: 24px;
+    font-size: 1.5rem;
     font-style: italic;
     line-height: 1.5;
     color: var(--color-text);
@@ -1719,7 +1719,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .philosophy-content p {
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 1.8;
     margin-bottom: 20px;
 }
@@ -1748,7 +1748,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .consume-type {
     grid-row: 1 / 3;
-    font-size: 11px;
+    font-size: 0.6875rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -1757,13 +1757,13 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .consume-item h3 {
-    font-size: 17px;
+    font-size: 1.0625rem;
     font-weight: 600;
     line-height: 1.4;
 }
 
 .consume-author {
-    font-size: 16px;
+    font-size: 1rem;
     color: var(--color-text-muted);
 }
 
@@ -1791,7 +1791,7 @@ a, button, .tab, .highlight, [role="button"] {
     align-items: center;
     justify-content: center;
     color: var(--color-text-light);
-    font-size: 13px;
+    font-size: 0.8125rem;
     transition: transform 0.3s ease;
 }
 
@@ -1825,13 +1825,13 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .fun-fact-emoji {
-    font-size: 28px;
+    font-size: 1.75rem;
     line-height: 1;
     flex-shrink: 0;
 }
 
 .fun-fact p {
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.5;
     color: var(--color-text);
     margin: 0;
@@ -1856,7 +1856,7 @@ a, button, .tab, .highlight, [role="button"] {
     padding-top: 40px;
     padding-bottom: 40px;
     text-align: left;
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--color-text-light);
     display: flex;
     align-items: center;
@@ -1877,18 +1877,18 @@ a, button, .tab, .highlight, [role="button"] {
 @media (max-width: 900px) {
     /* Typography - Match desktop proportionally */
     .name {
-        font-size: 26px;
+        font-size: 1.625rem;
         font-weight: 500;
         line-height: 1.3;
     }
 
     .intro {
-        font-size: 17px;
+        font-size: 1.0625rem;
         line-height: 1.7;
     }
 
     .section-title {
-        font-size: 28px;
+        font-size: 1.75rem;
         font-weight: 600;
     }
 
@@ -1913,20 +1913,20 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .nav-link {
-        font-size: 13px;
+        font-size: 0.8125rem;
         padding: 12px 10px;
     }
 
     /* Typography - Slightly reduced for mobile */
     .name {
-        font-size: 24px;
+        font-size: 1.5rem;
         font-weight: 500;
         line-height: 1.3;
         margin-bottom: 16px;
     }
 
     .intro {
-        font-size: 15px;
+        font-size: 0.9375rem;
         line-height: 1.7;
         margin-bottom: 16px;
     }
@@ -1934,12 +1934,12 @@ a, button, .tab, .highlight, [role="button"] {
     .about-story,
     .about-content p,
     .about-subsection p {
-        font-size: 15px;
+        font-size: 0.9375rem;
         line-height: 1.7;
     }
 
     .contact-line {
-        font-size: 15px;
+        font-size: 0.9375rem;
         line-height: 1.75;
     }
 
@@ -1950,25 +1950,25 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .section-title {
-        font-size: 24px;
+        font-size: 1.5rem;
         font-weight: 600;
         margin-bottom: 8px;
     }
 
     .section-intro {
-        font-size: 15px;
+        font-size: 0.9375rem;
         margin-bottom: 32px;
     }
 
     /* Learn about me section */
     .learn-about-list li {
         margin-bottom: 14px;
-        font-size: 15px;
+        font-size: 0.9375rem;
         line-height: 1.7;
     }
 
     .learn-about-list em {
-        font-size: 13px;
+        font-size: 0.8125rem;
     }
 
     /* About subsections */
@@ -1982,7 +1982,7 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .about-subsection p strong {
-        font-size: 15px;
+        font-size: 0.9375rem;
         font-weight: 600;
         line-height: 1.7;
         display: block;
@@ -1990,14 +1990,14 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .about-subtitle {
-        font-size: 16px;
+        font-size: 1rem;
         font-weight: 600;
         margin-bottom: 8px;
         margin-top: 0;
     }
 
     .about-subtitle-meta {
-        font-size: 15px;
+        font-size: 0.9375rem;
         font-weight: 600;
         margin-bottom: 16px;
     }
@@ -2010,7 +2010,7 @@ a, button, .tab, .highlight, [role="button"] {
 
     .tab {
         padding: 10px 16px;
-        font-size: 14px;
+        font-size: 0.875rem;
         min-height: 44px;
     }
 
@@ -2026,30 +2026,30 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .experience-header h3 {
-        font-size: 15px;
+        font-size: 0.9375rem;
     }
 
     .experience-date {
-        font-size: 13px;
+        font-size: 0.8125rem;
     }
 
     .experience-company {
-        font-size: 13px;
+        font-size: 0.8125rem;
     }
 
     .experience-brief {
-        font-size: 15px;
+        font-size: 0.9375rem;
         line-height: 1.7;
     }
 
     .experience-expanded h4 {
-        font-size: 14px;
+        font-size: 0.875rem;
         font-weight: 600;
     }
 
     .experience-expanded p,
     .experience-expanded li {
-        font-size: 15px;
+        font-size: 0.9375rem;
         line-height: 1.7;
     }
 
@@ -2058,7 +2058,7 @@ a, button, .tab, .highlight, [role="button"] {
     .community-toggle {
         min-height: 44px;
         padding: 12px 20px;
-        font-size: 14px;
+        font-size: 0.875rem;
         border: 1px solid var(--color-border);
         border-radius: 8px;
         background: transparent;
@@ -2074,37 +2074,37 @@ a, button, .tab, .highlight, [role="button"] {
     .beyond-work-toggle {
         min-height: 44px;
         padding: 0;
-        font-size: 14px;
+        font-size: 0.875rem;
     }
 
     /* Community cards */
     .community-expanded p,
     .community-brief {
-        font-size: 15px;
+        font-size: 0.9375rem;
         line-height: 1.7;
     }
 
     /* Beyond work */
     .beyond-work-item {
-        font-size: 15px;
+        font-size: 0.9375rem;
         line-height: 1.7;
     }
 
     /* Background list */
     .background-preview li,
     .background-full li {
-        font-size: 15px;
+        font-size: 0.9375rem;
         line-height: 1.7;
     }
 
     /* Unique abilities list */
     .unique-abilities h2 {
-        font-size: 15px;
+        font-size: 0.9375rem;
         font-weight: 600;
     }
 
     .unique-abilities ul {
-        font-size: 15px;
+        font-size: 0.9375rem;
         line-height: 1.7;
     }
 
@@ -2115,7 +2115,7 @@ a, button, .tab, .highlight, [role="button"] {
 
     /* About lists */
     .about-list li {
-        font-size: 15px;
+        font-size: 0.9375rem;
         line-height: 1.7;
     }
 
@@ -2179,7 +2179,7 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .social-view-counter span {
-        font-size: 13px;
+        font-size: 0.8125rem;
     }
 
     /* Thoughts section */
@@ -2188,18 +2188,18 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .thoughts-title {
-        font-size: 15px;
+        font-size: 0.9375rem;
         line-height: 1.5;
     }
 
     .thoughts-date {
-        font-size: 13px;
+        font-size: 0.8125rem;
     }
 
     /* Footer */
     .footer {
         padding: 32px 0;
-        font-size: 13px;
+        font-size: 0.8125rem;
     }
 
     /* Prevent horizontal scroll */
@@ -2290,7 +2290,7 @@ a .reveal-word {
 .photo-tab {
     padding: 10px 20px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 500;
     color: var(--color-text-muted);
     background: transparent;
@@ -2317,7 +2317,7 @@ a .reveal-word {
     gap: 8px;
     padding: 12px 24px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 500;
     color: var(--color-text);
     background: transparent;
@@ -2393,7 +2393,7 @@ a .reveal-word {
     left: 12px;
     right: 12px;
     font-family: 'Special Elite', 'Courier New', monospace;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #333;
     text-align: center;
     min-height: 28px;
@@ -2420,7 +2420,7 @@ a .reveal-word {
 }
 
 .polaroid-placeholder-icon {
-    font-size: 48px;
+    font-size: 3rem;
     opacity: 0.4;
 }
 
@@ -2436,7 +2436,7 @@ a .reveal-word {
     left: 12px;
     right: 12px;
     font-family: 'Special Elite', 'Courier New', monospace;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #333;
     text-align: center;
     min-height: 28px;
@@ -2474,7 +2474,7 @@ a .reveal-word {
     background: #ff4757;
     color: white;
     border: none;
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 1;
     cursor: pointer;
     opacity: 0;
@@ -2523,7 +2523,7 @@ a .reveal-word {
 }
 
 .photo-editor-content h3 {
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 24px;
     color: var(--color-text);
@@ -2574,7 +2574,7 @@ a .reveal-word {
 }
 
 .photo-editor-controls label {
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 500;
     color: var(--color-text-muted);
     text-transform: uppercase;
@@ -2604,7 +2604,7 @@ a .reveal-word {
     width: 100%;
     padding: 12px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 0.875rem;
     border: 1px solid var(--color-border);
     border-radius: 8px;
     background: var(--color-bg);
@@ -2628,7 +2628,7 @@ a .reveal-word {
 .photo-btn-secondary {
     padding: 12px 24px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 500;
     border-radius: 8px;
     cursor: pointer;
@@ -2661,7 +2661,7 @@ a .reveal-word {
     text-align: center;
     padding: 60px 20px;
     color: var(--color-text-muted);
-    font-size: 16px;
+    font-size: 1rem;
     grid-column: 1 / -1;
 }
 
@@ -2678,7 +2678,7 @@ a .reveal-word {
 
     .polaroid-caption,
     .polaroid-caption-display {
-        font-size: 13px;
+        font-size: 0.8125rem;
         bottom: 8px;
         min-height: 36px;
         line-height: 1.4;
@@ -2719,7 +2719,7 @@ a .reveal-word {
 .view-toggle-btn {
     padding: 8px 20px;
     font-family: var(--font-body);
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 500;
     color: var(--color-text-muted);
     background: transparent;
@@ -2744,7 +2744,7 @@ a .reveal-word {
     gap: 6px;
     padding: 10px 20px;
     font-family: var(--font-body);
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 500;
     color: var(--color-text);
     background: transparent;
@@ -2773,7 +2773,7 @@ a .reveal-word {
 
 .calendar-month {
     font-family: var(--font-body);
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 600;
     color: var(--color-text);
 }
@@ -2784,7 +2784,7 @@ a .reveal-word {
     justify-content: center;
     width: 36px;
     height: 36px;
-    font-size: 16px;
+    font-size: 1rem;
     color: var(--color-text-muted);
     background: transparent;
     border: 1px solid var(--color-border);
@@ -2809,7 +2809,7 @@ a .reveal-word {
 
 .calendar-weekdays span {
     text-align: center;
-    font-size: 11px;
+    font-size: 0.6875rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -2894,7 +2894,7 @@ a .reveal-word {
 }
 
 .calendar-day-number {
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 500;
     color: var(--color-text-muted);
     line-height: 1;
@@ -2937,7 +2937,7 @@ a .reveal-word {
     color: var(--color-bg);
     padding: 8px 12px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 0.75rem;
     white-space: normal;
     max-width: 260px;
     width: max-content;
@@ -2966,7 +2966,7 @@ a .reveal-word {
 }
 
 .content-month-label {
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -3015,7 +3015,7 @@ a .reveal-word {
     border: none;
     padding: 4px 6px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 0.875rem;
     border-radius: 4px;
     transition: background 0.2s ease;
 }
@@ -3029,7 +3029,7 @@ a .reveal-word {
 }
 
 .content-clean-link {
-    font-size: 16px;
+    font-size: 1rem;
     color: var(--color-text);
     text-decoration: none;
     transition: all 0.2s ease;
@@ -3046,7 +3046,7 @@ a .reveal-word {
 
 .content-clean-link[href]:not([href="javascript:void(0)"])::after {
     content: ' ↗';
-    font-size: 13px;
+    font-size: 0.8125rem;
     display: inline-block;
     transition: transform 0.2s ease;
 }
@@ -3061,7 +3061,7 @@ a .reveal-word {
 }
 
 .content-clean-source {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--color-text-muted);
     font-style: italic;
     margin-left: 8px;
@@ -3071,7 +3071,7 @@ a .reveal-word {
     text-align: center;
     padding: 40px 20px;
     color: var(--color-text-muted);
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 /* Pagination */
@@ -3087,7 +3087,7 @@ a .reveal-word {
 
 .pagination-btn {
     padding: 8px 18px;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 500;
     font-family: var(--font-body);
     color: var(--color-text-muted);
@@ -3109,7 +3109,7 @@ a .reveal-word {
 }
 
 .pagination-info {
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--color-text-muted);
 }
 
@@ -3135,7 +3135,7 @@ a .reveal-word {
 
 .content-date-header {
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 600;
     color: var(--color-text-muted);
     text-transform: uppercase;
@@ -3152,7 +3152,7 @@ a .reveal-word {
 /* Category pill in list items */
 .content-item-category {
     display: inline-block;
-    font-size: 10px;
+    font-size: 0.625rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -3235,7 +3235,7 @@ a .reveal-word {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 1.5rem;
     color: var(--color-text-muted);
     background: transparent;
     border: none;
@@ -3248,7 +3248,7 @@ a .reveal-word {
 }
 
 .panel-date {
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: 24px;
@@ -3270,7 +3270,7 @@ a .reveal-word {
 
 .panel-item-category {
     display: inline-block;
-    font-size: 10px;
+    font-size: 0.625rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -3294,7 +3294,7 @@ a .reveal-word {
 .detail-category.newsletter { background: var(--highlight-peach); }
 
 .panel-item-title {
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-weight: 500;
     color: var(--color-text);
     text-decoration: none;
@@ -3308,12 +3308,12 @@ a .reveal-word {
 }
 
 .panel-item-source {
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--color-text-muted);
 }
 
 .panel-item-description {
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--color-text-muted);
     margin-top: 8px;
     font-style: italic;
@@ -3323,7 +3323,7 @@ a .reveal-word {
     text-align: center;
     padding: 40px 20px;
     color: var(--color-text-muted);
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 /* Add Content Modal */
@@ -3365,7 +3365,7 @@ a .reveal-word {
 }
 
 .add-content-form h3 {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: 16px;
@@ -3380,7 +3380,7 @@ a .reveal-word {
 
 .form-group label {
     display: block;
-    font-size: 11px;
+    font-size: 0.6875rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -3393,7 +3393,7 @@ a .reveal-word {
     width: 100%;
     padding: 8px 10px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--color-text);
     background: var(--color-bg);
     border: 1px solid var(--color-border);
@@ -3425,7 +3425,7 @@ a .reveal-word {
 .btn-secondary {
     padding: 10px 20px;
     font-family: var(--font-body);
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 500;
     border-radius: 6px;
     cursor: pointer;
@@ -3462,7 +3462,7 @@ a .reveal-word {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 1.5rem;
     color: var(--color-text-muted);
     background: var(--color-bg);
     border: 1px solid var(--color-border);
@@ -3497,7 +3497,7 @@ a .reveal-word {
     gap: 4px;
     padding: 5px 10px;
     font-family: var(--font-body);
-    font-size: 11px;
+    font-size: 0.6875rem;
     font-weight: 500;
     color: var(--color-text-muted);
     background: var(--color-bg);
@@ -3538,7 +3538,7 @@ a .reveal-word {
     width: 100%;
     padding: 8px 10px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--color-text);
     background: var(--color-bg);
     border: 1px solid var(--color-border);
@@ -3594,7 +3594,7 @@ a .reveal-word {
     align-items: center;
     gap: 8px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 500;
     color: var(--color-text-muted);
     background: transparent;
@@ -3620,7 +3620,7 @@ a .reveal-word {
 
 .detail-title {
     font-family: var(--font-body);
-    font-size: 32px;
+    font-size: 2rem;
     font-weight: 600;
     line-height: 1.3;
     color: var(--color-text);
@@ -3632,7 +3632,7 @@ a .reveal-word {
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--color-text-muted);
     margin-bottom: 32px;
 }
@@ -3644,7 +3644,7 @@ a .reveal-word {
 .detail-category {
     display: inline-block;
     padding: 4px 10px;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.03em;
@@ -3666,7 +3666,7 @@ a .reveal-word {
     align-items: center;
     gap: 10px;
     font-family: var(--font-body);
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-weight: 500;
     color: var(--color-text);
     text-decoration: none;
@@ -3687,7 +3687,7 @@ a .reveal-word {
 
 .detail-thoughts-title {
     font-family: var(--font-body);
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: 20px;
@@ -3696,7 +3696,7 @@ a .reveal-word {
 }
 
 .detail-thoughts-content {
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.8;
     color: var(--color-text);
 }
@@ -3872,7 +3872,7 @@ a .reveal-word {
     .nav-link {
         display: block;
         padding: 16px 20px;
-        font-size: 18px;
+        font-size: 1.125rem;
         color: var(--color-text-muted);
         border-radius: 8px;
         transition: all 0.2s ease;
@@ -3972,7 +3972,7 @@ a .reveal-word {
     }
 
     .social-view-counter span {
-        font-size: 13px;
+        font-size: 0.8125rem;
         line-height: 1;
     }
 
@@ -4014,7 +4014,7 @@ a .reveal-word {
     }
 
     .calendar-day-number {
-        font-size: 11px;
+        font-size: 0.6875rem;
     }
 
     .content-dot {
@@ -4023,7 +4023,7 @@ a .reveal-word {
     }
 
     .calendar-weekdays span {
-        font-size: 10px;
+        font-size: 0.625rem;
     }
 
     /* Hide tooltip on mobile - use tap instead */
@@ -4038,7 +4038,7 @@ a .reveal-word {
     }
 
     .content-date-header {
-        font-size: 13px;
+        font-size: 0.8125rem;
         margin-bottom: 10px;
         padding-bottom: 6px;
     }
@@ -4052,19 +4052,19 @@ a .reveal-word {
     }
 
     .content-item-category {
-        font-size: 9px;
+        font-size: 0.5625rem;
         padding: 2px 5px;
         margin-right: 6px;
     }
 
     .content-clean-link {
-        font-size: 15px;
+        font-size: 0.9375rem;
         flex: 1;
         min-width: 0;
     }
 
     .content-clean-source {
-        font-size: 13px;
+        font-size: 0.8125rem;
         width: 100%;
         margin-left: 0;
         margin-top: 4px;
@@ -4077,7 +4077,7 @@ a .reveal-word {
     }
 
     .panel-date {
-        font-size: 18px;
+        font-size: 1.125rem;
     }
 
     /* Full-screen modal on mobile */
@@ -4116,7 +4116,7 @@ a .reveal-word {
 
     .category-pill {
         padding: 10px 16px;
-        font-size: 14px;
+        font-size: 0.875rem;
         min-height: 44px;
         display: flex;
         align-items: center;
@@ -4124,7 +4124,7 @@ a .reveal-word {
 
     /* Detail view mobile */
     .detail-title {
-        font-size: 22px;
+        font-size: 1.375rem;
         line-height: 1.3;
     }
 
@@ -4133,14 +4133,14 @@ a .reveal-word {
     }
 
     .detail-meta {
-        font-size: 14px;
+        font-size: 0.875rem;
     }
 
     .detail-original-link {
         width: 100%;
         justify-content: center;
         min-height: 48px;
-        font-size: 16px;
+        font-size: 1rem;
     }
 
     /* View toggle buttons */
@@ -4161,7 +4161,7 @@ a .reveal-word {
 
     .polaroid-caption,
     .polaroid-caption-display {
-        font-size: 12px;
+        font-size: 0.75rem;
         bottom: 10px;
         left: 8px;
         right: 8px;
@@ -4204,19 +4204,19 @@ a .reveal-word {
 
     /* Typography - scaled for small phones */
     .name {
-        font-size: 22px;
+        font-size: 1.375rem;
         font-weight: 500;
         margin-bottom: 14px;
     }
 
     .section-title {
-        font-size: 22px;
+        font-size: 1.375rem;
         font-weight: 600;
         margin-bottom: 8px;
     }
 
     .intro {
-        font-size: 14px;
+        font-size: 0.875rem;
         line-height: 1.7;
     }
 
@@ -4231,29 +4231,29 @@ a .reveal-word {
     .beyond-work-item,
     .background-preview li,
     .background-full li {
-        font-size: 14px;
+        font-size: 0.875rem;
         line-height: 1.7;
     }
 
     /* Learn about me list */
     .learn-about-list li {
-        font-size: 14px;
+        font-size: 0.875rem;
         margin-bottom: 12px;
         line-height: 1.7;
     }
 
     .learn-about-list em {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     /* Unique abilities */
     .unique-abilities h2 {
-        font-size: 14px;
+        font-size: 0.875rem;
         font-weight: 600;
     }
 
     .unique-abilities ul {
-        font-size: 14px;
+        font-size: 0.875rem;
         line-height: 1.7;
     }
 
@@ -4267,7 +4267,7 @@ a .reveal-word {
         width: 100%;
         text-align: center;
         padding: 12px 14px;
-        font-size: 14px;
+        font-size: 0.875rem;
         min-height: 44px;
     }
 
@@ -4280,7 +4280,7 @@ a .reveal-word {
         flex: 1 1 45%;
         justify-content: center;
         min-height: 44px;
-        font-size: 14px;
+        font-size: 0.875rem;
     }
 
     /* Cards - consistent padding */
@@ -4338,7 +4338,7 @@ a .reveal-word {
     }
 
     .social-view-counter span {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 }
 
@@ -4362,7 +4362,7 @@ a .reveal-word {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: bold;
 }
 
@@ -4384,7 +4384,7 @@ a .reveal-word {
     height: 14px;
     background: #c0c0c0;
     border: 2px outset #fff;
-    font-size: 10px;
+    font-size: 0.625rem;
     line-height: 1;
     padding: 0;
     cursor: pointer;
@@ -4402,7 +4402,7 @@ a .reveal-word {
     padding: 2px 4px;
     display: flex;
     gap: 4px;
-    font-size: 12px;
+    font-size: 0.75rem;
     border-bottom: 1px solid #808080;
 }
 
@@ -4427,7 +4427,7 @@ a .reveal-word {
 .win95-textarea {
     padding: 4px 6px;
     font-family: 'Lucida Console', 'Courier New', monospace;
-    font-size: 13px;
+    font-size: 0.8125rem;
     line-height: 1.5;
     color: #000;
     min-height: 100%;
@@ -4453,7 +4453,7 @@ a .reveal-word {
 
 .notepad-entry-date {
     color: #808080;
-    font-size: 11px;
+    font-size: 0.6875rem;
 }
 
 .notepad-delete-btn {
@@ -4461,7 +4461,7 @@ a .reveal-word {
     border: 2px outset #dfdfdf;
     color: #000;
     font-family: 'MS Sans Serif', 'Segoe UI', Tahoma, sans-serif;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: bold;
     width: 20px;
     height: 18px;
@@ -4508,7 +4508,7 @@ a .reveal-word {
     min-height: 50px;
     padding: 6px;
     font-family: 'Lucida Console', 'Courier New', monospace;
-    font-size: 13px;
+    font-size: 0.8125rem;
     border: 2px inset #808080;
     background: #fff;
     resize: none;
@@ -4529,7 +4529,7 @@ a .reveal-word {
 }
 
 .win95-charcount {
-    font-size: 11px;
+    font-size: 0.6875rem;
     color: #000;
 }
 
@@ -4538,7 +4538,7 @@ a .reveal-word {
     border: 2px outset #fff;
     padding: 4px 16px;
     font-family: 'Segoe UI', Tahoma, sans-serif;
-    font-size: 12px;
+    font-size: 0.75rem;
     cursor: pointer;
 }
 
@@ -4564,7 +4564,7 @@ a .reveal-word {
     border: 2px outset #fff;
     padding: 3px 10px;
     font-family: 'Segoe UI', Tahoma, sans-serif;
-    font-size: 11px;
+    font-size: 0.6875rem;
     cursor: pointer;
 }
 
@@ -4577,7 +4577,7 @@ a .reveal-word {
 }
 
 #notepad-page-info {
-    font-size: 11px;
+    font-size: 0.6875rem;
     color: #000;
     min-width: 80px;
     text-align: center;
@@ -4594,7 +4594,7 @@ a .reveal-word {
     }
 
     .win95-textarea {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     .win95-input {
@@ -4603,11 +4603,11 @@ a .reveal-word {
     }
 
     .win95-titlebar {
-        font-size: 11px;
+        font-size: 0.6875rem;
     }
 
     .win95-menubar {
-        font-size: 11px;
+        font-size: 0.6875rem;
         flex-wrap: wrap;
     }
 
@@ -4622,7 +4622,7 @@ a .reveal-word {
     .notepad-delete-btn {
         width: 24px;
         height: 22px;
-        font-size: 14px;
+        font-size: 0.875rem;
     }
 
     .notepad-entry-header {
