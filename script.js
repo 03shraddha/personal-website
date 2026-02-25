@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initNavigation();
         initTabs();
         initScrollSpy();
+        initRouting();      // SPA routing: scroll to section from URL path
         initCustomCursor(); // Custom cursor
         initPhotoGallery(); // Polaroid photo gallery
         initContentCalendar(); // Content consumption calendar
@@ -1104,8 +1105,9 @@ function initNavigation() {
         link.addEventListener('click', (e) => {
             e.preventDefault();
 
-            const targetId = link.getAttribute('href').slice(1);
-            const targetSection = document.getElementById(targetId);
+            const href = link.getAttribute('href');           // '/about' or '/'
+            const sectionId = link.getAttribute('data-section');
+            const targetSection = document.getElementById(sectionId);
 
             if (targetSection) {
                 // Get offset for fixed header on mobile
@@ -1116,6 +1118,9 @@ function initNavigation() {
                     top: targetPosition,
                     behavior: 'smooth'
                 });
+
+                // Update URL without page reload
+                history.pushState(null, '', href);
 
                 // Update active state immediately for better UX
                 updateActiveNav(link);
@@ -1131,6 +1136,45 @@ function updateActiveNav(activeLink) {
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => link.classList.remove('active'));
     activeLink.classList.add('active');
+}
+
+// Track last URL-updated section to avoid redundant replaceState calls on scroll
+let _lastScrollSpySection = null;
+
+/**
+ * SPA Routing - Read initial URL path and scroll to the matching section.
+ * Must be called after initScrollSpy so all sections exist in the DOM.
+ */
+function initRouting() {
+    const PATH_TO_SECTION = {
+        '/':           'hello',
+        '/hello':      'hello',
+        '/about':      'about',
+        '/work':       'work',
+        '/thoughts':   'thoughts',
+        '/content':    'content',
+        '/photos':     'photos',
+        '/guestbook':  'guestbook',
+    };
+
+    // window.__initialPath is set by the head script when arriving via 404 redirect.
+    // Falls back to window.location.pathname for direct navigation.
+    var rawPath = window.__initialPath || window.location.pathname;
+    var path = (rawPath.replace(/\/$/, '') || '/').toLowerCase();
+    var sectionId = PATH_TO_SECTION[path] || 'hello';
+    var targetSection = document.getElementById(sectionId);
+
+    if (!targetSection) return;
+
+    var offset = window.innerWidth <= 900 ? 80 : 0;
+    // Use 'instant' so user lands directly on the section without scroll animation
+    window.scrollTo({ top: targetSection.offsetTop - offset, behavior: 'instant' });
+
+    var matchingLink = document.querySelector('.nav-link[data-section="' + sectionId + '"]');
+    if (matchingLink) updateActiveNav(matchingLink);
+
+    // Clean up URL if path was unknown (fallback to hello)
+    if (!PATH_TO_SECTION[path]) history.replaceState(null, '', '/');
 }
 
 /**
@@ -1196,6 +1240,13 @@ function updateScrollSpy(sections, navLinks) {
                 link.classList.remove('active');
             }
         });
+
+        // Update URL as user scrolls (replaceState, not pushState, to avoid flooding history)
+        if (currentSection !== _lastScrollSpySection) {
+            _lastScrollSpySection = currentSection;
+            const newPath = currentSection === 'hello' ? '/' : '/' + currentSection;
+            history.replaceState(null, '', newPath);
+        }
     }
 }
 
@@ -1540,6 +1591,10 @@ document.addEventListener('keydown', (e) => {
             top: targetSection.offsetTop - offset,
             behavior: 'smooth'
         });
+
+        // Update URL for keyboard navigation
+        const newPath = targetSection.id === 'hello' ? '/' : '/' + targetSection.id;
+        history.pushState(null, '', newPath);
     }
 });
 

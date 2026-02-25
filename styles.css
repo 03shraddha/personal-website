@@ -432,12 +432,12 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .tab-subtitle {
-    color: var(--color-text-muted);
-    font-size: 15px;
-    font-weight: 400;
+    color: var(--color-text);
+    font-size: 18px;
+    font-weight: 500;
     margin-bottom: 20px;
     margin-top: 0;
-    opacity: 0.7;
+    opacity: 1;
 }
 
 /* ===================================

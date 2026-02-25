@@ -62,6 +62,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Special+Elite&display=swap" rel="stylesheet">
+    <!-- SPA routing: decode path redirected from 404.html -->
+    <script>
+      (function() {
+        var search = window.location.search;
+        if (search && search.indexOf('?p=') === 0) {
+          var params = new URLSearchParams(search);
+          var originalPath = decodeURIComponent(params.get('p') || '/');
+          var originalQuery = params.get('q') ? '?' + decodeURIComponent(params.get('q')) : '';
+          history.replaceState(null, '', originalPath + originalQuery + window.location.hash);
+          window.__initialPath = originalPath;
+        }
+      })();
+    </script>
 </head>
 <body>
     <!-- Custom Cursor -->
@@ -103,13 +116,13 @@
         <div class="sidebar-overlay" id="sidebar-overlay"></div>
         <div class="sidebar-content">
             <ul>
-                <li><a href="#hello" class="nav-link active" data-section="hello">hello</a></li>
-                <li><a href="#about" class="nav-link" data-section="about">about</a></li>
-                <li><a href="#work" class="nav-link" data-section="work">work</a></li>
-                <li><a href="#thoughts" class="nav-link" data-section="thoughts">thoughts</a></li>
-                <li><a href="#content" class="nav-link" data-section="content">content worth consuming</a></li>
-                <li><a href="#photos" class="nav-link" data-section="photos">photos</a></li>
-                <li><a href="#guestbook" class="nav-link" data-section="guestbook">guestbook</a></li>
+                <li><a href="/"          class="nav-link active" data-section="hello">hello</a></li>
+                <li><a href="/about"     class="nav-link" data-section="about">about</a></li>
+                <li><a href="/work"      class="nav-link" data-section="work">work</a></li>
+                <li><a href="/thoughts"  class="nav-link" data-section="thoughts">thoughts</a></li>
+                <li><a href="/content"   class="nav-link" data-section="content">content worth consuming</a></li>
+                <li><a href="/photos"    class="nav-link" data-section="photos">photos</a></li>
+                <li><a href="/guestbook" class="nav-link" data-section="guestbook">guestbook</a></li>
             </ul>
         </div>
     </nav>
@@ -164,7 +177,7 @@
                 </div>
 
                 <div class="tab-content hidden" id="tab-projects">
-                    <p class="tab-subtitle">learning #genai through claude code experiments</p>
+                    <p class="tab-subtitle">Turning that $20 Claude Code fee into something useful</p>
                     <button id="add-project-btn" class="add-project-btn" style="display:none;" onclick="projectOpenAddModal()">+ Add Project</button>
                     <div id="projects-list" class="project-list">
                         <!-- Loaded from Supabase -->

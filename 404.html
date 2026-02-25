@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>shraddha's corner on the internet</title>
+  <script>
+    // GitHub Pages SPA routing workaround.
+    // When GitHub Pages serves this 404.html for unknown paths like /about,
+    // we encode the path into a query param and redirect to index.html.
+    // index.html then silently restores the URL via history.replaceState.
+    var path = window.location.pathname;
+    var search = window.location.search;
+    var hash = window.location.hash;
+    var redirectUrl = '/?p=' + encodeURIComponent(path)
+      + (search ? '&q=' + encodeURIComponent(search.slice(1)) : '')
+      + hash;
+    window.location.replace(redirectUrl);
+  </script>
+</head>
+<body></body>
+</html>
