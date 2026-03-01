@@ -1908,7 +1908,7 @@ a, button, .tab, .highlight, [role="button"] {
 @media (max-width: 600px) {
     /* Scale base font down so all rem values shrink proportionally */
     html {
-        font-size: 14px;
+        font-size: 15px;
     }
 
     /* Nav refinements for smaller screens */
@@ -4199,7 +4199,7 @@ a .reveal-word {
 /* Extra small screens (375px and below) */
 @media (max-width: 375px) {
     html {
-        font-size: 13px;
+        font-size: 14px;
     }
 
     .main-content {
