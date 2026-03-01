@@ -582,7 +582,7 @@ function renderThoughtsPosts(posts) {
         return;
     }
 
-    const postsHtml = posts.map((post, index) => `
+    const postsHtml = posts.slice(0, 7).map((post, index) => `
         <li class="thoughts-item">
             <span class="thoughts-number">${index + 1}.</span>
             <div class="thoughts-content">
