@@ -1699,7 +1699,8 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .letterboxd-link-line {
-    margin-bottom: 24px;
+    margin-top: -16px;
+    margin-bottom: 16px;
     font-size: 0.9375rem;
     color: var(--color-text-muted);
 }
