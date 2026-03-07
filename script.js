@@ -856,24 +856,32 @@ function initProjectsSection() {
 
             carousel.addEventListener('scroll', updateNav, { passive: true });
 
+            // Scroll to a page and guarantee nav sync after animation completes.
+            // The scroll event fires during animation but not always at the final
+            // snap position, so we add a setTimeout fallback to catch the settled state.
+            function scrollToPage(pageEl) {
+                carousel.scrollTo({ left: pageEl.offsetLeft, behavior: 'smooth' });
+                setTimeout(updateNav, 400);
+            }
+
             projectsList.querySelectorAll('.projects-nav-next').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const next = pageEls()[getActivePage() + 1];
-                    if (next) carousel.scrollTo({ left: next.offsetLeft, behavior: 'smooth' });
+                    if (next) scrollToPage(next);
                 });
             });
 
             projectsList.querySelectorAll('.projects-nav-prev').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const prev = pageEls()[getActivePage() - 1];
-                    if (prev) carousel.scrollTo({ left: prev.offsetLeft, behavior: 'smooth' });
+                    if (prev) scrollToPage(prev);
                 });
             });
 
             projectsList.querySelectorAll('.projects-scroll-dot').forEach(dot => {
                 dot.addEventListener('click', () => {
                     const target = pageEls()[parseInt(dot.dataset.page)];
-                    if (target) carousel.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+                    if (target) scrollToPage(target);
                 });
             });
         }
