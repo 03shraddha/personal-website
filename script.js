@@ -781,16 +781,22 @@ function initProjectsSection() {
                         ${pagesHtml}
                     </div>
                 </div>
-                <div class="projects-scroll-dots">${dotsHtml}</div>
+                <div class="projects-carousel-nav">
+                    <div class="projects-scroll-dots">${dotsHtml}</div>
+                    <button class="projects-nav-arrow" id="projects-nav-arrow" aria-label="Next page">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
             `;
 
             const carousel = document.getElementById('projects-carousel-scroll');
             const wrapper = document.getElementById('projects-carousel-wrapper');
+            const navArrow = document.getElementById('projects-nav-arrow');
             const dots = projectsList.querySelectorAll('.projects-scroll-dot');
             const pageEls = () => carousel.querySelectorAll('.projects-page');
 
             // Set page widths in px so % doesn't mis-resolve inside an overflow-scroll container
-            const PEEK_PX = 40;
+            const PEEK_PX = 48;
             function updatePageWidths() {
                 const pageWidth = wrapper.offsetWidth - PEEK_PX;
                 pageEls().forEach(page => {
@@ -801,15 +807,27 @@ function initProjectsSection() {
             updatePageWidths();
             new ResizeObserver(updatePageWidths).observe(wrapper);
 
-            carousel.addEventListener('scroll', () => {
+            function getActivePage() {
                 let activePage = 0;
                 pageEls().forEach((el, i) => {
                     if (carousel.scrollLeft >= el.offsetLeft - 8) activePage = i;
                 });
+                return activePage;
+            }
+
+            carousel.addEventListener('scroll', () => {
+                const activePage = getActivePage();
                 dots.forEach((dot, i) => dot.classList.toggle('active', i === activePage));
                 const atEnd = carousel.scrollLeft + carousel.offsetWidth >= carousel.scrollWidth - 10;
                 wrapper.classList.toggle('at-end', atEnd);
+                navArrow.classList.toggle('hidden', atEnd);
             }, { passive: true });
+
+            // Arrow click: advance to next page
+            navArrow.addEventListener('click', () => {
+                const next = pageEls()[getActivePage() + 1];
+                if (next) carousel.scrollTo({ left: next.offsetLeft, behavior: 'smooth' });
+            });
 
             dots.forEach(dot => {
                 dot.addEventListener('click', () => {
