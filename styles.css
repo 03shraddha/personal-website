@@ -1026,8 +1026,8 @@ a, button, .tab, .highlight, [role="button"] {
 
 .content-card:hover {
     border-color: var(--color-text-light);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.11);
-    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), 0 12px 40px rgba(0, 0, 0, 0.09);
+    transform: translateY(-3px);
 }
 
 .card-tag {
@@ -1073,8 +1073,8 @@ a, button, .tab, .highlight, [role="button"] {
 
 .experience-item:hover {
     border-color: var(--color-text-light);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.11);
-    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), 0 12px 40px rgba(0, 0, 0, 0.09);
+    transform: translateY(-3px);
 }
 
 .experience-header {
@@ -1257,28 +1257,20 @@ a, button, .tab, .highlight, [role="button"] {
     gap: 24px;
 }
 
-/* Nav row: [back]  dots  [Next →] — appears at top and bottom of carousel */
+/* Nav row: centered group of [← Prev] [dots] [Next →] */
 .projects-carousel-nav {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 16px;
-    margin-top: 0;
-    margin-bottom: 20px; /* spacing before carousel */
-}
-
-/* Bottom nav gets top spacing instead */
-.projects-carousel-wrapper + .projects-carousel-nav {
-    margin-bottom: 0;
     margin-top: 20px;
 }
 
-/* Dot indicators — flex:1 keeps them centered between both pills */
 .projects-scroll-dots {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    flex: 1;
 }
 
 .projects-scroll-dot {
@@ -1353,11 +1345,10 @@ a, button, .tab, .highlight, [role="button"] {
     transform: translateX(-4px);
 }
 
-/* visibility:hidden keeps pill space so dots stay centered */
+/* Hide inactive nav button — display:none so the group stays centered */
 .projects-nav-prev.hidden,
 .projects-nav-next.hidden {
-    visibility: hidden;
-    pointer-events: none;
+    display: none;
 }
 
 /* ===================================
@@ -1381,8 +1372,8 @@ a, button, .tab, .highlight, [role="button"] {
 
 .project-card:hover {
     border-color: var(--color-text-light);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.11);
-    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), 0 12px 40px rgba(0, 0, 0, 0.09);
+    transform: translateY(-3px);
 }
 
 /* Drag handle — 6-dot grip, fades in on card hover */
