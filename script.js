@@ -951,17 +951,19 @@ function initAdminSortable(state, container) {
 
 /**
  * Persist new project sort order to Supabase.
- * Uses upsert so only sort_order changes; all other fields are untouched.
+ * Uses individual UPDATE calls (not upsert) — upsert's INSERT path requires
+ * all NOT NULL columns (name, brief_description) which we don't send here,
+ * causing a constraint error before the conflict can be detected.
  */
 async function saveProjectOrder(newOrder) {
     if (!supabaseClient) throw new Error('Supabase not connected');
-    const { error } = await supabaseClient
-        .from('projects')
-        .upsert(
-            newOrder.map(({ id, sort_order }) => ({ id, sort_order })),
-            { onConflict: 'id' }
-        );
-    if (error) throw error;
+    const results = await Promise.all(
+        newOrder.map(({ id, sort_order }) =>
+            supabaseClient.from('projects').update({ sort_order }).eq('id', id)
+        )
+    );
+    const failed = results.find(({ error }) => error);
+    if (failed) throw failed.error;
 }
 
 // ---- Global project CRUD functions (called via onclick) ----
