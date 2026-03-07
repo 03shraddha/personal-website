@@ -1262,13 +1262,23 @@ a, button, .tab, .highlight, [role="button"] {
     gap: 24px;
 }
 
-/* Nav row: dots + arrow, centered */
+/* "more follows" hint text above nav */
+.projects-page-hint {
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin-top: 20px;
+    margin-bottom: 0;
+    letter-spacing: 0.01em;
+}
+
+/* Nav row: back arrow + dots + forward arrow, centered */
 .projects-carousel-nav {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 16px;
-    margin-top: 20px;
+    margin-top: 12px;
 }
 
 /* Dot indicators */
@@ -1294,25 +1304,35 @@ a, button, .tab, .highlight, [role="button"] {
     transform: scale(1.4);
 }
 
-/* Right-arrow navigation button */
+/* Navigation arrows — more prominent */
 .projects-nav-arrow {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    border: 1px solid var(--color-border);
+    border: 1.5px solid var(--color-text-light);
     background: var(--color-bg);
-    color: var(--color-text-light);
+    color: var(--color-text);
     cursor: pointer;
-    transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 
 .projects-nav-arrow:hover {
-    border-color: var(--color-text-light);
-    color: var(--color-text);
+    background: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-text);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.14);
+}
+
+.projects-nav-arrow--left:hover {
+    transform: translateX(-2px);
+}
+
+.projects-nav-arrow:not(.projects-nav-arrow--left):hover {
     transform: translateX(2px);
 }
 
