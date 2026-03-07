@@ -838,6 +838,7 @@ a, button, .tab, .highlight, [role="button"] {
 .highlight {
     text-decoration: none;
     color: var(--color-text);
+    font-family: 'Courier New', Courier, monospace;
     padding: 2px 6px;
     margin: 0 -4px;
     border-radius: 4px;
@@ -1018,16 +1019,36 @@ a, button, .tab, .highlight, [role="button"] {
 
 .content-card {
     padding: 24px;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    background: #fafaf8;
+    border: none;
+    border-left: 3px solid var(--color-border);
+    border-radius: 4px;
+    transition: border-left-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .content-card:hover {
-    border-color: var(--color-text-light);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), 0 12px 40px rgba(0, 0, 0, 0.09);
-    transform: translateY(-3px);
+    border-left-color: var(--color-text-light);
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.07);
+    transform: translateY(-2px);
+}
+
+/* Typewriter accent: left border takes the highlight color of the card's title pill */
+.experience-item:has(.highlight.peach),
+.project-card:has(.highlight.peach),
+.content-card:has(.highlight.peach) {
+    border-left-color: #c46a3a;
+}
+
+.experience-item:has(.highlight.blue),
+.project-card:has(.highlight.blue),
+.content-card:has(.highlight.blue) {
+    border-left-color: #3a6ec4;
+}
+
+.experience-item:has(.highlight.lavender),
+.project-card:has(.highlight.lavender),
+.content-card:has(.highlight.lavender) {
+    border-left-color: #7a3ac4;
 }
 
 .card-tag {
@@ -1065,16 +1086,17 @@ a, button, .tab, .highlight, [role="button"] {
 
 .experience-item {
     padding: 32px;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    background: #fafaf8;
+    border: none;
+    border-left: 3px solid var(--color-border);
+    border-radius: 4px;
+    transition: border-left-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .experience-item:hover {
-    border-color: var(--color-text-light);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), 0 12px 40px rgba(0, 0, 0, 0.09);
-    transform: translateY(-3px);
+    border-left-color: var(--color-text-light);
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.07);
+    transform: translateY(-2px);
 }
 
 .experience-header {
@@ -1093,6 +1115,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .experience-date {
     font-size: 0.8125rem;
+    font-family: 'Courier New', Courier, monospace;
     color: var(--color-text-muted);
     white-space: nowrap;
 }
@@ -1359,10 +1382,11 @@ a, button, .tab, .highlight, [role="button"] {
 .project-card {
     position: relative;
     padding: 32px;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    background: #fafaf8;
+    border: none;
+    border-left: 3px solid var(--color-border);
+    border-radius: 4px;
+    transition: border-left-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 /* Cards with a drag handle shift content right to make room */
@@ -1371,9 +1395,9 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .project-card:hover {
-    border-color: var(--color-text-light);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), 0 12px 40px rgba(0, 0, 0, 0.09);
-    transform: translateY(-3px);
+    border-left-color: var(--color-text-light);
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.07);
+    transform: translateY(-2px);
 }
 
 /* Drag handle — 6-dot grip, fades in on card hover */
