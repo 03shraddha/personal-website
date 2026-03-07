@@ -846,7 +846,10 @@ function initProjectsSection() {
                     page.style.minWidth = pageWidth + 'px';
                     page.style.maxWidth = pageWidth + 'px';
                 });
-                updateNav(); // sync button visibility after layout is known
+                // Defer to next frame — reading scrollWidth immediately after setting
+                // minWidth gives stale values before browser reflow, causing atEnd=true
+                // which incorrectly hides the Next button.
+                requestAnimationFrame(updateNav);
             }
             updatePageWidths();
             new ResizeObserver(updatePageWidths).observe(wrapper);
