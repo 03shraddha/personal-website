@@ -748,7 +748,7 @@ function initProjectsSection() {
 
             // data-project-id used by sortable reorder; data-project-index used by expand toggle
             return `
-                <article class="project-card" data-project-index="${index}" data-project-id="${proj.id}">
+                <article class="project-card${isAdminUser ? ' is-admin-card' : ''}" data-project-index="${index}" data-project-id="${proj.id}">
                     ${isAdminUser ? `<div class="drag-handle" title="Drag to reorder" aria-hidden="true">${dragHandleSvg}</div>` : ''}
                     <h3><span class="highlight ${proj.highlight}">${proj.name}</span></h3>
                     <p class="project-brief">${proj.briefDescription}</p>
@@ -901,7 +901,14 @@ function initAdminSortable(state, container) {
         return;
     }
 
-    new Sortable(container, {
+    // Fix: destroy any existing instance before creating a new one.
+    // renderProjects() re-runs on every edit/delete/rollback, which would
+    // otherwise stack up multiple Sortable listeners on the same element.
+    if (container._sortableInstance) {
+        container._sortableInstance.destroy();
+    }
+
+    const sortable = new Sortable(container, {
         animation: 150,          // smooth card slide animation (ms)
         handle: '.drag-handle',  // only the grip icon initiates drag
         ghostClass: 'sortable-ghost',    // placeholder left behind during drag
@@ -910,11 +917,14 @@ function initAdminSortable(state, container) {
         scrollSensitivity: 80,
         scrollSpeed: 10,
         onEnd: async function() {
-            // Read new order from DOM after drop
-            const newOrder = Array.from(container.querySelectorAll('.project-card')).map((card, i) => ({
-                id: parseInt(card.dataset.projectId),
-                sort_order: i
-            }));
+            // Fix: disable sorting during API call to prevent a second drag
+            // from firing before the first save completes (race condition).
+            sortable.option('disabled', true);
+
+            // Read new order from DOM after drop; skip any card missing an id.
+            const newOrder = Array.from(container.querySelectorAll('.project-card'))
+                .map((card, i) => ({ id: parseInt(card.dataset.projectId), sort_order: i }))
+                .filter(({ id }) => !isNaN(id)); // Fix: guard against missing data-project-id
 
             // Optimistic update: reorder local state to match DOM
             const prevProjects = [...state.projects];
@@ -929,9 +939,14 @@ function initAdminSortable(state, container) {
                 state.projects = prevProjects;
                 if (window._projectsRender) window._projectsRender();
                 console.error('Reorder failed — previous order restored:', err);
+            } finally {
+                sortable.option('disabled', false);
             }
         }
     });
+
+    // Store reference so re-renders can destroy it cleanly.
+    container._sortableInstance = sortable;
 }
 
 /**

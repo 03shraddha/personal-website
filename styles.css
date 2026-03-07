@@ -1380,7 +1380,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 /* Cards with a drag handle shift content right to make room */
-.project-card[data-project-id] {
+.project-card.is-admin-card {
     padding-left: 44px;
 }
 
