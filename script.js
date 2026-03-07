@@ -780,7 +780,7 @@ function initProjectsSection() {
                     `<button class="projects-scroll-dot${i === 0 ? ' active' : ''}" data-page="${i}" aria-label="Page ${i + 1}"></button>`
                 ).join('');
                 return `
-                    <button class="projects-nav-back hidden" aria-label="Previous page">${backSvg}</button>
+                    <button class="projects-nav-prev hidden" aria-label="Previous page">${backSvg} Previous</button>
                     <div class="projects-scroll-dots">${dotsHtml}</div>
                     <button class="projects-nav-next" aria-label="Next page">Next ${nextSvg}</button>
                 `;
@@ -830,7 +830,7 @@ function initProjectsSection() {
                 projectsList.querySelectorAll('.projects-nav-next').forEach(btn => {
                     btn.classList.toggle('hidden', atEnd);
                 });
-                projectsList.querySelectorAll('.projects-nav-back').forEach(btn => {
+                projectsList.querySelectorAll('.projects-nav-prev').forEach(btn => {
                     btn.classList.toggle('hidden', activePage === 0);
                 });
                 wrapper.classList.toggle('at-end', atEnd);
@@ -845,7 +845,7 @@ function initProjectsSection() {
                 });
             });
 
-            projectsList.querySelectorAll('.projects-nav-back').forEach(btn => {
+            projectsList.querySelectorAll('.projects-nav-prev').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const prev = pageEls()[getActivePage() - 1];
                     if (prev) carousel.scrollTo({ left: prev.offsetLeft, behavior: 'smooth' });

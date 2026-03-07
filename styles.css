@@ -1277,11 +1277,13 @@ a, button, .tab, .highlight, [role="button"] {
     margin-top: 20px;
 }
 
-/* Dot indicators */
+/* Dot indicators — flex:1 keeps them centered between both pills */
 .projects-scroll-dots {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
+    flex: 1;
 }
 
 .projects-scroll-dot {
@@ -1300,46 +1302,24 @@ a, button, .tab, .highlight, [role="button"] {
     transform: scale(1.4);
 }
 
-/* Back arrow — secondary, small circle */
-.projects-nav-back {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 1.5px solid var(--color-border);
-    background: transparent;
-    color: var(--color-text-light);
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-}
-
-.projects-nav-back:hover {
-    border-color: var(--color-text-light);
-    color: var(--color-text);
-    transform: translateX(-2px);
-}
-
-/* Use visibility:hidden so back button holds layout space when inactive */
-.projects-nav-back.hidden {
-    visibility: hidden;
-    pointer-events: none;
-}
-
-/* Next pill — primary CTA, pushes to right of nav */
+/* Shared pill styles for both nav buttons */
 @keyframes projects-next-bounce {
     0%, 88%, 100% { transform: translateX(0); }
     92%           { transform: translateX(5px); }
     96%           { transform: translateX(2px); }
 }
 
+@keyframes projects-prev-bounce {
+    0%, 88%, 100% { transform: translateX(0); }
+    92%           { transform: translateX(-5px); }
+    96%           { transform: translateX(-2px); }
+}
+
+.projects-nav-prev,
 .projects-nav-next {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-left: auto; /* push to right */
     padding: 9px 18px;
     border-radius: 100px;
     border: 1.5px solid var(--color-text);
@@ -1350,17 +1330,36 @@ a, button, .tab, .highlight, [role="button"] {
     cursor: pointer;
     flex-shrink: 0;
     transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-    animation: projects-next-bounce 7s ease-in-out infinite;
 }
 
+.projects-nav-prev:hover,
 .projects-nav-next:hover {
     background: var(--color-text);
     color: var(--color-bg);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transform: translateX(4px);
-    animation: none; /* stop bounce while hovering */
+    animation: none;
 }
 
+.projects-nav-next {
+    animation: projects-next-bounce 7s ease-in-out infinite;
+}
+
+.projects-nav-next:hover {
+    transform: translateX(4px);
+}
+
+.projects-nav-prev {
+    animation: projects-prev-bounce 7s ease-in-out infinite;
+    /* Delay so prev and next don't bounce simultaneously */
+    animation-delay: 3.5s;
+}
+
+.projects-nav-prev:hover {
+    transform: translateX(-4px);
+}
+
+/* visibility:hidden keeps pill space so dots stay centered */
+.projects-nav-prev.hidden,
 .projects-nav-next.hidden {
     visibility: hidden;
     pointer-events: none;
