@@ -432,13 +432,6 @@ a, button, .tab, .highlight, [role="button"] {
     font-weight: 400;
 }
 
-.tab-subtitle {
-    color: var(--color-text-muted);
-    font-size: 1rem;
-    font-weight: 400;
-    margin-bottom: 20px;
-    margin-top: 0;
-}
 
 /* ===================================
    About Section Content
