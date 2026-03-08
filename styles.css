@@ -1445,9 +1445,9 @@ a, button, .tab, .highlight, [role="button"] {
     font-size: 0.8125rem;
     font-weight: 500;
     color: var(--color-text-muted);
-    background: transparent;
+    background: rgba(0, 0, 0, 0.04);
     border: 1px solid var(--color-border);
-    border-radius: 20px;
+    border-radius: 999px;
     text-decoration: none;
     transition: all 0.2s ease;
 }
@@ -1529,10 +1529,10 @@ a, button, .tab, .highlight, [role="button"] {
     padding: 4px 12px;
     font-size: 0.75rem;
     font-weight: 500;
-    border-radius: 6px;
+    border-radius: 999px;
     cursor: pointer;
     transition: all 0.2s ease;
-    background: transparent;
+    background: rgba(0, 0, 0, 0.03);
 }
 
 .project-edit-btn {
@@ -1563,7 +1563,7 @@ a, button, .tab, .highlight, [role="button"] {
     color: #fff;
     background: #1a1a1a;
     border: none;
-    border-radius: 8px;
+    border-radius: 999px;
     cursor: pointer;
     transition: all 0.2s ease;
     margin-bottom: 24px;
@@ -3622,7 +3622,7 @@ a .reveal-word {
     font-family: var(--font-body);
     font-size: 0.8125rem;
     font-weight: 500;
-    border-radius: 6px;
+    border-radius: 999px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -3638,12 +3638,13 @@ a .reveal-word {
 }
 
 .btn-secondary {
-    background: transparent;
+    background: rgba(0, 0, 0, 0.04);
     color: var(--color-text);
     border: 1px solid var(--color-border);
 }
 
 .btn-secondary:hover {
+    background: rgba(0, 0, 0, 0.07);
     border-color: var(--color-text-muted);
 }
 
@@ -4019,7 +4020,9 @@ a .reveal-word {
         left: 0;
         width: 100%;
         height: 100%;
-        background: var(--color-bg);
+        background: rgba(255, 255, 255, 0.82);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        backdrop-filter: blur(20px) saturate(180%);
         z-index: 300;
         /* Top: clear hamburger button + safe area. Bottom: clear home indicator */
         padding: max(100px, calc(env(safe-area-inset-top, 0px) + 72px)) 32px max(40px, calc(env(safe-area-inset-bottom, 0px) + 20px));
