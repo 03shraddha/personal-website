@@ -1018,30 +1018,17 @@ a, button, .tab, .highlight, [role="button"] {
 
 .content-card {
     padding: 24px;
-    background: var(--color-bg);
-    border: none;
-    border-left: 3px solid var(--color-border);
-    border-radius: 4px;
-    transition: border-left-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .content-card:hover {
-    border-left-color: var(--color-text-light);
-    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.07);
-    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+    transform: translateY(-3px) scale(1.01);
 }
 
-.content-card:has(.highlight.peach) {
-    border-left-color: #c46a3a;
-}
-
-.content-card:has(.highlight.blue) {
-    border-left-color: #3a6ec4;
-}
-
-.content-card:has(.highlight.lavender) {
-    border-left-color: #7a3ac4;
-}
 
 .card-tag {
     display: inline-block;
