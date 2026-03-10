@@ -31,7 +31,7 @@ const CONTENT = {
     <br><br>
     Want to get in touch? Or just say Hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank">LinkedIn</a>, <a href="mailto:meetshraddhakulkarni@gmail.com">Email</a>, <a href="https://x.com/shraddhaha" target="_blank">Twitter</a>
     <br><br>
-    <a href="https://x.com/shraddhaha/status/2030900691032768810" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Yes, I was in the newspaper once</a>. I haven't let the fame change me.`,
+    <a href="https://x.com/shraddhaha/status/2030900691032768810" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">I was in the newspaper once</a>. Don't worry I haven't let the fame change me.`,
 
     // About section content (structured)
     aboutContent: {
