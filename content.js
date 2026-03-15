@@ -158,7 +158,7 @@ const CONTENT = {
             company: "ZS Associates - Boutique Pharma Consulting Firm",
             companyUrl: "https://www.zs.com/",
             date: "2023 — Present",
-            briefDescription: `Working on Quill, an AI-driven platform for Medical Legal Regulatory (MLR) reviews in the healthcare industry. Responsibilities include product solutioning, deployment oversight, and client feedback iteration.`,
+            briefDescription: `Working on an AI platform for Medical, Legal, and Regulatory (MLR) reviews and pharma content generation for large pharmaceutical companies. Responsible for product solutioning, managing deployments, LLM evals and improving the product based on client feedback.`,
             expandedContent: `
                 <h4>Project – GenAI Deployment for a Niche Pharma Use Case (2025 & 2026)</h4>
                 <p>★ <strong>Awards and Recognition:</strong><br>
