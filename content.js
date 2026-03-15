@@ -167,7 +167,7 @@ const CONTENT = {
 
                 <p>★ I work on the Quill Team at ZS. Quill helps with MLR. In the pharmaceutical industry, Medical Legal Review (MLR) is the process where medical, legal, and regulatory experts carefully check all promotional and scientific documents, such as ads, brochures, websites, manuscripts, and patient materials, to ensure they are accurate, scientifically truthful, comply with regulations, follow company policies, properly reference data, do not mislead, and protect the company from legal or regulatory risks before being shared with healthcare professionals or the public.</p>
 
-                <p>★ On product team for Quill, I help with product solutioning, oversee deployment, validate end-to-end functionality, ensure the product meets user and business requirements, and iterate based on client feedback.</p>
+                <p>★ On the product team at ZS, responsible for product solutioning, overseeing deployments, validating end-to-end functionality, writing LLM evaluations to ensure compliant outputs, ensuring the product meets user and business requirements, and iterating based on client feedback.</p>
 
                 <h4>Project – Hospitality Analytics (2023 & 2024)</h4>
                 <p>★ <strong>Awards and Recognition:</strong><br>
@@ -252,7 +252,7 @@ const CONTENT = {
 
                 <p>★ I work on the Quill Team at ZS. Quill helps with MLR. In the pharmaceutical industry, Medical Legal Review (MLR) is the process where medical, legal, and regulatory experts carefully check all promotional and scientific documents, such as ads, brochures, websites, manuscripts, and patient materials, to ensure they are accurate, scientifically truthful, comply with regulations, follow company policies, properly reference data, do not mislead, and protect the company from legal or regulatory risks before being shared with healthcare professionals or the public.</p>
 
-                <p>★ On product team for Quill, I help with product solutioning, oversee deployment, validate end-to-end functionality, ensure the product meets user and business requirements, and iterate based on client feedback.</p>
+                <p>★ On the product team at ZS, responsible for product solutioning, overseeing deployments, validating end-to-end functionality, writing LLM evaluations to ensure compliant outputs, ensuring the product meets user and business requirements, and iterating based on client feedback.</p>
             `
         },
         {
