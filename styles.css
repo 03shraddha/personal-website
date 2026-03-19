@@ -46,6 +46,8 @@ html {
     scroll-behavior: smooth;
     font-size: clamp(15px, 1vw, 18px);
     overflow-x: hidden;
+    -webkit-text-size-adjust: 100%; /* Prevent iOS from auto-scaling text */
+    text-size-adjust: 100%;
 }
 
 body {
@@ -2233,7 +2235,8 @@ a, button, .tab, .highlight, [role="button"] {
         margin-bottom: 8px;
     }
 
-    .experience-header h3 {
+    .experience-header h3,
+    .project-card h3 {
         font-size: 0.9375rem;
     }
 
