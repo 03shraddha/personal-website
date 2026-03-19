@@ -2214,14 +2214,15 @@ a, button, .tab, .highlight, [role="button"] {
 
     /* Tabs */
     .tabs {
-        gap: 6px;
-        flex-wrap: wrap;
+        gap: 4px;
+        flex-wrap: nowrap; /* force single row */
     }
 
     .tab {
-        padding: 8px 12px;
-        font-size: 0.875rem;
+        padding: 8px 10px;
+        font-size: 0.8125rem;
         min-height: 44px;
+        white-space: nowrap;
     }
 
     /* Experience cards */
