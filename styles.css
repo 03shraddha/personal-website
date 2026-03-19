@@ -2214,9 +2214,9 @@ a, button, .tab, .highlight, [role="button"] {
         margin-bottom: 16px;
     }
 
-    /* Tabs — horizontal scroll row */
+    /* Tabs — fit all on one line */
     .tabs {
-        gap: 8px;
+        gap: 6px;
         flex-wrap: nowrap;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -2229,8 +2229,8 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .tab {
-        padding: 8px 14px;
-        font-size: 0.875rem;
+        padding: 6px 10px;
+        font-size: 0.8rem;
         min-height: 44px;
         flex-shrink: 0;
         white-space: nowrap;
@@ -2891,7 +2891,7 @@ a .reveal-word {
 /* Responsive adjustments */
 @media (max-width: 600px) {
     .polaroid-gallery {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         gap: 24px;
     }
 
@@ -3453,8 +3453,8 @@ a .reveal-word {
     position: absolute;
     top: 24px;
     right: 24px;
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3475,7 +3475,7 @@ a .reveal-word {
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: 24px;
-    padding-right: 40px;
+    padding-right: 48px;
 }
 
 .panel-items {
@@ -3681,8 +3681,8 @@ a .reveal-word {
     position: absolute;
     top: 16px;
     right: 16px;
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -4127,7 +4127,6 @@ a .reveal-word {
         padding: max(80px, calc(env(safe-area-inset-top, 0px) + 72px)) 24px calc(100px + env(safe-area-inset-bottom, 0px));
         max-width: 100vw;
         width: 100%;
-        overflow-x: hidden;
         box-sizing: border-box;
     }
 
@@ -4239,6 +4238,7 @@ a .reveal-word {
 
     /* Calendar mobile adjustments */
     .calendar-day {
+        aspect-ratio: unset; /* prevent square cells overflowing on small screens */
         min-height: 50px;
         padding: 4px;
     }
@@ -4308,6 +4308,7 @@ a .reveal-word {
 
     .panel-date {
         font-size: 1.125rem;
+        padding-right: 0;
     }
 
     /* Full-screen modal on mobile */
@@ -4359,7 +4360,7 @@ a .reveal-word {
     }
 
     .detail-content {
-        padding: 32px 20px 60px;
+        padding: 32px 20px 40px;
     }
 
     .detail-meta {
@@ -4429,7 +4430,11 @@ a .reveal-word {
     }
 
     .main-content {
-        padding: max(80px, calc(env(safe-area-inset-top, 0px) + 72px)) 16px calc(100px + env(safe-area-inset-bottom, 0px));
+        padding: max(72px, calc(env(safe-area-inset-top, 0px) + 64px)) 16px calc(100px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .detail-content {
+        padding: 24px 16px 32px;
     }
 
     .calendar-day {
@@ -4505,7 +4510,7 @@ a .reveal-word {
     }
 
     .category-pill {
-        flex: 1 1 45%;
+        flex: 1 1 calc(50% - 4px);
         justify-content: center;
         min-height: 44px;
         font-size: 0.875rem;
@@ -4517,11 +4522,9 @@ a .reveal-word {
         padding: 18px;
     }
 
-    /* Social links - maintain touch targets */
+    /* Social links - maintain touch targets (keep bottom-centered layout from ≤900px) */
     .social-links {
         gap: 4px;
-        right: 12px;
-        top: 12px;
     }
 
     .social-links a,
@@ -4818,7 +4821,7 @@ a .reveal-word {
     }
 
     .win95-editor {
-        height: 180px;
+        height: 140px;
     }
 
     .win95-textarea {
@@ -4860,7 +4863,7 @@ a .reveal-word {
 
 @media (max-width: 375px) {
     .win95-editor {
-        height: 150px;
+        height: 120px;
     }
 }
 
