@@ -2212,16 +2212,25 @@ a, button, .tab, .highlight, [role="button"] {
         margin-bottom: 16px;
     }
 
-    /* Tabs */
+    /* Tabs — horizontal scroll row */
     .tabs {
-        gap: 4px;
-        flex-wrap: nowrap; /* force single row */
+        gap: 8px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 4px; /* avoid clipping pill shadow */
+    }
+
+    .tabs::-webkit-scrollbar {
+        display: none;
     }
 
     .tab {
-        padding: 8px 10px;
-        font-size: 0.8125rem;
+        padding: 8px 14px;
+        font-size: 0.875rem;
         min-height: 44px;
+        flex-shrink: 0;
         white-space: nowrap;
     }
 
@@ -4483,17 +4492,9 @@ a .reveal-word {
     }
 
     /* Tabs stack vertically */
-    .tabs {
-        flex-direction: column;
-        gap: 6px;
-    }
-
     .tab {
-        width: 100%;
-        text-align: center;
-        padding: 12px 14px;
-        font-size: 0.875rem;
-        min-height: 44px;
+        padding: 8px 12px;
+        font-size: 0.8125rem;
     }
 
     /* Category pills */
