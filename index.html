@@ -164,19 +164,19 @@
             <!-- Tab Navigation -->
             <div class="tabs-container">
                 <div class="tabs">
-                    <button class="tab active" data-tab="experience">Experience</button>
-                    <button class="tab" data-tab="projects">Projects</button>
+                    <button class="tab active" data-tab="projects">Projects</button>
+                    <button class="tab" data-tab="experience">Experience</button>
                     <button class="tab" data-tab="communities">Communities</button>
                     <a id="resume-tab-link" href="#" target="_blank" rel="noopener noreferrer" class="tab tab-link">Resume</a>
                 </div>
 
-                <div class="tab-content" id="tab-experience">
+                <div class="tab-content hidden" id="tab-experience">
                     <div id="experiences-list" class="experience-list">
                         <!-- Loaded from content.js -->
                     </div>
                 </div>
 
-                <div class="tab-content hidden" id="tab-projects">
+                <div class="tab-content" id="tab-projects">
                     <button id="add-project-btn" class="add-project-btn" style="display:none;" onclick="projectOpenAddModal()">+ Add Project</button>
                     <div id="projects-list" class="project-list">
                         <!-- Loaded from Supabase -->
