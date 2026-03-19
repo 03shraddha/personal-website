@@ -2219,8 +2219,8 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .tab {
-        padding: 10px 16px;
-        font-size: 1rem; /* 16px prevents iOS auto-zoom on tap */
+        padding: 8px 12px;
+        font-size: 0.875rem;
         min-height: 44px;
     }
 
