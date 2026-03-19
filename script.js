@@ -304,10 +304,10 @@ function loadContent() {
     document.getElementById('unique-abilities').innerHTML = abilitiesHtml;
 
 
-    // Update Resume tab link (uses RESUME_URL constant from content.js)
+    // Update Resume tab button (uses RESUME_URL constant from content.js)
     const resumeTabLink = document.getElementById('resume-tab-link');
     if (resumeTabLink && CONTENT.socialLinks.resume) {
-        resumeTabLink.href = CONTENT.socialLinks.resume;
+        resumeTabLink.onclick = () => window.open(CONTENT.socialLinks.resume, '_blank');
     }
 
     // About section content
