@@ -99,6 +99,7 @@ const CONTENT = {
         linkedin: "https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/",
         twitter: "https://x.com/shraddhaha",
         substack: "https://substack.com/@shraddhaha",
+        github: "https://github.com/03shraddha",
         email: "meetshraddhakulkarni@gmail.com",
         resume: RESUME_URL  // Uses the constant defined at top of file
     },

@@ -398,6 +398,7 @@ function loadContent() {
     document.getElementById('social-linkedin').href = social.linkedin;
     document.getElementById('social-twitter').href = social.twitter;
     document.getElementById('social-substack').href = social.substack;
+    document.getElementById('social-github').href = social.github;
     document.getElementById('social-email').href = `mailto:${social.email}`;
 
     // Experiences with expandable details
