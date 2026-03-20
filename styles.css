@@ -1636,10 +1636,6 @@ a, button, .tab, .highlight, [role="button"] {
 
 /* Mobile responsive */
 @media (max-width: 480px) {
-    .project-card {
-        padding: 20px;
-    }
-
     .project-card h3 {
         font-size: 0.9375rem;
     }
@@ -2237,7 +2233,8 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     /* Experience cards */
-    .experience-item {
+    .experience-item,
+    .project-card {
         padding: 20px;
     }
 
@@ -4518,7 +4515,8 @@ a .reveal-word {
 
     /* Cards - consistent padding */
     .experience-item,
-    .content-card {
+    .content-card,
+    .project-card {
         padding: 18px;
     }
 

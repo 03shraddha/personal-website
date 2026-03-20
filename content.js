@@ -24,14 +24,14 @@ const CONTENT = {
     // ==========================================
     // PERSONAL INFO
     // ==========================================
-    name: "Shraddha Kulkarni",
+    name: "shraddha kulkarni",
 
     // Hello section intro (landing page)
-    helloIntro: `Hi, I'm Shraddha. I’ve worked in analytics and now work in product management. This is my corner of the internet where I share my work, unfinished projects, imperfect experiments and whatever I'm curious about right now. A couple of my friends also think I'm funny. 
+    helloIntro: `hi, i’m shraddha. i’ve worked in analytics and now work in product management. this is my corner of the internet where i share my work, unfinished projects, imperfect experiments and whatever i’m curious about right now. a couple of my friends also think i’m funny.
     <br><br>
-    Want to get in touch? Or just say Hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank">LinkedIn</a>, <a href="mailto:meetshraddhakulkarni@gmail.com">Email</a>, <a href="https://x.com/shraddhaha" target="_blank">Twitter</a>
+    want to get in touch? or just say hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank">linkedin</a>, <a href="mailto:meetshraddhakulkarni@gmail.com">email</a>, <a href="https://x.com/shraddhaha" target="_blank">twitter</a>
     <br><br>
-    <a href="https://x.com/shraddhaha/status/2030900691032768810" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">I was in the newspaper once</a>. Don't worry I haven't let the fame change me.`,
+    i was in the <a href="https://x.com/shraddhaha/status/2030900691032768810?s=20" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">newspaper</a> once & on the <a href="https://x.com/shraddhaha/status/2034845228449014104/photo/1" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">radio</a> for 15 minutes. don’t worry, i haven’t let the fame change me.`,
 
     // About section content (structured)
     aboutContent: {
