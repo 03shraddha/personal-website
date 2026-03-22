@@ -1346,6 +1346,11 @@ function initNavigation() {
                 const offset = window.innerWidth <= 900 ? 80 : 0;
                 const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - offset;
 
+                // Suppress scroll spy while smooth-scrolling so it doesn't
+                // briefly highlight intermediate sections (e.g. work when going to thoughts)
+                _programmaticScrolling = true;
+                clearTimeout(_programmaticScrollTimer);
+
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
@@ -1356,6 +1361,11 @@ function initNavigation() {
 
                 // Update active state immediately for better UX
                 updateActiveNav(link);
+
+                // Re-enable scroll spy after animation (~600ms is enough for smooth scroll)
+                _programmaticScrollTimer = setTimeout(() => {
+                    _programmaticScrolling = false;
+                }, 600);
             }
         });
     });
@@ -1372,6 +1382,9 @@ function updateActiveNav(activeLink) {
 
 // Track last URL-updated section to avoid redundant replaceState calls on scroll
 let _lastScrollSpySection = null;
+// Suppress scroll spy URL/nav updates during programmatic smooth scrolls
+let _programmaticScrolling = false;
+let _programmaticScrollTimer = null;
 
 /**
  * SPA Routing - Read initial URL path and scroll to the matching section.
@@ -1473,7 +1486,7 @@ function updateScrollSpy(sections, navLinks) {
         currentSection = sections[0]?.id;
     }
 
-    if (currentSection) {
+    if (currentSection && !_programmaticScrolling) {
         navLinks.forEach(link => {
             const linkSection = link.getAttribute('data-section');
             if (linkSection === currentSection) {
@@ -1483,8 +1496,9 @@ function updateScrollSpy(sections, navLinks) {
             }
         });
 
-        // Update URL as user scrolls (replaceState, not pushState, to avoid flooding history)
-        if (currentSection !== _lastScrollSpySection) {
+        // Update URL as user scrolls, but skip during programmatic scrolls to avoid
+        // briefly highlighting intermediate sections (e.g. work when navigating to thoughts)
+        if (!_programmaticScrolling && currentSection !== _lastScrollSpySection) {
             _lastScrollSpySection = currentSection;
             const newPath = currentSection === 'hello' ? '/' : '/' + currentSection;
             history.replaceState(null, '', newPath);
