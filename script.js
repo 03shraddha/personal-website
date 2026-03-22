@@ -470,7 +470,7 @@ function loadContent() {
  */
 async function loadSubstackPosts() {
     const CACHE_KEY = 'substack-posts-v2';
-    const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hour cache
+    const CACHE_EXPIRY = 6 * 60 * 60 * 1000; // 6 hour cache
     const RSS_URL = 'https://shraddhaha.substack.com/feed';
 
     // Show cached content immediately if available, otherwise show skeleton loader
@@ -478,10 +478,15 @@ async function loadSubstackPosts() {
     const cached = localStorage.getItem(CACHE_KEY);
     if (cached) {
         try {
-            const { posts } = JSON.parse(cached);
+            const { posts, timestamp } = JSON.parse(cached);
             if (posts && posts.length > 0) {
                 renderThoughtsPosts(posts);
                 hasCachedContent = true;
+
+                // Cache still fresh — skip fetching
+                if (Date.now() - timestamp < CACHE_EXPIRY) {
+                    return;
+                }
             }
         } catch (e) {
             // Invalid cache, continue
@@ -493,7 +498,7 @@ async function loadSubstackPosts() {
         renderThoughtsLoading();
     }
 
-    // Always fetch fresh data in background (updates UI when done)
+    // Cache stale or missing — fetch fresh data in background
     fetchSubstackInBackground(RSS_URL, CACHE_KEY);
 }
 
