@@ -1257,9 +1257,18 @@ document.addEventListener('click', (e) => {
 /**
  * Project Toggle - Expand/Collapse project details
  */
-function initProjectToggles() {
-    const toggleBtns = document.querySelectorAll('.project-toggle');
+function collapseProjectCard(card) {
+    const expanded = card.querySelector('.project-expanded.active');
+    if (!expanded) return;
+    expanded.classList.remove('active');
+    const btn = card.querySelector('.project-toggle');
+    if (btn) btn.innerHTML = 'View details <span class="toggle-arrow">→</span>';
+}
 
+function initProjectToggles() {
+    const isMobile = window.matchMedia('(hover: none)').matches;
+
+    const toggleBtns = document.querySelectorAll('.project-toggle');
     toggleBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const index = btn.dataset.projectIndex;
@@ -1268,19 +1277,46 @@ function initProjectToggles() {
             const isExpanded = expanded.classList.contains('active');
 
             if (isExpanded) {
-                // Collapse
                 expanded.classList.remove('active');
                 btn.innerHTML = 'View details <span class="toggle-arrow">→</span>';
             } else {
-                // Expand
                 expanded.classList.add('active');
                 btn.innerHTML = 'View less <span class="toggle-arrow">↑</span>';
-
-                // Scroll to keep card header visible
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         });
     });
+
+    if (!isMobile) return;
+
+    // Mobile: tap anywhere on the card body (not buttons/links) to toggle details
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('.project-toggle, .project-link, .project-admin-btn, .drag-handle')) return;
+            card.querySelector('.project-toggle')?.click();
+        });
+    });
+
+    // Mobile: auto-close a card when it scrolls completely out of the viewport
+    window.addEventListener('scroll', () => {
+        document.querySelectorAll('.project-expanded.active').forEach(exp => {
+            const card = exp.closest('.project-card');
+            const rect = card.getBoundingClientRect();
+            if (rect.bottom < 0 || rect.top > window.innerHeight) {
+                collapseProjectCard(card);
+            }
+        });
+    }, { passive: true });
+
+    // Mobile: auto-close expanded cards when the horizontal carousel swipes to a new page
+    const carousel = document.getElementById('projects-carousel-scroll');
+    if (carousel) {
+        carousel.addEventListener('scroll', () => {
+            document.querySelectorAll('.project-expanded.active').forEach(exp => {
+                collapseProjectCard(exp.closest('.project-card'));
+            });
+        }, { passive: true });
+    }
 }
 
 /**
@@ -1295,27 +1331,13 @@ function initProjectPreview() {
         el.className = 'project-preview-card';
         el.id = 'project-preview-card';
         el.setAttribute('aria-hidden', 'true');
-        el.innerHTML = `
-            <button class="preview-card-close" id="preview-card-close" aria-label="Close">&times;</button>
-            <img id="project-preview-card-img" src="" alt="">
-            <button class="preview-card-details-btn" id="preview-card-details-btn" style="display:none">View Details &rarr;</button>
-        `;
+        el.innerHTML = `<img id="project-preview-card-img" src="" alt="">`;
         document.body.appendChild(el);
 
-        // Close button dismisses on mobile tap
-        document.getElementById('preview-card-close').addEventListener('click', (e) => {
-            e.stopPropagation();
-            el.classList.remove('visible', 'mobile-active');
-        });
-
-        // Tap outside preview card closes it on mobile
-        document.addEventListener('click', (e) => {
-            if (el.classList.contains('mobile-active')
-                && !e.target.closest('#project-preview-card')
-                && !e.target.closest('.project-card')) {
-                el.classList.remove('visible', 'mobile-active');
-            }
-        });
+        // Dismiss preview on any touch — preview has pointer-events:none so it never blocks this
+        document.addEventListener('touchstart', () => {
+            el.classList.remove('visible');
+        }, { passive: true });
     }
 
     const previewCard = document.getElementById('project-preview-card');
@@ -1340,29 +1362,8 @@ function initProjectPreview() {
             card.addEventListener('mouseleave', () => {
                 hideTimeout = setTimeout(() => previewCard.classList.remove('visible'), 60);
             });
-        } else {
-            // Mobile: tap card body to show floating preview card
-            card.addEventListener('click', (e) => {
-                if (e.target.closest('.project-toggle, .project-link, .project-admin-btn, .drag-handle')) return;
-                previewImg.src = url;
-                positionMobilePreview(previewCard, card.getBoundingClientRect());
-                previewCard.classList.add('visible', 'mobile-active');
-                // Wire "View Details" to this card's toggle
-                const oldBtn = document.getElementById('preview-card-details-btn');
-                const newBtn = oldBtn.cloneNode(true);
-                oldBtn.parentNode.replaceChild(newBtn, oldBtn);
-                const toggleBtn = card.querySelector('.project-toggle');
-                if (toggleBtn) {
-                    newBtn.style.display = '';
-                    newBtn.addEventListener('click', () => {
-                        previewCard.classList.remove('visible', 'mobile-active');
-                        toggleBtn.click();
-                    });
-                } else {
-                    newBtn.style.display = 'none';
-                }
-            });
         }
+        // Mobile: tap opens card details (handled in initProjectToggles), no preview needed
     });
 }
 
