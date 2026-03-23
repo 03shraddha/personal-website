@@ -1289,35 +1289,33 @@ function initProjectToggles() {
 function initProjectPreview() {
     const isTouchOnly = window.matchMedia('(hover: none)').matches;
 
-    // Create desktop floating preview card (once)
+    // Create floating preview card (once) — shared by desktop hover + mobile tap
     if (!document.getElementById('project-preview-card')) {
         const el = document.createElement('div');
         el.className = 'project-preview-card';
         el.id = 'project-preview-card';
         el.setAttribute('aria-hidden', 'true');
-        el.innerHTML = '<img id="project-preview-card-img" src="" alt="">';
-        document.body.appendChild(el);
-    }
-
-    // Create mobile bottom sheet (once)
-    if (!document.getElementById('project-preview-sheet')) {
-        const backdrop = document.createElement('div');
-        backdrop.className = 'project-preview-backdrop';
-        backdrop.id = 'project-preview-backdrop';
-        document.body.appendChild(backdrop);
-
-        const sheet = document.createElement('div');
-        sheet.className = 'project-preview-sheet';
-        sheet.id = 'project-preview-sheet';
-        sheet.innerHTML = `
-            <button class="preview-sheet-close" id="preview-sheet-close" aria-label="Close">&times;</button>
-            <img class="preview-sheet-img" id="preview-sheet-img" src="" alt="">
-            <button class="preview-sheet-details-btn" id="preview-sheet-details-btn">View Details &rarr;</button>
+        el.innerHTML = `
+            <button class="preview-card-close" id="preview-card-close" aria-label="Close">&times;</button>
+            <img id="project-preview-card-img" src="" alt="">
+            <button class="preview-card-details-btn" id="preview-card-details-btn" style="display:none">View Details &rarr;</button>
         `;
-        document.body.appendChild(sheet);
+        document.body.appendChild(el);
 
-        document.getElementById('preview-sheet-close').addEventListener('click', hideProjectPreviewSheet);
-        backdrop.addEventListener('click', hideProjectPreviewSheet);
+        // Close button dismisses on mobile tap
+        document.getElementById('preview-card-close').addEventListener('click', (e) => {
+            e.stopPropagation();
+            el.classList.remove('visible', 'mobile-active');
+        });
+
+        // Tap outside preview card closes it on mobile
+        document.addEventListener('click', (e) => {
+            if (el.classList.contains('mobile-active')
+                && !e.target.closest('#project-preview-card')
+                && !e.target.closest('.project-card')) {
+                el.classList.remove('visible', 'mobile-active');
+            }
+        });
     }
 
     const previewCard = document.getElementById('project-preview-card');
@@ -1329,7 +1327,7 @@ function initProjectPreview() {
         if (!url) return;
 
         if (!isTouchOnly) {
-            // Desktop: show near cursor, follow cursor, hide on leave
+            // Desktop: follow cursor, hide on leave
             card.addEventListener('mouseenter', (e) => {
                 clearTimeout(hideTimeout);
                 previewImg.src = url;
@@ -1343,10 +1341,26 @@ function initProjectPreview() {
                 hideTimeout = setTimeout(() => previewCard.classList.remove('visible'), 60);
             });
         } else {
-            // Mobile: tap card body (not buttons) to show bottom sheet
+            // Mobile: tap card body to show floating preview card
             card.addEventListener('click', (e) => {
                 if (e.target.closest('.project-toggle, .project-link, .project-admin-btn, .drag-handle')) return;
-                showProjectPreviewSheet(card, url);
+                previewImg.src = url;
+                positionMobilePreview(previewCard, card.getBoundingClientRect());
+                previewCard.classList.add('visible', 'mobile-active');
+                // Wire "View Details" to this card's toggle
+                const oldBtn = document.getElementById('preview-card-details-btn');
+                const newBtn = oldBtn.cloneNode(true);
+                oldBtn.parentNode.replaceChild(newBtn, oldBtn);
+                const toggleBtn = card.querySelector('.project-toggle');
+                if (toggleBtn) {
+                    newBtn.style.display = '';
+                    newBtn.addEventListener('click', () => {
+                        previewCard.classList.remove('visible', 'mobile-active');
+                        toggleBtn.click();
+                    });
+                } else {
+                    newBtn.style.display = 'none';
+                }
             });
         }
     });
@@ -1377,43 +1391,20 @@ function positionProjectPreview(previewCard, cursorX, cursorY) {
     previewCard.style.top = top + 'px';
 }
 
-function showProjectPreviewSheet(card, url) {
-    document.getElementById('preview-sheet-img').src = url;
-    document.getElementById('project-preview-backdrop').classList.add('visible');
-    document.getElementById('project-preview-sheet').classList.add('visible');
-    // Freeze scroll without jumping to top
-    const scrollY = window.scrollY;
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = '100%';
-    document.body.dataset.scrollY = scrollY;
-
-    // Wire "View Details" button to trigger the card's toggle (if it has one)
-    const oldBtn = document.getElementById('preview-sheet-details-btn');
-    const newBtn = oldBtn.cloneNode(true); // clone to remove old listeners
-    oldBtn.parentNode.replaceChild(newBtn, oldBtn);
-
-    const toggleBtn = card.querySelector('.project-toggle');
-    if (toggleBtn) {
-        newBtn.style.display = '';
-        newBtn.addEventListener('click', () => {
-            hideProjectPreviewSheet();
-            toggleBtn.click();
-        });
-    } else {
-        newBtn.style.display = 'none';
-    }
-}
-
-function hideProjectPreviewSheet() {
-    document.getElementById('project-preview-backdrop').classList.remove('visible');
-    document.getElementById('project-preview-sheet').classList.remove('visible');
-    // Restore scroll position without jump
-    const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    window.scrollTo(0, scrollY);
+function positionMobilePreview(previewCard, cardRect) {
+    const PREVIEW_W = 240;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    // Center horizontally
+    const left = Math.max(8, (vw - PREVIEW_W) / 2);
+    // Position below card; flip above if not enough room
+    const estimatedH = previewCard.offsetHeight || 220;
+    let top = cardRect.bottom + 8;
+    if (top + estimatedH > vh - 16) { top = cardRect.top - estimatedH - 8; }
+    top = Math.max(8, top);
+    previewCard.style.left = left + 'px';
+    previewCard.style.top = top + 'px';
+    previewCard.style.width = PREVIEW_W + 'px';
 }
 
 /**
