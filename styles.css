@@ -3113,12 +3113,12 @@ a .reveal-word {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 4px;
+    /* Row height: responsive to viewport so all 5-6 rows fit without scrolling */
+    grid-auto-rows: clamp(44px, 8vh, 72px);
 }
 
 .calendar-day {
-    aspect-ratio: 1;
-    min-height: 60px;
-    max-height: 80px;
+    /* Height controlled by grid-auto-rows above, not aspect-ratio */
     padding: 6px;
     background: var(--color-bg);
     border: 1px solid var(--color-border);
@@ -4307,9 +4307,11 @@ a .reveal-word {
 
     /* Calendar mobile adjustments */
     .calendar-day {
-        aspect-ratio: unset; /* prevent square cells overflowing on small screens */
-        min-height: 50px;
         padding: 4px;
+    }
+
+    .calendar-grid {
+        grid-auto-rows: clamp(40px, 7vw, 56px);
     }
 
     .calendar-day-number {
@@ -4511,8 +4513,8 @@ a .reveal-word {
         padding: 24px 16px 32px;
     }
 
-    .calendar-day {
-        min-height: 40px;
+    .calendar-grid {
+        grid-auto-rows: clamp(36px, 6vw, 48px);
     }
 
     /* Typography - scaled for small phones */
