@@ -3118,6 +3118,7 @@ a .reveal-word {
 .calendar-day {
     aspect-ratio: 1;
     min-height: 60px;
+    max-height: 80px;
     padding: 6px;
     background: var(--color-bg);
     border: 1px solid var(--color-border);
