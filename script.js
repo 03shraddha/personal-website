@@ -2613,6 +2613,13 @@ function initContentCalendar() {
             `;
         }
 
+        // Trailing empty cells to complete the last row (ensures uniform row height)
+        const totalCells = firstDay + daysInMonth;
+        const trailingCells = (7 - (totalCells % 7)) % 7;
+        for (let i = 0; i < trailingCells; i++) {
+            html += '<div class="calendar-day empty"></div>';
+        }
+
         calendarGrid.innerHTML = html;
 
         // Add click handlers to days - switch to list view and scroll to date
