@@ -3114,11 +3114,11 @@ a .reveal-word {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 4px;
+    /* Row height = column width = (600px container - 6 gaps) / 7 ≈ 82px → square cells */
+    grid-auto-rows: calc((var(--content-max-width) - 6 * 4px) / 7);
 }
 
 .calendar-day {
-    aspect-ratio: 1;
-    min-height: 60px;
     padding: 6px;
     background: var(--color-bg);
     border: 1px solid var(--color-border);
@@ -4307,9 +4307,12 @@ a .reveal-word {
 
     /* Calendar mobile adjustments */
     .calendar-day {
-        aspect-ratio: unset;
-        min-height: 50px;
         padding: 4px;
+    }
+
+    .calendar-grid {
+        /* On mobile, calendar fills width — row = (100vw - 32px padding - 6 gaps) / 7 */
+        grid-auto-rows: calc((100vw - 32px - 6 * 4px) / 7);
     }
 
     .calendar-day-number {
@@ -4511,8 +4514,8 @@ a .reveal-word {
         padding: 24px 16px 32px;
     }
 
-    .calendar-day {
-        min-height: 40px;
+    .calendar-grid {
+        grid-auto-rows: calc((100vw - 32px - 6 * 4px) / 7);
     }
 
     /* Typography - scaled for small phones */
