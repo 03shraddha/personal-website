@@ -375,6 +375,8 @@ const CONTENT = {
     // THOUGHTS (formerly fieldnotes) - simple linked list
     // ==========================================
     thoughts: [
+        { year: "2026", title: "the case against minimum wages", url: "https://shraddhaha.substack.com/p/the-case-against-minimum-wages" },
+        { year: "2026", title: "india's population is not a problem", url: "https://shraddhaha.substack.com/p/indias-population-is-not-a-problem" },
         { year: "2026", title: "the trad wife trend is completely unhinged", url: "https://shraddhaha.substack.com/p/the-trad-wife-trend-is-completely" },
         { year: "2026", title: "weekly reading log #4", url: "https://shraddhaha.substack.com/p/weekly-reading-log-4" },
         { year: "2026", title: "how are railway exams different from the UPSC craze?", url: "https://shraddhaha.substack.com/p/how-are-railway-exams-different-from" },
