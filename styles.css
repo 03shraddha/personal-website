@@ -405,17 +405,6 @@ a, button, .tab, .highlight, [role="button"] {
     font-size: 0.625rem;
 }
 
-.resume-line {
-    display: block;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--color-text-muted);
-    max-width: 540px;
-    margin-top: 16px;
-    margin-bottom: 32px;
-    font-style: italic;
-}
-
 .section-title {
     font-family: var(--font-body);
     font-size: 2rem;
