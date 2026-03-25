@@ -98,6 +98,24 @@ ON page_views FOR UPDATE
 TO anon, authenticated
 USING (true);
 
+-- Atomic increment function (prevents race condition corruption)
+CREATE OR REPLACE FUNCTION increment_page_view(page_id_param TEXT)
+RETURNS INTEGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  new_count INTEGER;
+BEGIN
+  INSERT INTO page_views (page_id, count)
+  VALUES (page_id_param, 1)
+  ON CONFLICT (page_id)
+  DO UPDATE SET count = page_views.count + 1, updated_at = NOW()
+  RETURNING count INTO new_count;
+  RETURN new_count;
+END;
+$$;
+
 
 -- 4. CONTENT ENTRIES TABLE (Calendar)
 -- =====================================================

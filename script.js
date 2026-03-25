@@ -134,44 +134,15 @@ async function initPageViewCounter() {
     }
 
     try {
-        // Increment the view count using Supabase RPC or direct update
-        // Using a simple table with page_id='main' for the main page counter
-        const { data: currentData, error: fetchError } = await supabaseClient
-            .from('page_views')
-            .select('count')
-            .eq('page_id', 'main')
-            .single();
+        // Atomic increment via RPC — DB does count+1 in a single operation,
+        // so a stale JS read can never overwrite the real value.
+        const { data, error } = await supabaseClient
+            .rpc('increment_page_view', { page_id_param: 'main' });
 
-        if (fetchError && fetchError.code === 'PGRST116') {
-            // Row doesn't exist, create it with count = 1
-            const { data: newData, error: insertError } = await supabaseClient
-                .from('page_views')
-                .insert([{ page_id: 'main', count: 1 }])
-                .select()
-                .single();
-
-            if (!insertError && newData) {
-                updateDisplay(newData.count);
-            } else {
-                console.log('Error creating page view counter:', insertError);
-                if (viewCountSocial) viewCountSocial.textContent = '1';
-            }
-        } else if (!fetchError && currentData) {
-            // Increment the counter
-            const newCount = currentData.count + 1;
-            const { error: updateError } = await supabaseClient
-                .from('page_views')
-                .update({ count: newCount })
-                .eq('page_id', 'main');
-
-            if (!updateError) {
-                updateDisplay(newCount);
-            } else {
-                console.log('Error updating page view counter:', updateError);
-                updateDisplay(currentData.count);
-            }
+        if (!error && data != null) {
+            updateDisplay(data);
         } else {
-            console.log('Error fetching page views:', fetchError);
+            console.log('Error updating page view counter:', error);
             if (viewCountSocial) viewCountSocial.textContent = '--';
         }
     } catch (err) {
@@ -3659,6 +3630,10 @@ Type your message below and click
             submitBtn.textContent = 'Saving...';
             submitBtn.disabled = true;
 
+            // Set rate limit before the request — prevents double-submit if
+            // the network fails after the server already processed the note.
+            localStorage.setItem('guestbook_last_submit', Date.now().toString());
+
             const savedNote = await saveNoteToSupabase(message);
 
             // Reset button
@@ -3666,8 +3641,6 @@ Type your message below and click
             submitBtn.disabled = false;
 
             if (savedNote) {
-                // Record submission time for rate limiting
-                localStorage.setItem('guestbook_last_submit', Date.now().toString());
 
                 // Add to local array
                 notes.unshift({
