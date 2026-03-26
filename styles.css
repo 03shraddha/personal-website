@@ -2627,6 +2627,10 @@ a, button, .tab, .highlight, [role="button"] {
         line-height: 1.5;
     }
 
+    .thoughts-number {
+        font-size: 0.875rem;
+    }
+
     .thoughts-date {
         font-size: 0.8125rem;
     }
@@ -5007,6 +5011,7 @@ a .reveal-word {
 }
 
 .notepad-entry-message {
+    font-size: 0.9375rem;
     color: #000;
 }
 

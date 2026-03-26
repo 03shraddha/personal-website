@@ -436,7 +436,7 @@ function loadContent() {
  */
 async function loadSubstackPosts() {
     const CACHE_KEY = 'substack-posts-v3';
-    const CACHE_EXPIRY = 4 * 60 * 60 * 1000; // 4 hour cache
+    const CACHE_EXPIRY = 1 * 60 * 60 * 1000; // 1 hour cache
     const RSS_URL = 'https://shraddhaha.substack.com/feed';
 
     // Stale-while-revalidate: show any cached data immediately, then refresh if stale
@@ -470,76 +470,80 @@ async function loadSubstackPosts() {
 
 // Background fetch - doesn't block UI
 async function fetchSubstackInBackground(RSS_URL, CACHE_KEY) {
-    // Multiple CORS proxies as fallbacks
-    const CORS_PROXIES = [
-        'https://api.allorigins.win/get?url=',
-        'https://corsproxy.io/?'
+    // rss2json is a dedicated RSS API (most reliable), allorigins/corsproxy are CORS proxies
+    const PROXIES = [
+        { url: 'https://api.rss2json.com/v1/api.json?rss_url=', type: 'rss2json' },
+        { url: 'https://api.allorigins.win/get?url=',           type: 'allorigins' },
+        { url: 'https://corsproxy.io/?',                         type: 'xml' }
     ];
 
-    for (const proxy of CORS_PROXIES) {
+    function formatPubDate(raw) {
+        if (!raw) return '';
+        // rss2json gives "YYYY-MM-DD HH:MM:SS", RSS gives RFC 2822
+        const date = new Date(raw.includes(' ') ? raw.replace(' ', 'T') : raw);
+        return isNaN(date) ? '' : date.toLocaleDateString('en-US', {
+            month: 'short', day: 'numeric', year: 'numeric'
+        });
+    }
+
+    for (const proxy of PROXIES) {
         try {
             const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+            const timeout = setTimeout(() => controller.abort(), 8000);
 
-            const response = await fetch(proxy + encodeURIComponent(RSS_URL), {
+            const response = await fetch(proxy.url + encodeURIComponent(RSS_URL), {
                 signal: controller.signal
             });
             clearTimeout(timeout);
 
-            let data;
-            if (proxy.includes('allorigins')) {
-                data = await response.json();
-                if (!data.contents) continue;
-                data = data.contents;
-            } else {
-                data = await response.text();
-            }
-
-            // Parse XML
-            const parser = new DOMParser();
-            const xml = parser.parseFromString(data, 'text/xml');
-            const items = xml.querySelectorAll('item');
-
-            if (items.length === 0) continue;
+            if (!response.ok) continue;
 
             const posts = [];
-            items.forEach((item, index) => {
-                if (index >= 10) return;
 
-                const title = item.querySelector('title')?.textContent || 'Untitled';
-                const link = item.querySelector('link')?.textContent || '#';
-                const pubDate = item.querySelector('pubDate')?.textContent;
-
-                let formattedDate = '';
-                if (pubDate) {
-                    const date = new Date(pubDate);
-                    formattedDate = date.toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric'
+            if (proxy.type === 'rss2json') {
+                const json = await response.json();
+                if (json.status !== 'ok' || !json.items?.length) continue;
+                json.items.slice(0, 10).forEach(item => {
+                    posts.push({
+                        title: item.title || 'Untitled',
+                        link:  item.link  || '#',
+                        date:  formatPubDate(item.pubDate)
                     });
+                });
+            } else {
+                // allorigins returns JSON wrapper; corsproxy returns raw XML
+                let xmlText;
+                if (proxy.type === 'allorigins') {
+                    const json = await response.json();
+                    if (!json.contents) continue;
+                    xmlText = json.contents;
+                } else {
+                    xmlText = await response.text();
                 }
+                const xml = new DOMParser().parseFromString(xmlText, 'text/xml');
+                const items = xml.querySelectorAll('item');
+                if (items.length === 0) continue;
+                Array.from(items).slice(0, 10).forEach(item => {
+                    posts.push({
+                        title: item.querySelector('title')?.textContent || 'Untitled',
+                        link:  item.querySelector('link')?.textContent  || '#',
+                        date:  formatPubDate(item.querySelector('pubDate')?.textContent)
+                    });
+                });
+            }
 
-                posts.push({ title, link, date: formattedDate });
-            });
+            if (posts.length === 0) continue;
 
-            // Cache the results
-            localStorage.setItem(CACHE_KEY, JSON.stringify({
-                posts,
-                timestamp: Date.now()
-            }));
-
-            // Update UI with fresh data
+            // Cache and render
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ posts, timestamp: Date.now() }));
             renderThoughtsPosts(posts);
-            return; // Success, exit
+            return; // success
 
         } catch (error) {
-            console.log(`Proxy ${proxy} failed:`, error.message);
-            continue; // Try next proxy
+            console.log(`Substack proxy ${proxy.type} failed:`, error.message);
         }
     }
-    // All proxies failed - keep showing cached/fallback content
-    console.log('All Substack proxies failed, using cached/fallback content');
+    console.log('All Substack proxies failed, keeping cached/fallback content');
 }
 
 function renderThoughtsPosts(posts) {
@@ -1832,59 +1836,59 @@ function initTextReveal() {
 
     if (totalWords === 0) return;
 
-    // Get content boundaries
-    const firstWordTop = sortedWords[0].top;
-    const lastWordTop = sortedWords[totalWords - 1].top;
+    const isMobile = window.innerWidth <= 900;
+    // Lines up to this index are permanently fullColor — skip them on future frames
+    let maxSettledLine = -1;
 
     function updateRevealStrict() {
         const scrollY = window.scrollY;
         const viewportHeight = window.innerHeight;
-
-        // Reading position at 50% from top of viewport
         const readingLineY = scrollY + (viewportHeight * 0.50);
 
-        // Find the first incomplete line
+        // Find the current active line
         let activeLineIndex = 0;
         for (let i = 0; i < lines.length; i++) {
-            const lineTop = lines[i][0].top;
-            if (readingLineY >= lineTop) {
+            if (readingLineY >= lines[i][0].top) {
                 activeLineIndex = i;
             } else {
                 break;
             }
         }
 
-        // Process each line
         lines.forEach((line, lineIndex) => {
-            const lineTop = line[0].top;
-            const wordsInLine = line.length;
+            // Skip lines already permanently settled (avoids redundant DOM writes)
+            if (lineIndex <= maxSettledLine) return;
 
             if (lineIndex < activeLineIndex) {
-                // Previous lines - fully revealed
-                line.forEach(({ element }) => {
-                    element.style.color = fullColor;
-                });
+                // Past line — settle it permanently
+                line.forEach(w => { w.element.style.color = fullColor; });
+                maxSettledLine = lineIndex;
             } else if (lineIndex === activeLineIndex) {
-                // Active line - reveal word by word
-                const distancePastLine = readingLineY - lineTop;
-                const pixelsPerWord = 18;
-                const wordsToReveal = Math.max(0, distancePastLine / pixelsPerWord);
-
-                line.forEach(({ element }, wordIndexInLine) => {
-                    const wordProgress = wordsToReveal - wordIndexInLine;
-
-                    if (wordProgress <= 0) {
-                        element.style.color = fadedColor;
-                    } else if (wordProgress >= 1) {
-                        element.style.color = fullColor;
-                    } else {
-                        element.style.color = interpolateColor(fadedColor, fullColor, wordProgress);
-                    }
-                });
+                if (isMobile) {
+                    // Mobile: reveal the whole line at once, then settle
+                    line.forEach(w => { w.element.style.color = fullColor; });
+                    maxSettledLine = lineIndex;
+                } else {
+                    // Desktop: per-word reveal with color interpolation
+                    const distancePastLine = readingLineY - line[0].top;
+                    const wordsToReveal = Math.max(0, distancePastLine / 18);
+                    line.forEach((w, i) => {
+                        const progress = wordsToReveal - i;
+                        if (progress <= 0) {
+                            w.element.style.color = fadedColor;
+                        } else if (progress >= 1) {
+                            w.element.style.color = fullColor;
+                        } else {
+                            w.element.style.color = interpolateColor(fadedColor, fullColor, progress);
+                        }
+                    });
+                }
             } else {
-                // Future lines - all faded
-                line.forEach(({ element }) => {
-                    element.style.color = fadedColor;
+                // Future line — faded (only write if not already set)
+                line.forEach(w => {
+                    if (w.element.style.color !== fadedColor) {
+                        w.element.style.color = fadedColor;
+                    }
                 });
             }
         });
@@ -1926,7 +1930,7 @@ function initTextReveal() {
     window.addEventListener('scroll', onScroll, { passive: true });
 
     // Initial update
-    updateReveal();
+    updateRevealStrict();
 }
 
 /**

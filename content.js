@@ -369,20 +369,16 @@ const CONTENT = {
     // THOUGHTS (formerly fieldnotes) - simple linked list
     // ==========================================
     thoughts: [
+        { year: "2026", title: "why people prefer iPhone pics", url: "https://shraddhaha.substack.com/p/why-people-prefer-iphone-pics" },
+        { year: "2026", title: "are we wrong about why LLMs cannot produce new research?", url: "https://shraddhaha.substack.com/p/are-we-wrong-about-why-llms-cannot" },
+        { year: "2026", title: "how much does a 10 minute house help really earn?", url: "https://shraddhaha.substack.com/p/how-much-does-a-10-minute-house-help" },
+        { year: "2026", title: "why metrics can mislead us more than we think", url: "https://shraddhaha.substack.com/p/why-metrics-can-mislead-us-more-than" },
         { year: "2026", title: "the case against minimum wages", url: "https://shraddhaha.substack.com/p/the-case-against-minimum-wages" },
         { year: "2026", title: "india's population is not a problem", url: "https://shraddhaha.substack.com/p/indias-population-is-not-a-problem" },
         { year: "2026", title: "the trad wife trend is completely unhinged", url: "https://shraddhaha.substack.com/p/the-trad-wife-trend-is-completely" },
         { year: "2026", title: "weekly reading log #4", url: "https://shraddhaha.substack.com/p/weekly-reading-log-4" },
         { year: "2026", title: "how are railway exams different from the UPSC craze?", url: "https://shraddhaha.substack.com/p/how-are-railway-exams-different-from" },
         { year: "2026", title: "why democracy matters even when voters are wrong", url: "https://shraddhaha.substack.com/p/should-voting-and-elections-be-only" },
-        { year: "2026", title: "what is a state, and when is state intervention justified?", url: "https://shraddhaha.substack.com/p/what-is-a-state-and-when-is-state" },
-        { year: "2026", title: "in defense of the gig economy", url: "https://shraddhaha.substack.com/p/in-defense-of-the-gig-economy" },
-        { year: "2026", title: "kerala 2025", url: "https://shraddhaha.substack.com/p/kerala-2025" },
-        { year: "2025", title: "on the many risks of endlessly keeping options open", url: "https://shraddhaha.substack.com/p/real-connection-is-much-rarer-than" },
-        { year: "2025", title: "delhi pollution is pushing people to migrate", url: "https://shraddhaha.substack.com/p/delhi-pollution-is-pushing-people" },
-        { year: "2025", title: "natural isn't always better", url: "https://shraddhaha.substack.com/p/natural-isnt-always-better" },
-        { year: "2025", title: "AI perceptions in BLR vs outside BLR", url: "https://shraddhaha.substack.com/p/ai-perceptions-in-blr-vs-outside" },
-        { year: "2025", title: "a reflection on overconsumption", url: "https://shraddhaha.substack.com/p/a-reflection-on-overconsumption" }
     ],
 
     // ==========================================
