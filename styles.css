@@ -2483,8 +2483,10 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .experience-expanded p,
-    .experience-expanded li {
-        font-size: 0.9375rem;
+    .experience-expanded li,
+    .project-expanded p,
+    .project-expanded li {
+        font-size: 0.875rem;
         line-height: 1.7;
     }
 
@@ -4728,6 +4730,8 @@ a .reveal-word {
     .content-card h3,
     .experience-expanded p,
     .experience-expanded li,
+    .project-expanded p,
+    .project-expanded li,
     .community-expanded p,
     .beyond-work-item,
     .background-preview li,
