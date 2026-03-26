@@ -1110,6 +1110,7 @@ a, button, .tab, .highlight, [role="button"] {
     font-size: 0.9375rem;
     line-height: 1.7;
     margin-bottom: 16px;
+    color: var(--color-text-muted);
 }
 
 /* Experience Expanded Content */
@@ -1141,6 +1142,7 @@ a, button, .tab, .highlight, [role="button"] {
     font-family: var(--font-body);
     font-size: 0.9375rem;
     line-height: 1.7;
+    color: var(--color-text-muted);
     margin-bottom: 16px;
     color: var(--color-text);
 }
@@ -1156,7 +1158,8 @@ a, button, .tab, .highlight, [role="button"] {
     padding-left: 20px;
     margin-bottom: 10px;
     font-family: var(--font-body);
-    font-size: 1.0625rem;
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
     line-height: 1.7;
     color: var(--color-text);
 }
@@ -1628,6 +1631,7 @@ a, button, .tab, .highlight, [role="button"] {
     font-size: 0.9375rem;
     line-height: 1.7;
     margin-bottom: 16px;
+    color: var(--color-text-muted);
 }
 
 /* Project Links (GitHub / Demo) */
@@ -1694,7 +1698,7 @@ a, button, .tab, .highlight, [role="button"] {
     font-size: 0.9375rem;
     line-height: 1.7;
     margin-bottom: 16px;
-    color: var(--color-text);
+    color: var(--color-text-muted);
 }
 
 /* Project Toggle Button */
@@ -1890,6 +1894,7 @@ a, button, .tab, .highlight, [role="button"] {
 .community-brief {
     font-size: 0.9375rem;
     line-height: 1.7;
+    color: var(--color-text-muted);
     color: var(--color-text);
     margin-bottom: 12px;
 }
@@ -1911,7 +1916,7 @@ a, button, .tab, .highlight, [role="button"] {
     font-size: 0.9375rem;
     line-height: 1.7;
     margin-bottom: 12px;
-    color: var(--color-text);
+    color: var(--color-text-muted);
 }
 
 .community-expanded p:last-of-type {
