@@ -1107,7 +1107,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 /* Experience Brief Description */
 .experience-brief {
-    font-size: 1.0625rem;
+    font-size: 0.9375rem;
     line-height: 1.7;
     margin-bottom: 16px;
 }
@@ -1127,7 +1127,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .experience-expanded h4 {
     font-family: var(--font-body);
-    font-size: 1.0625rem;
+    font-size: 0.9375rem;
     font-weight: 600;
     margin: 24px 0 12px 0;
     color: var(--color-text);
@@ -1139,7 +1139,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .experience-expanded p {
     font-family: var(--font-body);
-    font-size: 1.0625rem;
+    font-size: 0.9375rem;
     line-height: 1.7;
     margin-bottom: 16px;
     color: var(--color-text);
@@ -1624,7 +1624,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .project-brief {
-    font-size: 1.0625rem;
+    font-size: 0.9375rem;
     line-height: 1.7;
     margin-bottom: 16px;
 }
@@ -1678,7 +1678,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .project-expanded h4 {
     font-family: var(--font-body);
-    font-size: 1.0625rem;
+    font-size: 0.9375rem;
     font-weight: 600;
     margin: 24px 0 12px 0;
     color: var(--color-text);
@@ -1690,7 +1690,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .project-expanded p {
     font-family: var(--font-body);
-    font-size: 1.0625rem;
+    font-size: 0.9375rem;
     line-height: 1.7;
     margin-bottom: 16px;
     color: var(--color-text);
@@ -1887,7 +1887,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .community-brief {
-    font-size: 1.0625rem;
+    font-size: 0.9375rem;
     line-height: 1.7;
     color: var(--color-text);
     margin-bottom: 12px;
@@ -1907,7 +1907,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .community-expanded p {
     font-family: var(--font-body);
-    font-size: 1.0625rem;
+    font-size: 0.9375rem;
     line-height: 1.7;
     margin-bottom: 12px;
     color: var(--color-text);
@@ -2461,7 +2461,7 @@ a, button, .tab, .highlight, [role="button"] {
     .experience-header h3,
     .project-card h3,
     .content-card h3 {
-        font-size: 0.875rem;
+        font-size: 0.9375rem; /* titles: one step above body */
     }
 
     .experience-date {
@@ -2474,12 +2474,12 @@ a, button, .tab, .highlight, [role="button"] {
 
     .experience-brief,
     .project-brief {
-        font-size: 0.875rem;
+        font-size: 0.8125rem; /* secondary: step down from title */
         line-height: 1.7;
     }
 
     .experience-expanded h4 {
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
         font-weight: 600;
     }
 
@@ -2487,7 +2487,7 @@ a, button, .tab, .highlight, [role="button"] {
     .experience-expanded li,
     .project-expanded p,
     .project-expanded li {
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
         line-height: 1.7;
     }
 
@@ -2518,7 +2518,7 @@ a, button, .tab, .highlight, [role="button"] {
     /* Community cards */
     .community-expanded p,
     .community-brief {
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
         line-height: 1.7;
     }
 
@@ -4729,19 +4729,24 @@ a .reveal-word {
     /* Body text - scaled for small phones */
     .about-content p,
     .about-subsection p,
-    .experience-brief,
-    .project-brief,
-    .community-brief,
     .content-card h3,
-    .experience-expanded p,
-    .experience-expanded li,
-    .project-expanded p,
-    .project-expanded li,
-    .community-expanded p,
     .beyond-work-item,
     .background-preview li,
     .background-full li {
         font-size: 0.875rem;
+        line-height: 1.7;
+    }
+
+    /* Card secondary content - one step below titles */
+    .experience-brief,
+    .project-brief,
+    .community-brief,
+    .experience-expanded p,
+    .experience-expanded li,
+    .project-expanded p,
+    .project-expanded li,
+    .community-expanded p {
+        font-size: 0.8125rem;
         line-height: 1.7;
     }
 
