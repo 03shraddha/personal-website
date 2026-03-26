@@ -996,7 +996,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .tab-content {
-    max-width: var(--content-max-width);
+    max-width: 680px;
     animation: fadeIn 0.3s ease;
 }
 
