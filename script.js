@@ -3025,7 +3025,7 @@ function initContentCalendar() {
                                    ${entry.url && entry.url !== '#' ? 'target="_blank" rel="noopener noreferrer"' : ''}
                                    class="content-clean-link${!entry.url || entry.url === '#' ? ' list-item-link' : ''}"
                                    data-entry-id="${entry.id}">${entry.title}</a>
-                                ${entry.source ? `<span class="content-clean-source">— ${entry.source}</span>` : ''}
+                                ${entry.source ? `<span class="content-clean-source">· ${entry.source}</span>` : ''}
                                 ${isAdminUser ? `
                                     <span class="content-admin-actions">
                                         <button class="content-edit-btn" data-entry-id="${entry.id}" title="Edit">✏️</button>

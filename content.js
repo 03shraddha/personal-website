@@ -150,7 +150,7 @@ const CONTENT = {
             title: "AI Consulting & Analytics in Healthcare",
             company: "ZS Associates - Boutique Pharma Consulting Firm",
             companyUrl: "https://www.zs.com/",
-            date: "2023 — Present",
+            date: "2023 - Present",
             briefDescription: `Working on an AI platform for Medical, Legal, and Regulatory (MLR) reviews and pharma content generation for large pharmaceutical companies. Responsible for product solutioning, managing deployments, LLM evals and improving the product based on client feedback.`,
             expandedContent: `
                 <h4>Project – GenAI Deployment for a Niche Pharma Use Case (2025 & 2026)</h4>
@@ -195,7 +195,7 @@ const CONTENT = {
             title: "Research Engineering Intern, Cisco Center of Excellence at RVCE",
             company: "CISCO Center of Excellence at RVCE",
             companyUrl: "https://rvce.edu.in/department/mca/coe_centre_of_excellence_in_internet_of_things_cisco_rvce/",
-            date: "2021 — 2022",
+            date: "2021 - 2022",
             briefDescription: `Project 1 - Built a crowd management system using Bluetooth Low Energy (BLE) for wireless communication and OpenPose. 
             <br> Project 2 - Developed YOLOv3-based airport security detection for dangerous item identification.`,
             expandedContent: `
@@ -387,8 +387,8 @@ const CONTENT = {
     philosophy: {
         quote: "Build things that matter. Ship early. Learn fast. Help others along the way.",
         paragraphs: [
-            `I believe in <a href="#" class="highlight peach">impact over perfection</a> — shipping early, learning from real users, and iterating relentlessly. The best products come from <a href="#" class="highlight blue">deep empathy</a> and understanding the humans you're building for.`,
-            `My approach combines <a href="#" class="highlight lavender">analytical rigor</a> with creative problem-solving. Whether it's pricing strategy for hotels, AI products for pharma, or teaching financial literacy — the goal is always to create meaningful impact.`,
+            `I believe in <a href="#" class="highlight peach">impact over perfection</a>, shipping early, learning from real users, and iterating relentlessly. The best products come from <a href="#" class="highlight blue">deep empathy</a> and understanding the humans you're building for.`,
+            `My approach combines <a href="#" class="highlight lavender">analytical rigor</a> with creative problem-solving. Whether it's pricing strategy for hotels, AI products for pharma, or teaching financial literacy, the goal is always to create meaningful impact.`,
             `I value <a href="#" class="highlight peach">curiosity over certainty</a>, <a href="#" class="highlight blue">collaboration over ego</a>, and <a href="#" class="highlight lavender">giving back</a> through teaching and mentorship.`
         ]
     },
