@@ -1403,9 +1403,10 @@ a, button, .tab, .highlight, [role="button"] {
 .project-preview-card img {
     width: 100%;
     height: 180px;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: top center;
     display: block;
-    background: var(--color-card-bg);
+    background: #f0f0f0; /* neutral bg instead of white to soften letterboxing */
 }
 
 /* Close button — hidden on desktop hover, shown on mobile tap */
