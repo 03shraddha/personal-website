@@ -87,12 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();   // Mobile hamburger menu
         initPageViewCounter(); // Page view counter
         initGuestbook();    // Virtual guestbook
+        initAudioIntro();   // Audio voice introduction
 
         // Initialize text reveal after content is loaded
         setTimeout(() => {
             initTextReveal();
         }, 150);
 
+        initAtmosphereToggle();
         updateYear();
         console.log('All initialization complete');
     } catch (error) {
@@ -259,7 +261,7 @@ function loadContent() {
     nameEl.innerHTML = `<span class="name-english">${CONTENT.name}</span><span class="name-kannada">${CONTENT.nameKannada || ''}</span>`;
 
     // Hello section intro
-    document.getElementById('hello-intro').innerHTML = CONTENT.helloIntro;
+    // hello-intro is now the audio player (#audio-intro) — populated by initAudioIntro()
     document.getElementById('contact-line').innerHTML = CONTENT.contactLine;
 
     // Unique abilities as bullet points (now in Hello section)
@@ -3689,4 +3691,315 @@ Type your message below and click
     renderEntries();
 }
 
+// ── Audio Voice Introduction ──
+function initAudioIntro() {
+    const INTRO_LINES = [
+        "hi, i'm shraddha.",
+        "i've worked in analytics and now work in product management.",
+        "this is my corner of the internet where i share my work, unfinished projects, imperfect experiments and whatever i'm curious about right now.",
+        "a couple of my friends also think i'm funny."
+    ];
+    const WORD_COUNTS = [4, 12, 30, 10];
+    const CIRCUMFERENCE = 125.66; // 2π × 20 (r=20 for 48px button)
 
+    const playBtn = document.getElementById('audio-play-btn');
+    const playIcon = playBtn ? playBtn.querySelector('.play-icon') : null;
+    const ringFill = playBtn ? playBtn.querySelector('.progress-ring__fill') : null;
+    const transcriptEl = document.getElementById('audio-transcript');
+
+    if (!playBtn || !transcriptEl) return;
+
+    // Inject transcript lines into DOM
+    const lineEls = INTRO_LINES.map(text => {
+        const el = document.createElement('p');
+        el.className = 'transcript-line';
+        el.textContent = text;
+        transcriptEl.appendChild(el);
+        return el;
+    });
+
+    // Create audio element dynamically
+    const audio = new Audio();
+    audio.src = 'audio/intro.mp3';
+    audio.preload = 'auto';
+
+    let timestamps = null;
+    let isEnded = false;
+    let activeIndex = -1;
+    let petalAnimFrame = null; // unused here, just namespacing
+
+    // Compute proportional timestamps once duration is known
+    function computeTimestamps() {
+        const totalWords = WORD_COUNTS.reduce((a, b) => a + b, 0);
+        let elapsed = 0;
+        timestamps = WORD_COUNTS.map(words => {
+            const t = elapsed;
+            elapsed += (words / totalWords) * audio.duration;
+            return t;
+        });
+    }
+
+    function setRing(progress) {
+        // progress: 0 (empty) to 1 (full)
+        if (ringFill) {
+            ringFill.style.strokeDashoffset = CIRCUMFERENCE * (1 - progress);
+        }
+    }
+
+    function updateLines(idx) {
+        lineEls.forEach((el, i) => {
+            el.classList.remove('active', 'done');
+            if (i < idx) {
+                el.classList.add('done');
+            } else if (i === idx) {
+                el.classList.add('active');
+            }
+            // future lines: no class = opacity 0
+        });
+    }
+
+    function onTimeUpdate() {
+        if (!timestamps) return;
+        const t = audio.currentTime;
+        setRing(t / audio.duration);
+
+        // Find which line is active
+        let idx = -1;
+        for (let i = 0; i < timestamps.length; i++) {
+            if (t >= timestamps[i]) idx = i;
+        }
+        if (idx !== activeIndex) {
+            activeIndex = idx;
+            updateLines(idx);
+        }
+    }
+
+    function onAudioEnded() {
+        isEnded = true;
+        setRing(1);
+        // Show all lines as done
+        lineEls.forEach(el => {
+            el.classList.remove('active');
+            el.classList.add('done');
+        });
+        // Change icon to replay
+        if (playIcon) playIcon.innerHTML = '&#8635;'; // ↺
+        if (playBtn) playBtn.setAttribute('aria-label', 'Replay introduction');
+    }
+
+    function resetPlayer() {
+        isEnded = false;
+        activeIndex = -1;
+        audio.currentTime = 0;
+        setRing(0);
+        lineEls.forEach(el => el.classList.remove('active', 'done'));
+        if (playIcon) playIcon.innerHTML = '&#9654;'; // ▶
+        if (playBtn) playBtn.setAttribute('aria-label', 'Play introduction');
+    }
+
+    playBtn.addEventListener('click', () => {
+        if (isEnded) {
+            resetPlayer();
+            audio.play().catch(() => {});
+            if (playIcon) playIcon.innerHTML = '&#9646;&#9646;'; // ⏸
+            if (playBtn) playBtn.setAttribute('aria-label', 'Pause introduction');
+            return;
+        }
+        if (audio.paused) {
+            audio.play().catch(() => {});
+            if (playIcon) playIcon.innerHTML = '&#9646;&#9646;'; // ⏸
+            if (playBtn) playBtn.setAttribute('aria-label', 'Pause introduction');
+        } else {
+            audio.pause();
+            if (playIcon) playIcon.innerHTML = '&#9654;'; // ▶
+            if (playBtn) playBtn.setAttribute('aria-label', 'Play introduction');
+        }
+    });
+
+    audio.addEventListener('loadedmetadata', computeTimestamps);
+    audio.addEventListener('timeupdate', onTimeUpdate);
+    audio.addEventListener('ended', onAudioEnded);
+
+    // Pause animation when tab is hidden
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden && !audio.paused) {
+            audio.pause();
+            if (playIcon) playIcon.innerHTML = '&#9654;';
+            if (playBtn) playBtn.setAttribute('aria-label', 'Play introduction');
+        }
+    });
+}
+
+
+// ── Atmosphere Modes (Sunny + Spring) ──
+function initAtmosphereToggle() {
+    const MODES = ['normal', 'sunny', 'spring'];
+    const ICONS = { normal: '🌿', sunny: '☀️', spring: '🌸' };
+    const LABELS = { normal: 'mode', sunny: 'sunny', spring: 'spring' };
+    // Pexels free stock video — sunlight through leaves (720p, muted loop)
+    // Replace VIDEO_ID with actual Pexels video ID if needed
+    const SUNNY_VIDEO_URL = 'https://videos.pexels.com/video-files/3571264/3571264-hd_1920_1080_25fps.mp4';
+
+    const toggleBtn = document.getElementById('mode-toggle');
+    const modeIcon = document.getElementById('mode-icon');
+    const modeLabel = document.getElementById('mode-label');
+    const video = document.getElementById('bg-video');
+    const canvas = document.getElementById('petal-canvas');
+
+    if (!toggleBtn || !video || !canvas) return;
+
+    let currentMode = 'normal';
+    let petalAnimFrame = null;
+    let petalResizeHandler = null;
+    const ctx = canvas.getContext('2d');
+
+    // ── Petal system ──
+    const PETAL_COUNT = 70;
+    const PETAL_COLORS = ['#FFB7C5', '#FFC0CB', '#FFD1DC', '#FFAAB5', '#F9A8BF', '#FADADD'];
+    let petals = [];
+
+    function createPetal(randomY) {
+        return {
+            x: Math.random() * canvas.width,
+            y: randomY ? Math.random() * canvas.height : -10,
+            size: 4 + Math.random() * 6,
+            speed: 0.8 + Math.random() * 1.7,
+            drift: 0.3 + Math.random() * 0.9,
+            angle: Math.random() * Math.PI * 2,
+            rotationSpeed: (Math.random() - 0.5) * 0.06,
+            opacity: 0.45 + Math.random() * 0.55,
+            phase: Math.random() * Math.PI * 2,
+            color: PETAL_COLORS[Math.floor(Math.random() * PETAL_COLORS.length)]
+        };
+    }
+
+    function drawPetal(p) {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle);
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        // Teardrop/petal shape with bezier curves
+        ctx.moveTo(0, -p.size);
+        ctx.bezierCurveTo(p.size * 0.8, -p.size * 0.5, p.size * 0.8, p.size * 0.5, 0, p.size);
+        ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.5, -p.size * 0.8, -p.size * 0.5, 0, -p.size);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+        ctx.restore();
+    }
+
+    function animatePetals() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        petals.forEach(p => {
+            p.y += p.speed;
+            p.x += Math.sin(p.phase + p.y * 0.012) * p.drift;
+            p.angle += p.rotationSpeed;
+            if (p.y > canvas.height + 20) {
+                p.y = -10;
+                p.x = Math.random() * canvas.width;
+            }
+            drawPetal(p);
+        });
+        petalAnimFrame = requestAnimationFrame(animatePetals);
+    }
+
+    function startSpringMode() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        petals = Array.from({ length: PETAL_COUNT }, () => createPetal(true));
+
+        petalResizeHandler = debounceResize(() => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            petals.forEach(p => {
+                p.x = Math.random() * canvas.width;
+            });
+        }, 150);
+        window.addEventListener('resize', petalResizeHandler);
+
+        petalAnimFrame = requestAnimationFrame(animatePetals);
+
+        // Pause when tab hidden, resume when visible
+        document.addEventListener('visibilitychange', handleSpringVisibility);
+    }
+
+    function handleSpringVisibility() {
+        if (document.hidden) {
+            if (petalAnimFrame) {
+                cancelAnimationFrame(petalAnimFrame);
+                petalAnimFrame = null;
+            }
+        } else if (currentMode === 'spring' && !petalAnimFrame) {
+            petalAnimFrame = requestAnimationFrame(animatePetals);
+        }
+    }
+
+    function stopSpringMode() {
+        if (petalAnimFrame) {
+            cancelAnimationFrame(petalAnimFrame);
+            petalAnimFrame = null;
+        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (petalResizeHandler) {
+            window.removeEventListener('resize', petalResizeHandler);
+            petalResizeHandler = null;
+        }
+        document.removeEventListener('visibilitychange', handleSpringVisibility);
+    }
+
+    function debounceResize(fn, delay) {
+        let timer;
+        return function() {
+            clearTimeout(timer);
+            timer = setTimeout(fn, delay);
+        };
+    }
+
+    // ── Sunny mode ──
+    let videoSrcSet = false;
+
+    function startSunnyMode() {
+        if (!videoSrcSet) {
+            video.src = SUNNY_VIDEO_URL;
+            videoSrcSet = true;
+        }
+        video.load();
+        video.play().catch(() => {
+            // Autoplay blocked — user must interact first; video will play on next interaction
+        });
+    }
+
+    function stopSunnyMode() {
+        video.pause();
+    }
+
+    // ── Mode application ──
+    function applyMode(mode) {
+        // Stop everything
+        stopSunnyMode();
+        stopSpringMode();
+        document.body.classList.remove('mode-sunny', 'mode-spring');
+
+        currentMode = mode;
+
+        if (mode === 'sunny') {
+            document.body.classList.add('mode-sunny');
+            startSunnyMode();
+        } else if (mode === 'spring') {
+            document.body.classList.add('mode-spring');
+            startSpringMode();
+        }
+
+        // Update button
+        if (modeIcon) modeIcon.textContent = ICONS[mode];
+        if (modeLabel) modeLabel.textContent = LABELS[mode];
+        toggleBtn.setAttribute('aria-label', `Current mode: ${mode}. Click to switch.`);
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        const currentIdx = MODES.indexOf(currentMode);
+        const nextMode = MODES[(currentIdx + 1) % MODES.length];
+        applyMode(nextMode);
+    });
+}

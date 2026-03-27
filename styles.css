@@ -5212,3 +5212,226 @@ a .reveal-word {
         text-decoration: underline;
     }
 }
+
+/* ── Audio Voice Introduction ── */
+.audio-intro {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin: 20px 0 24px;
+}
+
+.audio-play-btn {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.audio-play-btn:hover .progress-ring__track {
+    stroke: var(--color-text-muted);
+}
+
+.progress-ring {
+    width: 48px;
+    height: 48px;
+    transform: rotate(-90deg);
+}
+
+.progress-ring__track {
+    fill: none;
+    stroke: var(--color-border);
+    stroke-width: 1.5;
+    transition: stroke 0.2s ease;
+}
+
+.progress-ring__fill {
+    fill: none;
+    stroke: var(--color-text);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-dasharray: 125.66;
+    stroke-dashoffset: 125.66;
+    transition: stroke-dashoffset 0.1s linear;
+}
+
+.play-icon {
+    position: absolute;
+    font-size: 13px;
+    color: var(--color-text);
+    margin-left: 2px;
+    line-height: 1;
+    transition: opacity 0.15s ease;
+}
+
+.audio-transcript {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 2px;
+}
+
+.transcript-line {
+    font-family: var(--font-body);
+    font-size: inherit;
+    line-height: 1.65;
+    color: var(--color-text);
+    opacity: 0;
+    transition: color 0.35s ease, opacity 0.4s ease;
+}
+
+.transcript-line.active {
+    opacity: 1;
+    color: var(--color-text);
+}
+
+.transcript-line.done {
+    opacity: 0.35;
+    color: var(--color-text-muted);
+}
+
+@media (max-width: 600px) {
+    .audio-intro {
+        gap: 12px;
+    }
+    .audio-play-btn {
+        width: 40px;
+        height: 40px;
+    }
+    .progress-ring {
+        width: 40px;
+        height: 40px;
+    }
+    .progress-ring__track,
+    .progress-ring__fill {
+        /* r=16 for 40px circle, circumference = 2π×16 ≈ 100.53 */
+        r: 16;
+    }
+    .progress-ring__fill {
+        stroke-dasharray: 100.53;
+        stroke-dashoffset: 100.53;
+    }
+}
+
+/* ── Atmosphere Modes (Sunny + Spring) ── */
+
+/* Background containers — hidden by default */
+#bg-video-wrap,
+#petal-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Mode-active: show layers */
+body.mode-sunny #bg-video-wrap {
+    opacity: 1;
+    visibility: visible;
+}
+
+body.mode-spring #petal-canvas {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Content readability backing when mode is active */
+body.mode-sunny .main-content,
+body.mode-spring .main-content {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: background 0.6s ease;
+}
+
+body.mode-sunny .sidebar,
+body.mode-spring .sidebar {
+    background: rgba(255, 255, 255, 0.88) !important;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+/* Social links backing */
+body.mode-sunny .social-links,
+body.mode-spring .social-links {
+    background: rgba(255, 255, 255, 0.82);
+    padding: 6px 12px;
+    border-radius: 20px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+/* Mode toggle pill button */
+#mode-toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 150;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 15px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, color 0.2s ease;
+    letter-spacing: 0.01em;
+}
+
+#mode-toggle:hover {
+    transform: scale(1.04);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+    color: var(--color-text);
+}
+
+#mode-icon {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+#mode-label {
+    font-size: 0.8rem;
+}
+
+/* Mobile: sit above social links pill */
+@media (max-width: 900px) {
+    #mode-toggle {
+        bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+        right: 16px;
+    }
+}
+
+/* Print: hide all atmosphere elements */
+@media print {
+    #bg-video-wrap,
+    #petal-canvas,
+    #mode-toggle {
+        display: none !important;
+    }
+}
