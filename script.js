@@ -3734,7 +3734,7 @@ function initAtmosphereToggle() {
             drift: 0.2 + Math.random() * 0.8,
             angle: Math.random() * Math.PI * 2,
             rotationSpeed: (Math.random() - 0.5) * 0.04,
-            opacity: 0.10 + Math.random() * 0.13, // very subtle
+            opacity: 0.25 + Math.random() * 0.25,
             phase: Math.random() * Math.PI * 2,
             color: type === 'leaf'
                 ? LEAF_COLORS[Math.floor(Math.random() * LEAF_COLORS.length)]
@@ -3860,7 +3860,7 @@ function initAtmosphereToggle() {
             life: 0,
             maxLife: 3.5 + Math.random() * 6.0,
             r,
-            peakAlpha: isMobile ? (0.10 + Math.random() * 0.15) : (0.12 + Math.random() * 0.16),
+            peakAlpha: isMobile ? (0.22 + Math.random() * 0.20) : (0.25 + Math.random() * 0.22),
             vx: (Math.random() - 0.5) * 0.5,
             vy: -(Math.random() * 0.4 + 0.05),
         };
@@ -3893,7 +3893,7 @@ function initAtmosphereToggle() {
             life: 0,
             maxLife: 0.4 + Math.random() * 0.9,
             size: 0.8 + Math.random() * 2.2,
-            peakAlpha: 0.55 + Math.random() * 0.40,
+            peakAlpha: 0.70 + Math.random() * 0.30,
             hasCross: Math.random() < 0.65, // most glitter gets a star flare
         };
     }
