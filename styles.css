@@ -5346,26 +5346,23 @@ body.mode-spring #petal-canvas {
     visibility: visible;
 }
 
-/* Content readability backing when mode is active */
-body.mode-sunny .main-content,
-body.mode-spring .main-content {
-    background: rgba(255, 255, 255, 0.85);
+/* Content readability backing — sunny only (spring stays pure white) */
+body.mode-sunny .main-content {
+    background: rgba(255, 255, 255, 0.88);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     transition: background 0.6s ease;
 }
 
-body.mode-sunny .sidebar,
-body.mode-spring .sidebar {
-    background: rgba(255, 255, 255, 0.88) !important;
+body.mode-sunny .sidebar {
+    background: rgba(255, 255, 255, 0.92) !important;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
 }
 
-/* Social links backing */
-body.mode-sunny .social-links,
-body.mode-spring .social-links {
-    background: rgba(255, 255, 255, 0.82);
+/* Social links backing — sunny only */
+body.mode-sunny .social-links {
+    background: rgba(255, 255, 255, 0.88);
     padding: 6px 12px;
     border-radius: 20px;
     backdrop-filter: blur(6px);
