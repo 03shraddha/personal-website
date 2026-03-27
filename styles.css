@@ -5316,6 +5316,7 @@ a .reveal-word {
 
 /* Background containers — hidden by default */
 #sunny-bg,
+#sunny-canvas,
 #petal-canvas {
     position: fixed;
     inset: 0;
@@ -5329,7 +5330,8 @@ a .reveal-word {
 }
 
 /* Mode-active: show layers */
-body.mode-sunny #sunny-bg {
+body.mode-sunny #sunny-bg,
+body.mode-sunny #sunny-canvas {
     opacity: 1;
     visibility: visible;
 }
@@ -5348,15 +5350,6 @@ body.mode-sunny #sunny-bg {
             transparent 55%);
 }
 
-/* Gentle shimmer — simulates natural light variation */
-@keyframes sunShimmer {
-    0%, 100% { opacity: 0.82; }
-    50% { opacity: 1; }
-}
-
-body.mode-sunny #sunny-bg {
-    animation: sunShimmer 9s ease-in-out infinite;
-}
 
 /* Warm the whole page so glow blends naturally (amber-50 tone) */
 body.mode-sunny {
@@ -5436,6 +5429,7 @@ body.mode-sunny .social-links {
 /* Print: hide all atmosphere elements */
 @media print {
     #sunny-bg,
+    #sunny-canvas,
     #petal-canvas,
     #mode-toggle {
         display: none !important;

@@ -3879,7 +3879,7 @@ function initAtmosphereToggle() {
     const toggleBtn = document.getElementById('mode-toggle');
     const modeLabel = document.getElementById('mode-label');
     const sunnyBg = document.getElementById('sunny-bg');
-    const sunTurbulence = document.getElementById('sun-turbulence');
+    const sunnyCanvas = document.getElementById('sunny-canvas');
     const canvas = document.getElementById('petal-canvas');
 
     if (!toggleBtn || !canvas) return;
@@ -4008,27 +4008,111 @@ function initAtmosphereToggle() {
         document.removeEventListener('visibilitychange', handleSpringVisibility);
     }
 
-    // ── Sunny mode: SVG feTurbulence organic light animation ──
+    // ── Sunny mode: canvas light rays + floating dust motes ──
     let sunnyAnimFrame = null;
-    let sunnyTime = 0;
 
-    function generateSunnyScene() { /* no-op — SVG filter handles rendering */ }
+    // Ray definitions: angle in degrees (measured from positive-x, so ~150-250 fans down-left)
+    // Each ray slowly oscillates using its phaseOffset
+    const RAYS = [
+        { angle: 152, spread: 10, alpha: 0.055, phase: 0.0 },
+        { angle: 165, spread: 16, alpha: 0.075, phase: 1.3 },
+        { angle: 178, spread: 20, alpha: 0.090, phase: 2.5 },
+        { angle: 193, spread: 14, alpha: 0.100, phase: 0.8 },
+        { angle: 207, spread: 22, alpha: 0.080, phase: 2.0 },
+        { angle: 222, spread: 15, alpha: 0.070, phase: 3.3 },
+        { angle: 237, spread: 11, alpha: 0.055, phase: 1.7 },
+    ];
+
+    let dustMotes = [];
+
+    function createDust(w, h) {
+        // Concentrate motes in the lit region (upper-right quadrant)
+        return {
+            x: w * 0.4 + Math.random() * w * 0.6,
+            y: Math.random() * h * 0.7,
+            r: Math.random() * 1.6 + 0.4,
+            alpha: Math.random() * 0.55 + 0.15,
+            vx: (Math.random() - 0.5) * 0.25,
+            vy: -(Math.random() * 0.4 + 0.05), // drift upward
+            twinkleSpeed: Math.random() * 0.02 + 0.005,
+            twinkleOffset: Math.random() * Math.PI * 2,
+        };
+    }
+
+    function drawRay(ctx, sx, sy, angleDeg, spreadDeg, baseAlpha, t, phase) {
+        const len = Math.max(ctx.canvas.width, ctx.canvas.height) * 1.8;
+        // Slowly oscillate spread and alpha for organic feel
+        const animSpread = spreadDeg * (1 + 0.18 * Math.sin(t * 0.35 + phase));
+        const animAlpha  = baseAlpha  * (1 + 0.22 * Math.sin(t * 0.28 + phase + 1));
+
+        const a1 = ((angleDeg - animSpread / 2) * Math.PI) / 180;
+        const a2 = ((angleDeg + animSpread / 2) * Math.PI) / 180;
+
+        const grad = ctx.createLinearGradient(sx, sy,
+            sx + Math.cos((angleDeg * Math.PI) / 180) * len * 0.6,
+            sy + Math.sin((angleDeg * Math.PI) / 180) * len * 0.6);
+        grad.addColorStop(0,   `rgba(255, 215, 70, ${animAlpha})`);
+        grad.addColorStop(0.4, `rgba(255, 225, 100, ${animAlpha * 0.5})`);
+        grad.addColorStop(1,   `rgba(255, 235, 140, 0)`);
+
+        ctx.beginPath();
+        ctx.moveTo(sx, sy);
+        ctx.lineTo(sx + Math.cos(a1) * len, sy + Math.sin(a1) * len);
+        ctx.lineTo(sx + Math.cos(a2) * len, sy + Math.sin(a2) * len);
+        ctx.closePath();
+        ctx.fillStyle = grad;
+        ctx.fill();
+    }
 
     function animateSunny(timestamp) {
-        if (!sunTurbulence) return;
-        sunnyTime = timestamp * 0.00007; // very slow organic drift
-        const bfx = (0.013 + Math.sin(sunnyTime * 0.8)  * 0.003).toFixed(4);
-        const bfy = (0.010 + Math.cos(sunnyTime * 0.55) * 0.002).toFixed(4);
-        sunTurbulence.setAttribute('baseFrequency', `${bfx} ${bfy}`);
+        if (!sunnyCanvas) return;
+        const ctx = sunnyCanvas.getContext('2d');
+        const w = sunnyCanvas.width;
+        const h = sunnyCanvas.height;
+        const t = timestamp * 0.001; // seconds
+
+        ctx.clearRect(0, 0, w, h);
+
+        // Source point: just off top-right corner
+        const sx = w + 20;
+        const sy = -20;
+
+        // Draw rays
+        RAYS.forEach(ray => drawRay(ctx, sx, sy, ray.angle, ray.spread, ray.alpha, t, ray.phase));
+
+        // Draw + update dust motes
+        dustMotes.forEach(d => {
+            const twinkle = 0.7 + 0.3 * Math.sin(t * d.twinkleSpeed * 60 + d.twinkleOffset);
+            ctx.beginPath();
+            ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 210, 80, ${d.alpha * twinkle})`;
+            ctx.fill();
+
+            d.x += d.vx;
+            d.y += d.vy;
+            // Wrap around
+            if (d.y < -5) { d.y = h * 0.7; d.x = w * 0.4 + Math.random() * w * 0.6; }
+            if (d.x < 0) d.x = w;
+            if (d.x > w) d.x = 0;
+        });
+
         sunnyAnimFrame = requestAnimationFrame(animateSunny);
     }
 
     function startSunnyMode() {
+        if (!sunnyCanvas) return;
+        sunnyCanvas.width  = window.innerWidth;
+        sunnyCanvas.height = window.innerHeight;
+        dustMotes = Array.from({ length: 38 }, () => createDust(sunnyCanvas.width, sunnyCanvas.height));
         sunnyAnimFrame = requestAnimationFrame(animateSunny);
     }
 
     function stopSunnyMode() {
         if (sunnyAnimFrame) { cancelAnimationFrame(sunnyAnimFrame); sunnyAnimFrame = null; }
+        if (sunnyCanvas) {
+            const ctx = sunnyCanvas.getContext('2d');
+            ctx.clearRect(0, 0, sunnyCanvas.width, sunnyCanvas.height);
+        }
     }
 
     // ── Mode application ──
