@@ -3699,12 +3699,12 @@ function initAudioIntro() {
         "a couple of my friends also think i'm funny"
     ];
     const FULL_TEXT = INTRO_LINES.join(' ');
-    const CIRCUMFERENCE = 125.66;
+    const BAR_COUNT = 24;
 
     // Word counts per line — used to proportion timestamps
     const WORD_COUNTS = [4, 14, 21, 9];
     const TOTAL_WORDS = 48;
-    // Estimated duration at rate 0.92 (~138 wpm) = ~24.3s
+    // Estimated duration at rate 0.92 (~138 wpm) ≈ 20.9s
     const EST_MS = (TOTAL_WORDS / 138) * 60 * 1000;
 
     // Pre-compute ms offset where each line starts
@@ -3717,15 +3717,31 @@ function initAudioIntro() {
 
     const playBtn = document.getElementById('audio-play-btn');
     const playIcon = playBtn ? playBtn.querySelector('.play-icon') : null;
-    const ringFill = playBtn ? playBtn.querySelector('.progress-ring__fill') : null;
+    const waveformEl = document.getElementById('audio-waveform');
+    const timestampEl = document.getElementById('audio-timestamp');
     const transcriptEl = document.getElementById('audio-transcript');
 
     if (!playBtn || !transcriptEl || !window.speechSynthesis) return;
 
+    // Build waveform bars
+    const bars = Array.from({ length: BAR_COUNT }, () => {
+        const b = document.createElement('span');
+        b.className = 'waveform-bar';
+        waveformEl.appendChild(b);
+        return b;
+    });
+
+    // Per-bar animation params for organic, non-uniform movement
+    const barParams = bars.map((_, i) => ({
+        speed: 2.5 + Math.random() * 3.5,
+        offset: (i / BAR_COUNT) * Math.PI * 2 + Math.random() * 1.5,
+        amp: 4 + Math.random() * 10,
+    }));
+
     const lineEls = INTRO_LINES.map((text, i) => {
         const el = document.createElement('span');
         el.className = 'transcript-line';
-        el.textContent = (i > 0 ? ' ' : '') + text; // space between sentences
+        el.textContent = (i > 0 ? ' ' : '') + text;
         transcriptEl.appendChild(el);
         return el;
     });
@@ -3735,8 +3751,8 @@ function initAudioIntro() {
     let activeIndex = -1;
     let utterance = null;
     let timerFrame = null;
-    let startTime = null;   // Date.now() when speech started
-    let pausedAt = 0;       // ms elapsed when paused
+    let startTime = null;
+    let pausedAt = 0;
 
     function getFemaleVoice() {
         const voices = speechSynthesis.getVoices();
@@ -3748,8 +3764,17 @@ function initAudioIntro() {
         return voices.find(v => v.lang.startsWith('en')) || voices[0] || null;
     }
 
-    function setRing(progress) {
-        if (ringFill) ringFill.style.strokeDashoffset = CIRCUMFERENCE * (1 - Math.min(progress, 1));
+    function formatTime(ms) {
+        const s = Math.floor(ms / 1000);
+        return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+    }
+
+    function setTimestamp(ms) {
+        if (timestampEl) timestampEl.textContent = formatTime(Math.min(ms, EST_MS));
+    }
+
+    function resetBars() {
+        bars.forEach(b => { b.style.height = '3px'; b.style.background = ''; });
     }
 
     function updateLines(idx) {
@@ -3760,23 +3785,32 @@ function initAudioIntro() {
         });
     }
 
-    // Timer-based sync — reliable across all browsers, no onboundary needed
     function startTimer(fromMs) {
         startTime = Date.now() - fromMs;
         function tick() {
             if (!isPlaying) return;
             const elapsed = Date.now() - startTime;
-            setRing(elapsed / EST_MS);
+            const t = elapsed / 1000;
 
+            // Animate waveform bars
+            bars.forEach((b, i) => {
+                const p = barParams[i];
+                const h = Math.max(3, p.amp * Math.abs(Math.sin(t * p.speed + p.offset)));
+                b.style.height = `${h}px`;
+                b.style.background = 'var(--color-text-muted)';
+            });
+
+            // Update timestamp
+            setTimestamp(elapsed);
+
+            // Sync transcript line
             let newIdx = -1;
             for (let i = LINE_START_MS.length - 1; i >= 0; i--) {
                 if (elapsed >= LINE_START_MS[i]) { newIdx = i; break; }
             }
-            if (newIdx !== activeIndex) {
-                activeIndex = newIdx;
-                updateLines(newIdx);
-            }
-            if (elapsed < EST_MS * 1.1) timerFrame = requestAnimationFrame(tick);
+            if (newIdx !== activeIndex) { activeIndex = newIdx; updateLines(newIdx); }
+
+            if (elapsed < EST_MS * 1.15) timerFrame = requestAnimationFrame(tick);
         }
         timerFrame = requestAnimationFrame(tick);
     }
@@ -3791,21 +3825,19 @@ function initAudioIntro() {
         utterance.pitch = 1;
         const voice = getFemaleVoice();
         if (voice) utterance.voice = voice;
-
         utterance.onstart = () => startTimer(pausedAt);
-
         utterance.onend = () => {
             stopTimer();
             isPlaying = false;
             isEnded = true;
             pausedAt = 0;
-            setRing(1);
+            resetBars();
+            setTimestamp(EST_MS);
             lineEls.forEach(el => { el.classList.remove('active'); el.classList.add('done'); });
             if (playIcon) playIcon.innerHTML = '&#8635;';
             if (playBtn) playBtn.setAttribute('aria-label', 'Replay introduction');
         };
-
-        utterance.onerror = () => { stopTimer(); isPlaying = false; };
+        utterance.onerror = () => { stopTimer(); isPlaying = false; resetBars(); };
     }
 
     function resetPlayer() {
@@ -3815,7 +3847,8 @@ function initAudioIntro() {
         isEnded = false;
         activeIndex = -1;
         pausedAt = 0;
-        setRing(0);
+        resetBars();
+        if (timestampEl) timestampEl.textContent = '0:00';
         lineEls.forEach(el => el.classList.remove('active', 'done'));
         if (playIcon) playIcon.innerHTML = '&#9654;';
         if (playBtn) playBtn.setAttribute('aria-label', 'Play introduction');
@@ -3830,25 +3863,21 @@ function initAudioIntro() {
     }
 
     playBtn.addEventListener('click', () => {
-        if (isEnded) {
-            resetPlayer();
-            setTimeout(startSpeech, 100);
-            return;
-        }
+        if (isEnded) { resetPlayer(); setTimeout(startSpeech, 100); return; }
         if (isPlaying) {
-            pausedAt = Date.now() - startTime; // save elapsed before pause
+            pausedAt = Date.now() - startTime;
             stopTimer();
             speechSynthesis.pause();
             isPlaying = false;
+            resetBars();
             if (playIcon) playIcon.innerHTML = '&#9654;';
             if (playBtn) playBtn.setAttribute('aria-label', 'Play introduction');
         } else {
             if (speechSynthesis.paused) {
                 speechSynthesis.resume();
-                startTimer(pausedAt); // resume timer from saved position
+                startTimer(pausedAt);
             } else {
-                startSpeech();
-                return;
+                startSpeech(); return;
             }
             isPlaying = true;
             if (playIcon) playIcon.innerHTML = '&#9646;&#9646;';
@@ -4011,14 +4040,13 @@ function initAtmosphereToggle() {
     // ── Sunny mode: animated background glow + light rays + dust motes ──
     let sunnyAnimFrame = null;
 
+    // Fewer, wider rays at lower opacity — golden hour is diffuse, not theatrical
     const RAYS = [
-        { angle: 152, spread: 10, alpha: 0.07, phase: 0.0 },
-        { angle: 165, spread: 16, alpha: 0.10, phase: 1.3 },
-        { angle: 178, spread: 20, alpha: 0.12, phase: 2.5 },
-        { angle: 193, spread: 14, alpha: 0.13, phase: 0.8 },
-        { angle: 207, spread: 22, alpha: 0.11, phase: 2.0 },
-        { angle: 222, spread: 15, alpha: 0.09, phase: 3.3 },
-        { angle: 237, spread: 11, alpha: 0.07, phase: 1.7 },
+        { angle: 160, spread: 22, alpha: 0.05, phase: 0.0 },
+        { angle: 178, spread: 30, alpha: 0.07, phase: 1.8 },
+        { angle: 198, spread: 26, alpha: 0.08, phase: 3.1 },
+        { angle: 218, spread: 20, alpha: 0.06, phase: 1.1 },
+        { angle: 236, spread: 16, alpha: 0.04, phase: 2.4 },
     ];
 
     let dustMotes = [];
@@ -4046,11 +4074,12 @@ function initAtmosphereToggle() {
         const midAngle = (angleDeg * Math.PI) / 180;
 
         const grad = ctx.createLinearGradient(sx, sy,
-            sx + Math.cos(midAngle) * len * 0.55,
-            sy + Math.sin(midAngle) * len * 0.55);
-        grad.addColorStop(0,   `rgba(255, 215, 60, ${animAlpha})`);
-        grad.addColorStop(0.35,`rgba(255, 225, 95, ${animAlpha * 0.55})`);
-        grad.addColorStop(1,   `rgba(255, 238, 140, 0)`);
+            sx + Math.cos(midAngle) * len * 0.65,
+            sy + Math.sin(midAngle) * len * 0.65);
+        // Golden hour: warm amber-peach, not bright yellow
+        grad.addColorStop(0,   `rgba(255, 185, 80, ${animAlpha})`);
+        grad.addColorStop(0.35,`rgba(255, 200, 110, ${animAlpha * 0.5})`);
+        grad.addColorStop(1,   `rgba(255, 220, 150, 0)`);
 
         ctx.beginPath();
         ctx.moveTo(sx, sy);
@@ -4076,16 +4105,17 @@ function initAtmosphereToggle() {
         const glowY = h * (0.0  + 0.04 * Math.cos(t * 0.14));
         const glowR = Math.max(w, h) * (0.80 + 0.06 * Math.sin(t * 0.11));
         const bgGlow = ctx.createRadialGradient(glowX, glowY, 0, glowX, glowY, glowR);
-        bgGlow.addColorStop(0,    'rgba(255, 210, 55, 0.18)');
-        bgGlow.addColorStop(0.28, 'rgba(255, 228, 110, 0.09)');
-        bgGlow.addColorStop(0.58, 'rgba(255, 242, 170, 0.04)');
-        bgGlow.addColorStop(1,    'rgba(255, 250, 200, 0)');
+        // Golden hour glow: warm amber, very soft
+        bgGlow.addColorStop(0,    'rgba(255, 175, 80, 0.12)');
+        bgGlow.addColorStop(0.30, 'rgba(255, 200, 120, 0.06)');
+        bgGlow.addColorStop(0.60, 'rgba(255, 220, 160, 0.02)');
+        bgGlow.addColorStop(1,    'rgba(255, 235, 190, 0)');
         ctx.fillStyle = bgGlow;
         ctx.fillRect(0, 0, w, h);
 
-        // ── Light rays ──
-        const sx = w + 20;
-        const sy = -20;
+        // ── Light rays — source well off-screen so rays fade in naturally ──
+        const sx = w + 160;
+        const sy = -160;
         RAYS.forEach(ray => drawRay(ctx, sx, sy, ray.angle, ray.spread, ray.alpha, t, ray.phase));
 
         // ── Floating dust motes ──
@@ -4093,7 +4123,7 @@ function initAtmosphereToggle() {
             const twinkle = 0.65 + 0.35 * Math.sin(t * d.twinkleSpeed * 60 + d.twinkleOffset);
             ctx.beginPath();
             ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 205, 70, ${d.alpha * twinkle})`;
+            ctx.fillStyle = `rgba(255, 180, 80, ${d.alpha * twinkle})`;
             ctx.fill();
 
             d.x += d.vx;
