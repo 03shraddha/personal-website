@@ -3723,12 +3723,9 @@ function initAudioIntro() {
     if (!playBtn || !transcriptEl || !window.speechSynthesis) return;
 
     const lineEls = INTRO_LINES.map((text, i) => {
-        const el = document.createElement('p');
+        const el = document.createElement('span');
         el.className = 'transcript-line';
-        el.textContent = text;
-        // Duration for the underline animation = how long this line takes to speak
-        const lineDurSec = ((WORD_COUNTS[i] / TOTAL_WORDS) * EST_MS / 1000).toFixed(1);
-        el.style.setProperty('--line-dur', `${lineDurSec}s`);
+        el.textContent = (i > 0 ? ' ' : '') + text; // space between sentences
         transcriptEl.appendChild(el);
         return el;
     });

@@ -5272,50 +5272,21 @@ a .reveal-word {
 }
 
 .audio-transcript {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+    line-height: 1.65;
+    color: var(--color-text-light);
 }
 
 .transcript-line {
-    font-family: var(--font-body);
-    font-size: inherit;
-    line-height: 1.65;
-    color: var(--color-text-light);
-    position: relative;
-    padding-bottom: 3px;
+    display: inline;
     transition: color 0.3s ease;
 }
 
-/* Underline track (always present, empty) */
-.transcript-line::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 1px;
-    width: 0;
-    background: var(--color-text);
-    transition: none;
-}
-
-/* Active: text goes dark + underline animates across */
 .transcript-line.active {
     color: var(--color-text);
 }
-.transcript-line.active::after {
-    width: 100%;
-    /* duration set per-line via --line-dur custom property in JS */
-    transition: width var(--line-dur, 6s) linear;
-}
 
-/* Done: text muted, underline stays full */
 .transcript-line.done {
     color: var(--color-text-muted);
-}
-.transcript-line.done::after {
-    width: 100%;
-    background: var(--color-border);
 }
 
 @media (max-width: 600px) {
