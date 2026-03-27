@@ -3691,7 +3691,7 @@ Type your message below and click
     renderEntries();
 }
 
-// ── Audio Voice Introduction ──
+// ── Audio Voice Introduction (Web Speech API) ──
 function initAudioIntro() {
     const INTRO_LINES = [
         "hi, i'm shraddha.",
@@ -3699,15 +3699,23 @@ function initAudioIntro() {
         "this is my corner of the internet where i share my work, unfinished projects, imperfect experiments and whatever i'm curious about right now.",
         "a couple of my friends also think i'm funny."
     ];
-    const WORD_COUNTS = [4, 12, 30, 10];
+    const FULL_TEXT = INTRO_LINES.join(' ');
     const CIRCUMFERENCE = 125.66; // 2π × 20 (r=20 for 48px button)
+
+    // Precompute char offset where each line starts in FULL_TEXT
+    const lineOffsets = [];
+    let offset = 0;
+    INTRO_LINES.forEach(line => {
+        lineOffsets.push(offset);
+        offset += line.length + 1; // +1 for the joining space
+    });
 
     const playBtn = document.getElementById('audio-play-btn');
     const playIcon = playBtn ? playBtn.querySelector('.play-icon') : null;
     const ringFill = playBtn ? playBtn.querySelector('.progress-ring__fill') : null;
     const transcriptEl = document.getElementById('audio-transcript');
 
-    if (!playBtn || !transcriptEl) return;
+    if (!playBtn || !transcriptEl || !window.speechSynthesis) return;
 
     // Inject transcript lines into DOM
     const lineEls = INTRO_LINES.map(text => {
@@ -3718,116 +3726,129 @@ function initAudioIntro() {
         return el;
     });
 
-    // Create audio element dynamically
-    const audio = new Audio();
-    audio.src = 'audio/intro.mp3';
-    audio.preload = 'auto';
-
-    let timestamps = null;
+    let isPlaying = false;
     let isEnded = false;
     let activeIndex = -1;
-    let petalAnimFrame = null; // unused here, just namespacing
+    let utterance = null;
 
-    // Compute proportional timestamps once duration is known
-    function computeTimestamps() {
-        const totalWords = WORD_COUNTS.reduce((a, b) => a + b, 0);
-        let elapsed = 0;
-        timestamps = WORD_COUNTS.map(words => {
-            const t = elapsed;
-            elapsed += (words / totalWords) * audio.duration;
-            return t;
-        });
+    function getFemaleVoice() {
+        const voices = speechSynthesis.getVoices();
+        // Prefer common female English voices across browsers/OS
+        const preferred = ['Samantha', 'Google US English', 'Microsoft Zira', 'Karen', 'Victoria', 'Moira', 'Tessa'];
+        for (const name of preferred) {
+            const v = voices.find(v => v.name.includes(name) && v.lang.startsWith('en'));
+            if (v) return v;
+        }
+        // Fallback: any English voice
+        return voices.find(v => v.lang.startsWith('en')) || voices[0] || null;
     }
 
     function setRing(progress) {
-        // progress: 0 (empty) to 1 (full)
-        if (ringFill) {
-            ringFill.style.strokeDashoffset = CIRCUMFERENCE * (1 - progress);
-        }
+        if (ringFill) ringFill.style.strokeDashoffset = CIRCUMFERENCE * (1 - Math.min(progress, 1));
     }
 
     function updateLines(idx) {
         lineEls.forEach((el, i) => {
             el.classList.remove('active', 'done');
-            if (i < idx) {
-                el.classList.add('done');
-            } else if (i === idx) {
-                el.classList.add('active');
+            if (i < idx) el.classList.add('done');
+            else if (i === idx) el.classList.add('active');
+        });
+    }
+
+    function getLineIndex(charIndex) {
+        // Find which line this charIndex falls into
+        let idx = 0;
+        for (let i = lineOffsets.length - 1; i >= 0; i--) {
+            if (charIndex >= lineOffsets[i]) { idx = i; break; }
+        }
+        return idx;
+    }
+
+    function buildUtterance() {
+        utterance = new SpeechSynthesisUtterance(FULL_TEXT);
+        utterance.rate = 0.92;
+        utterance.pitch = 1;
+        const voice = getFemaleVoice();
+        if (voice) utterance.voice = voice;
+
+        utterance.onboundary = (e) => {
+            const progress = e.charIndex / FULL_TEXT.length;
+            setRing(progress);
+            const lineIdx = getLineIndex(e.charIndex);
+            if (lineIdx !== activeIndex) {
+                activeIndex = lineIdx;
+                updateLines(lineIdx);
             }
-            // future lines: no class = opacity 0
-        });
-    }
+        };
 
-    function onTimeUpdate() {
-        if (!timestamps) return;
-        const t = audio.currentTime;
-        setRing(t / audio.duration);
+        utterance.onend = () => {
+            isPlaying = false;
+            isEnded = true;
+            setRing(1);
+            lineEls.forEach(el => { el.classList.remove('active'); el.classList.add('done'); });
+            if (playIcon) playIcon.innerHTML = '&#8635;'; // ↺
+            if (playBtn) playBtn.setAttribute('aria-label', 'Replay introduction');
+        };
 
-        // Find which line is active
-        let idx = -1;
-        for (let i = 0; i < timestamps.length; i++) {
-            if (t >= timestamps[i]) idx = i;
-        }
-        if (idx !== activeIndex) {
-            activeIndex = idx;
-            updateLines(idx);
-        }
-    }
-
-    function onAudioEnded() {
-        isEnded = true;
-        setRing(1);
-        // Show all lines as done
-        lineEls.forEach(el => {
-            el.classList.remove('active');
-            el.classList.add('done');
-        });
-        // Change icon to replay
-        if (playIcon) playIcon.innerHTML = '&#8635;'; // ↺
-        if (playBtn) playBtn.setAttribute('aria-label', 'Replay introduction');
+        utterance.onerror = () => { isPlaying = false; };
     }
 
     function resetPlayer() {
+        speechSynthesis.cancel();
+        isPlaying = false;
         isEnded = false;
         activeIndex = -1;
-        audio.currentTime = 0;
         setRing(0);
         lineEls.forEach(el => el.classList.remove('active', 'done'));
         if (playIcon) playIcon.innerHTML = '&#9654;'; // ▶
         if (playBtn) playBtn.setAttribute('aria-label', 'Play introduction');
     }
 
+    function startSpeech() {
+        buildUtterance();
+        speechSynthesis.speak(utterance);
+        isPlaying = true;
+        if (playIcon) playIcon.innerHTML = '&#9646;&#9646;'; // ⏸
+        if (playBtn) playBtn.setAttribute('aria-label', 'Pause introduction');
+    }
+
     playBtn.addEventListener('click', () => {
         if (isEnded) {
             resetPlayer();
-            audio.play().catch(() => {});
-            if (playIcon) playIcon.innerHTML = '&#9646;&#9646;'; // ⏸
-            if (playBtn) playBtn.setAttribute('aria-label', 'Pause introduction');
+            // Small delay needed so cancel() fully clears before speak()
+            setTimeout(startSpeech, 100);
             return;
         }
-        if (audio.paused) {
-            audio.play().catch(() => {});
-            if (playIcon) playIcon.innerHTML = '&#9646;&#9646;'; // ⏸
-            if (playBtn) playBtn.setAttribute('aria-label', 'Pause introduction');
-        } else {
-            audio.pause();
+        if (isPlaying) {
+            speechSynthesis.pause();
+            isPlaying = false;
             if (playIcon) playIcon.innerHTML = '&#9654;'; // ▶
             if (playBtn) playBtn.setAttribute('aria-label', 'Play introduction');
+        } else {
+            if (speechSynthesis.paused) {
+                speechSynthesis.resume();
+            } else {
+                startSpeech();
+                return;
+            }
+            isPlaying = true;
+            if (playIcon) playIcon.innerHTML = '&#9646;&#9646;'; // ⏸
+            if (playBtn) playBtn.setAttribute('aria-label', 'Pause introduction');
         }
     });
 
-    audio.addEventListener('loadedmetadata', computeTimestamps);
-    audio.addEventListener('timeupdate', onTimeUpdate);
-    audio.addEventListener('ended', onAudioEnded);
-
-    // Pause animation when tab is hidden
+    // Pause when tab is hidden
     document.addEventListener('visibilitychange', () => {
-        if (document.hidden && !audio.paused) {
-            audio.pause();
+        if (document.hidden && isPlaying) {
+            speechSynthesis.pause();
+            isPlaying = false;
             if (playIcon) playIcon.innerHTML = '&#9654;';
             if (playBtn) playBtn.setAttribute('aria-label', 'Play introduction');
         }
     });
+
+    // Cancel speech if user navigates away
+    window.addEventListener('beforeunload', () => speechSynthesis.cancel());
 }
 
 
