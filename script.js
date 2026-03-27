@@ -3848,12 +3848,10 @@ function initAtmosphereToggle() {
         // Vary sizes across small/medium/large tiers so they feel natural, not uniform
         const tier = Math.random();
         const r = isMobile
-            ? (tier < 0.6 ? 3 + Math.random() * 5   // small  (3–8px)
-             : tier < 0.9 ? 8 + Math.random() * 7   // medium (8–15px)
-             :              15 + Math.random() * 8)  // large  (15–23px)
-            : (tier < 0.6 ? 4 + Math.random() * 7   // small  (4–11px)
-             : tier < 0.9 ? 11 + Math.random() * 9  // medium (11–20px)
-             :              20 + Math.random() * 10);// large  (20–30px)
+            ? (tier < 0.7 ? 1.5 + Math.random() * 2.5 // small  (1.5–4px)
+             :              4   + Math.random() * 3)   // medium (4–7px)
+            : (tier < 0.7 ? 2   + Math.random() * 3   // small  (2–5px)
+             :              5   + Math.random() * 4);  // medium (5–9px)
         return {
             x: Math.random() * w,
             y: Math.random() * h,
