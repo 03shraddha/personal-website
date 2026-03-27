@@ -4037,10 +4037,9 @@ function initAtmosphereToggle() {
         document.removeEventListener('visibilitychange', handleSpringVisibility);
     }
 
-    // ── Sunny mode: animated background glow + light rays + dust motes ──
+    // ── Sunny mode: background glow + rays + dust motes + sparkles ──
     let sunnyAnimFrame = null;
 
-    // Fewer, wider rays at lower opacity — golden hour is diffuse, not theatrical
     const RAYS = [
         { angle: 160, spread: 22, alpha: 0.05, phase: 0.0 },
         { angle: 178, spread: 30, alpha: 0.07, phase: 1.8 },
@@ -4050,18 +4049,78 @@ function initAtmosphereToggle() {
     ];
 
     let dustMotes = [];
+    let sparkles  = [];
 
     function createDust(w, h) {
         return {
-            x: w * 0.35 + Math.random() * w * 0.65,
-            y: Math.random() * h * 0.75,
-            r: Math.random() * 2 + 0.5,
-            alpha: Math.random() * 0.65 + 0.25,
+            x: w * 0.15 + Math.random() * w * 0.85,
+            y: Math.random() * h,
+            r: Math.random() * 1.8 + 0.4,
+            alpha: Math.random() * 0.5 + 0.2,
             vx: (Math.random() - 0.5) * 0.3,
-            vy: -(Math.random() * 0.5 + 0.08),
-            twinkleSpeed: Math.random() * 0.025 + 0.006,
+            vy: -(Math.random() * 0.45 + 0.06),
+            twinkleSpeed: Math.random() * 0.03 + 0.008,
             twinkleOffset: Math.random() * Math.PI * 2,
         };
+    }
+
+    function createSparkle(w, h) {
+        return {
+            x: w * 0.1 + Math.random() * w * 0.9,
+            y: Math.random() * h * 0.85,
+            life: 0,
+            maxLife: 0.5 + Math.random() * 1.2,  // seconds
+            size: 2 + Math.random() * 5,
+            alpha: 0.5 + Math.random() * 0.5,
+            rotation: Math.random() * Math.PI,
+        };
+    }
+
+    function drawSparkle(ctx, s) {
+        const progress = s.life / s.maxLife;
+        // Bell curve fade: ramps up then down
+        const fade = Math.sin(progress * Math.PI);
+        const alpha = s.alpha * fade;
+        const sz = s.size * (0.4 + fade * 0.6);
+        if (alpha < 0.02) return;
+
+        ctx.save();
+        ctx.translate(s.x, s.y);
+        ctx.rotate(s.rotation);
+        ctx.globalAlpha = alpha;
+
+        // Soft glow halo
+        const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, sz * 3);
+        glow.addColorStop(0,   'rgba(255, 230, 160, 0.7)');
+        glow.addColorStop(0.4, 'rgba(255, 210, 120, 0.25)');
+        glow.addColorStop(1,   'rgba(255, 200, 100, 0)');
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(0, 0, sz * 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 4-point star cross — two thin lines at 45° to each other
+        ctx.strokeStyle = `rgba(255, 245, 200, ${alpha})`;
+        ctx.lineWidth = Math.max(0.5, sz * 0.2);
+        ctx.lineCap = 'round';
+        [0, Math.PI / 4].forEach(rot => {
+            ctx.save();
+            ctx.rotate(rot);
+            ctx.beginPath();
+            ctx.moveTo(0, -sz * 2.2);
+            ctx.lineTo(0,  sz * 2.2);
+            ctx.stroke();
+            ctx.restore();
+        });
+
+        // Bright centre dot
+        ctx.fillStyle = `rgba(255, 255, 230, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(0, 0, sz * 0.35, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.globalAlpha = 1;
+        ctx.restore();
     }
 
     function drawRay(ctx, sx, sy, angleDeg, spreadDeg, baseAlpha, t, phase) {
@@ -4076,7 +4135,6 @@ function initAtmosphereToggle() {
         const grad = ctx.createLinearGradient(sx, sy,
             sx + Math.cos(midAngle) * len * 0.65,
             sy + Math.sin(midAngle) * len * 0.65);
-        // Golden hour: warm amber-peach, not bright yellow
         grad.addColorStop(0,   `rgba(255, 185, 80, ${animAlpha})`);
         grad.addColorStop(0.35,`rgba(255, 200, 110, ${animAlpha * 0.5})`);
         grad.addColorStop(1,   `rgba(255, 220, 150, 0)`);
@@ -4090,45 +4148,67 @@ function initAtmosphereToggle() {
         ctx.fill();
     }
 
+    let lastTimestamp = 0;
+
     function animateSunny(timestamp) {
         if (!sunnyCanvas) return;
         const ctx = sunnyCanvas.getContext('2d');
         const w = sunnyCanvas.width;
         const h = sunnyCanvas.height;
         const t = timestamp * 0.001;
+        const dt = Math.min((timestamp - lastTimestamp) / 1000, 0.05); // seconds since last frame
+        lastTimestamp = timestamp;
 
         ctx.clearRect(0, 0, w, h);
 
-        // ── Animated background glow (replaces static #sunny-bg gradient) ──
-        // The glow centre drifts slowly, making the whole background feel alive
-        const glowX = w * (0.88 + 0.05 * Math.sin(t * 0.18));
-        const glowY = h * (0.0  + 0.04 * Math.cos(t * 0.14));
-        const glowR = Math.max(w, h) * (0.80 + 0.06 * Math.sin(t * 0.11));
-        const bgGlow = ctx.createRadialGradient(glowX, glowY, 0, glowX, glowY, glowR);
-        // Golden hour glow: warm amber, very soft
-        bgGlow.addColorStop(0,    'rgba(255, 175, 80, 0.12)');
-        bgGlow.addColorStop(0.30, 'rgba(255, 200, 120, 0.06)');
-        bgGlow.addColorStop(0.60, 'rgba(255, 220, 160, 0.02)');
-        bgGlow.addColorStop(1,    'rgba(255, 235, 190, 0)');
-        ctx.fillStyle = bgGlow;
+        // ── Background glow: two overlapping lobes that drift independently ──
+        const g1x = w * (0.90 + 0.08 * Math.sin(t * 0.22));
+        const g1y = h * (0.02 + 0.06 * Math.cos(t * 0.17));
+        const g1r = Math.max(w, h) * (0.75 + 0.10 * Math.sin(t * 0.13));
+        const glow1 = ctx.createRadialGradient(g1x, g1y, 0, g1x, g1y, g1r);
+        glow1.addColorStop(0,    'rgba(255, 170, 70, 0.14)');
+        glow1.addColorStop(0.28, 'rgba(255, 195, 110, 0.07)');
+        glow1.addColorStop(0.60, 'rgba(255, 215, 150, 0.025)');
+        glow1.addColorStop(1,    'rgba(255, 230, 180, 0)');
+        ctx.fillStyle = glow1;
         ctx.fillRect(0, 0, w, h);
 
-        // ── Light rays — source well off-screen so rays fade in naturally ──
+        const g2x = w * (0.70 + 0.12 * Math.cos(t * 0.19));
+        const g2y = h * (0.0  + 0.05 * Math.sin(t * 0.23));
+        const g2r = Math.max(w, h) * (0.55 + 0.08 * Math.cos(t * 0.15));
+        const glow2 = ctx.createRadialGradient(g2x, g2y, 0, g2x, g2y, g2r);
+        glow2.addColorStop(0,    'rgba(255, 200, 100, 0.07)');
+        glow2.addColorStop(0.40, 'rgba(255, 215, 140, 0.03)');
+        glow2.addColorStop(1,    'rgba(255, 230, 170, 0)');
+        ctx.fillStyle = glow2;
+        ctx.fillRect(0, 0, w, h);
+
+        // ── Light rays ──
         const sx = w + 160;
         const sy = -160;
         RAYS.forEach(ray => drawRay(ctx, sx, sy, ray.angle, ray.spread, ray.alpha, t, ray.phase));
 
-        // ── Floating dust motes ──
+        // ── Sparkles: spawn ~1 per 8 frames, keep max 18 alive ──
+        if (Math.random() < 0.12 && sparkles.length < 18) {
+            sparkles.push(createSparkle(w, h));
+        }
+        sparkles = sparkles.filter(s => {
+            s.life += dt;
+            if (s.life >= s.maxLife) return false;
+            drawSparkle(ctx, s);
+            return true;
+        });
+
+        // ── Dust motes ──
         dustMotes.forEach(d => {
-            const twinkle = 0.65 + 0.35 * Math.sin(t * d.twinkleSpeed * 60 + d.twinkleOffset);
+            const twinkle = 0.6 + 0.4 * Math.sin(t * d.twinkleSpeed * 60 + d.twinkleOffset);
             ctx.beginPath();
             ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 180, 80, ${d.alpha * twinkle})`;
+            ctx.fillStyle = `rgba(255, 185, 90, ${d.alpha * twinkle})`;
             ctx.fill();
-
             d.x += d.vx;
             d.y += d.vy;
-            if (d.y < -5) { d.y = h * 0.75; d.x = w * 0.35 + Math.random() * w * 0.65; }
+            if (d.y < -5) { d.y = h + 5; d.x = w * 0.15 + Math.random() * w * 0.85; }
             if (d.x < 0) d.x = w;
             if (d.x > w) d.x = 0;
         });
@@ -4140,12 +4220,15 @@ function initAtmosphereToggle() {
         if (!sunnyCanvas) return;
         sunnyCanvas.width  = window.innerWidth;
         sunnyCanvas.height = window.innerHeight;
-        dustMotes = Array.from({ length: 42 }, () => createDust(sunnyCanvas.width, sunnyCanvas.height));
+        dustMotes = Array.from({ length: 48 }, () => createDust(sunnyCanvas.width, sunnyCanvas.height));
+        sparkles  = [];
+        lastTimestamp = 0;
         sunnyAnimFrame = requestAnimationFrame(animateSunny);
     }
 
     function stopSunnyMode() {
         if (sunnyAnimFrame) { cancelAnimationFrame(sunnyAnimFrame); sunnyAnimFrame = null; }
+        sparkles = [];
         if (sunnyCanvas) {
             const ctx = sunnyCanvas.getContext('2d');
             ctx.clearRect(0, 0, sunnyCanvas.width, sunnyCanvas.height);
