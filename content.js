@@ -80,7 +80,6 @@ const CONTENT = {
     uniqueAbilities: [
 
         { text: "reciting 100 digits of π from memory", url: "#", highlight: "" },
-        { text: "knowing all the BMTC routes in blr by heart", url: "#", highlight: "" },
         { text: "befriending every apartment cat", url: "#", highlight: "" },
         { text: "recognizing obscure Punjabi songs", url: "#", highlight: "" }
     ],
