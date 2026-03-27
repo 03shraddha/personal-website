@@ -371,7 +371,7 @@ a, button, .tab, .highlight, [role="button"] {
     margin-bottom: 1.5em;
     font-size: 1.0625rem;
     line-height: 1.75;
-    color: var(--color-text);
+    color: #1a1a1a;
 }
 
 .hello-intro-text p:last-child {
@@ -2410,7 +2410,8 @@ a, button, .tab, .highlight, [role="button"] {
         line-height: 1.7;
     }
 
-    .contact-line {
+    .contact-line,
+    .hello-intro-text p {
         font-size: 0.9375rem;
         line-height: 1.75;
     }
