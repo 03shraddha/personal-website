@@ -3696,7 +3696,7 @@ function initAudioIntro() {
         "hi, i'm shraddha.",
         "i have experience in analytics & product management and am currently open to work!",
         "this is my corner of the internet where i share my work, unfinished projects & whatever i'm curious about right now.",
-        "a couple of my friends also think i'm funny"
+        "a couple of my friends also think i'm funny :)"
     ];
     const FULL_TEXT = INTRO_LINES.join(' ');
     const BAR_COUNT = 24;
@@ -3739,9 +3739,13 @@ function initAudioIntro() {
     }));
 
     const lineEls = INTRO_LINES.map((text, i) => {
+        // Last line goes on its own line
+        if (i === INTRO_LINES.length - 1) {
+            transcriptEl.appendChild(document.createElement('br'));
+        }
         const el = document.createElement('span');
         el.className = 'transcript-line';
-        el.textContent = (i > 0 ? ' ' : '') + text;
+        el.textContent = (i > 0 && i < INTRO_LINES.length - 1 ? ' ' : '') + text;
         transcriptEl.appendChild(el);
         return el;
     });
