@@ -5300,7 +5300,8 @@ a .reveal-word {
 }
 
 .transcript-line {
-    display: inline;
+    display: block;
+    margin-bottom: 1em;
     transition: color 0.3s ease;
 }
 

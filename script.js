@@ -3739,13 +3739,9 @@ function initAudioIntro() {
     }));
 
     const lineEls = INTRO_LINES.map((text, i) => {
-        // Last line goes on its own line
-        if (i === INTRO_LINES.length - 1) {
-            transcriptEl.appendChild(document.createElement('br'));
-        }
         const el = document.createElement('span');
         el.className = 'transcript-line';
-        el.textContent = (i > 0 && i < INTRO_LINES.length - 1 ? ' ' : '') + text;
+        el.textContent = text;
         transcriptEl.appendChild(el);
         return el;
     });
