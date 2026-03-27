@@ -3839,57 +3839,83 @@ function initAtmosphereToggle() {
         { angle: 236, spread: 16, alpha: 0.04, phase: 2.4 },
     ];
 
-    let dustMotes = [];
-    let sparkles  = [];
+    let bokehOrbs = [];
+    let glitters  = [];
 
-    function createDust(w, h) {
-        return {
-            x: w * 0.15 + Math.random() * w * 0.85,
-            y: Math.random() * h,
-            r: Math.random() * 1.8 + 0.4,
-            alpha: Math.random() * 0.5 + 0.2,
-            vx: (Math.random() - 0.5) * 0.3,
-            vy: -(Math.random() * 0.45 + 0.06),
-            twinkleSpeed: Math.random() * 0.03 + 0.008,
-            twinkleOffset: Math.random() * Math.PI * 2,
-        };
-    }
-
-    // Bokeh: soft, out-of-focus light circles — natural sunlight feel
-    function createSparkle(w, h) {
+    // Photographic bokeh: soft disc with brighter rim, like real lens bokeh
+    function createBokeh(w, h) {
         const isMobile = window.innerWidth < 600;
         return {
             x: Math.random() * w,
             y: Math.random() * h,
             life: 0,
-            maxLife: 2.0 + Math.random() * 3.5,   // slow fade
-            r: isMobile
-                ? (20 + Math.random() * 40)         // 20–60px on mobile
-                : (24 + Math.random() * 60),         // 24–84px on desktop
-            peakAlpha: isMobile
-                ? (0.06 + Math.random() * 0.09)     // subtle on mobile
-                : (0.08 + Math.random() * 0.14),    // soft on desktop
-            vx: (Math.random() - 0.5) * 3,
-            vy: -(Math.random() * 3 + 0.5),
+            maxLife: 4.0 + Math.random() * 5.0,
+            r: isMobile ? (16 + Math.random() * 32) : (22 + Math.random() * 50),
+            peakAlpha: isMobile ? (0.04 + Math.random() * 0.07) : (0.05 + Math.random() * 0.09),
+            vx: (Math.random() - 0.5) * 0.8,
+            vy: -(Math.random() * 0.5 + 0.08),
         };
     }
 
-    function drawSparkle(ctx, s) {
+    function drawBokeh(ctx, s) {
         const progress = s.life / s.maxLife;
-        const fade = Math.sin(progress * Math.PI); // bell curve
+        const fade = Math.sin(progress * Math.PI);
         const alpha = s.peakAlpha * fade;
-        if (alpha < 0.01) return;
+        if (alpha < 0.005) return;
 
-        // Warm cream-white centre fading to transparent — real bokeh look
-        const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r);
-        grad.addColorStop(0,    `rgba(255, 248, 220, ${alpha})`);
-        grad.addColorStop(0.45, `rgba(255, 235, 170, ${alpha * 0.5})`);
-        grad.addColorStop(1,    `rgba(255, 220, 140, 0)`);
+        // Brighter rim fading inward and outward — realistic lens bokeh
+        const grad = ctx.createRadialGradient(s.x, s.y, s.r * 0.35, s.x, s.y, s.r);
+        grad.addColorStop(0,    `rgba(255, 225, 140, ${alpha * 0.25})`);
+        grad.addColorStop(0.55, `rgba(255, 200, 90, ${alpha * 0.55})`);
+        grad.addColorStop(0.82, `rgba(255, 180, 55, ${alpha})`);
+        grad.addColorStop(1,    `rgba(255, 165, 40, 0)`);
 
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fillStyle = grad;
         ctx.fill();
+    }
+
+    // Glitter: tiny specular pinpoints that flash briefly, like sunlight catching dust
+    function createGlitter(w, h) {
+        return {
+            x: Math.random() * w,
+            y: Math.random() * h,
+            life: 0,
+            maxLife: 0.5 + Math.random() * 1.1,
+            size: 0.6 + Math.random() * 1.8,
+            peakAlpha: 0.45 + Math.random() * 0.45,
+            hasCross: Math.random() < 0.35,
+        };
+    }
+
+    function drawGlitter(ctx, g) {
+        const progress = g.life / g.maxLife;
+        const fade = Math.pow(Math.sin(progress * Math.PI), 0.6);
+        const alpha = g.peakAlpha * fade;
+        if (alpha < 0.02) return;
+
+        const grad = ctx.createRadialGradient(g.x, g.y, 0, g.x, g.y, g.size * 3.5);
+        grad.addColorStop(0,   `rgba(255, 255, 225, ${alpha})`);
+        grad.addColorStop(0.3, `rgba(255, 240, 160, ${alpha * 0.55})`);
+        grad.addColorStop(1,   `rgba(255, 215, 100, 0)`);
+        ctx.beginPath();
+        ctx.arc(g.x, g.y, g.size * 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        if (g.hasCross && alpha > 0.12) {
+            const len = g.size * 9;
+            ctx.save();
+            ctx.globalAlpha = alpha * 0.35;
+            ctx.strokeStyle = 'rgba(255, 252, 210, 1)';
+            ctx.lineWidth = 0.6;
+            ctx.beginPath();
+            ctx.moveTo(g.x - len, g.y); ctx.lineTo(g.x + len, g.y);
+            ctx.moveTo(g.x, g.y - len); ctx.lineTo(g.x, g.y + len);
+            ctx.stroke();
+            ctx.restore();
+        }
     }
 
     function drawRay(ctx, sx, sy, angleDeg, spreadDeg, baseAlpha, t, phase) {
@@ -3935,10 +3961,10 @@ function initAtmosphereToggle() {
         const g1y = h * (0.02 + 0.06 * Math.cos(t * 0.17));
         const g1r = Math.max(w, h) * (0.75 + 0.10 * Math.sin(t * 0.13));
         const glow1 = ctx.createRadialGradient(g1x, g1y, 0, g1x, g1y, g1r);
-        glow1.addColorStop(0,    'rgba(255, 170, 70, 0.14)');
-        glow1.addColorStop(0.28, 'rgba(255, 195, 110, 0.07)');
-        glow1.addColorStop(0.60, 'rgba(255, 215, 150, 0.025)');
-        glow1.addColorStop(1,    'rgba(255, 230, 180, 0)');
+        glow1.addColorStop(0,    'rgba(255, 155, 45, 0.11)');
+        glow1.addColorStop(0.28, 'rgba(255, 185, 80, 0.055)');
+        glow1.addColorStop(0.60, 'rgba(255, 210, 130, 0.02)');
+        glow1.addColorStop(1,    'rgba(255, 230, 170, 0)');
         ctx.fillStyle = glow1;
         ctx.fillRect(0, 0, w, h);
 
@@ -3946,9 +3972,9 @@ function initAtmosphereToggle() {
         const g2y = h * (0.0  + 0.05 * Math.sin(t * 0.23));
         const g2r = Math.max(w, h) * (0.55 + 0.08 * Math.cos(t * 0.15));
         const glow2 = ctx.createRadialGradient(g2x, g2y, 0, g2x, g2y, g2r);
-        glow2.addColorStop(0,    'rgba(255, 200, 100, 0.07)');
-        glow2.addColorStop(0.40, 'rgba(255, 215, 140, 0.03)');
-        glow2.addColorStop(1,    'rgba(255, 230, 170, 0)');
+        glow2.addColorStop(0,    'rgba(255, 185, 70, 0.05)');
+        glow2.addColorStop(0.40, 'rgba(255, 210, 120, 0.02)');
+        glow2.addColorStop(1,    'rgba(255, 230, 160, 0)');
         ctx.fillStyle = glow2;
         ctx.fillRect(0, 0, w, h);
 
@@ -3957,33 +3983,31 @@ function initAtmosphereToggle() {
         const sy = -160;
         RAYS.forEach(ray => drawRay(ctx, sx, sy, ray.angle, ray.spread, ray.alpha, t, ray.phase));
 
-        // ── Bokeh orbs: gentle light spots ──
-        const MAX_SPARKLES = window.innerWidth < 600 ? 12 : 22;
-        const SPAWN_CHANCE = window.innerWidth < 600 ? 0.08 : 0.15;
-        if (Math.random() < SPAWN_CHANCE && sparkles.length < MAX_SPARKLES) {
-            sparkles.push(createSparkle(w, h));
+        // ── Bokeh orbs: golden-hour lens bokeh ──
+        const isMobile = window.innerWidth < 600;
+        const MAX_BOKEH = isMobile ? 8 : 14;
+        if (Math.random() < (isMobile ? 0.03 : 0.05) && bokehOrbs.length < MAX_BOKEH) {
+            bokehOrbs.push(createBokeh(w, h));
         }
-        sparkles = sparkles.filter(s => {
+        bokehOrbs = bokehOrbs.filter(s => {
             s.life += dt;
             s.x += s.vx * dt;
             s.y += s.vy * dt;
             if (s.life >= s.maxLife) return false;
-            drawSparkle(ctx, s);
+            drawBokeh(ctx, s);
             return true;
         });
 
-        // ── Dust motes ──
-        dustMotes.forEach(d => {
-            const twinkle = 0.6 + 0.4 * Math.sin(t * d.twinkleSpeed * 60 + d.twinkleOffset);
-            ctx.beginPath();
-            ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 185, 90, ${d.alpha * twinkle})`;
-            ctx.fill();
-            d.x += d.vx;
-            d.y += d.vy;
-            if (d.y < -5) { d.y = h + 5; d.x = w * 0.15 + Math.random() * w * 0.85; }
-            if (d.x < 0) d.x = w;
-            if (d.x > w) d.x = 0;
+        // ── Glitter: specular sunlight pinpoints ──
+        const MAX_GLITTER = isMobile ? 5 : 10;
+        if (Math.random() < (isMobile ? 0.12 : 0.20) && glitters.length < MAX_GLITTER) {
+            glitters.push(createGlitter(w, h));
+        }
+        glitters = glitters.filter(g => {
+            g.life += dt;
+            if (g.life >= g.maxLife) return false;
+            drawGlitter(ctx, g);
+            return true;
         });
 
         sunnyAnimFrame = requestAnimationFrame(animateSunny);
@@ -3993,19 +4017,16 @@ function initAtmosphereToggle() {
         if (!sunnyCanvas) return;
         sunnyCanvas.width  = window.innerWidth;
         sunnyCanvas.height = window.innerHeight;
-        // Fewer dust motes on small screens to keep it subtle
-        const moteCount = window.innerWidth < 600 ? 20 : 48;
-        dustMotes = Array.from({ length: moteCount }, () => createDust(sunnyCanvas.width, sunnyCanvas.height));
-        sparkles  = [];
+        bokehOrbs = [];
+        glitters  = [];
         lastTimestamp = 0;
         sunnyAnimFrame = requestAnimationFrame(animateSunny);
 
         sunnyResizeHandler = debounceResize(() => {
             sunnyCanvas.width  = window.innerWidth;
             sunnyCanvas.height = window.innerHeight;
-            const count = window.innerWidth < 600 ? 20 : 48;
-            dustMotes = Array.from({ length: count }, () => createDust(sunnyCanvas.width, sunnyCanvas.height));
-            sparkles = [];
+            bokehOrbs = [];
+            glitters  = [];
         }, 150);
         window.addEventListener('resize', sunnyResizeHandler);
     }
@@ -4013,7 +4034,8 @@ function initAtmosphereToggle() {
     function stopSunnyMode() {
         if (sunnyAnimFrame) { cancelAnimationFrame(sunnyAnimFrame); sunnyAnimFrame = null; }
         if (sunnyResizeHandler) { window.removeEventListener('resize', sunnyResizeHandler); sunnyResizeHandler = null; }
-        sparkles = [];
+        bokehOrbs = [];
+        glitters  = [];
         if (sunnyCanvas) {
             const ctx = sunnyCanvas.getContext('2d');
             ctx.clearRect(0, 0, sunnyCanvas.width, sunnyCanvas.height);
