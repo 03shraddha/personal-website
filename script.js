@@ -3892,7 +3892,7 @@ function initAtmosphereToggle() {
     }
 
     // ── Spring mode: petals + flowers + leaves ──
-    const PARTICLE_COUNT = 65;
+    const PARTICLE_COUNT = 35;
     const PETAL_COLORS = ['#FFB7C5', '#FFC0CB', '#FFD1DC', '#FFAAB5', '#F9A8BF', '#FADADD'];
     const LEAF_COLORS  = ['#b8d4a8', '#a8c898', '#98b888', '#c8deb8'];
     let particles = [];
@@ -3915,7 +3915,7 @@ function initAtmosphereToggle() {
             drift: 0.2 + Math.random() * 0.8,
             angle: Math.random() * Math.PI * 2,
             rotationSpeed: (Math.random() - 0.5) * 0.04,
-            opacity: 0.18 + Math.random() * 0.22, // kept subtle
+            opacity: 0.10 + Math.random() * 0.13, // very subtle
             phase: Math.random() * Math.PI * 2,
             color: type === 'leaf'
                 ? LEAF_COLORS[Math.floor(Math.random() * LEAF_COLORS.length)]
@@ -4011,15 +4011,14 @@ function initAtmosphereToggle() {
     // ── Sunny mode: animated background glow + light rays + dust motes ──
     let sunnyAnimFrame = null;
 
-    // Rays fan out from top-right corner; alpha ~3× stronger than before
     const RAYS = [
-        { angle: 152, spread: 10, alpha: 0.18, phase: 0.0 },
-        { angle: 165, spread: 16, alpha: 0.24, phase: 1.3 },
-        { angle: 178, spread: 20, alpha: 0.28, phase: 2.5 },
-        { angle: 193, spread: 14, alpha: 0.30, phase: 0.8 },
-        { angle: 207, spread: 22, alpha: 0.26, phase: 2.0 },
-        { angle: 222, spread: 15, alpha: 0.22, phase: 3.3 },
-        { angle: 237, spread: 11, alpha: 0.17, phase: 1.7 },
+        { angle: 152, spread: 10, alpha: 0.07, phase: 0.0 },
+        { angle: 165, spread: 16, alpha: 0.10, phase: 1.3 },
+        { angle: 178, spread: 20, alpha: 0.12, phase: 2.5 },
+        { angle: 193, spread: 14, alpha: 0.13, phase: 0.8 },
+        { angle: 207, spread: 22, alpha: 0.11, phase: 2.0 },
+        { angle: 222, spread: 15, alpha: 0.09, phase: 3.3 },
+        { angle: 237, spread: 11, alpha: 0.07, phase: 1.7 },
     ];
 
     let dustMotes = [];
@@ -4077,9 +4076,9 @@ function initAtmosphereToggle() {
         const glowY = h * (0.0  + 0.04 * Math.cos(t * 0.14));
         const glowR = Math.max(w, h) * (0.80 + 0.06 * Math.sin(t * 0.11));
         const bgGlow = ctx.createRadialGradient(glowX, glowY, 0, glowX, glowY, glowR);
-        bgGlow.addColorStop(0,    'rgba(255, 210, 55, 0.38)');
-        bgGlow.addColorStop(0.28, 'rgba(255, 228, 110, 0.20)');
-        bgGlow.addColorStop(0.58, 'rgba(255, 242, 170, 0.09)');
+        bgGlow.addColorStop(0,    'rgba(255, 210, 55, 0.18)');
+        bgGlow.addColorStop(0.28, 'rgba(255, 228, 110, 0.09)');
+        bgGlow.addColorStop(0.58, 'rgba(255, 242, 170, 0.04)');
         bgGlow.addColorStop(1,    'rgba(255, 250, 200, 0)');
         ctx.fillStyle = bgGlow;
         ctx.fillRect(0, 0, w, h);
