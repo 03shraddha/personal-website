@@ -5324,7 +5324,7 @@ a .reveal-word {
 /* ── Atmosphere Modes (Sunny + Spring) ── */
 
 /* Background containers — hidden by default */
-#bg-video-wrap,
+#sunny-canvas,
 #petal-canvas {
     position: fixed;
     inset: 0;
@@ -5337,14 +5337,8 @@ a .reveal-word {
     transition: opacity 0.6s ease, visibility 0.6s ease;
 }
 
-#bg-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
 /* Mode-active: show layers */
-body.mode-sunny #bg-video-wrap {
+body.mode-sunny #sunny-canvas {
     opacity: 1;
     visibility: visible;
 }
@@ -5429,7 +5423,7 @@ body.mode-spring .social-links {
 
 /* Print: hide all atmosphere elements */
 @media print {
-    #bg-video-wrap,
+    #sunny-canvas,
     #petal-canvas,
     #mode-toggle {
         display: none !important;

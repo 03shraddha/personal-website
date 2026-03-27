@@ -1765,8 +1765,7 @@ function initTextReveal() {
     // Define selectors for elements to animate
     const selectors = [
         // Hello Section
-        '#name', '#hello-intro', '#contact-line',
-        '.unique-abilities h2', '.unique-abilities li',
+        '#name',
         // About Section
         '#about .section-title', '#about .section-intro',
         '#about-content p', '#about-content .about-subtitle',
@@ -3857,70 +3856,106 @@ function initAtmosphereToggle() {
     const MODES = ['normal', 'sunny', 'spring'];
     const ICONS = { normal: '🌿', sunny: '☀️', spring: '🌸' };
     const LABELS = { normal: 'mode', sunny: 'sunny', spring: 'spring' };
-    // Pexels free stock video — sunlight through leaves (720p, muted loop)
-    // Replace VIDEO_ID with actual Pexels video ID if needed
-    const SUNNY_VIDEO_URL = 'https://videos.pexels.com/video-files/3571264/3571264-hd_1920_1080_25fps.mp4';
 
     const toggleBtn = document.getElementById('mode-toggle');
     const modeIcon = document.getElementById('mode-icon');
     const modeLabel = document.getElementById('mode-label');
-    const video = document.getElementById('bg-video');
+    const sunnyCanvas = document.getElementById('sunny-canvas');
     const canvas = document.getElementById('petal-canvas');
 
-    if (!toggleBtn || !video || !canvas) return;
+    if (!toggleBtn || !sunnyCanvas || !canvas) return;
 
     let currentMode = 'normal';
+
+    function debounceResize(fn, delay) {
+        let timer;
+        return function() { clearTimeout(timer); timer = setTimeout(fn, delay); };
+    }
+
+    // ── Spring mode: petals + flowers + leaves ──
+    const PARTICLE_COUNT = 65;
+    const PETAL_COLORS = ['#FFB7C5', '#FFC0CB', '#FFD1DC', '#FFAAB5', '#F9A8BF', '#FADADD'];
+    const LEAF_COLORS  = ['#b8d4a8', '#a8c898', '#98b888', '#c8deb8'];
+    let particles = [];
     let petalAnimFrame = null;
     let petalResizeHandler = null;
     const ctx = canvas.getContext('2d');
 
-    // ── Petal system ──
-    const PETAL_COUNT = 70;
-    const PETAL_COLORS = ['#FFB7C5', '#FFC0CB', '#FFD1DC', '#FFAAB5', '#F9A8BF', '#FADADD'];
-    let petals = [];
-
-    function createPetal(randomY) {
+    function createParticle(randomY) {
+        const roll = Math.random();
+        // 55% single petal, 30% 5-petal flower, 15% leaf
+        const type = roll < 0.55 ? 'petal' : roll < 0.85 ? 'flower' : 'leaf';
         return {
+            type,
             x: Math.random() * canvas.width,
-            y: randomY ? Math.random() * canvas.height : -10,
-            size: 4 + Math.random() * 6,
-            speed: 0.8 + Math.random() * 1.7,
-            drift: 0.3 + Math.random() * 0.9,
+            y: randomY ? Math.random() * canvas.height : -15,
+            size: type === 'flower' ? 5 + Math.random() * 5 :
+                  type === 'leaf'   ? 6 + Math.random() * 7 :
+                                      3 + Math.random() * 5,
+            speed: 0.5 + Math.random() * 1.3,
+            drift: 0.2 + Math.random() * 0.8,
             angle: Math.random() * Math.PI * 2,
-            rotationSpeed: (Math.random() - 0.5) * 0.06,
-            opacity: 0.45 + Math.random() * 0.55,
+            rotationSpeed: (Math.random() - 0.5) * 0.04,
+            opacity: 0.18 + Math.random() * 0.22, // kept subtle
             phase: Math.random() * Math.PI * 2,
-            color: PETAL_COLORS[Math.floor(Math.random() * PETAL_COLORS.length)]
+            color: type === 'leaf'
+                ? LEAF_COLORS[Math.floor(Math.random() * LEAF_COLORS.length)]
+                : PETAL_COLORS[Math.floor(Math.random() * PETAL_COLORS.length)]
         };
     }
 
-    function drawPetal(p) {
+    function drawSpringParticle(p) {
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(p.angle);
         ctx.globalAlpha = p.opacity;
         ctx.fillStyle = p.color;
-        ctx.beginPath();
-        // Teardrop/petal shape with bezier curves
-        ctx.moveTo(0, -p.size);
-        ctx.bezierCurveTo(p.size * 0.8, -p.size * 0.5, p.size * 0.8, p.size * 0.5, 0, p.size);
-        ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.5, -p.size * 0.8, -p.size * 0.5, 0, -p.size);
-        ctx.fill();
+
+        if (p.type === 'flower') {
+            // 5-petal cherry blossom
+            const r = p.size;
+            for (let i = 0; i < 5; i++) {
+                ctx.save();
+                ctx.rotate((i / 5) * Math.PI * 2);
+                ctx.beginPath();
+                ctx.ellipse(0, -r * 0.9, r * 0.45, r * 0.7, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+            // Centre dot
+            ctx.fillStyle = '#ff99aa';
+            ctx.beginPath();
+            ctx.arc(0, 0, r * 0.28, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (p.type === 'leaf') {
+            // Simple oval leaf
+            ctx.beginPath();
+            ctx.ellipse(0, 0, p.size * 0.38, p.size, 0, 0, Math.PI * 2);
+            ctx.fill();
+        } else {
+            // Single teardrop petal
+            ctx.beginPath();
+            ctx.moveTo(0, -p.size);
+            ctx.bezierCurveTo( p.size * 0.75, -p.size * 0.4,  p.size * 0.75, p.size * 0.4, 0, p.size);
+            ctx.bezierCurveTo(-p.size * 0.75,  p.size * 0.4, -p.size * 0.75, -p.size * 0.4, 0, -p.size);
+            ctx.fill();
+        }
+
         ctx.globalAlpha = 1;
         ctx.restore();
     }
 
     function animatePetals() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        petals.forEach(p => {
+        particles.forEach(p => {
             p.y += p.speed;
             p.x += Math.sin(p.phase + p.y * 0.012) * p.drift;
             p.angle += p.rotationSpeed;
             if (p.y > canvas.height + 20) {
-                p.y = -10;
+                p.y = -15;
                 p.x = Math.random() * canvas.width;
             }
-            drawPetal(p);
+            drawSpringParticle(p);
         });
         petalAnimFrame = requestAnimationFrame(animatePetals);
     }
@@ -3928,71 +3963,146 @@ function initAtmosphereToggle() {
     function startSpringMode() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        petals = Array.from({ length: PETAL_COUNT }, () => createPetal(true));
-
+        particles = Array.from({ length: PARTICLE_COUNT }, () => createParticle(true));
         petalResizeHandler = debounceResize(() => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            petals.forEach(p => {
-                p.x = Math.random() * canvas.width;
-            });
+            particles.forEach(p => { p.x = Math.random() * canvas.width; });
         }, 150);
         window.addEventListener('resize', petalResizeHandler);
-
         petalAnimFrame = requestAnimationFrame(animatePetals);
-
-        // Pause when tab hidden, resume when visible
         document.addEventListener('visibilitychange', handleSpringVisibility);
     }
 
     function handleSpringVisibility() {
         if (document.hidden) {
-            if (petalAnimFrame) {
-                cancelAnimationFrame(petalAnimFrame);
-                petalAnimFrame = null;
-            }
+            if (petalAnimFrame) { cancelAnimationFrame(petalAnimFrame); petalAnimFrame = null; }
         } else if (currentMode === 'spring' && !petalAnimFrame) {
             petalAnimFrame = requestAnimationFrame(animatePetals);
         }
     }
 
     function stopSpringMode() {
-        if (petalAnimFrame) {
-            cancelAnimationFrame(petalAnimFrame);
-            petalAnimFrame = null;
-        }
+        if (petalAnimFrame) { cancelAnimationFrame(petalAnimFrame); petalAnimFrame = null; }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if (petalResizeHandler) {
-            window.removeEventListener('resize', petalResizeHandler);
-            petalResizeHandler = null;
-        }
+        if (petalResizeHandler) { window.removeEventListener('resize', petalResizeHandler); petalResizeHandler = null; }
         document.removeEventListener('visibilitychange', handleSpringVisibility);
     }
 
-    function debounceResize(fn, delay) {
-        let timer;
-        return function() {
-            clearTimeout(timer);
-            timer = setTimeout(fn, delay);
-        };
-    }
+    // ── Sunny mode: canvas animation of sunlight through leaves ──
+    const sunnyCtx = sunnyCanvas.getContext('2d');
+    let sunnyAnimFrame = null;
+    let sunnyTime = 0;
+    let sunnyLeaves = [];
+    let sunnyBokeh = [];
+    let sunnyResizeHandler = null;
 
-    // ── Sunny mode ──
-    let videoSrcSet = false;
-
-    function startSunnyMode() {
-        if (!videoSrcSet) {
-            video.src = SUNNY_VIDEO_URL;
-            videoSrcSet = true;
-        }
-        video.load();
-        video.play().catch(() => {
-            // Autoplay blocked — user must interact first; video will play on next interaction
+    function generateSunnyScene() {
+        const w = sunnyCanvas.width, h = sunnyCanvas.height;
+        sunnyLeaves = Array.from({ length: 16 }, () => ({
+            x: Math.random() * w,
+            y: Math.random() * h * 0.75,
+            size: 14 + Math.random() * 32,
+            baseAngle: Math.random() * Math.PI * 2,
+            swaySpeed: 0.2 + Math.random() * 0.4,
+            swayAmt: 0.04 + Math.random() * 0.12,
+            swayOffset: Math.random() * Math.PI * 2,
+            opacity: 0.3 + Math.random() * 0.45,
+        }));
+        sunnyBokeh = Array.from({ length: 16 }, () => {
+            const bx = Math.random() * w, by = Math.random() * h;
+            return {
+                baseX: bx, baseY: by,
+                radius: 70 + Math.random() * 130,
+                driftSpeed: 0.08 + Math.random() * 0.15,
+                driftR: 25 + Math.random() * 55,
+                driftOffset: Math.random() * Math.PI * 2,
+                opacity: 0.12 + Math.random() * 0.2,
+            };
         });
     }
 
+    function drawSunnyLeaf(x, y, size, angle, opacity) {
+        sunnyCtx.save();
+        sunnyCtx.translate(x, y);
+        sunnyCtx.rotate(angle);
+        sunnyCtx.globalAlpha = opacity;
+        sunnyCtx.fillStyle = '#18110a';
+        sunnyCtx.beginPath();
+        sunnyCtx.moveTo(0, -size);
+        sunnyCtx.bezierCurveTo( size * 0.52, -size * 0.45,  size * 0.52, size * 0.45, 0, size);
+        sunnyCtx.bezierCurveTo(-size * 0.52,  size * 0.45, -size * 0.52, -size * 0.45, 0, -size);
+        sunnyCtx.fill();
+        // Midrib
+        sunnyCtx.globalAlpha = opacity * 0.4;
+        sunnyCtx.strokeStyle = '#0d0905';
+        sunnyCtx.lineWidth = Math.max(0.8, size * 0.055);
+        sunnyCtx.beginPath();
+        sunnyCtx.moveTo(0, -size * 0.85);
+        sunnyCtx.lineTo(0, size * 0.85);
+        sunnyCtx.stroke();
+        sunnyCtx.restore();
+    }
+
+    function animateSunny(timestamp) {
+        sunnyTime = timestamp * 0.001;
+        const w = sunnyCanvas.width, h = sunnyCanvas.height;
+
+        // Warm base gradient
+        const bg = sunnyCtx.createLinearGradient(0, 0, w * 0.6, h);
+        bg.addColorStop(0, '#d8c9a8');
+        bg.addColorStop(0.5, '#c8b590');
+        bg.addColorStop(1, '#b8a078');
+        sunnyCtx.fillStyle = bg;
+        sunnyCtx.fillRect(0, 0, w, h);
+
+        // Central light shaft from top-right
+        const shaft = sunnyCtx.createRadialGradient(w * 0.65, 0, 0, w * 0.65, h * 0.4, h * 0.9);
+        shaft.addColorStop(0, 'rgba(255, 248, 210, 0.42)');
+        shaft.addColorStop(1, 'rgba(255, 245, 195, 0)');
+        sunnyCtx.fillStyle = shaft;
+        sunnyCtx.fillRect(0, 0, w, h);
+
+        // Dappled bokeh light patches
+        sunnyBokeh.forEach(b => {
+            const t = sunnyTime * b.driftSpeed + b.driftOffset;
+            const bx = b.baseX + Math.sin(t) * b.driftR;
+            const by = b.baseY + Math.cos(t * 0.65) * b.driftR * 0.5;
+            const g = sunnyCtx.createRadialGradient(bx, by, 0, bx, by, b.radius);
+            g.addColorStop(0, `rgba(255, 242, 185, ${b.opacity})`);
+            g.addColorStop(1, 'rgba(255, 238, 170, 0)');
+            sunnyCtx.fillStyle = g;
+            sunnyCtx.beginPath();
+            sunnyCtx.arc(bx, by, b.radius, 0, Math.PI * 2);
+            sunnyCtx.fill();
+        });
+
+        // Leaf silhouettes gently swaying
+        sunnyLeaves.forEach(l => {
+            const sway = Math.sin(sunnyTime * l.swaySpeed + l.swayOffset) * l.swayAmt;
+            drawSunnyLeaf(l.x, l.y, l.size, l.baseAngle + sway, l.opacity);
+        });
+
+        sunnyAnimFrame = requestAnimationFrame(animateSunny);
+    }
+
+    function startSunnyMode() {
+        sunnyCanvas.width = window.innerWidth;
+        sunnyCanvas.height = window.innerHeight;
+        generateSunnyScene();
+        sunnyAnimFrame = requestAnimationFrame(animateSunny);
+        sunnyResizeHandler = debounceResize(() => {
+            sunnyCanvas.width = window.innerWidth;
+            sunnyCanvas.height = window.innerHeight;
+            generateSunnyScene();
+        }, 150);
+        window.addEventListener('resize', sunnyResizeHandler);
+    }
+
     function stopSunnyMode() {
-        video.pause();
+        if (sunnyAnimFrame) { cancelAnimationFrame(sunnyAnimFrame); sunnyAnimFrame = null; }
+        sunnyCtx.clearRect(0, 0, sunnyCanvas.width, sunnyCanvas.height);
+        if (sunnyResizeHandler) { window.removeEventListener('resize', sunnyResizeHandler); sunnyResizeHandler = null; }
     }
 
     // ── Mode application ──
