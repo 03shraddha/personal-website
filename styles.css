@@ -4236,6 +4236,12 @@ a .reveal-word {
     color: var(--color-text);
 }
 
+/* Prevent inline font styles from copy-pasted content overriding the design */
+.detail-thoughts-content * {
+    font-size: inherit !important;
+    font-family: inherit !important;
+}
+
 .detail-thoughts-content p {
     margin-bottom: 16px;
 }
