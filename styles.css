@@ -5363,23 +5363,33 @@ body.mode-sunny #sunny-bg {
     visibility: visible;
 }
 
-/* Sunny bg: gentle warm sunlight glow from top-right corner */
+/* Sunny bg: soft directional sun glow from top-right, no SVG filter
+   (filter was clipping the gradient and making it invisible) */
 #sunny-bg {
     background:
-        radial-gradient(ellipse 65% 55% at 96% 0%,
-            rgba(255, 218, 90, 0.55) 0%,
-            rgba(255, 232, 140, 0.30) 28%,
-            rgba(255, 243, 190, 0.14) 55%,
-            transparent 74%),
-        radial-gradient(ellipse 40% 30% at 98% 2%,
-            rgba(255, 255, 200, 0.30) 0%,
-            transparent 60%);
-    filter: url(#sunlight-filter);
+        radial-gradient(ellipse 55% 45% at 88% -2%,
+            rgba(255, 205, 40, 0.42) 0%,
+            rgba(255, 225, 100, 0.22) 38%,
+            rgba(255, 242, 165, 0.10) 65%,
+            transparent 80%),
+        radial-gradient(ellipse 28% 22% at 90% 1%,
+            rgba(255, 255, 210, 0.45) 0%,
+            transparent 55%);
 }
 
-/* Warm the page itself so the glow feels cohesive, not pasted-on */
+/* Gentle shimmer — simulates natural light variation */
+@keyframes sunShimmer {
+    0%, 100% { opacity: 0.82; }
+    50% { opacity: 1; }
+}
+
+body.mode-sunny #sunny-bg {
+    animation: sunShimmer 9s ease-in-out infinite;
+}
+
+/* Warm the whole page so glow blends naturally (amber-50 tone) */
 body.mode-sunny {
-    background-color: #fefcf4;
+    background-color: #fffaeb;
     transition: background-color 0.6s ease;
 }
 
@@ -5388,19 +5398,19 @@ body.mode-spring #petal-canvas {
     visibility: visible;
 }
 
-/* Main content: transparent — warm page colour shows through naturally */
+/* Main content: transparent — warm page colour shows through */
 body.mode-sunny .main-content {
     background: transparent;
     transition: background 0.6s ease;
 }
 
 body.mode-sunny .sidebar {
-    background: rgba(254, 252, 244, 0.96) !important;
+    background: rgba(255, 250, 235, 0.97) !important;
 }
 
-/* Social links: keep readable but inherit warm tone */
+/* Social links: inherit warm tone */
 body.mode-sunny .social-links {
-    background: rgba(254, 252, 244, 0.92);
+    background: rgba(255, 250, 235, 0.93);
     padding: 6px 12px;
     border-radius: 20px;
 }
