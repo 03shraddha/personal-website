@@ -1745,6 +1745,12 @@ a, button, .tab, .highlight, [role="button"] {
     color: var(--color-text-muted);
 }
 
+/* Prevent inline font styles from Supabase content overriding the design */
+.project-expanded * {
+    font-size: inherit !important;
+    font-family: inherit !important;
+}
+
 /* Project Toggle Button */
 .project-toggle {
     display: inline-flex;
