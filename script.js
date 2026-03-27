@@ -3694,7 +3694,7 @@ Type your message below and click
 function initAudioIntro() {
     const INTRO_LINES = [
         "hi, i'm shraddha.",
-        "i've worked in analytics and now work in product management.",
+        "i have experience in analytics & product management and am currently open to work.",
         "this is my corner of the internet where i share my work, unfinished projects, imperfect experiments and whatever i'm curious about right now.",
         "a couple of my friends also think i'm funny."
     ];
@@ -3702,8 +3702,8 @@ function initAudioIntro() {
     const CIRCUMFERENCE = 125.66;
 
     // Word counts per line — used to proportion timestamps
-    const WORD_COUNTS = [4, 12, 30, 10];
-    const TOTAL_WORDS = 56;
+    const WORD_COUNTS = [4, 14, 30, 10];
+    const TOTAL_WORDS = 58;
     // Estimated duration at rate 0.92 (~138 wpm) = ~24.3s
     const EST_MS = (TOTAL_WORDS / 138) * 60 * 1000;
 

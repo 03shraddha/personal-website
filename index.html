@@ -77,8 +77,16 @@
     </script>
 </head>
 <body>
-    <!-- Atmosphere Modes: canvas background (Sunny) -->
-    <canvas id="sunny-canvas" aria-hidden="true"></canvas>
+    <!-- Atmosphere Modes: SVG filter + div background (Sunny) -->
+    <svg id="sunny-svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+        <defs>
+            <filter id="sunlight-filter" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+                <feTurbulence id="sun-turbulence" type="fractalNoise" baseFrequency="0.013 0.010" numOctaves="3" seed="4" result="noise"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="28" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+        </defs>
+    </svg>
+    <div id="sunny-bg" aria-hidden="true"></div>
     <!-- Atmosphere Modes: canvas for falling petals (Spring) -->
     <canvas id="petal-canvas" aria-hidden="true"></canvas>
 

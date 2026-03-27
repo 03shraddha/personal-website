@@ -5216,13 +5216,13 @@ a .reveal-word {
 /* ── Audio Voice Introduction ── */
 .audio-intro {
     display: flex;
+    flex-direction: column;   /* stacked: button above transcript */
     align-items: flex-start;
-    gap: 16px;
+    gap: 14px;
     margin: 20px 0 24px;
 }
 
 .audio-play-btn {
-    flex-shrink: 0;
     width: 48px;
     height: 48px;
     position: relative;
@@ -5272,28 +5272,50 @@ a .reveal-word {
 }
 
 .audio-transcript {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    padding-top: 2px;
+    gap: 6px;
 }
 
 .transcript-line {
     font-family: var(--font-body);
     font-size: inherit;
     line-height: 1.65;
-    color: var(--color-text-light);  /* always visible, faint */
-    opacity: 1;
-    transition: color 0.35s ease;
+    color: var(--color-text-light);
+    position: relative;
+    padding-bottom: 3px;
+    transition: color 0.3s ease;
 }
 
+/* Underline track (always present, empty) */
+.transcript-line::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    width: 0;
+    background: var(--color-text);
+    transition: none;
+}
+
+/* Active: text goes dark + underline animates across */
 .transcript-line.active {
-    color: var(--color-text);  /* full colour while speaking */
+    color: var(--color-text);
+}
+.transcript-line.active::after {
+    width: 100%;
+    /* duration set per-line via --line-dur custom property in JS */
+    transition: width var(--line-dur, 6s) linear;
 }
 
+/* Done: text muted, underline stays full */
 .transcript-line.done {
-    color: var(--color-text-muted);  /* slightly dimmed after spoken */
+    color: var(--color-text-muted);
+}
+.transcript-line.done::after {
+    width: 100%;
+    background: var(--color-border);
 }
 
 @media (max-width: 600px) {
@@ -5322,7 +5344,7 @@ a .reveal-word {
 /* ── Atmosphere Modes (Sunny + Spring) ── */
 
 /* Background containers — hidden by default */
-#sunny-canvas,
+#sunny-bg,
 #petal-canvas {
     position: fixed;
     inset: 0;
@@ -5336,9 +5358,29 @@ a .reveal-word {
 }
 
 /* Mode-active: show layers */
-body.mode-sunny #sunny-canvas {
+body.mode-sunny #sunny-bg {
     opacity: 1;
     visibility: visible;
+}
+
+/* Sunny bg: gentle warm sunlight glow from top-right corner */
+#sunny-bg {
+    background:
+        radial-gradient(ellipse 65% 55% at 96% 0%,
+            rgba(255, 218, 90, 0.55) 0%,
+            rgba(255, 232, 140, 0.30) 28%,
+            rgba(255, 243, 190, 0.14) 55%,
+            transparent 74%),
+        radial-gradient(ellipse 40% 30% at 98% 2%,
+            rgba(255, 255, 200, 0.30) 0%,
+            transparent 60%);
+    filter: url(#sunlight-filter);
+}
+
+/* Warm the page itself so the glow feels cohesive, not pasted-on */
+body.mode-sunny {
+    background-color: #fefcf4;
+    transition: background-color 0.6s ease;
 }
 
 body.mode-spring #petal-canvas {
@@ -5346,27 +5388,21 @@ body.mode-spring #petal-canvas {
     visibility: visible;
 }
 
-/* Content readability backing — sunny only (spring stays pure white) */
+/* Main content: transparent — warm page colour shows through naturally */
 body.mode-sunny .main-content {
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: transparent;
     transition: background 0.6s ease;
 }
 
 body.mode-sunny .sidebar {
-    background: rgba(255, 255, 255, 0.92) !important;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(254, 252, 244, 0.96) !important;
 }
 
-/* Social links backing — sunny only */
+/* Social links: keep readable but inherit warm tone */
 body.mode-sunny .social-links {
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(254, 252, 244, 0.92);
     padding: 6px 12px;
     border-radius: 20px;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
 }
 
 /* Mode toggle pill button */
@@ -5418,7 +5454,7 @@ body.mode-sunny .social-links {
 
 /* Print: hide all atmosphere elements */
 @media print {
-    #sunny-canvas,
+    #sunny-bg,
     #petal-canvas,
     #mode-toggle {
         display: none !important;
