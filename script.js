@@ -3699,14 +3699,20 @@ function initAudioIntro() {
         "a couple of my friends also think i'm funny."
     ];
     const FULL_TEXT = INTRO_LINES.join(' ');
-    const CIRCUMFERENCE = 125.66; // 2π × 20 (r=20 for 48px button)
+    const CIRCUMFERENCE = 125.66;
 
-    // Precompute char offset where each line starts in FULL_TEXT
-    const lineOffsets = [];
-    let offset = 0;
-    INTRO_LINES.forEach(line => {
-        lineOffsets.push(offset);
-        offset += line.length + 1; // +1 for the joining space
+    // Word counts per line — used to proportion timestamps
+    const WORD_COUNTS = [4, 12, 30, 10];
+    const TOTAL_WORDS = 56;
+    // Estimated duration at rate 0.92 (~138 wpm) = ~24.3s
+    const EST_MS = (TOTAL_WORDS / 138) * 60 * 1000;
+
+    // Pre-compute ms offset where each line starts
+    let _elapsed = 0;
+    const LINE_START_MS = WORD_COUNTS.map(w => {
+        const t = _elapsed;
+        _elapsed += (w / TOTAL_WORDS) * EST_MS;
+        return t;
     });
 
     const playBtn = document.getElementById('audio-play-btn');
@@ -3716,11 +3722,13 @@ function initAudioIntro() {
 
     if (!playBtn || !transcriptEl || !window.speechSynthesis) return;
 
-    // Inject transcript lines into DOM
-    const lineEls = INTRO_LINES.map(text => {
+    const lineEls = INTRO_LINES.map((text, i) => {
         const el = document.createElement('p');
         el.className = 'transcript-line';
         el.textContent = text;
+        // Duration for the underline animation = how long this line takes to speak
+        const lineDurSec = ((WORD_COUNTS[i] / TOTAL_WORDS) * EST_MS / 1000).toFixed(1);
+        el.style.setProperty('--line-dur', `${lineDurSec}s`);
         transcriptEl.appendChild(el);
         return el;
     });
@@ -3729,16 +3737,17 @@ function initAudioIntro() {
     let isEnded = false;
     let activeIndex = -1;
     let utterance = null;
+    let timerFrame = null;
+    let startTime = null;   // Date.now() when speech started
+    let pausedAt = 0;       // ms elapsed when paused
 
     function getFemaleVoice() {
         const voices = speechSynthesis.getVoices();
-        // Prefer common female English voices across browsers/OS
         const preferred = ['Samantha', 'Google US English', 'Microsoft Zira', 'Karen', 'Victoria', 'Moira', 'Tessa'];
         for (const name of preferred) {
             const v = voices.find(v => v.name.includes(name) && v.lang.startsWith('en'));
             if (v) return v;
         }
-        // Fallback: any English voice
         return voices.find(v => v.lang.startsWith('en')) || voices[0] || null;
     }
 
@@ -3754,13 +3763,29 @@ function initAudioIntro() {
         });
     }
 
-    function getLineIndex(charIndex) {
-        // Find which line this charIndex falls into
-        let idx = 0;
-        for (let i = lineOffsets.length - 1; i >= 0; i--) {
-            if (charIndex >= lineOffsets[i]) { idx = i; break; }
+    // Timer-based sync — reliable across all browsers, no onboundary needed
+    function startTimer(fromMs) {
+        startTime = Date.now() - fromMs;
+        function tick() {
+            if (!isPlaying) return;
+            const elapsed = Date.now() - startTime;
+            setRing(elapsed / EST_MS);
+
+            let newIdx = -1;
+            for (let i = LINE_START_MS.length - 1; i >= 0; i--) {
+                if (elapsed >= LINE_START_MS[i]) { newIdx = i; break; }
+            }
+            if (newIdx !== activeIndex) {
+                activeIndex = newIdx;
+                updateLines(newIdx);
+            }
+            if (elapsed < EST_MS * 1.1) timerFrame = requestAnimationFrame(tick);
         }
-        return idx;
+        timerFrame = requestAnimationFrame(tick);
+    }
+
+    function stopTimer() {
+        if (timerFrame) { cancelAnimationFrame(timerFrame); timerFrame = null; }
     }
 
     function buildUtterance() {
@@ -3770,36 +3795,32 @@ function initAudioIntro() {
         const voice = getFemaleVoice();
         if (voice) utterance.voice = voice;
 
-        utterance.onboundary = (e) => {
-            const progress = e.charIndex / FULL_TEXT.length;
-            setRing(progress);
-            const lineIdx = getLineIndex(e.charIndex);
-            if (lineIdx !== activeIndex) {
-                activeIndex = lineIdx;
-                updateLines(lineIdx);
-            }
-        };
+        utterance.onstart = () => startTimer(pausedAt);
 
         utterance.onend = () => {
+            stopTimer();
             isPlaying = false;
             isEnded = true;
+            pausedAt = 0;
             setRing(1);
             lineEls.forEach(el => { el.classList.remove('active'); el.classList.add('done'); });
-            if (playIcon) playIcon.innerHTML = '&#8635;'; // ↺
+            if (playIcon) playIcon.innerHTML = '&#8635;';
             if (playBtn) playBtn.setAttribute('aria-label', 'Replay introduction');
         };
 
-        utterance.onerror = () => { isPlaying = false; };
+        utterance.onerror = () => { stopTimer(); isPlaying = false; };
     }
 
     function resetPlayer() {
+        stopTimer();
         speechSynthesis.cancel();
         isPlaying = false;
         isEnded = false;
         activeIndex = -1;
+        pausedAt = 0;
         setRing(0);
         lineEls.forEach(el => el.classList.remove('active', 'done'));
-        if (playIcon) playIcon.innerHTML = '&#9654;'; // ▶
+        if (playIcon) playIcon.innerHTML = '&#9654;';
         if (playBtn) playBtn.setAttribute('aria-label', 'Play introduction');
     }
 
@@ -3807,38 +3828,41 @@ function initAudioIntro() {
         buildUtterance();
         speechSynthesis.speak(utterance);
         isPlaying = true;
-        if (playIcon) playIcon.innerHTML = '&#9646;&#9646;'; // ⏸
+        if (playIcon) playIcon.innerHTML = '&#9646;&#9646;';
         if (playBtn) playBtn.setAttribute('aria-label', 'Pause introduction');
     }
 
     playBtn.addEventListener('click', () => {
         if (isEnded) {
             resetPlayer();
-            // Small delay needed so cancel() fully clears before speak()
             setTimeout(startSpeech, 100);
             return;
         }
         if (isPlaying) {
+            pausedAt = Date.now() - startTime; // save elapsed before pause
+            stopTimer();
             speechSynthesis.pause();
             isPlaying = false;
-            if (playIcon) playIcon.innerHTML = '&#9654;'; // ▶
+            if (playIcon) playIcon.innerHTML = '&#9654;';
             if (playBtn) playBtn.setAttribute('aria-label', 'Play introduction');
         } else {
             if (speechSynthesis.paused) {
                 speechSynthesis.resume();
+                startTimer(pausedAt); // resume timer from saved position
             } else {
                 startSpeech();
                 return;
             }
             isPlaying = true;
-            if (playIcon) playIcon.innerHTML = '&#9646;&#9646;'; // ⏸
+            if (playIcon) playIcon.innerHTML = '&#9646;&#9646;';
             if (playBtn) playBtn.setAttribute('aria-label', 'Pause introduction');
         }
     });
 
-    // Pause when tab is hidden
     document.addEventListener('visibilitychange', () => {
         if (document.hidden && isPlaying) {
+            pausedAt = Date.now() - startTime;
+            stopTimer();
             speechSynthesis.pause();
             isPlaying = false;
             if (playIcon) playIcon.innerHTML = '&#9654;';
@@ -3846,7 +3870,6 @@ function initAudioIntro() {
         }
     });
 
-    // Cancel speech if user navigates away
     window.addEventListener('beforeunload', () => speechSynthesis.cancel());
 }
 
@@ -3858,10 +3881,11 @@ function initAtmosphereToggle() {
 
     const toggleBtn = document.getElementById('mode-toggle');
     const modeLabel = document.getElementById('mode-label');
-    const sunnyCanvas = document.getElementById('sunny-canvas');
+    const sunnyBg = document.getElementById('sunny-bg');
+    const sunTurbulence = document.getElementById('sun-turbulence');
     const canvas = document.getElementById('petal-canvas');
 
-    if (!toggleBtn || !sunnyCanvas || !canvas) return;
+    if (!toggleBtn || !canvas) return;
 
     let currentMode = 'normal';
 
@@ -3987,132 +4011,27 @@ function initAtmosphereToggle() {
         document.removeEventListener('visibilitychange', handleSpringVisibility);
     }
 
-    // ── Sunny mode: canvas animation of sunlight through leaves ──
-    const sunnyCtx = sunnyCanvas.getContext('2d');
+    // ── Sunny mode: SVG feTurbulence organic light animation ──
     let sunnyAnimFrame = null;
     let sunnyTime = 0;
-    let sunnyLeaves = [];
-    let sunnyBokeh = [];
-    let sunnyResizeHandler = null;
 
-    function generateSunnyScene() {
-        const w = sunnyCanvas.width, h = sunnyCanvas.height;
-        // Blurred shadow ellipses — implied leaves, not hard shapes
-        sunnyLeaves = Array.from({ length: 18 }, () => ({
-            x: (Math.random() - 0.1) * w * 1.2,
-            y: Math.random() * h,
-            rx: 10 + Math.random() * 28,   // narrow ellipse width
-            ry: 28 + Math.random() * 65,   // tall ellipse height
-            angle: Math.random() * Math.PI,
-            swaySpeed: 0.12 + Math.random() * 0.25,
-            swayAmt: 0.03 + Math.random() * 0.07,
-            swayOffset: Math.random() * Math.PI * 2,
-            opacity: 0.06 + Math.random() * 0.1,  // very subtle
-        }));
-        // Dappled light spots
-        sunnyBokeh = Array.from({ length: 22 }, () => {
-            const bx = Math.random() * w, by = Math.random() * h;
-            return {
-                baseX: bx, baseY: by,
-                radius: 50 + Math.random() * 120,
-                driftSpeed: 0.05 + Math.random() * 0.1,
-                driftR: 18 + Math.random() * 45,
-                driftOffset: Math.random() * Math.PI * 2,
-                pulseSpeed: 0.4 + Math.random() * 0.8,
-                pulseOffset: Math.random() * Math.PI * 2,
-                opacity: 0.14 + Math.random() * 0.22,
-            };
-        });
-    }
+    function generateSunnyScene() { /* no-op — SVG filter handles rendering */ }
 
     function animateSunny(timestamp) {
-        sunnyTime = timestamp * 0.001;
-        const w = sunnyCanvas.width, h = sunnyCanvas.height;
-
-        // White base — site stays bright
-        sunnyCtx.fillStyle = '#ffffff';
-        sunnyCtx.fillRect(0, 0, w, h);
-
-        // Warm golden wash — sunlight colour cast
-        const wash = sunnyCtx.createLinearGradient(w * 0.3, 0, w, h);
-        wash.addColorStop(0, 'rgba(255, 245, 200, 0.55)');
-        wash.addColorStop(0.5, 'rgba(255, 230, 150, 0.3)');
-        wash.addColorStop(1, 'rgba(240, 200, 100, 0.2)');
-        sunnyCtx.fillStyle = wash;
-        sunnyCtx.fillRect(0, 0, w, h);
-
-        // Bright glare burst — top-right, like direct sun
-        const glare = sunnyCtx.createRadialGradient(w * 0.82, h * 0.08, 0, w * 0.82, h * 0.08, h * 0.55);
-        glare.addColorStop(0,   'rgba(255, 255, 240, 0.95)');
-        glare.addColorStop(0.08,'rgba(255, 250, 210, 0.75)');
-        glare.addColorStop(0.25,'rgba(255, 240, 180, 0.35)');
-        glare.addColorStop(0.6, 'rgba(255, 235, 160, 0.1)');
-        glare.addColorStop(1,   'rgba(255, 230, 140, 0)');
-        sunnyCtx.fillStyle = glare;
-        sunnyCtx.fillRect(0, 0, w, h);
-
-        // Angled light shaft across the page
-        const shaft = sunnyCtx.createLinearGradient(w * 0.5, 0, w * 0.1, h);
-        shaft.addColorStop(0,   'rgba(255, 252, 220, 0.22)');
-        shaft.addColorStop(0.4, 'rgba(255, 245, 195, 0.08)');
-        shaft.addColorStop(1,   'rgba(255, 240, 180, 0)');
-        sunnyCtx.fillStyle = shaft;
-        sunnyCtx.fillRect(0, 0, w, h);
-
-        // Dappled bokeh — pulsing warm light spots
-        sunnyBokeh.forEach(b => {
-            const t = sunnyTime * b.driftSpeed + b.driftOffset;
-            const pulse = 1 + Math.sin(sunnyTime * b.pulseSpeed + b.pulseOffset) * 0.1;
-            const bx = b.baseX + Math.sin(t) * b.driftR;
-            const by = b.baseY + Math.cos(t * 0.7) * b.driftR * 0.55;
-            const r = b.radius * pulse;
-            const g = sunnyCtx.createRadialGradient(bx, by, 0, bx, by, r);
-            g.addColorStop(0, `rgba(255, 245, 190, ${b.opacity * pulse})`);
-            g.addColorStop(0.5, `rgba(255, 238, 165, ${b.opacity * 0.45})`);
-            g.addColorStop(1, 'rgba(255, 235, 150, 0)');
-            sunnyCtx.fillStyle = g;
-            sunnyCtx.beginPath();
-            sunnyCtx.arc(bx, by, r, 0, Math.PI * 2);
-            sunnyCtx.fill();
-        });
-
-        // Blurred leaf shadow suggestions — soft ellipses
-        sunnyCtx.filter = 'blur(8px)';
-        sunnyLeaves.forEach(l => {
-            const sway = Math.sin(sunnyTime * l.swaySpeed + l.swayOffset) * l.swayAmt;
-            sunnyCtx.save();
-            sunnyCtx.translate(l.x, l.y);
-            sunnyCtx.rotate(l.angle + sway);
-            sunnyCtx.globalAlpha = l.opacity;
-            sunnyCtx.fillStyle = '#5a4a20';
-            sunnyCtx.beginPath();
-            sunnyCtx.ellipse(0, 0, l.rx, l.ry, 0, 0, Math.PI * 2);
-            sunnyCtx.fill();
-            sunnyCtx.restore();
-        });
-        sunnyCtx.filter = 'none';
-        sunnyCtx.globalAlpha = 1;
-
+        if (!sunTurbulence) return;
+        sunnyTime = timestamp * 0.00007; // very slow organic drift
+        const bfx = (0.013 + Math.sin(sunnyTime * 0.8)  * 0.003).toFixed(4);
+        const bfy = (0.010 + Math.cos(sunnyTime * 0.55) * 0.002).toFixed(4);
+        sunTurbulence.setAttribute('baseFrequency', `${bfx} ${bfy}`);
         sunnyAnimFrame = requestAnimationFrame(animateSunny);
     }
 
     function startSunnyMode() {
-        sunnyCanvas.width = window.innerWidth;
-        sunnyCanvas.height = window.innerHeight;
-        generateSunnyScene();
         sunnyAnimFrame = requestAnimationFrame(animateSunny);
-        sunnyResizeHandler = debounceResize(() => {
-            sunnyCanvas.width = window.innerWidth;
-            sunnyCanvas.height = window.innerHeight;
-            generateSunnyScene();
-        }, 150);
-        window.addEventListener('resize', sunnyResizeHandler);
     }
 
     function stopSunnyMode() {
         if (sunnyAnimFrame) { cancelAnimationFrame(sunnyAnimFrame); sunnyAnimFrame = null; }
-        sunnyCtx.clearRect(0, 0, sunnyCanvas.width, sunnyCanvas.height);
-        if (sunnyResizeHandler) { window.removeEventListener('resize', sunnyResizeHandler); sunnyResizeHandler = null; }
     }
 
     // ── Mode application ──
