@@ -1877,11 +1877,11 @@ a, button, .tab, .highlight, [role="button"] {
 /* Mobile responsive */
 @media (max-width: 480px) {
     .project-card h3 {
-        font-size: 0.9375rem;
+        font-size: 1rem;
     }
 
     .project-brief {
-        font-size: 0.9375rem;
+        font-size: 0.875rem;
     }
 
     .project-links {
@@ -2518,7 +2518,7 @@ a, button, .tab, .highlight, [role="button"] {
     .experience-header h3,
     .project-card h3,
     .content-card h3 {
-        font-size: 0.9375rem; /* titles: one step above body */
+        font-size: 1rem; /* titles: visually distinct from muted description */
     }
 
     .experience-date {
