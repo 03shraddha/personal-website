@@ -3854,11 +3854,9 @@ function initAudioIntro() {
 // ── Atmosphere Modes (Sunny + Spring) ──
 function initAtmosphereToggle() {
     const MODES = ['normal', 'sunny', 'spring'];
-    const ICONS = { normal: '🌿', sunny: '☀️', spring: '🌸' };
     const LABELS = { normal: 'mode', sunny: 'sunny', spring: 'spring' };
 
     const toggleBtn = document.getElementById('mode-toggle');
-    const modeIcon = document.getElementById('mode-icon');
     const modeLabel = document.getElementById('mode-label');
     const sunnyCanvas = document.getElementById('sunny-canvas');
     const canvas = document.getElementById('petal-canvas');
@@ -3999,89 +3997,101 @@ function initAtmosphereToggle() {
 
     function generateSunnyScene() {
         const w = sunnyCanvas.width, h = sunnyCanvas.height;
-        sunnyLeaves = Array.from({ length: 16 }, () => ({
-            x: Math.random() * w,
-            y: Math.random() * h * 0.75,
-            size: 14 + Math.random() * 32,
-            baseAngle: Math.random() * Math.PI * 2,
-            swaySpeed: 0.2 + Math.random() * 0.4,
-            swayAmt: 0.04 + Math.random() * 0.12,
+        // Blurred shadow ellipses — implied leaves, not hard shapes
+        sunnyLeaves = Array.from({ length: 18 }, () => ({
+            x: (Math.random() - 0.1) * w * 1.2,
+            y: Math.random() * h,
+            rx: 10 + Math.random() * 28,   // narrow ellipse width
+            ry: 28 + Math.random() * 65,   // tall ellipse height
+            angle: Math.random() * Math.PI,
+            swaySpeed: 0.12 + Math.random() * 0.25,
+            swayAmt: 0.03 + Math.random() * 0.07,
             swayOffset: Math.random() * Math.PI * 2,
-            opacity: 0.3 + Math.random() * 0.45,
+            opacity: 0.06 + Math.random() * 0.1,  // very subtle
         }));
-        sunnyBokeh = Array.from({ length: 16 }, () => {
+        // Dappled light spots
+        sunnyBokeh = Array.from({ length: 22 }, () => {
             const bx = Math.random() * w, by = Math.random() * h;
             return {
                 baseX: bx, baseY: by,
-                radius: 70 + Math.random() * 130,
-                driftSpeed: 0.08 + Math.random() * 0.15,
-                driftR: 25 + Math.random() * 55,
+                radius: 50 + Math.random() * 120,
+                driftSpeed: 0.05 + Math.random() * 0.1,
+                driftR: 18 + Math.random() * 45,
                 driftOffset: Math.random() * Math.PI * 2,
-                opacity: 0.12 + Math.random() * 0.2,
+                pulseSpeed: 0.4 + Math.random() * 0.8,
+                pulseOffset: Math.random() * Math.PI * 2,
+                opacity: 0.14 + Math.random() * 0.22,
             };
         });
-    }
-
-    function drawSunnyLeaf(x, y, size, angle, opacity) {
-        sunnyCtx.save();
-        sunnyCtx.translate(x, y);
-        sunnyCtx.rotate(angle);
-        sunnyCtx.globalAlpha = opacity;
-        sunnyCtx.fillStyle = '#18110a';
-        sunnyCtx.beginPath();
-        sunnyCtx.moveTo(0, -size);
-        sunnyCtx.bezierCurveTo( size * 0.52, -size * 0.45,  size * 0.52, size * 0.45, 0, size);
-        sunnyCtx.bezierCurveTo(-size * 0.52,  size * 0.45, -size * 0.52, -size * 0.45, 0, -size);
-        sunnyCtx.fill();
-        // Midrib
-        sunnyCtx.globalAlpha = opacity * 0.4;
-        sunnyCtx.strokeStyle = '#0d0905';
-        sunnyCtx.lineWidth = Math.max(0.8, size * 0.055);
-        sunnyCtx.beginPath();
-        sunnyCtx.moveTo(0, -size * 0.85);
-        sunnyCtx.lineTo(0, size * 0.85);
-        sunnyCtx.stroke();
-        sunnyCtx.restore();
     }
 
     function animateSunny(timestamp) {
         sunnyTime = timestamp * 0.001;
         const w = sunnyCanvas.width, h = sunnyCanvas.height;
 
-        // Warm base gradient
-        const bg = sunnyCtx.createLinearGradient(0, 0, w * 0.6, h);
-        bg.addColorStop(0, '#d8c9a8');
-        bg.addColorStop(0.5, '#c8b590');
-        bg.addColorStop(1, '#b8a078');
-        sunnyCtx.fillStyle = bg;
+        // White base — site stays bright
+        sunnyCtx.fillStyle = '#ffffff';
         sunnyCtx.fillRect(0, 0, w, h);
 
-        // Central light shaft from top-right
-        const shaft = sunnyCtx.createRadialGradient(w * 0.65, 0, 0, w * 0.65, h * 0.4, h * 0.9);
-        shaft.addColorStop(0, 'rgba(255, 248, 210, 0.42)');
-        shaft.addColorStop(1, 'rgba(255, 245, 195, 0)');
+        // Warm golden wash — sunlight colour cast
+        const wash = sunnyCtx.createLinearGradient(w * 0.3, 0, w, h);
+        wash.addColorStop(0, 'rgba(255, 245, 200, 0.55)');
+        wash.addColorStop(0.5, 'rgba(255, 230, 150, 0.3)');
+        wash.addColorStop(1, 'rgba(240, 200, 100, 0.2)');
+        sunnyCtx.fillStyle = wash;
+        sunnyCtx.fillRect(0, 0, w, h);
+
+        // Bright glare burst — top-right, like direct sun
+        const glare = sunnyCtx.createRadialGradient(w * 0.82, h * 0.08, 0, w * 0.82, h * 0.08, h * 0.55);
+        glare.addColorStop(0,   'rgba(255, 255, 240, 0.95)');
+        glare.addColorStop(0.08,'rgba(255, 250, 210, 0.75)');
+        glare.addColorStop(0.25,'rgba(255, 240, 180, 0.35)');
+        glare.addColorStop(0.6, 'rgba(255, 235, 160, 0.1)');
+        glare.addColorStop(1,   'rgba(255, 230, 140, 0)');
+        sunnyCtx.fillStyle = glare;
+        sunnyCtx.fillRect(0, 0, w, h);
+
+        // Angled light shaft across the page
+        const shaft = sunnyCtx.createLinearGradient(w * 0.5, 0, w * 0.1, h);
+        shaft.addColorStop(0,   'rgba(255, 252, 220, 0.22)');
+        shaft.addColorStop(0.4, 'rgba(255, 245, 195, 0.08)');
+        shaft.addColorStop(1,   'rgba(255, 240, 180, 0)');
         sunnyCtx.fillStyle = shaft;
         sunnyCtx.fillRect(0, 0, w, h);
 
-        // Dappled bokeh light patches
+        // Dappled bokeh — pulsing warm light spots
         sunnyBokeh.forEach(b => {
             const t = sunnyTime * b.driftSpeed + b.driftOffset;
+            const pulse = 1 + Math.sin(sunnyTime * b.pulseSpeed + b.pulseOffset) * 0.1;
             const bx = b.baseX + Math.sin(t) * b.driftR;
-            const by = b.baseY + Math.cos(t * 0.65) * b.driftR * 0.5;
-            const g = sunnyCtx.createRadialGradient(bx, by, 0, bx, by, b.radius);
-            g.addColorStop(0, `rgba(255, 242, 185, ${b.opacity})`);
-            g.addColorStop(1, 'rgba(255, 238, 170, 0)');
+            const by = b.baseY + Math.cos(t * 0.7) * b.driftR * 0.55;
+            const r = b.radius * pulse;
+            const g = sunnyCtx.createRadialGradient(bx, by, 0, bx, by, r);
+            g.addColorStop(0, `rgba(255, 245, 190, ${b.opacity * pulse})`);
+            g.addColorStop(0.5, `rgba(255, 238, 165, ${b.opacity * 0.45})`);
+            g.addColorStop(1, 'rgba(255, 235, 150, 0)');
             sunnyCtx.fillStyle = g;
             sunnyCtx.beginPath();
-            sunnyCtx.arc(bx, by, b.radius, 0, Math.PI * 2);
+            sunnyCtx.arc(bx, by, r, 0, Math.PI * 2);
             sunnyCtx.fill();
         });
 
-        // Leaf silhouettes gently swaying
+        // Blurred leaf shadow suggestions — soft ellipses
+        sunnyCtx.filter = 'blur(8px)';
         sunnyLeaves.forEach(l => {
             const sway = Math.sin(sunnyTime * l.swaySpeed + l.swayOffset) * l.swayAmt;
-            drawSunnyLeaf(l.x, l.y, l.size, l.baseAngle + sway, l.opacity);
+            sunnyCtx.save();
+            sunnyCtx.translate(l.x, l.y);
+            sunnyCtx.rotate(l.angle + sway);
+            sunnyCtx.globalAlpha = l.opacity;
+            sunnyCtx.fillStyle = '#5a4a20';
+            sunnyCtx.beginPath();
+            sunnyCtx.ellipse(0, 0, l.rx, l.ry, 0, 0, Math.PI * 2);
+            sunnyCtx.fill();
+            sunnyCtx.restore();
         });
+        sunnyCtx.filter = 'none';
+        sunnyCtx.globalAlpha = 1;
 
         sunnyAnimFrame = requestAnimationFrame(animateSunny);
     }
@@ -4123,7 +4133,6 @@ function initAtmosphereToggle() {
         }
 
         // Update button
-        if (modeIcon) modeIcon.textContent = ICONS[mode];
         if (modeLabel) modeLabel.textContent = LABELS[mode];
         toggleBtn.setAttribute('aria-label', `Current mode: ${mode}. Click to switch.`);
     }
