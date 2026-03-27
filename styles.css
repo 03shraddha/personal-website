@@ -5336,24 +5336,12 @@ body.mode-sunny #sunny-canvas {
     visibility: visible;
 }
 
-/* Sunny bg: soft directional sun glow from top-right, no SVG filter
-   (filter was clipping the gradient and making it invisible) */
-#sunny-bg {
-    background:
-        radial-gradient(ellipse 55% 45% at 88% -2%,
-            rgba(255, 205, 40, 0.42) 0%,
-            rgba(255, 225, 100, 0.22) 38%,
-            rgba(255, 242, 165, 0.10) 65%,
-            transparent 80%),
-        radial-gradient(ellipse 28% 22% at 90% 1%,
-            rgba(255, 255, 210, 0.45) 0%,
-            transparent 55%);
-}
+/* #sunny-bg: no static gradient — canvas drives all animation */
+#sunny-bg { background: none; }
 
-
-/* Warm the whole page so glow blends naturally (amber-50 tone) */
+/* Very subtle warm tint; canvas provides the visible glow */
 body.mode-sunny {
-    background-color: #fffaeb;
+    background-color: #fffef8;
     transition: background-color 0.6s ease;
 }
 

@@ -4008,52 +4008,50 @@ function initAtmosphereToggle() {
         document.removeEventListener('visibilitychange', handleSpringVisibility);
     }
 
-    // ── Sunny mode: canvas light rays + floating dust motes ──
+    // ── Sunny mode: animated background glow + light rays + dust motes ──
     let sunnyAnimFrame = null;
 
-    // Ray definitions: angle in degrees (measured from positive-x, so ~150-250 fans down-left)
-    // Each ray slowly oscillates using its phaseOffset
+    // Rays fan out from top-right corner; alpha ~3× stronger than before
     const RAYS = [
-        { angle: 152, spread: 10, alpha: 0.055, phase: 0.0 },
-        { angle: 165, spread: 16, alpha: 0.075, phase: 1.3 },
-        { angle: 178, spread: 20, alpha: 0.090, phase: 2.5 },
-        { angle: 193, spread: 14, alpha: 0.100, phase: 0.8 },
-        { angle: 207, spread: 22, alpha: 0.080, phase: 2.0 },
-        { angle: 222, spread: 15, alpha: 0.070, phase: 3.3 },
-        { angle: 237, spread: 11, alpha: 0.055, phase: 1.7 },
+        { angle: 152, spread: 10, alpha: 0.18, phase: 0.0 },
+        { angle: 165, spread: 16, alpha: 0.24, phase: 1.3 },
+        { angle: 178, spread: 20, alpha: 0.28, phase: 2.5 },
+        { angle: 193, spread: 14, alpha: 0.30, phase: 0.8 },
+        { angle: 207, spread: 22, alpha: 0.26, phase: 2.0 },
+        { angle: 222, spread: 15, alpha: 0.22, phase: 3.3 },
+        { angle: 237, spread: 11, alpha: 0.17, phase: 1.7 },
     ];
 
     let dustMotes = [];
 
     function createDust(w, h) {
-        // Concentrate motes in the lit region (upper-right quadrant)
         return {
-            x: w * 0.4 + Math.random() * w * 0.6,
-            y: Math.random() * h * 0.7,
-            r: Math.random() * 1.6 + 0.4,
-            alpha: Math.random() * 0.55 + 0.15,
-            vx: (Math.random() - 0.5) * 0.25,
-            vy: -(Math.random() * 0.4 + 0.05), // drift upward
-            twinkleSpeed: Math.random() * 0.02 + 0.005,
+            x: w * 0.35 + Math.random() * w * 0.65,
+            y: Math.random() * h * 0.75,
+            r: Math.random() * 2 + 0.5,
+            alpha: Math.random() * 0.65 + 0.25,
+            vx: (Math.random() - 0.5) * 0.3,
+            vy: -(Math.random() * 0.5 + 0.08),
+            twinkleSpeed: Math.random() * 0.025 + 0.006,
             twinkleOffset: Math.random() * Math.PI * 2,
         };
     }
 
     function drawRay(ctx, sx, sy, angleDeg, spreadDeg, baseAlpha, t, phase) {
         const len = Math.max(ctx.canvas.width, ctx.canvas.height) * 1.8;
-        // Slowly oscillate spread and alpha for organic feel
-        const animSpread = spreadDeg * (1 + 0.18 * Math.sin(t * 0.35 + phase));
-        const animAlpha  = baseAlpha  * (1 + 0.22 * Math.sin(t * 0.28 + phase + 1));
+        const animSpread = spreadDeg * (1 + 0.20 * Math.sin(t * 0.35 + phase));
+        const animAlpha  = baseAlpha  * (1 + 0.25 * Math.sin(t * 0.28 + phase + 1));
 
         const a1 = ((angleDeg - animSpread / 2) * Math.PI) / 180;
         const a2 = ((angleDeg + animSpread / 2) * Math.PI) / 180;
+        const midAngle = (angleDeg * Math.PI) / 180;
 
         const grad = ctx.createLinearGradient(sx, sy,
-            sx + Math.cos((angleDeg * Math.PI) / 180) * len * 0.6,
-            sy + Math.sin((angleDeg * Math.PI) / 180) * len * 0.6);
-        grad.addColorStop(0,   `rgba(255, 215, 70, ${animAlpha})`);
-        grad.addColorStop(0.4, `rgba(255, 225, 100, ${animAlpha * 0.5})`);
-        grad.addColorStop(1,   `rgba(255, 235, 140, 0)`);
+            sx + Math.cos(midAngle) * len * 0.55,
+            sy + Math.sin(midAngle) * len * 0.55);
+        grad.addColorStop(0,   `rgba(255, 215, 60, ${animAlpha})`);
+        grad.addColorStop(0.35,`rgba(255, 225, 95, ${animAlpha * 0.55})`);
+        grad.addColorStop(1,   `rgba(255, 238, 140, 0)`);
 
         ctx.beginPath();
         ctx.moveTo(sx, sy);
@@ -4069,29 +4067,39 @@ function initAtmosphereToggle() {
         const ctx = sunnyCanvas.getContext('2d');
         const w = sunnyCanvas.width;
         const h = sunnyCanvas.height;
-        const t = timestamp * 0.001; // seconds
+        const t = timestamp * 0.001;
 
         ctx.clearRect(0, 0, w, h);
 
-        // Source point: just off top-right corner
+        // ── Animated background glow (replaces static #sunny-bg gradient) ──
+        // The glow centre drifts slowly, making the whole background feel alive
+        const glowX = w * (0.88 + 0.05 * Math.sin(t * 0.18));
+        const glowY = h * (0.0  + 0.04 * Math.cos(t * 0.14));
+        const glowR = Math.max(w, h) * (0.80 + 0.06 * Math.sin(t * 0.11));
+        const bgGlow = ctx.createRadialGradient(glowX, glowY, 0, glowX, glowY, glowR);
+        bgGlow.addColorStop(0,    'rgba(255, 210, 55, 0.38)');
+        bgGlow.addColorStop(0.28, 'rgba(255, 228, 110, 0.20)');
+        bgGlow.addColorStop(0.58, 'rgba(255, 242, 170, 0.09)');
+        bgGlow.addColorStop(1,    'rgba(255, 250, 200, 0)');
+        ctx.fillStyle = bgGlow;
+        ctx.fillRect(0, 0, w, h);
+
+        // ── Light rays ──
         const sx = w + 20;
         const sy = -20;
-
-        // Draw rays
         RAYS.forEach(ray => drawRay(ctx, sx, sy, ray.angle, ray.spread, ray.alpha, t, ray.phase));
 
-        // Draw + update dust motes
+        // ── Floating dust motes ──
         dustMotes.forEach(d => {
-            const twinkle = 0.7 + 0.3 * Math.sin(t * d.twinkleSpeed * 60 + d.twinkleOffset);
+            const twinkle = 0.65 + 0.35 * Math.sin(t * d.twinkleSpeed * 60 + d.twinkleOffset);
             ctx.beginPath();
             ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 210, 80, ${d.alpha * twinkle})`;
+            ctx.fillStyle = `rgba(255, 205, 70, ${d.alpha * twinkle})`;
             ctx.fill();
 
             d.x += d.vx;
             d.y += d.vy;
-            // Wrap around
-            if (d.y < -5) { d.y = h * 0.7; d.x = w * 0.4 + Math.random() * w * 0.6; }
+            if (d.y < -5) { d.y = h * 0.75; d.x = w * 0.35 + Math.random() * w * 0.65; }
             if (d.x < 0) d.x = w;
             if (d.x > w) d.x = 0;
         });
@@ -4103,7 +4111,7 @@ function initAtmosphereToggle() {
         if (!sunnyCanvas) return;
         sunnyCanvas.width  = window.innerWidth;
         sunnyCanvas.height = window.innerHeight;
-        dustMotes = Array.from({ length: 38 }, () => createDust(sunnyCanvas.width, sunnyCanvas.height));
+        dustMotes = Array.from({ length: 42 }, () => createDust(sunnyCanvas.width, sunnyCanvas.height));
         sunnyAnimFrame = requestAnimationFrame(animateSunny);
     }
 
