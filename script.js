@@ -3845,15 +3845,24 @@ function initAtmosphereToggle() {
     // Photographic bokeh: soft disc with brighter rim, like real lens bokeh
     function createBokeh(w, h) {
         const isMobile = window.innerWidth < 600;
+        // Vary sizes across small/medium/large tiers so they feel natural, not uniform
+        const tier = Math.random();
+        const r = isMobile
+            ? (tier < 0.6 ? 3 + Math.random() * 5   // small  (3–8px)
+             : tier < 0.9 ? 8 + Math.random() * 7   // medium (8–15px)
+             :              15 + Math.random() * 8)  // large  (15–23px)
+            : (tier < 0.6 ? 4 + Math.random() * 7   // small  (4–11px)
+             : tier < 0.9 ? 11 + Math.random() * 9  // medium (11–20px)
+             :              20 + Math.random() * 10);// large  (20–30px)
         return {
             x: Math.random() * w,
             y: Math.random() * h,
             life: 0,
-            maxLife: 4.0 + Math.random() * 5.0,
-            r: isMobile ? (16 + Math.random() * 32) : (22 + Math.random() * 50),
-            peakAlpha: isMobile ? (0.04 + Math.random() * 0.07) : (0.05 + Math.random() * 0.09),
-            vx: (Math.random() - 0.5) * 0.8,
-            vy: -(Math.random() * 0.5 + 0.08),
+            maxLife: 3.5 + Math.random() * 6.0,
+            r,
+            peakAlpha: isMobile ? (0.10 + Math.random() * 0.15) : (0.12 + Math.random() * 0.16),
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: -(Math.random() * 0.4 + 0.05),
         };
     }
 
@@ -3985,8 +3994,8 @@ function initAtmosphereToggle() {
 
         // ── Bokeh orbs: golden-hour lens bokeh ──
         const isMobile = window.innerWidth < 600;
-        const MAX_BOKEH = isMobile ? 8 : 14;
-        if (Math.random() < (isMobile ? 0.03 : 0.05) && bokehOrbs.length < MAX_BOKEH) {
+        const MAX_BOKEH = isMobile ? 22 : 40;
+        if (Math.random() < (isMobile ? 0.10 : 0.15) && bokehOrbs.length < MAX_BOKEH) {
             bokehOrbs.push(createBokeh(w, h));
         }
         bokehOrbs = bokehOrbs.filter(s => {
@@ -3999,8 +4008,8 @@ function initAtmosphereToggle() {
         });
 
         // ── Glitter: specular sunlight pinpoints ──
-        const MAX_GLITTER = isMobile ? 5 : 10;
-        if (Math.random() < (isMobile ? 0.12 : 0.20) && glitters.length < MAX_GLITTER) {
+        const MAX_GLITTER = isMobile ? 10 : 20;
+        if (Math.random() < (isMobile ? 0.18 : 0.28) && glitters.length < MAX_GLITTER) {
             glitters.push(createGlitter(w, h));
         }
         glitters = glitters.filter(g => {
