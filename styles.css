@@ -5265,9 +5265,9 @@ body.mode-sunny #sunny-canvas {
 /* #sunny-bg: no static gradient — canvas drives all animation */
 #sunny-bg { background: none; }
 
-/* Very subtle warm tint; canvas provides the visible glow */
+/* Warm golden tint for sunny mode */
 body.mode-sunny {
-    background-color: #fffef8;
+    background-color: #fdf3d8;
     transition: background-color 0.6s ease;
 }
 
