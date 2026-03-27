@@ -306,8 +306,9 @@ a, button, .tab, .highlight, [role="button"] {
 
 .main-content {
     margin-left: calc(var(--sidebar-width) + 60px);
+    margin-right: 80px;
     padding: 60px 40px 60px 40px;
-    max-width: calc(var(--content-max-width) + var(--sidebar-width) + 100px);
+    max-width: calc(var(--content-max-width) + 100px);
 }
 
 .section {
