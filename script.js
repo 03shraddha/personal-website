@@ -3963,26 +3963,24 @@ function initAtmosphereToggle() {
 
         ctx.clearRect(0, 0, w, h);
 
-        // ── Background glow: two overlapping lobes that drift independently ──
-        const g1x = w * (0.90 + 0.08 * Math.sin(t * 0.22));
-        const g1y = h * (0.02 + 0.06 * Math.cos(t * 0.17));
-        const g1r = Math.max(w, h) * (0.75 + 0.10 * Math.sin(t * 0.13));
-        const glow1 = ctx.createRadialGradient(g1x, g1y, 0, g1x, g1y, g1r);
-        glow1.addColorStop(0,    'rgba(255, 155, 45, 0.11)');
-        glow1.addColorStop(0.28, 'rgba(255, 185, 80, 0.055)');
-        glow1.addColorStop(0.60, 'rgba(255, 210, 130, 0.02)');
-        glow1.addColorStop(1,    'rgba(255, 230, 170, 0)');
-        ctx.fillStyle = glow1;
+        // ── Static base gradient: warm glow from top-right like a sun source ──
+        const baseGrad = ctx.createRadialGradient(w * 0.92, 0, 0, w * 0.92, 0, Math.max(w, h) * 1.1);
+        baseGrad.addColorStop(0,    'rgba(255, 200, 80,  0.28)');
+        baseGrad.addColorStop(0.20, 'rgba(255, 215, 110, 0.14)');
+        baseGrad.addColorStop(0.45, 'rgba(255, 230, 150, 0.06)');
+        baseGrad.addColorStop(1,    'rgba(255, 245, 190, 0)');
+        ctx.fillStyle = baseGrad;
         ctx.fillRect(0, 0, w, h);
 
-        const g2x = w * (0.70 + 0.12 * Math.cos(t * 0.19));
-        const g2y = h * (0.0  + 0.05 * Math.sin(t * 0.23));
-        const g2r = Math.max(w, h) * (0.55 + 0.08 * Math.cos(t * 0.15));
-        const glow2 = ctx.createRadialGradient(g2x, g2y, 0, g2x, g2y, g2r);
-        glow2.addColorStop(0,    'rgba(255, 185, 70, 0.05)');
-        glow2.addColorStop(0.40, 'rgba(255, 210, 120, 0.02)');
-        glow2.addColorStop(1,    'rgba(255, 230, 160, 0)');
-        ctx.fillStyle = glow2;
+        // ── Animated secondary glow: drifts gently to add life ──
+        const g1x = w * (0.75 + 0.10 * Math.sin(t * 0.22));
+        const g1y = h * (0.08 + 0.06 * Math.cos(t * 0.17));
+        const g1r = Math.max(w, h) * (0.55 + 0.08 * Math.sin(t * 0.13));
+        const glow1 = ctx.createRadialGradient(g1x, g1y, 0, g1x, g1y, g1r);
+        glow1.addColorStop(0,    'rgba(255, 180, 60,  0.10)');
+        glow1.addColorStop(0.40, 'rgba(255, 210, 120, 0.04)');
+        glow1.addColorStop(1,    'rgba(255, 230, 160, 0)');
+        ctx.fillStyle = glow1;
         ctx.fillRect(0, 0, w, h);
 
         // ── Light rays ──

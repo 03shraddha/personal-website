@@ -5277,10 +5277,10 @@ body.mode-sunny #sunny-canvas {
 /* #sunny-bg: no static gradient — canvas drives all animation */
 #sunny-bg { background: none; }
 
-/* Sunny mode: muted gradient — warm at top-right, fades to near-white */
+/* Sunny mode: near-white base — canvas provides the golden glow and sparkles */
 body.mode-sunny {
-    background-color: #fffcf5;
-    background-image: radial-gradient(ellipse at 88% 4%, #fde9a0 0%, #fef6d8 30%, #fffbf0 60%, #fffef8 100%);
+    background-color: #fffef8;
+    background-image: none;
     transition: background-color 0.6s ease;
 }
 
