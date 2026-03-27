@@ -401,8 +401,7 @@ function loadContent() {
             : `<span class="community-emoji">${c.fallbackEmoji || '🏢'}</span>`;
 
         return `
-        <article class="content-card community-card" data-community-index="${index}">
-            <span class="card-tag">Community</span>
+        <article class="project-card community-card" data-community-index="${index}">
             <div class="community-header">
                 ${logoHtml}
                 <h3><a href="${c.url}" target="_blank" class="highlight ${c.highlight}">${c.name}</a></h3>
@@ -1301,7 +1300,13 @@ function initProjectPreview() {
         el.className = 'project-preview-card';
         el.id = 'project-preview-card';
         el.setAttribute('aria-hidden', 'true');
-        el.innerHTML = `<img id="project-preview-card-img" src="" alt="">`;
+        el.innerHTML = `
+            <div class="preview-img-wrapper">
+                <img id="project-preview-card-img" src="" alt="">
+            </div>
+            <div class="preview-card-body">
+                <span class="preview-card-title" id="project-preview-card-title"></span>
+            </div>`;
         document.body.appendChild(el);
 
         // Dismiss preview on any touch — preview has pointer-events:none so it never blocks this
@@ -1323,6 +1328,8 @@ function initProjectPreview() {
             card.addEventListener('mouseenter', (e) => {
                 clearTimeout(hideTimeout);
                 previewImg.src = url;
+                const titleEl = document.getElementById('project-preview-card-title');
+                if (titleEl) titleEl.textContent = card.querySelector('h3 .highlight')?.textContent || '';
                 positionProjectPreview(previewCard, e.clientX, e.clientY);
                 previewCard.classList.add('visible');
             });
