@@ -5283,7 +5283,7 @@ body.mode-sunny .main-content {
 }
 
 body.mode-sunny .sidebar {
-    background: rgba(255, 251, 236, 0.80) !important;
+    background: transparent !important;
 }
 
 /* Social links: warm tint in sunny mode — desktop only, don't disturb mobile pill */
