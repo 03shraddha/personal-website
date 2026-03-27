@@ -365,13 +365,13 @@ a, button, .tab, .highlight, [role="button"] {
 .hello-intro-text {
     margin: 20px 0 24px;
     max-width: 540px;
-    line-height: 1.65;
-    color: var(--color-text-light);
 }
 
 .hello-intro-text p {
     margin-bottom: 1.5em;
     font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--color-text);
 }
 
 .hello-intro-text p:last-child {
