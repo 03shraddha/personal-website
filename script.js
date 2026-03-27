@@ -3858,7 +3858,7 @@ function initAtmosphereToggle() {
             life: 0,
             maxLife: 3.5 + Math.random() * 6.0,
             r,
-            peakAlpha: isMobile ? (0.22 + Math.random() * 0.20) : (0.25 + Math.random() * 0.22),
+            peakAlpha: isMobile ? (0.35 + Math.random() * 0.25) : (0.25 + Math.random() * 0.22),
             vx: (Math.random() - 0.5) * 0.5,
             vy: -(Math.random() * 0.4 + 0.05),
         };
