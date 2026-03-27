@@ -3872,12 +3872,12 @@ function initAtmosphereToggle() {
         const alpha = s.peakAlpha * fade;
         if (alpha < 0.005) return;
 
-        // Brighter rim fading inward and outward — realistic lens bokeh
-        const grad = ctx.createRadialGradient(s.x, s.y, s.r * 0.35, s.x, s.y, s.r);
-        grad.addColorStop(0,    `rgba(255, 225, 140, ${alpha * 0.25})`);
-        grad.addColorStop(0.55, `rgba(255, 200, 90, ${alpha * 0.55})`);
-        grad.addColorStop(0.82, `rgba(255, 180, 55, ${alpha})`);
-        grad.addColorStop(1,    `rgba(255, 165, 40, 0)`);
+        // Bright centre fading outward — filled soft disc, no hollow ring
+        const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r);
+        grad.addColorStop(0,   `rgba(255, 248, 200, ${alpha})`);
+        grad.addColorStop(0.3, `rgba(255, 220, 130, ${alpha * 0.75})`);
+        grad.addColorStop(0.7, `rgba(255, 195, 80,  ${alpha * 0.3})`);
+        grad.addColorStop(1,   `rgba(255, 175, 50,  0)`);
 
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
@@ -3891,10 +3891,10 @@ function initAtmosphereToggle() {
             x: Math.random() * w,
             y: Math.random() * h,
             life: 0,
-            maxLife: 0.5 + Math.random() * 1.1,
-            size: 0.6 + Math.random() * 1.8,
-            peakAlpha: 0.45 + Math.random() * 0.45,
-            hasCross: Math.random() < 0.35,
+            maxLife: 0.4 + Math.random() * 0.9,
+            size: 0.8 + Math.random() * 2.2,
+            peakAlpha: 0.55 + Math.random() * 0.40,
+            hasCross: Math.random() < 0.65, // most glitter gets a star flare
         };
     }
 
