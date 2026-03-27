@@ -4069,94 +4069,41 @@ function initAtmosphereToggle() {
         };
     }
 
-    // Retro sparkle types: clean geometric strokes, no glow blobs
-    const SPARKLE_TYPES = ['cross', 'asterisk', 'diamond4', 'starburst'];
-    // Warm amber tones — more saturated than the washed-out yellow
-    const SPARKLE_COLORS = [
-        'rgba(200, 140, 40, %a)',   // deep amber
-        'rgba(210, 160, 60, %a)',   // golden
-        'rgba(185, 120, 50, %a)',   // burnt gold
-        'rgba(220, 170, 70, %a)',   // light gold
-    ];
-
+    // Bokeh: soft, out-of-focus light circles — natural sunlight feel
     function createSparkle(w, h) {
         const isMobile = window.innerWidth < 600;
         return {
-            x: w * 0.05 + Math.random() * w * 0.95,
-            y: Math.random() * h * 0.9,
+            x: Math.random() * w,
+            y: Math.random() * h,
             life: 0,
-            maxLife: 0.6 + Math.random() * 1.4,
-            size: isMobile ? (3 + Math.random() * 5) : (4 + Math.random() * 10),
-            alpha: isMobile ? (0.3 + Math.random() * 0.25) : (0.65 + Math.random() * 0.35),
-            rotation: Math.random() * Math.PI * 2,
-            rotSpeed: (Math.random() - 0.5) * 1.2,
-            vx: (Math.random() - 0.5) * 28,
-            vy: -(Math.random() * 32 + 8),
-            type: SPARKLE_TYPES[Math.floor(Math.random() * SPARKLE_TYPES.length)],
-            color: SPARKLE_COLORS[Math.floor(Math.random() * SPARKLE_COLORS.length)],
+            maxLife: 2.0 + Math.random() * 3.5,   // slow fade
+            r: isMobile
+                ? (20 + Math.random() * 40)         // 20–60px on mobile
+                : (24 + Math.random() * 60),         // 24–84px on desktop
+            peakAlpha: isMobile
+                ? (0.06 + Math.random() * 0.09)     // subtle on mobile
+                : (0.08 + Math.random() * 0.14),    // soft on desktop
+            vx: (Math.random() - 0.5) * 3,
+            vy: -(Math.random() * 3 + 0.5),
         };
     }
 
     function drawSparkle(ctx, s) {
         const progress = s.life / s.maxLife;
-        const fade = Math.sin(progress * Math.PI); // bell curve fade
-        const alpha = s.alpha * fade;
-        const sz = s.size * (0.4 + fade * 0.6);
-        if (alpha < 0.04) return;
+        const fade = Math.sin(progress * Math.PI); // bell curve
+        const alpha = s.peakAlpha * fade;
+        if (alpha < 0.01) return;
 
-        const color = s.color.replace('%a', alpha.toFixed(3));
+        // Warm cream-white centre fading to transparent — real bokeh look
+        const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r);
+        grad.addColorStop(0,    `rgba(255, 248, 220, ${alpha})`);
+        grad.addColorStop(0.45, `rgba(255, 235, 170, ${alpha * 0.5})`);
+        grad.addColorStop(1,    `rgba(255, 220, 140, 0)`);
 
-        ctx.save();
-        ctx.translate(s.x, s.y);
-        ctx.rotate(s.rotation);
-        ctx.strokeStyle = color;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-
-        if (s.type === 'cross') {
-            // Simple + shape
-            ctx.lineWidth = Math.max(0.8, sz * 0.16);
-            ctx.beginPath();
-            ctx.moveTo(-sz, 0); ctx.lineTo(sz, 0);
-            ctx.moveTo(0, -sz); ctx.lineTo(0, sz);
-            ctx.stroke();
-
-        } else if (s.type === 'asterisk') {
-            // 6-line asterisk like a typewriter *
-            ctx.lineWidth = Math.max(0.7, sz * 0.14);
-            ctx.beginPath();
-            for (let i = 0; i < 6; i++) {
-                const a = (i / 6) * Math.PI * 2;
-                ctx.moveTo(0, 0);
-                ctx.lineTo(Math.cos(a) * sz * 1.8, Math.sin(a) * sz * 1.8);
-            }
-            ctx.stroke();
-
-        } else if (s.type === 'diamond4') {
-            // Hollow diamond ◇ — stroke only, no fill
-            ctx.lineWidth = Math.max(0.8, sz * 0.15);
-            ctx.beginPath();
-            ctx.moveTo(0, -sz * 1.9);
-            ctx.lineTo(sz * 1.2, 0);
-            ctx.lineTo(0,  sz * 1.9);
-            ctx.lineTo(-sz * 1.2, 0);
-            ctx.closePath();
-            ctx.stroke();
-
-        } else if (s.type === 'starburst') {
-            // 8-point starburst: alternating long and short spikes from centre
-            ctx.lineWidth = Math.max(0.7, sz * 0.13);
-            ctx.beginPath();
-            for (let i = 0; i < 8; i++) {
-                const a = (i / 8) * Math.PI * 2;
-                const len = i % 2 === 0 ? sz * 2.2 : sz * 1.0;
-                ctx.moveTo(0, 0);
-                ctx.lineTo(Math.cos(a) * len, Math.sin(a) * len);
-            }
-            ctx.stroke();
-        }
-
-        ctx.restore();
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
     }
 
     function drawRay(ctx, sx, sy, angleDeg, spreadDeg, baseAlpha, t, phase) {
@@ -4224,9 +4171,9 @@ function initAtmosphereToggle() {
         const sy = -160;
         RAYS.forEach(ray => drawRay(ctx, sx, sy, ray.angle, ray.spread, ray.alpha, t, ray.phase));
 
-        // ── Sparkles: fewer on mobile ──
-        const MAX_SPARKLES = window.innerWidth < 600 ? 8 : 28;
-        const SPAWN_CHANCE = window.innerWidth < 600 ? 0.10 : 0.22;
+        // ── Bokeh orbs: gentle light spots ──
+        const MAX_SPARKLES = window.innerWidth < 600 ? 12 : 22;
+        const SPAWN_CHANCE = window.innerWidth < 600 ? 0.08 : 0.15;
         if (Math.random() < SPAWN_CHANCE && sparkles.length < MAX_SPARKLES) {
             sparkles.push(createSparkle(w, h));
         }
@@ -4234,7 +4181,6 @@ function initAtmosphereToggle() {
             s.life += dt;
             s.x += s.vx * dt;
             s.y += s.vy * dt;
-            s.rotation += s.rotSpeed * dt;
             if (s.life >= s.maxLife) return false;
             drawSparkle(ctx, s);
             return true;
