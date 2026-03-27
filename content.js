@@ -160,8 +160,9 @@ const CONTENT = {
             expandedContent: `
                 <h4>Project – GenAI Deployment for a Niche Pharma Use Case (2025 & 2026)</h4>
                 <p>★ <strong>Awards and Recognition:</strong><br>
-                - Fast-tracked promotion achieved in 4 cycles, compared to the firm average of 5 cycles.
-                <br> - Won Client Impact Champion Award for delivering a key feature for ZS's Quill Product, used by one of the world's biggest pharma companies</p>
+                Fast-tracked promotion achieved in 4 cycles, compared to the firm average of 5 cycles.</p>
+
+                <p>★ Won Client Impact Champion Award for delivering a key feature for ZS's Quill Product, used by one of the world's biggest pharma companies</p>
 
                 <p>★ I work on the Quill Team at ZS. Quill helps with MLR. In the pharmaceutical industry, Medical Legal Review (MLR) is the process where medical, legal, and regulatory experts carefully check all promotional and scientific documents, such as ads, brochures, websites, manuscripts, and patient materials, to ensure they are accurate, scientifically truthful, comply with regulations, follow company policies, properly reference data, do not mislead, and protect the company from legal or regulatory risks before being shared with healthcare professionals or the public.</p>
 
@@ -204,12 +205,12 @@ const CONTENT = {
             briefDescription: `Project 1 - Built a crowd management system using Bluetooth Low Energy (BLE) for wireless communication and OpenPose. 
             <br> Project 2 - Developed YOLOv3-based airport security detection for dangerous item identification.`,
             expandedContent: `
-                <h4>🔸 Crowd Management using BLE and OpenPose:</h4>
+                <h4>Crowd Management using BLE and OpenPose</h4>
                 <p>★ Developed and implemented a real-time crowd management system integrating OpenPose-based pose estimation and Bluetooth Low Energy (BLE) beacon localization to detect and manage overcrowding.</p>
 
                 <p>★ Achieved 40%+ accuracy in multi-person tracking, reducing response time for overcrowding alerts by 90%, and enabling authorities to take proactive crowd control measures within seconds using existing CCTV infrastructure.</p>
 
-                <h4>🔸 Deep Learning for Airport Security: Advanced Object Detection with YOLOv3:</h4>
+                <h4>Deep Learning for Airport Security: Advanced Object Detection with YOLOv3</h4>
                 <p>★ Developed an AI-driven crowd management and safety solution leveraging YOLOv3 to enhance object localization in airport security scans, enabling real-time detection of dangerous items with improved accuracy.</p>
 
                 <p>★ Enhanced model performance through hyperparameter tuning and data augmentation, achieving a 5–8% reduction in False Positive Rate (FPR) compared to baseline YOLOv3 models, resulting in more accurate and reliable threat identification in high-security simulations.</p>

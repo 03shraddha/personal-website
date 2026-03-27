@@ -1135,6 +1135,10 @@ a, button, .tab, .highlight, [role="button"] {
     color: var(--color-text);
 }
 
+.experience-expanded p strong {
+    color: var(--color-text);
+}
+
 .experience-expanded h4:first-child {
     margin-top: 0;
 }
