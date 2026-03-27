@@ -3694,16 +3694,16 @@ Type your message below and click
 function initAudioIntro() {
     const INTRO_LINES = [
         "hi, i'm shraddha.",
-        "i have experience in analytics & product management and am currently open to work.",
-        "this is my corner of the internet where i share my work, unfinished projects, imperfect experiments and whatever i'm curious about right now.",
-        "a couple of my friends also think i'm funny."
+        "i have experience in analytics & product management and am currently open to work!",
+        "this is my corner of the internet where i share my work, unfinished projects & whatever i'm curious about right now.",
+        "a couple of my friends also think i'm funny"
     ];
     const FULL_TEXT = INTRO_LINES.join(' ');
     const CIRCUMFERENCE = 125.66;
 
     // Word counts per line — used to proportion timestamps
-    const WORD_COUNTS = [4, 14, 30, 10];
-    const TOTAL_WORDS = 58;
+    const WORD_COUNTS = [4, 14, 21, 9];
+    const TOTAL_WORDS = 48;
     // Estimated duration at rate 0.92 (~138 wpm) = ~24.3s
     const EST_MS = (TOTAL_WORDS / 138) * 60 * 1000;
 
