@@ -2687,16 +2687,6 @@ a, button, .tab, .highlight, [role="button"] {
         height: auto;
     }
 
-    /* Waveform player — slightly compact on small screens */
-    .audio-waveform {
-        height: 16px;
-    }
-    .waveform-bar {
-        width: 1.5px;
-    }
-    .audio-timestamp {
-        font-size: 0.68rem;
-    }
 }
 
 /* ===================================
@@ -5229,88 +5219,6 @@ a .reveal-word {
         background: none !important;
         text-decoration: underline;
     }
-}
-
-/* ── Audio Voice Introduction ── */
-.audio-intro {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    margin: 20px 0 24px;
-}
-
-/* Inline player row: button + waveform + timestamp */
-.audio-player {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.audio-play-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text-muted);
-    transition: color 0.15s ease;
-    flex-shrink: 0;
-}
-
-.audio-play-btn:hover {
-    color: var(--color-text);
-}
-
-.play-icon {
-    font-size: 11px;
-    line-height: 1;
-}
-
-/* Waveform bars container */
-.audio-waveform {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    height: 20px;
-}
-
-.waveform-bar {
-    display: block;
-    width: 2px;
-    height: 3px;
-    border-radius: 2px;
-    background: var(--color-border);
-    transition: height 0.08s ease, background 0.2s ease;
-}
-
-.audio-timestamp {
-    font-size: 0.72rem;
-    color: var(--color-text-muted);
-    font-variant-numeric: tabular-nums;
-    min-width: 2.8ch;
-    letter-spacing: 0.02em;
-}
-
-.audio-transcript {
-    line-height: 1.65;
-    color: var(--color-text-light);
-}
-
-.transcript-line {
-    display: block;
-    margin-bottom: 1em;
-    transition: color 0.3s ease;
-}
-
-.transcript-line.active {
-    color: var(--color-text);
-}
-
-.transcript-line.done {
-    color: var(--color-text-muted);
 }
 
 /* ── Atmosphere Modes (Sunny + Spring) ── */
