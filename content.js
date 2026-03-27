@@ -22,7 +22,7 @@ const CONTENT = {
     name: "shraddha kulkarni",
 
     // Hello section intro (landing page)
-    helloIntro: `hi, i’m shraddha. i’ve worked in analytics and now work in product management. this is my corner of the internet where i share my work, unfinished projects, imperfect experiments and whatever i’m curious about right now. a couple of my friends also think i’m funny.
+    helloIntro: `hi, i’m shraddha. i have experience in analytics & product management and am currently open to work. this is my corner of the internet where i share my work, unfinished projects, imperfect experiments and whatever i’m curious about right now. a couple of my friends also think i’m funny.
     <br><br>
     want to get in touch? or just say hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank">linkedin</a>, <a href="mailto:meetshraddhakulkarni@gmail.com">email</a>, <a href="https://x.com/shraddhaha" target="_blank">twitter</a>
     <br><br>
