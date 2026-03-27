@@ -71,8 +71,10 @@ const CONTENT = {
         }
     },
 
-    // Contact line (keeping for backwards compatibility)
-    contactLine: ``,
+    // Contact line — shown below the audio intro
+    contactLine: `want to get in touch? or just say hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank">linkedin</a>, <a href="mailto:meetshraddhakulkarni@gmail.com">email</a>, <a href="https://x.com/shraddhaha" target="_blank">twitter</a>
+    <br><br>
+    i was in the <a href="https://x.com/shraddhaha/status/2030900691032768810?s=20" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">newspaper once</a>, <a href="https://x.com/shraddhaha/status/2036696637528223934?s=20" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">again another time</a> & <a href="https://x.com/shraddhaha/status/2034845228449014104/photo/1" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">on the radio</a> for 15 minutes. don't worry, i haven't let the fame change me (jk)`,
 
     // Unique abilities (as bullet points)
     uniqueAbilities: [
