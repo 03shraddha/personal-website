@@ -4043,6 +4043,7 @@ function initAtmosphereToggle() {
 
     // ── Sunny mode: background glow + rays + dust motes + sparkles ──
     let sunnyAnimFrame = null;
+    let sunnyResizeHandler = null;
 
     const RAYS = [
         { angle: 160, spread: 22, alpha: 0.05, phase: 0.0 },
@@ -4068,99 +4069,93 @@ function initAtmosphereToggle() {
         };
     }
 
-    const SPARKLE_TYPES = ['star4', 'star6', 'diamond', 'glow'];
+    // Retro sparkle types: clean geometric strokes, no glow blobs
+    const SPARKLE_TYPES = ['cross', 'asterisk', 'diamond4', 'starburst'];
+    // Warm amber tones — more saturated than the washed-out yellow
+    const SPARKLE_COLORS = [
+        'rgba(200, 140, 40, %a)',   // deep amber
+        'rgba(210, 160, 60, %a)',   // golden
+        'rgba(185, 120, 50, %a)',   // burnt gold
+        'rgba(220, 170, 70, %a)',   // light gold
+    ];
 
     function createSparkle(w, h) {
+        const isMobile = window.innerWidth < 600;
         return {
             x: w * 0.05 + Math.random() * w * 0.95,
             y: Math.random() * h * 0.9,
             life: 0,
-            maxLife: 0.7 + Math.random() * 1.6,
-            size: 5 + Math.random() * 10,          // bigger
-            alpha: 0.7 + Math.random() * 0.3,      // more opaque
+            maxLife: 0.6 + Math.random() * 1.4,
+            size: isMobile ? (3 + Math.random() * 5) : (4 + Math.random() * 10),
+            alpha: isMobile ? (0.3 + Math.random() * 0.25) : (0.65 + Math.random() * 0.35),
             rotation: Math.random() * Math.PI * 2,
-            rotSpeed: (Math.random() - 0.5) * 2.0, // spins while alive
-            vx: (Math.random() - 0.5) * 30,        // drifts sideways
-            vy: -(Math.random() * 35 + 8),          // drifts upward
+            rotSpeed: (Math.random() - 0.5) * 1.2,
+            vx: (Math.random() - 0.5) * 28,
+            vy: -(Math.random() * 32 + 8),
             type: SPARKLE_TYPES[Math.floor(Math.random() * SPARKLE_TYPES.length)],
+            color: SPARKLE_COLORS[Math.floor(Math.random() * SPARKLE_COLORS.length)],
         };
     }
 
     function drawSparkle(ctx, s) {
         const progress = s.life / s.maxLife;
-        const fade = Math.sin(progress * Math.PI); // bell curve
+        const fade = Math.sin(progress * Math.PI); // bell curve fade
         const alpha = s.alpha * fade;
-        const sz = s.size * (0.3 + fade * 0.7);
-        if (alpha < 0.03) return;
+        const sz = s.size * (0.4 + fade * 0.6);
+        if (alpha < 0.04) return;
+
+        const color = s.color.replace('%a', alpha.toFixed(3));
 
         ctx.save();
         ctx.translate(s.x, s.y);
         ctx.rotate(s.rotation);
-        ctx.globalAlpha = alpha;
-
-        // Glow halo — all types
-        const glowR = sz * (s.type === 'glow' ? 5 : 3.5);
-        const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, glowR);
-        glow.addColorStop(0,   'rgba(255, 235, 160, 0.85)');
-        glow.addColorStop(0.3, 'rgba(255, 215, 120, 0.40)');
-        glow.addColorStop(1,   'rgba(255, 200, 100, 0)');
-        ctx.fillStyle = glow;
-        ctx.beginPath();
-        ctx.arc(0, 0, glowR, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.strokeStyle = `rgba(255, 248, 200, ${alpha})`;
+        ctx.strokeStyle = color;
         ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
 
-        if (s.type === 'star4') {
-            // 4-point elongated star: long axes and short axes alternate
-            ctx.lineWidth = Math.max(0.7, sz * 0.18);
-            [[0, sz * 2.8, sz * 0.8], [Math.PI / 4, sz * 1.6, sz * 0.6]].forEach(([angle, long, short]) => {
-                [angle, angle + Math.PI / 2].forEach((a, i) => {
-                    const len = i === 0 ? long : short;
-                    ctx.save(); ctx.rotate(a);
-                    ctx.beginPath();
-                    ctx.moveTo(0, -len); ctx.lineTo(0, len);
-                    ctx.stroke();
-                    ctx.restore();
-                });
-            });
-        } else if (s.type === 'star6') {
-            // 6-point star: 3 crossing lines
-            ctx.lineWidth = Math.max(0.6, sz * 0.15);
-            for (let i = 0; i < 3; i++) {
-                ctx.save();
-                ctx.rotate((i / 3) * Math.PI);
-                ctx.beginPath();
-                ctx.moveTo(0, -sz * 2.4);
-                ctx.lineTo(0,  sz * 2.4);
-                ctx.stroke();
-                ctx.restore();
-            }
-        } else if (s.type === 'diamond') {
-            // Diamond outline with inner fill
-            ctx.lineWidth = Math.max(0.7, sz * 0.16);
+        if (s.type === 'cross') {
+            // Simple + shape
+            ctx.lineWidth = Math.max(0.8, sz * 0.16);
             ctx.beginPath();
-            ctx.moveTo(0, -sz * 2.2);
-            ctx.lineTo(sz * 1.3, 0);
-            ctx.lineTo(0,  sz * 2.2);
-            ctx.lineTo(-sz * 1.3, 0);
+            ctx.moveTo(-sz, 0); ctx.lineTo(sz, 0);
+            ctx.moveTo(0, -sz); ctx.lineTo(0, sz);
+            ctx.stroke();
+
+        } else if (s.type === 'asterisk') {
+            // 6-line asterisk like a typewriter *
+            ctx.lineWidth = Math.max(0.7, sz * 0.14);
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const a = (i / 6) * Math.PI * 2;
+                ctx.moveTo(0, 0);
+                ctx.lineTo(Math.cos(a) * sz * 1.8, Math.sin(a) * sz * 1.8);
+            }
+            ctx.stroke();
+
+        } else if (s.type === 'diamond4') {
+            // Hollow diamond ◇ — stroke only, no fill
+            ctx.lineWidth = Math.max(0.8, sz * 0.15);
+            ctx.beginPath();
+            ctx.moveTo(0, -sz * 1.9);
+            ctx.lineTo(sz * 1.2, 0);
+            ctx.lineTo(0,  sz * 1.9);
+            ctx.lineTo(-sz * 1.2, 0);
             ctx.closePath();
-            ctx.fillStyle = `rgba(255, 240, 180, ${alpha * 0.25})`;
-            ctx.fill();
+            ctx.stroke();
+
+        } else if (s.type === 'starburst') {
+            // 8-point starburst: alternating long and short spikes from centre
+            ctx.lineWidth = Math.max(0.7, sz * 0.13);
+            ctx.beginPath();
+            for (let i = 0; i < 8; i++) {
+                const a = (i / 8) * Math.PI * 2;
+                const len = i % 2 === 0 ? sz * 2.2 : sz * 1.0;
+                ctx.moveTo(0, 0);
+                ctx.lineTo(Math.cos(a) * len, Math.sin(a) * len);
+            }
             ctx.stroke();
         }
-        // 'glow' type: just the halo blob, no lines — a diffuse light puff
 
-        // Bright centre dot (not for glow type)
-        if (s.type !== 'glow') {
-            ctx.fillStyle = `rgba(255, 255, 230, ${Math.min(1, alpha * 1.2)})`;
-            ctx.beginPath();
-            ctx.arc(0, 0, sz * 0.28, 0, Math.PI * 2);
-            ctx.fill();
-        }
-
-        ctx.globalAlpha = 1;
         ctx.restore();
     }
 
@@ -4229,8 +4224,10 @@ function initAtmosphereToggle() {
         const sy = -160;
         RAYS.forEach(ray => drawRay(ctx, sx, sy, ray.angle, ray.spread, ray.alpha, t, ray.phase));
 
-        // ── Sparkles: spawn ~1-2 per 5 frames, max 28 alive ──
-        if (Math.random() < 0.22 && sparkles.length < 28) {
+        // ── Sparkles: fewer on mobile ──
+        const MAX_SPARKLES = window.innerWidth < 600 ? 8 : 28;
+        const SPAWN_CHANCE = window.innerWidth < 600 ? 0.10 : 0.22;
+        if (Math.random() < SPAWN_CHANCE && sparkles.length < MAX_SPARKLES) {
             sparkles.push(createSparkle(w, h));
         }
         sparkles = sparkles.filter(s => {
@@ -4264,14 +4261,26 @@ function initAtmosphereToggle() {
         if (!sunnyCanvas) return;
         sunnyCanvas.width  = window.innerWidth;
         sunnyCanvas.height = window.innerHeight;
-        dustMotes = Array.from({ length: 48 }, () => createDust(sunnyCanvas.width, sunnyCanvas.height));
+        // Fewer dust motes on small screens to keep it subtle
+        const moteCount = window.innerWidth < 600 ? 20 : 48;
+        dustMotes = Array.from({ length: moteCount }, () => createDust(sunnyCanvas.width, sunnyCanvas.height));
         sparkles  = [];
         lastTimestamp = 0;
         sunnyAnimFrame = requestAnimationFrame(animateSunny);
+
+        sunnyResizeHandler = debounceResize(() => {
+            sunnyCanvas.width  = window.innerWidth;
+            sunnyCanvas.height = window.innerHeight;
+            const count = window.innerWidth < 600 ? 20 : 48;
+            dustMotes = Array.from({ length: count }, () => createDust(sunnyCanvas.width, sunnyCanvas.height));
+            sparkles = [];
+        }, 150);
+        window.addEventListener('resize', sunnyResizeHandler);
     }
 
     function stopSunnyMode() {
         if (sunnyAnimFrame) { cancelAnimationFrame(sunnyAnimFrame); sunnyAnimFrame = null; }
+        if (sunnyResizeHandler) { window.removeEventListener('resize', sunnyResizeHandler); sunnyResizeHandler = null; }
         sparkles = [];
         if (sunnyCanvas) {
             const ctx = sunnyCanvas.getContext('2d');
