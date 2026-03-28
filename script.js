@@ -3832,11 +3832,12 @@ function initAtmosphereToggle() {
     let sunnyResizeHandler = null;
 
     const RAYS = [
-        { angle: 160, spread: 22, alpha: 0.05, phase: 0.0 },
-        { angle: 178, spread: 30, alpha: 0.07, phase: 1.8 },
-        { angle: 198, spread: 26, alpha: 0.08, phase: 3.1 },
-        { angle: 218, spread: 20, alpha: 0.06, phase: 1.1 },
-        { angle: 236, spread: 16, alpha: 0.04, phase: 2.4 },
+        { angle: 155, spread: 18, alpha: 0.09, phase: 0.0 },
+        { angle: 170, spread: 26, alpha: 0.12, phase: 1.8 },
+        { angle: 188, spread: 22, alpha: 0.14, phase: 3.1 },
+        { angle: 207, spread: 18, alpha: 0.11, phase: 1.1 },
+        { angle: 224, spread: 14, alpha: 0.08, phase: 2.4 },
+        { angle: 240, spread: 12, alpha: 0.06, phase: 0.7 },
     ];
 
     let bokehOrbs = [];
@@ -3937,9 +3938,9 @@ function initAtmosphereToggle() {
         const grad = ctx.createLinearGradient(sx, sy,
             sx + Math.cos(midAngle) * len * 0.65,
             sy + Math.sin(midAngle) * len * 0.65);
-        grad.addColorStop(0,   `rgba(255, 185, 80, ${animAlpha})`);
-        grad.addColorStop(0.35,`rgba(255, 200, 110, ${animAlpha * 0.5})`);
-        grad.addColorStop(1,   `rgba(255, 220, 150, 0)`);
+        grad.addColorStop(0,   `rgba(255, 230, 160, ${animAlpha})`);
+        grad.addColorStop(0.35,`rgba(255, 240, 190, ${animAlpha * 0.45})`);
+        grad.addColorStop(1,   `rgba(255, 250, 220, 0)`);
 
         ctx.beginPath();
         ctx.moveTo(sx, sy);
@@ -3963,25 +3964,27 @@ function initAtmosphereToggle() {
 
         ctx.clearRect(0, 0, w, h);
 
-        // ── Static base gradient: warm glow from top-right like a sun source ──
+        // ── Static base gradient: just a whisper of warmth in the top-right corner ──
+        const isMobileGrad = window.innerWidth < 901;
         const baseGrad = ctx.createRadialGradient(w * 0.92, 0, 0, w * 0.92, 0, Math.max(w, h) * 1.1);
-        baseGrad.addColorStop(0,    'rgba(255, 200, 80,  0.28)');
-        baseGrad.addColorStop(0.20, 'rgba(255, 215, 110, 0.14)');
-        baseGrad.addColorStop(0.45, 'rgba(255, 230, 150, 0.06)');
+        baseGrad.addColorStop(0,    isMobileGrad ? 'rgba(255, 210, 100, 0.06)' : 'rgba(255, 200, 80,  0.10)');
+        baseGrad.addColorStop(0.25, isMobileGrad ? 'rgba(255, 225, 140, 0.02)' : 'rgba(255, 215, 110, 0.04)');
         baseGrad.addColorStop(1,    'rgba(255, 245, 190, 0)');
         ctx.fillStyle = baseGrad;
         ctx.fillRect(0, 0, w, h);
 
-        // ── Animated secondary glow: drifts gently to add life ──
-        const g1x = w * (0.75 + 0.10 * Math.sin(t * 0.22));
-        const g1y = h * (0.08 + 0.06 * Math.cos(t * 0.17));
-        const g1r = Math.max(w, h) * (0.55 + 0.08 * Math.sin(t * 0.13));
-        const glow1 = ctx.createRadialGradient(g1x, g1y, 0, g1x, g1y, g1r);
-        glow1.addColorStop(0,    'rgba(255, 180, 60,  0.10)');
-        glow1.addColorStop(0.40, 'rgba(255, 210, 120, 0.04)');
-        glow1.addColorStop(1,    'rgba(255, 230, 160, 0)');
-        ctx.fillStyle = glow1;
-        ctx.fillRect(0, 0, w, h);
+        // ── Animated secondary glow: removed on mobile (rays carry the effect) ──
+        if (!isMobileGrad) {
+            const g1x = w * (0.75 + 0.10 * Math.sin(t * 0.22));
+            const g1y = h * (0.08 + 0.06 * Math.cos(t * 0.17));
+            const g1r = Math.max(w, h) * (0.55 + 0.08 * Math.sin(t * 0.13));
+            const glow1 = ctx.createRadialGradient(g1x, g1y, 0, g1x, g1y, g1r);
+            glow1.addColorStop(0,    'rgba(255, 180, 60,  0.06)');
+            glow1.addColorStop(0.40, 'rgba(255, 210, 120, 0.02)');
+            glow1.addColorStop(1,    'rgba(255, 230, 160, 0)');
+            ctx.fillStyle = glow1;
+            ctx.fillRect(0, 0, w, h);
+        }
 
         // ── Light rays ──
         const sx = w + 160;

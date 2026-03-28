@@ -2834,8 +2834,8 @@ a .reveal-word {
 /* Polaroid Gallery Grid */
 .polaroid-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 40px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
     padding: 20px 0;
 }
 
