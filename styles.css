@@ -2898,6 +2898,8 @@ a .reveal-word {
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
+    width: 100%;
+    box-sizing: border-box;
     /* In flow below image — no absolute positioning */
 }
 
