@@ -2835,15 +2835,16 @@ a .reveal-word {
 .polaroid-gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    padding: 20px 0;
+    gap: 32px;
+    padding: 32px 20px; /* extra vertical + horizontal room for scale(1.05) on hover */
+    overflow: visible; /* prevent clipping of scaled/translated polaroid cards */
 }
 
 /* Individual Polaroid */
 .polaroid {
     position: relative;
     background: #fff;
-    padding: 12px 12px 48px 12px;
+    padding: 16px 16px 56px 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
     transition: transform 0.4s ease, box-shadow 0.3s ease;
     cursor: pointer;
@@ -2887,7 +2888,7 @@ a .reveal-word {
 /* Polaroid Caption Display (for visitors) */
 .polaroid-caption-display {
     position: absolute;
-    bottom: 8px;
+    bottom: 12px;
     left: 12px;
     right: 12px;
     font-family: 'Special Elite', 'Courier New', monospace;
