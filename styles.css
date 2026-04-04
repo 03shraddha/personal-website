@@ -2899,6 +2899,7 @@ a .reveal-word {
     overflow-wrap: break-word;
     white-space: normal;
     width: 100%;
+    min-width: 0; /* flex children default to min-width:auto which blocks wrapping */
     box-sizing: border-box;
     /* In flow below image — no absolute positioning */
 }
@@ -2948,6 +2949,7 @@ a .reveal-word {
     overflow-wrap: break-word;
     white-space: normal;
     width: 100%;
+    min-width: 0;
     box-sizing: border-box;
     /* In flow below image — no absolute positioning */
 }
