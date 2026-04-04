@@ -2835,8 +2835,8 @@ a .reveal-word {
 .polaroid-gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-    padding: 32px 20px; /* extra vertical + horizontal room for scale(1.05) on hover */
+    gap: 20px;
+    padding: 32px 8px; /* extra vertical room for scale(1.05) on hover */
     overflow: visible; /* prevent clipping of scaled/translated polaroid cards */
 }
 
@@ -2844,10 +2844,12 @@ a .reveal-word {
 .polaroid {
     position: relative;
     background: #fff;
-    padding: 16px 16px 56px 16px;
+    padding: 12px 12px 12px 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
     transition: transform 0.4s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Random rotations for authentic feel */
@@ -2887,20 +2889,16 @@ a .reveal-word {
 
 /* Polaroid Caption Display (for visitors) */
 .polaroid-caption-display {
-    position: absolute;
-    bottom: 12px;
-    left: 12px;
-    right: 12px;
     font-family: 'Special Elite', 'Courier New', monospace;
     font-size: 0.875rem;
     color: #333;
     text-align: center;
-    min-height: 28px;
-    padding: 4px;
+    padding: 10px 4px 4px 4px;
     letter-spacing: 0.5px;
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
+    /* In flow below image — no absolute positioning */
 }
 
 /* Empty Polaroid Placeholder */
@@ -2933,16 +2931,12 @@ a .reveal-word {
 
 /* Polaroid Caption Input (admin only) */
 .polaroid-caption {
-    position: absolute;
-    bottom: 8px;
-    left: 12px;
-    right: 12px;
     font-family: 'Special Elite', 'Courier New', monospace;
     font-size: 0.875rem;
     color: #333;
     text-align: center;
     min-height: 28px;
-    padding: 4px;
+    padding: 10px 4px 4px 4px;
     border: none;
     background: transparent;
     outline: none;
@@ -2951,6 +2945,9 @@ a .reveal-word {
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
+    width: 100%;
+    box-sizing: border-box;
+    /* In flow below image — no absolute positioning */
 }
 
 /* Hide caption display when admin input is shown */
