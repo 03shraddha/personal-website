@@ -3450,7 +3450,10 @@ function initGuestbook() {
         try {
             const res = await fetch('https://ptoykobcidzgewmtiomp.supabase.co/functions/v1/super-handler', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                },
                 body: JSON.stringify({ message })
             });
 
