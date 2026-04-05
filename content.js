@@ -22,7 +22,7 @@ const CONTENT = {
     name: "shraddha kulkarni",
 
     // Hello section intro (landing page)
-    helloIntro: `hi, i’m shraddha :) i have experience in analytics & product management and am currently open to work :)`,
+    helloIntro: `hi, i’m shraddha. i have experience in analytics & product management and am currently open to work :)`,
 
     helloCorner: `this is my corner of the internet where i share my work, unfinished projects & whatever i’m curious about right now.`,
 
