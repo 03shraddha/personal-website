@@ -2850,6 +2850,7 @@ a .reveal-word {
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    min-width: 0; /* grid item: prevents overflow beyond cell boundary */
 }
 
 /* Random rotations for authentic feel */
@@ -2895,12 +2896,9 @@ a .reveal-word {
     text-align: center;
     padding: 10px 4px 4px 4px;
     letter-spacing: 0.5px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere; /* breaks mid-word if needed to stay within card */
     white-space: normal;
-    width: 100%;
-    min-width: 0; /* flex children default to min-width:auto which blocks wrapping */
-    box-sizing: border-box;
+    min-width: 0;
     /* In flow below image — no absolute positioning */
 }
 
