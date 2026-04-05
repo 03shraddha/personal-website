@@ -492,13 +492,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="project-preview-image">Preview Image <span class="field-hint">(shown on hover)</span></label>
-                <input type="file" id="project-preview-image" accept="image/*">
-                <div id="project-preview-thumb" class="preview-thumb" style="display:none;">
-                    <img id="project-preview-thumb-img" src="" alt="Preview thumbnail">
-                    <button type="button" id="project-preview-remove" class="preview-remove-btn">&times; Remove</button>
-                </div>
-                <input type="hidden" id="project-preview-url">
+                <label for="project-preview-url">Preview Image URL <span class="field-hint">(shown on hover — add image to assets/previews/ in repo, then paste URL)</span></label>
+                <input type="url" id="project-preview-url" placeholder="https://shraddha-kulkarni.com/assets/previews/project-13.png">
             </div>
             <div class="modal-actions">
                 <button type="button" id="project-cancel" class="btn-secondary" onclick="projectCloseModal()">Cancel</button>

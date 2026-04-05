@@ -997,10 +997,7 @@ function projectOpenAddModal() {
     document.getElementById('project-demo').value = '';
     document.getElementById('project-live').value = '';
     document.getElementById('project-highlight').value = 'blue';
-    document.getElementById('project-preview-image').value = '';
     document.getElementById('project-preview-url').value = '';
-    document.getElementById('project-preview-thumb').style.display = 'none';
-    document.getElementById('project-preview-thumb-img').src = '';
     document.getElementById('project-save').textContent = 'Save Project';
     document.getElementById('project-modal').classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -1027,17 +1024,7 @@ window.projectEditItem = function(projectId) {
     document.getElementById('project-demo').value = proj.demoUrl || '';
     document.getElementById('project-live').value = proj.liveUrl || '';
     document.getElementById('project-highlight').value = proj.highlight || 'blue';
-    document.getElementById('project-preview-image').value = '';
     document.getElementById('project-preview-url').value = proj.previewImageUrl || '';
-    const thumb = document.getElementById('project-preview-thumb');
-    const thumbImg = document.getElementById('project-preview-thumb-img');
-    if (proj.previewImageUrl) {
-        thumbImg.src = proj.previewImageUrl;
-        thumb.style.display = 'flex';
-    } else {
-        thumbImg.src = '';
-        thumb.style.display = 'none';
-    }
     document.getElementById('project-save').textContent = 'Update Project';
     document.getElementById('project-modal').classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -1076,8 +1063,7 @@ window.projectSaveItem = async function() {
     const liveUrl = document.getElementById('project-live').value.trim();
     const highlight = document.getElementById('project-highlight').value;
     const saveBtn = document.getElementById('project-save');
-    const imageFile = document.getElementById('project-preview-image').files[0];
-    let previewImageUrl = document.getElementById('project-preview-url').value.trim();
+    const previewImageUrl = document.getElementById('project-preview-url').value.trim();
 
     if (!name || !briefDescription) {
         alert('Project title and short description are required.');
@@ -1093,26 +1079,6 @@ window.projectSaveItem = async function() {
     saveBtn.disabled = true;
 
     try {
-        // Upload preview image if a new file was selected
-        if (imageFile) {
-            saveBtn.textContent = 'Uploading image...';
-            const ext = imageFile.name.split('.').pop().toLowerCase();
-            const filename = `project-${state.currentEditId || 'new'}-${Date.now()}.${ext}`;
-            const { error: uploadError } = await supabaseClient.storage
-                .from('project-previews')
-                .upload(filename, imageFile, { upsert: true });
-            if (uploadError) {
-                alert('Image upload failed: ' + uploadError.message);
-                saveBtn.textContent = state.currentEditId ? 'Update Project' : 'Save Project';
-                saveBtn.disabled = false;
-                return;
-            }
-            const { data: urlData } = supabaseClient.storage
-                .from('project-previews')
-                .getPublicUrl(filename);
-            previewImageUrl = urlData.publicUrl;
-        }
-
         if (state.currentEditId) {
             // Update
             const { error } = await supabaseClient
@@ -1189,33 +1155,6 @@ window.projectSaveItem = async function() {
     saveBtn.disabled = false;
 };
 
-// Wire up the "Remove" button for the preview image thumbnail in the admin modal
-document.addEventListener('DOMContentLoaded', () => {
-    const removeBtn = document.getElementById('project-preview-remove');
-    if (removeBtn) {
-        removeBtn.addEventListener('click', () => {
-            document.getElementById('project-preview-image').value = '';
-            document.getElementById('project-preview-url').value = '';
-            document.getElementById('project-preview-thumb').style.display = 'none';
-            document.getElementById('project-preview-thumb-img').src = '';
-        });
-    }
-
-    // Show thumbnail preview when a file is selected
-    const fileInput = document.getElementById('project-preview-image');
-    if (fileInput) {
-        fileInput.addEventListener('change', () => {
-            const file = fileInput.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                document.getElementById('project-preview-thumb-img').src = e.target.result;
-                document.getElementById('project-preview-thumb').style.display = 'flex';
-            };
-            reader.readAsDataURL(file);
-        });
-    }
-});
 
 // Escape key for project modal
 document.addEventListener('keydown', (e) => {
