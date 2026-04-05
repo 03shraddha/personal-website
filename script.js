@@ -259,7 +259,9 @@ function loadContent() {
     }
     nameEl.innerHTML = `<span class="name-english">${CONTENT.name}</span><span class="name-kannada">${CONTENT.nameKannada || ''}</span>`;
 
-    // Hello section intro
+    // Hello section intro (from content.js)
+    document.getElementById('hello-intro').textContent = CONTENT.helloIntro;
+    document.getElementById('hello-corner').textContent = CONTENT.helloCorner;
     document.getElementById('contact-line').innerHTML = CONTENT.contactLine;
 
     // Unique abilities as bullet points (now in Hello section)
