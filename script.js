@@ -680,6 +680,7 @@ function initProjectsSection() {
                 expandedContent: p.expanded_content || '',
                 githubUrl: p.github_url || '',
                 demoUrl: p.demo_url || '',
+                liveUrl: p.live_url || '',
                 previewImageUrl: p.preview_image_url || '',
                 sortOrder: p.sort_order || 0
             }));
@@ -700,16 +701,18 @@ function initProjectsSection() {
 
         const githubSvg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>';
         const externalSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
+        const playSvg = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>';
 
         // Drag handle SVG (6-dot grip) — shown only in admin mode
         const dragHandleSvg = '<svg viewBox="0 0 10 16" fill="currentColor" width="10" height="16"><circle cx="3" cy="3" r="1.2"/><circle cx="7" cy="3" r="1.2"/><circle cx="3" cy="8" r="1.2"/><circle cx="7" cy="8" r="1.2"/><circle cx="3" cy="13" r="1.2"/><circle cx="7" cy="13" r="1.2"/></svg>';
 
         // Build HTML for a single project card
         function buildCardHtml(proj, index) {
-            const linksHtml = (proj.githubUrl || proj.demoUrl) ? `
+            const linksHtml = (proj.githubUrl || proj.demoUrl || proj.liveUrl) ? `
                 <div class="project-links">
                     ${proj.githubUrl ? `<a href="${proj.githubUrl}" target="_blank" rel="noopener noreferrer" class="project-link">${githubSvg} GitHub</a>` : ''}
                     ${proj.demoUrl ? `<a href="${proj.demoUrl}" target="_blank" rel="noopener noreferrer" class="project-link">${externalSvg} Demo</a>` : ''}
+                    ${proj.liveUrl ? `<a href="${proj.liveUrl}" target="_blank" rel="noopener noreferrer" class="project-link">${playSvg} Live Link</a>` : ''}
                 </div>
             ` : '';
 
@@ -992,6 +995,7 @@ function projectOpenAddModal() {
     document.getElementById('project-expanded').value = '';
     document.getElementById('project-github').value = '';
     document.getElementById('project-demo').value = '';
+    document.getElementById('project-live').value = '';
     document.getElementById('project-highlight').value = 'blue';
     document.getElementById('project-preview-image').value = '';
     document.getElementById('project-preview-url').value = '';
@@ -1021,6 +1025,7 @@ window.projectEditItem = function(projectId) {
     document.getElementById('project-expanded').value = proj.expandedContent || '';
     document.getElementById('project-github').value = proj.githubUrl || '';
     document.getElementById('project-demo').value = proj.demoUrl || '';
+    document.getElementById('project-live').value = proj.liveUrl || '';
     document.getElementById('project-highlight').value = proj.highlight || 'blue';
     document.getElementById('project-preview-image').value = '';
     document.getElementById('project-preview-url').value = proj.previewImageUrl || '';
@@ -1068,6 +1073,7 @@ window.projectSaveItem = async function() {
     const expandedContent = document.getElementById('project-expanded').value.trim();
     const githubUrl = document.getElementById('project-github').value.trim();
     const demoUrl = document.getElementById('project-demo').value.trim();
+    const liveUrl = document.getElementById('project-live').value.trim();
     const highlight = document.getElementById('project-highlight').value;
     const saveBtn = document.getElementById('project-save');
     const imageFile = document.getElementById('project-preview-image').files[0];
@@ -1118,6 +1124,7 @@ window.projectSaveItem = async function() {
                     expanded_content: expandedContent || null,
                     github_url: githubUrl || null,
                     demo_url: demoUrl || null,
+                    live_url: liveUrl || null,
                     preview_image_url: previewImageUrl || null
                 })
                 .eq('id', state.currentEditId);
@@ -1131,7 +1138,7 @@ window.projectSaveItem = async function() {
 
             const idx = state.projects.findIndex(p => p.id === state.currentEditId);
             if (idx !== -1) {
-                state.projects[idx] = { ...state.projects[idx], name, highlight, briefDescription, expandedContent, githubUrl, demoUrl, previewImageUrl };
+                state.projects[idx] = { ...state.projects[idx], name, highlight, briefDescription, expandedContent, githubUrl, demoUrl, liveUrl, previewImageUrl };
             }
         } else {
             // Insert
@@ -1144,6 +1151,7 @@ window.projectSaveItem = async function() {
                     expanded_content: expandedContent || null,
                     github_url: githubUrl || null,
                     demo_url: demoUrl || null,
+                    live_url: liveUrl || null,
                     preview_image_url: previewImageUrl || null,
                     sort_order: state.projects.length
                 }])
@@ -1165,6 +1173,7 @@ window.projectSaveItem = async function() {
                 expandedContent: saved.expanded_content || '',
                 githubUrl: saved.github_url || '',
                 demoUrl: saved.demo_url || '',
+                liveUrl: saved.live_url || '',
                 previewImageUrl: saved.preview_image_url || '',
                 sortOrder: saved.sort_order || 0
             });

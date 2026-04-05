@@ -168,6 +168,7 @@ CREATE TABLE IF NOT EXISTS projects (
     expanded_content TEXT,
     github_url TEXT,
     demo_url TEXT,
+    live_url TEXT,
     sort_order INTEGER DEFAULT 0,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -217,3 +218,7 @@ USING (true);
 -- CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = 'photos');
 -- CREATE POLICY "Anyone can upload" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'photos');
 -- CREATE POLICY "Anyone can delete" ON storage.objects FOR DELETE USING (bucket_id = 'photos');
+
+
+-- Migration: add live_url column (run if projects table already exists)
+-- ALTER TABLE projects ADD COLUMN live_url TEXT;
