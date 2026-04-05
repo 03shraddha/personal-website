@@ -4726,9 +4726,6 @@ a .reveal-word {
         font-size: 0.75rem;
         min-height: unset;
         line-height: 1.4;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 
     /* Polaroid shows color on hover/touch on mobile */
