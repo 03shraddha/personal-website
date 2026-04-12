@@ -400,6 +400,18 @@ a, button, .tab, .highlight, [role="button"] {
 
 .hello-learning li {
     margin-bottom: 2px;
+    padding-left: 18px;
+    position: relative;
+    font-size: 1.0625rem; /* explicit — prevents mobile base-size cascade */
+}
+
+.hello-learning li::before {
+    content: '★';
+    position: absolute;
+    left: 0;
+    font-size: 0.55em;
+    top: 0.45em;
+    color: var(--color-text);
 }
 
 .contact-line {

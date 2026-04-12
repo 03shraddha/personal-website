@@ -267,7 +267,7 @@ function loadContent() {
     if (CONTENT.helloLearning) {
         document.getElementById('hello-learning-title').innerHTML = CONTENT.helloLearning.title;
         document.getElementById('hello-learning-list').innerHTML = CONTENT.helloLearning.items
-            .map(item => `<li>★ ${item}</li>`)
+            .map(item => `<li>${item}</li>`)
             .join('');
     }
 
@@ -726,11 +726,17 @@ function initProjectsSection() {
                 </div>
             ` : '';
 
+            // Title links to demoUrl > githubUrl > liveUrl if present; otherwise plain text (no false affordance)
+            const titleUrl = proj.demoUrl || proj.githubUrl || proj.liveUrl || null;
+            const titleHtml = titleUrl
+                ? `<a href="${titleUrl}" target="_blank" rel="noopener noreferrer" class="highlight ${proj.highlight}">${proj.name}</a>`
+                : proj.name;
+
             // data-project-id used by sortable reorder; data-project-index used by expand toggle
             return `
                 <article class="project-card${isAdminUser ? ' is-admin-card' : ''}" data-project-index="${index}" data-project-id="${proj.id}"${proj.previewImageUrl ? ` data-preview-url="${proj.previewImageUrl}"` : ''}>
                     ${isAdminUser ? `<div class="drag-handle" title="Drag to reorder" aria-hidden="true">${dragHandleSvg}</div>` : ''}
-                    <h3><span class="highlight ${proj.highlight}">${proj.name}</span></h3>
+                    <h3>${titleHtml}</h3>
                     <p class="project-brief">${proj.briefDescription}</p>
                     ${linksHtml}
                     ${expandedHtml}

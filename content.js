@@ -24,11 +24,11 @@ const CONTENT = {
     // Hello section intro (landing page)
     helloIntro: `hi i’m shraddha, this is my little corner of the internet where i share my work, unfinished projects & whatever i’m curious about at the moment`,
 
-    helloCorner: `<em>fun fact:</em> i can recite <a href="https://www.youtube.com/watch?v=3HRkKznJoZA" target="_blank">100 digits of pi</a> + the <a href="https://www.youtube.com/watch?v=rz4Dd1I_fX0" target="_blank">periodic table</a> from memory`,
+    helloCorner: `fun fact: i can recite <a href="https://www.youtube.com/watch?v=3HRkKznJoZA" target="_blank" class="highlight peach">100 digits of pi</a> + the <a href="https://www.youtube.com/watch?v=rz4Dd1I_fX0" target="_blank" class="highlight blue">periodic table</a> from memory`,
 
     // "These days i’m learning" bullet list
     helloLearning: {
-        title: `<em>these days i’m learning:</em>`,
+        title: `these days i’m learning:`,
         items: [
             `how to be grateful`,
             `how to AI`,
@@ -81,9 +81,9 @@ const CONTENT = {
     },
 
     // Contact line — shown below the audio intro
-    contactLine: `want to get in touch? or just say hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank">linkedin</a>, <a href="mailto:meetshraddhakulkarni@gmail.com">email</a>, <a href="https://x.com/shraddhaha" target="_blank">twitter</a>
+    contactLine: `want to get in touch? or just say hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank" class="highlight blue">linkedin</a>, <a href="mailto:meetshraddhakulkarni@gmail.com" class="highlight peach">email</a>, <a href="https://x.com/shraddhaha" target="_blank" class="highlight lavender">twitter</a>
     <br><br>
-    i was in the <a href="https://x.com/shraddhaha/status/2030900691032768810?s=20" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">newspaper once</a>, <a href="https://x.com/shraddhaha/status/2036696637528223934?s=20" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">again another time</a> & <a href="https://x.com/shraddhaha/status/2034845228449014104/photo/1" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">on the radio</a> for 15 minutes. don't worry, i haven't let the fame change me (jk)`,
+    i was in the <a href="https://x.com/shraddhaha/status/2030900691032768810?s=20" target="_blank" rel="noopener noreferrer" class="highlight peach">newspaper once</a>, <a href="https://x.com/shraddhaha/status/2036696637528223934?s=20" target="_blank" rel="noopener noreferrer" class="highlight blue">again another time</a> & <a href="https://x.com/shraddhaha/status/2034845228449014104/photo/1" target="_blank" rel="noopener noreferrer" class="highlight lavender">on the radio</a> for 15 minutes. don't worry, i haven't let the fame change me (jk)`,
 
     // Name in Kannada (for hover effect)
     nameKannada: "ಶ್ರದ್ಧಾ ಕುಲಕರ್ಣಿ",
@@ -286,6 +286,7 @@ const CONTENT = {
             highlight: "blue",
             briefDescription: "Software-defined radio channel estimation using LabVIEW and USRP 2920, improving SNR by 9 dB.",
             url: "#",
+            demoUrl: "https://drive.google.com/file/d/1OysW6dYF1CPZ64Mszi-8GOQfVCEZBtyF/view?usp=sharing",
             expandedContent: `
                 <p>★ Final year engineering project focused on wireless communication optimization.</p>
 
