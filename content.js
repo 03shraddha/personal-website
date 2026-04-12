@@ -22,7 +22,7 @@ const CONTENT = {
     name: "shraddha kulkarni",
 
     // Hello section intro (landing page)
-    helloIntro: `hi i’m shraddha, this is my little corner of the internet where i share my work, unfinished projects & whatever i’m curious about at the moment`,
+    helloIntro: `hi i’m shraddha, this is my lil corner of the internet where i share my work, unfinished projects & whatever i’m curious about at the moment :)`,
 
     helloCorner: `fun fact: i can recite <a href="https://www.youtube.com/watch?v=3HRkKznJoZA" target="_blank" class="highlight peach">100 digits of pi</a> + the <a href="https://www.youtube.com/watch?v=rz4Dd1I_fX0" target="_blank" class="highlight blue">periodic table</a> from memory`,
 
@@ -372,6 +372,7 @@ const CONTENT = {
     // THOUGHTS (formerly fieldnotes) - simple linked list
     // ==========================================
     thoughts: [
+        { year: "2026", title: "my favorite souvenirs are just convivence store snacks", url: "https://shraddhaha.substack.com/p/my-favorite-souvenirs-are-just-connivence" },
         { year: "2026", title: "why people prefer iPhone pics", url: "https://shraddhaha.substack.com/p/why-people-prefer-iphone-pics" },
         { year: "2026", title: "are we wrong about why LLMs cannot produce new research?", url: "https://shraddhaha.substack.com/p/are-we-wrong-about-why-llms-cannot" },
         { year: "2026", title: "how much does a 10 minute house help really earn?", url: "https://shraddhaha.substack.com/p/how-much-does-a-10-minute-house-help" },
