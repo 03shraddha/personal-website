@@ -261,7 +261,7 @@ function loadContent() {
 
     // Hello section intro (from content.js)
     document.getElementById('hello-intro').textContent = CONTENT.helloIntro;
-    document.getElementById('hello-corner').textContent = CONTENT.helloCorner;
+    document.getElementById('hello-corner').innerHTML = CONTENT.helloCorner;
 
     // "These days i'm learning" section
     if (CONTENT.helloLearning) {

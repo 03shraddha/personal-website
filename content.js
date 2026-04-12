@@ -24,7 +24,7 @@ const CONTENT = {
     // Hello section intro (landing page)
     helloIntro: `hi i’m shraddha, this is my little corner of the internet where i share my work, unfinished projects & whatever i’m curious about at the moment`,
 
-    helloCorner: `fun fact: i can recite 100 digits of pi + the periodic table from memory`,
+    helloCorner: `fun fact: i can recite <a href="https://www.youtube.com/watch?v=3HRkKznJoZA" target="_blank">100 digits of pi</a> + the <a href="https://www.youtube.com/watch?v=rz4Dd1I_fX0" target="_blank">periodic table</a> from memory`,
 
     // "These days i’m learning" bullet list
     helloLearning: {
