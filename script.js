@@ -436,22 +436,19 @@ function loadContent() {
  * Optimized: Shows cached/fallback content immediately, refreshes in background
  */
 async function loadSubstackPosts() {
-    const CACHE_KEY = 'substack-posts-v3';
-    const CACHE_EXPIRY = 1 * 60 * 60 * 1000; // 1 hour cache
+    const CACHE_KEY = 'substack-posts-v4';
     const RSS_URL = 'https://shraddhaha.substack.com/feed';
 
-    // Stale-while-revalidate: show any cached data immediately, then refresh if stale
+    // Show cached posts immediately for fast initial render
     const cached = localStorage.getItem(CACHE_KEY);
     let hasCache = false;
-    let isFresh = false;
 
     if (cached) {
         try {
-            const { posts, timestamp } = JSON.parse(cached);
+            const { posts } = JSON.parse(cached);
             if (posts && posts.length > 0) {
                 hasCache = true;
-                isFresh = Date.now() - timestamp < CACHE_EXPIRY;
-                renderThoughtsPosts(posts); // show stale-or-fresh cache immediately
+                renderThoughtsPosts(posts);
             }
         } catch (e) {
             // Invalid cache, fall through
@@ -459,14 +456,12 @@ async function loadSubstackPosts() {
     }
 
     if (!hasCache) {
-        // No cache at all — show static fallback immediately while fetching
+        // No cache — show static fallback while fetch is in flight
         renderThoughtsFallback();
     }
 
-    if (!isFresh) {
-        // Fire-and-forget background fetch; updates UI when done
-        fetchSubstackInBackground(RSS_URL, CACHE_KEY);
-    }
+    // Always fetch fresh data on every page load so visitors always see the latest posts
+    fetchSubstackInBackground(RSS_URL, CACHE_KEY);
 }
 
 // Background fetch - doesn't block UI
