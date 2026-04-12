@@ -28,7 +28,7 @@ const CONTENT = {
 
     // "These days i’m learning" bullet list
     helloLearning: {
-        title: `these days i’m learning:`,
+        title: `<strong>these days i’m learning:</strong>`,
         items: [
             `how to be grateful`,
             `how to AI`,
