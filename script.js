@@ -1489,16 +1489,22 @@ function initNavigation() {
                     _programmaticScrolling = false;
                 }, 600);
 
-                // Correction for layout shifts from async loading (e.g. Supabase projects
-                // rendering after click, expanding the work section and pushing thoughts down).
-                // Fires after smooth scroll + buffer; instant-jumps only if meaningfully off.
+                // After smooth scroll settles, watch for layout shifts (e.g. Supabase async
+                // content loading and expanding sections, pushing the target further down).
+                // ResizeObserver fires whenever the document grows/shrinks and instantly
+                // re-anchors to the target section — no hardcoded timing required.
                 setTimeout(() => {
-                    const correctedOffset = window.innerWidth <= 900 ? 80 : 0;
-                    const correctedTop = targetSection.getBoundingClientRect().top + window.pageYOffset - correctedOffset;
-                    if (Math.abs(correctedTop - window.pageYOffset) > 20) {
-                        window.scrollTo({ top: correctedTop, behavior: 'instant' });
-                    }
-                }, 800);
+                    const observer = new ResizeObserver(() => {
+                        const dynamicOffset = window.innerWidth <= 900 ? 80 : 0;
+                        const correctedTop = targetSection.getBoundingClientRect().top + window.pageYOffset - dynamicOffset;
+                        if (Math.abs(correctedTop - window.pageYOffset) > 10) {
+                            window.scrollTo({ top: correctedTop, behavior: 'instant' });
+                        }
+                    });
+                    observer.observe(document.body);
+                    // Stop observing once layout has stabilised (2s covers all async loads)
+                    setTimeout(() => observer.disconnect(), 2000);
+                }, 600);
             }
         });
     });
