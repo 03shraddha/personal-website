@@ -22,9 +22,20 @@ const CONTENT = {
     name: "shraddha kulkarni",
 
     // Hello section intro (landing page)
-    helloIntro: `hi, i’m shraddha. i have experience in analytics & product management and am currently open to work :)`,
+    helloIntro: `hi i’m shraddha, this is my little corner of the internet where i share my work, unfinished projects & whatever i’m curious about at the moment`,
 
-    helloCorner: `this is my corner of the internet where i share my work, unfinished projects & whatever i’m curious about right now.`,
+    helloCorner: `fun fact: i can recite 100 digits of pi and the periodic table from memory`,
+
+    // "These days i’m learning" bullet list
+    helloLearning: {
+        title: `these days i’m learning:`,
+        items: [
+            `how to be grateful`,
+            `how to AI`,
+            `how to detach my self worth from my appearance`,
+            `how to keep the promises i make to myself`
+        ]
+    },
 
     // About section content (structured)
     aboutContent: {

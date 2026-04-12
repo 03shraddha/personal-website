@@ -378,6 +378,30 @@ a, button, .tab, .highlight, [role="button"] {
     margin-bottom: 0;
 }
 
+.hello-learning {
+    max-width: 540px;
+    margin-bottom: 24px;
+}
+
+.hello-learning p {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+}
+
+.hello-learning ul {
+    list-style: none;
+    padding-left: 0;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--color-text);
+}
+
+.hello-learning li {
+    margin-bottom: 2px;
+}
+
 .contact-line {
     font-size: 1.0625rem;
     line-height: 1.75;

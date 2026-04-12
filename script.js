@@ -262,6 +262,15 @@ function loadContent() {
     // Hello section intro (from content.js)
     document.getElementById('hello-intro').textContent = CONTENT.helloIntro;
     document.getElementById('hello-corner').textContent = CONTENT.helloCorner;
+
+    // "These days i'm learning" section
+    if (CONTENT.helloLearning) {
+        document.getElementById('hello-learning-title').textContent = CONTENT.helloLearning.title;
+        document.getElementById('hello-learning-list').innerHTML = CONTENT.helloLearning.items
+            .map(item => `<li>★ ${item}</li>`)
+            .join('');
+    }
+
     document.getElementById('contact-line').innerHTML = CONTENT.contactLine;
 
     // Unique abilities as bullet points (now in Hello section)
