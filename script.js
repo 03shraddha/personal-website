@@ -265,7 +265,7 @@ function loadContent() {
 
     // "These days i'm learning" section
     if (CONTENT.helloLearning) {
-        document.getElementById('hello-learning-title').textContent = CONTENT.helloLearning.title;
+        document.getElementById('hello-learning-title').innerHTML = CONTENT.helloLearning.title;
         document.getElementById('hello-learning-list').innerHTML = CONTENT.helloLearning.items
             .map(item => `<li>★ ${item}</li>`)
             .join('');
