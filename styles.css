@@ -2418,7 +2418,10 @@ a, button, .tab, .highlight, [role="button"] {
     }
 
     .contact-line,
-    .hello-intro-text p {
+    .hello-intro-text p,
+    .hello-learning p,
+    .hello-learning ul,
+    .hello-learning li {
         font-size: 0.9375rem;
         line-height: 1.75;
     }
