@@ -433,7 +433,7 @@ function loadContent() {
  * Optimized: Shows cached/fallback content immediately, refreshes in background
  */
 async function loadSubstackPosts() {
-    const CACHE_KEY = 'substack-posts-v5';
+    const CACHE_KEY = 'substack-posts-v6';
     const RSS_URL = 'https://shraddhaha.substack.com/feed';
 
     // Show cached posts immediately for fast initial render
@@ -485,7 +485,8 @@ async function fetchSubstackInBackground(RSS_URL, CACHE_KEY) {
             const timeout = setTimeout(() => controller.abort(), 8000);
 
             const response = await fetch(proxy.url + encodeURIComponent(RSS_URL), {
-                signal: controller.signal
+                signal: controller.signal,
+                cache: 'no-store'
             });
             clearTimeout(timeout);
 

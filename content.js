@@ -373,7 +373,7 @@ const CONTENT = {
     // ==========================================
     thoughts: [
         { year: "2026", title: "my favorite souvenirs are just convivence store snacks", url: "https://shraddhaha.substack.com/p/my-favorite-souvenirs-are-just-connivence" },
-        { year: "2026", title: "why people prefer iPhone pics", url: "https://shraddhaha.substack.com/p/why-people-prefer-iphone-pics" },
+        { year: "2026", title: "why \"imperfect\" iphone photos are replacing professional pics", url: "https://shraddhaha.substack.com/p/why-people-prefer-iphone-pics" },
         { year: "2026", title: "are we wrong about why LLMs cannot produce new research?", url: "https://shraddhaha.substack.com/p/are-we-wrong-about-why-llms-cannot" },
         { year: "2026", title: "how much does a 10 minute house help really earn?", url: "https://shraddhaha.substack.com/p/how-much-does-a-10-minute-house-help" },
         { year: "2026", title: "why metrics can mislead us more than we think", url: "https://shraddhaha.substack.com/p/why-metrics-can-mislead-us-more-than" },
