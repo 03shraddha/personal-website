@@ -273,18 +273,6 @@ function loadContent() {
 
     document.getElementById('contact-line').innerHTML = CONTENT.contactLine;
 
-    // Unique abilities as bullet points (now in Hello section)
-    const abilitiesHtml = CONTENT.uniqueAbilities.map(ability => {
-        if (ability.highlight && ability.url) {
-            return `<li><a href="${ability.url}" ${ability.url.startsWith('http') ? 'target="_blank"' : ''} class="highlight ${ability.highlight}">${ability.text}</a></li>`;
-        } else if (ability.highlight) {
-            return `<li><span class="highlight ${ability.highlight}">${ability.text}</span></li>`;
-        } else {
-            return `<li>${ability.text}</li>`;
-        }
-    }).join('');
-    document.getElementById('unique-abilities').innerHTML = abilitiesHtml;
-
 
 
     // About section content

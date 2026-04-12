@@ -410,41 +410,6 @@ a, button, .tab, .highlight, [role="button"] {
     margin-bottom: 28px;
 }
 
-.unique-abilities {
-    margin-bottom: 20px;
-    max-width: 540px;
-}
-
-.unique-abilities h2 {
-    font-family: var(--font-body);
-    font-size: 1.0625rem;
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: 8px;
-}
-
-.unique-abilities ul {
-    list-style: none;
-    padding-left: 0;
-    font-size: 1.0625rem;
-    line-height: 1.7;
-    color: var(--color-text);
-}
-
-.unique-abilities li {
-    margin-bottom: 2px;
-    position: relative;
-    padding-left: 16px;
-}
-
-.unique-abilities li::before {
-    content: '✦';
-    position: absolute;
-    left: 0;
-    top: 0.5em;
-    color: var(--color-text-muted);
-    font-size: 0.625rem;
-}
 
 .section-title {
     font-family: var(--font-body);
@@ -2614,22 +2579,6 @@ a, button, .tab, .highlight, [role="button"] {
     .background-full li {
         font-size: 0.9375rem;
         line-height: 1.7;
-    }
-
-    /* Unique abilities list */
-    .unique-abilities h2 {
-        font-size: 0.9375rem;
-        font-weight: 600;
-    }
-
-    .unique-abilities ul {
-        font-size: 0.9375rem;
-        line-height: 1.7;
-    }
-
-    .unique-abilities li {
-        margin-bottom: 2px;
-        padding-left: 16px;
     }
 
     /* About lists */
@@ -4842,17 +4791,6 @@ a .reveal-word {
 
     .learn-about-list em {
         font-size: 0.75rem;
-    }
-
-    /* Unique abilities */
-    .unique-abilities h2 {
-        font-size: 0.875rem;
-        font-weight: 600;
-    }
-
-    .unique-abilities ul {
-        font-size: 0.875rem;
-        line-height: 1.7;
     }
 
     /* Tabs stack vertically */

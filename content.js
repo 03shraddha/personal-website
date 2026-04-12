@@ -85,15 +85,6 @@ const CONTENT = {
     <br><br>
     i was in the <a href="https://x.com/shraddhaha/status/2030900691032768810?s=20" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">newspaper once</a>, <a href="https://x.com/shraddhaha/status/2036696637528223934?s=20" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">again another time</a> & <a href="https://x.com/shraddhaha/status/2034845228449014104/photo/1" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">on the radio</a> for 15 minutes. don't worry, i haven't let the fame change me (jk)`,
 
-    // Unique abilities (as bullet points)
-    uniqueAbilities: [
-
-        { text: "reciting 100 digits of π from memory", url: "#", highlight: "" },
-        { text: "befriending every apartment cat", url: "#", highlight: "" },
-        { text: "recognizing obscure Punjabi songs", url: "#", highlight: "" }
-    ],
-
-
     // Name in Kannada (for hover effect)
     nameKannada: "ಶ್ರದ್ಧಾ ಕುಲಕರ್ಣಿ",
 
