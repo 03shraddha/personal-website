@@ -51,7 +51,7 @@ const CONTENT = {
             ]
         },
         corporateStory: {
-            title: "my job, explained",
+            title: "so.. what do you do at work, you may ask?",
             subtitle: "areas of interest: product management | analytics",
             paragraphs: [
 
@@ -67,15 +67,15 @@ const CONTENT = {
             items: [
                 "🪐 i am a Kannadiga, and i live, work, and love blr. i graduated in electronics from <strong>R.V. College of Engineering</strong> (loved college, but it's a degree i no longer use)",
                 "🪐 interned at <strong>Baker Hughes (a General Electric company)</strong>, where i got my first exposure to B2B business in oil and gas and did some automation work using Java and Spring (learned how a company with ~57,000 employees operates)",
-                "🪐 then i switched to <strong>management consulting and ZS Associates</strong>, where i worked on a hospitality analytics project for one of the largest hotel chains in the U.S., where we used analytics to decide pricing and discount strategies and manage end-to-end hotel revenue.",
-                "🪐 now i work at MAX.AI, where i work on Quill, an <strong>AI-driven platform</strong> that helps pharma teams speed up MLR (Medical Legal Regulatory) reviews, the mandatory process for approving compliant medical and promotional content."
+                "🪐 then i switched to <strong>management consulting and ZS Associates</strong>, where i worked on a hospitality analytics project for one of the largest hotel chains in the U.S., where we used analytics to decide pricing and discount strategies and manage end-to-end hotel revenue",
+                "🪐 now i work at MAX.AI, where i work on Quill, an <strong>AI-driven platform</strong> that helps pharma teams speed up MLR (Medical Legal Regulatory) reviews, the mandatory process for approving compliant medical and promotional content"
         ]},
         beyondWork: {
             title: "things i do when i'm not working",
             items: [
-                { emoji: "💗", label: "financial literacy educator", text: "i have been creating financial literacy videos for The Apprentice Project for over a year." },                { emoji: "💗", label: "debate judge & competitor", text: "my entire personality in college revolved around being a debate nerd. i have competed in 50+ British Parliamentary debates, <a href=\"https://drive.google.com/drive/u/7/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC\" target=\"_blank\" class=\"highlight-link pink\">won 40+ awards, and judged 20+ competitions</a>. i was an invited and remunerated judge at IIT Bombay, IIM Indore, NLS Bangalore, and more."},
-                { emoji: "💗", label: "bharatanatyam dancer", text: "i’ve always loved dancing, so my parents signed me up for Indian classical dance classes. i ended up doing Bharatanatyam for over 10 years and finished 4 exam levels." },
-                { emoji: "💗", label: "before the 9 to 5", text: "before the 9 to 5 and on weekends, you’ll find me cooking, watching YouTube video essays, going on long walks, journaling, and catching up with friends across time zones. my 6 journals are where i store notes on interesting ideas from articles, books, tweets, and YT videos." }
+                { emoji: "💗", label: "financial literacy educator", text: "i have been creating financial literacy videos for The Apprentice Project for over a year" },                { emoji: "💗", label: "debate judge & competitor", text: "my entire personality in college revolved around being a debate nerd. i have competed in 50+ British Parliamentary debates, <a href=\"https://drive.google.com/drive/u/7/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC\" target=\"_blank\" class=\"highlight-link pink\">won 40+ awards, and judged 20+ competitions</a>. i was an invited and remunerated judge at IIT Bombay, IIM Indore, NLS Bangalore, and more"},
+                { emoji: "💗", label: "bharatanatyam dancer", text: "i’ve always loved dancing, so my parents signed me up for Indian classical dance classes. i ended up doing Bharatanatyam for over 10 years and finished 4 exam levels" },
+                { emoji: "💗", label: "before the 9 to 5", text: "before the 9 to 5 and on weekends, you’ll find me cooking, watching YouTube video essays, going on long walks, journaling, and catching up with friends across time zones. my 6 journals are where i store notes on interesting ideas from articles, books, tweets, and YT videos" }
             ]
         }
     },
