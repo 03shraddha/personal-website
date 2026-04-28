@@ -433,7 +433,7 @@ function loadContent() {
  * Optimized: Shows cached/fallback content immediately, refreshes in background
  */
 async function loadSubstackPosts() {
-    const CACHE_KEY = 'substack-posts-v7';
+    const CACHE_KEY = 'substack-posts-v8';
     const RSS_URL = 'https://shraddhaha.substack.com/feed';
 
     // Show cached posts immediately for fast initial render

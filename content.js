@@ -372,6 +372,8 @@ const CONTENT = {
     // THOUGHTS (formerly fieldnotes) - simple linked list
     // ==========================================
     thoughts: [
+        { year: "2026", title: "this is a rant about why AI won't take away all jobs", url: "https://shraddhaha.substack.com/p/this-is-a-rant-about-why-ai-wont" },
+        { year: "2026", title: "what if AI wrote this post?", url: "https://shraddhaha.substack.com/p/what-if-ai-wrote-this-post" },
         { year: "2026", title: "my favorite souvenirs are just convivence store snacks", url: "https://shraddhaha.substack.com/p/my-favorite-souvenirs-are-just-connivence" },
         { year: "2026", title: "why \"imperfect\" iphone photos are replacing professional pics", url: "https://shraddhaha.substack.com/p/why-people-prefer-iphone-pics" },
         { year: "2026", title: "are we wrong about why LLMs cannot produce new research?", url: "https://shraddhaha.substack.com/p/are-we-wrong-about-why-llms-cannot" },
