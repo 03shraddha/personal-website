@@ -1364,8 +1364,8 @@ a, button, .tab, .highlight, [role="button"] {
 
     .projects-nav-prev,
     .projects-nav-next {
-        font-size: 20px;
-        padding: 14px 32px;
+        font-size: 17px;
+        padding: 11px 24px;
     }
 }
 
