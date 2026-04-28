@@ -1279,11 +1279,10 @@ a, button, .tab, .highlight, [role="button"] {
     opacity: 0;
 }
 
-/* Mobile: narrow gradient so the peeking next card is clearly visible */
+/* Mobile: remove right gradient — cards are full-width, nudge animation signals more content */
 @media (max-width: 900px) {
     .projects-carousel-wrapper::after {
-        width: 44px;
-        background: linear-gradient(to right, transparent, var(--color-bg) 85%);
+        display: none;
     }
     .projects-carousel-wrapper::before {
         width: 32px;
@@ -1323,11 +1322,54 @@ a, button, .tab, .highlight, [role="button"] {
     margin-top: 20px;
 }
 
+/* Inline dots + arrows row */
+.projects-scroll-dots-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .projects-scroll-dots {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
+}
+
+/* Inline iPhone/Mac-style arrow buttons flanking the dots */
+.projects-nav-inline {
+    position: static;
+    transform: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: box-shadow 0.15s ease, opacity 0.2s ease;
+    flex-shrink: 0;
+}
+
+.projects-nav-inline:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+}
+
+.projects-nav-inline.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Desktop: hide inline arrows — floating ones handle it */
+@media (min-width: 901px) {
+    .projects-nav-inline {
+        display: none;
+    }
 }
 
 .projects-scroll-dot {
@@ -1353,8 +1395,8 @@ a, button, .tab, .highlight, [role="button"] {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: var(--color-bg);
     border: 1px solid var(--color-border);
@@ -1383,10 +1425,10 @@ a, button, .tab, .highlight, [role="button"] {
     pointer-events: none;
 }
 
-/* Mobile: arrows hidden — touch swipe handles navigation */
+/* Mobile: floating arrows hidden — inline ones in the dots row take over */
 @media (max-width: 900px) {
-    .projects-nav-prev,
-    .projects-nav-next {
+    .projects-nav-prev:not(.projects-nav-inline),
+    .projects-nav-next:not(.projects-nav-inline) {
         display: none;
     }
 }
@@ -1497,7 +1539,7 @@ a, button, .tab, .highlight, [role="button"] {
 .project-card h3 {
     font-size: 1.125rem;
     font-weight: 600;
-    margin-bottom: 4px;
+    margin-bottom: 12px;
 }
 
 .project-brief {

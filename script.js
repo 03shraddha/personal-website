@@ -773,13 +773,17 @@ function initProjectsSection() {
                 return `<div class="projects-page">${cardsHtml}</div>`;
             }).join('');
 
-            // Dots-only nav row (arrows are floated inside the wrapper)
+            // Dots + inline arrow buttons nav row
             function makeNavHtml() {
                 const dotsHtml = pages.map((_, i) =>
                     `<button class="projects-scroll-dot${i === 0 ? ' active' : ''}" data-page="${i}" aria-label="Page ${i + 1}"></button>`
                 ).join('');
                 return `
-                    <div class="projects-scroll-dots">${dotsHtml}</div>
+                    <div class="projects-scroll-dots-row">
+                        <button class="projects-nav-prev projects-nav-inline hidden" aria-label="Previous page">${backSvg}</button>
+                        <div class="projects-scroll-dots">${dotsHtml}</div>
+                        <button class="projects-nav-next projects-nav-inline" aria-label="Next page">${nextSvg}</button>
+                    </div>
                     <span class="projects-swipe-hint">swipe to explore &nbsp;→</span>
                 `;
             }
@@ -824,10 +828,10 @@ function initProjectsSection() {
             }
 
             // Set page widths in px (% mis-resolves inside overflow-scroll flex containers).
-            // Peek amount is larger on mobile so the next card edge is clearly visible.
+            // Mobile: full-width pages (nudge animation signals more content instead of peek).
             // ResizeObserver retries when the tab is hidden (offsetWidth=0).
             function updatePageWidths() {
-                const peekPx = window.innerWidth <= 900 ? 60 : 48;
+                const peekPx = window.innerWidth <= 900 ? 0 : 48;
                 const pageWidth = wrapper.offsetWidth - peekPx;
                 if (pageWidth <= 0) return; // tab still hidden — ResizeObserver will retry
                 pageEls().forEach(page => {
@@ -896,6 +900,27 @@ function initProjectsSection() {
                 carousel.addEventListener('scroll', () => {
                     swipeHint.classList.add('dismissed');
                 }, { once: true });
+            }
+
+            // Mobile nudge: when the carousel enters view, briefly scroll right then snap back
+            // so users see there's more content without shrinking any cards.
+            if (window.innerWidth <= 900 && pages.length > 1) {
+                let nudgeDone = false;
+                const nudgeObserver = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting && !nudgeDone) {
+                        nudgeDone = true;
+                        nudgeObserver.disconnect();
+                        setTimeout(() => {
+                            // Only nudge if user hasn't already scrolled
+                            if (carousel.scrollLeft > 0) return;
+                            carousel.scrollTo({ left: 40, behavior: 'smooth' });
+                            setTimeout(() => {
+                                carousel.scrollTo({ left: 0, behavior: 'smooth' });
+                            }, 500);
+                        }, 700);
+                    }
+                }, { threshold: 0.4 });
+                nudgeObserver.observe(wrapper);
             }
         }
 
