@@ -773,23 +773,24 @@ function initProjectsSection() {
                 return `<div class="projects-page">${cardsHtml}</div>`;
             }).join('');
 
-            // Reusable nav row — back starts hidden (always on page 1 at load)
+            // Dots-only nav row (arrows are floated inside the wrapper)
             function makeNavHtml() {
                 const dotsHtml = pages.map((_, i) =>
                     `<button class="projects-scroll-dot${i === 0 ? ' active' : ''}" data-page="${i}" aria-label="Page ${i + 1}"></button>`
                 ).join('');
                 return `
-                    <button class="projects-nav-prev hidden" aria-label="Previous page">${backSvg} Previous</button>
                     <div class="projects-scroll-dots">${dotsHtml}</div>
-                    <button class="projects-nav-next" aria-label="Next page">Next ${nextSvg}</button>
+                    <span class="projects-swipe-hint">swipe to explore &nbsp;→</span>
                 `;
             }
 
             projectsList.innerHTML = `
                 <div class="projects-carousel-wrapper" id="projects-carousel-wrapper">
+                    <button class="projects-nav-prev hidden" aria-label="Previous page">${backSvg}</button>
                     <div class="projects-carousel" id="projects-carousel-scroll">
                         ${pagesHtml}
                     </div>
+                    <button class="projects-nav-next" aria-label="Next page">${nextSvg}</button>
                 </div>
                 <div class="projects-carousel-nav">${makeNavHtml()}</div>
             `;
@@ -797,7 +798,6 @@ function initProjectsSection() {
             const carousel = document.getElementById('projects-carousel-scroll');
             const wrapper = document.getElementById('projects-carousel-wrapper');
             const pageEls = () => carousel.querySelectorAll('.projects-page');
-            const PEEK_PX = 48;
 
             function getActivePage() {
                 let activePage = 0;
@@ -820,13 +820,15 @@ function initProjectsSection() {
                     btn.classList.toggle('hidden', activePage === 0);
                 });
                 wrapper.classList.toggle('at-end', atEnd);
+                wrapper.classList.toggle('has-prev', activePage > 0);
             }
 
             // Set page widths in px (% mis-resolves inside overflow-scroll flex containers).
-            // Also re-syncs nav: when tab is hidden on initial render, offsetWidth=0 so we
-            // skip the sync; ResizeObserver fires again once the tab becomes visible.
+            // Peek amount is larger on mobile so the next card edge is clearly visible.
+            // ResizeObserver retries when the tab is hidden (offsetWidth=0).
             function updatePageWidths() {
-                const pageWidth = wrapper.offsetWidth - PEEK_PX;
+                const peekPx = window.innerWidth <= 900 ? 60 : 48;
+                const pageWidth = wrapper.offsetWidth - peekPx;
                 if (pageWidth <= 0) return; // tab still hidden — ResizeObserver will retry
                 pageEls().forEach(page => {
                     page.style.minWidth = pageWidth + 'px';
@@ -859,6 +861,7 @@ function initProjectsSection() {
                     btn.classList.toggle('hidden', targetIndex === 0);
                 });
                 wrapper.classList.toggle('at-end', targetIsLast);
+                wrapper.classList.toggle('has-prev', targetIndex > 0);
                 // Confirm with DOM-based check after animation settles
                 setTimeout(updateNav, 600);
             }
@@ -886,6 +889,14 @@ function initProjectsSection() {
                     if (target) scrollToPage(target, targetIndex);
                 });
             });
+
+            // Dismiss mobile swipe hint on first scroll interaction
+            const swipeHint = projectsList.querySelector('.projects-swipe-hint');
+            if (swipeHint) {
+                carousel.addEventListener('scroll', () => {
+                    swipeHint.classList.add('dismissed');
+                }, { once: true });
+            }
         }
 
         initProjectToggles();
