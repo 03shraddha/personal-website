@@ -763,38 +763,31 @@ function initProjectsSection() {
             // Single page: flat list
             projectsList.innerHTML = state.projects.map((proj, index) => buildCardHtml(proj, index)).join('');
         } else {
-            // Multi-page: horizontal carousel with peek
-            const backSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="15 18 9 12 15 6"/></svg>`;
-            const nextSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg>`;
-
+            // Multi-page: horizontal carousel with text nav buttons
             const pagesHtml = pages.map((pageProjects, pageIndex) => {
                 const startIndex = pageIndex * PROJECTS_PER_PAGE;
                 const cardsHtml = pageProjects.map((proj, i) => buildCardHtml(proj, startIndex + i)).join('');
                 return `<div class="projects-page">${cardsHtml}</div>`;
             }).join('');
 
-            // Dots nav row (no inline arrows — single floating arrow handles navigation)
             function makeNavHtml() {
                 const dotsHtml = pages.map((_, i) =>
                     `<button class="projects-scroll-dot${i === 0 ? ' active' : ''}" data-page="${i}" aria-label="Page ${i + 1}"></button>`
                 ).join('');
                 return `
                     <div class="projects-scroll-dots-row">
+                        <button class="projects-nav-prev hidden" aria-label="Previous page">← back</button>
                         <div class="projects-scroll-dots">${dotsHtml}</div>
+                        <button class="projects-nav-next" aria-label="Next page">more projects →</button>
                     </div>
-                    <span class="projects-swipe-hint">swipe to explore &nbsp;→</span>
                 `;
             }
 
             projectsList.innerHTML = `
-                <div class="projects-carousel-outer">
-                    <div class="projects-carousel-wrapper" id="projects-carousel-wrapper">
-                        <div class="projects-carousel" id="projects-carousel-scroll">
-                            ${pagesHtml}
-                        </div>
+                <div class="projects-carousel-wrapper" id="projects-carousel-wrapper">
+                    <div class="projects-carousel" id="projects-carousel-scroll">
+                        ${pagesHtml}
                     </div>
-                    <button class="projects-nav-prev hidden" aria-label="Previous page">${backSvg}</button>
-                    <button class="projects-nav-next" aria-label="Next page">${nextSvg}</button>
                 </div>
                 <div class="projects-carousel-nav">${makeNavHtml()}</div>
             `;

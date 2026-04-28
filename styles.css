@@ -1237,87 +1237,8 @@ a, button, .tab, .highlight, [role="button"] {
    Projects Carousel - Multi-page horizontal scroll
    =================================== */
 
-.projects-carousel-outer {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-}
-
-/* Wrapper and buttons share the same grid cell — natural overlay without absolute positioning */
-.projects-carousel-outer > .projects-carousel-wrapper {
-    grid-area: 1 / 1 / 2 / 2;
-    position: relative; /* containing block for gradient pseudo-elements */
-    overflow: hidden; /* clips scroll overflow so % widths on children resolve correctly */
-}
-
-.projects-carousel-outer > .projects-nav-prev,
-.projects-carousel-outer > .projects-nav-next {
-    grid-area: 1 / 1 / 2 / 2;
-    position: relative; /* not absolute — grid places it in the same cell */
-    align-self: center;
-    z-index: 10;
-}
-
-.projects-carousel-outer > .projects-nav-prev {
-    justify-self: start;
-    margin-left: 10px;
-}
-
-.projects-carousel-outer > .projects-nav-next {
-    justify-self: end;
-    margin-right: 10px;
-}
-
 .projects-carousel-wrapper {
-    position: relative;
-    overflow: hidden;
-}
-
-/* Left gradient — appears once past page 1, signals content behind */
-.projects-carousel-wrapper::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 32px;
-    background: linear-gradient(to left, transparent, var(--color-bg) 60%);
-    pointer-events: none;
-    z-index: 2;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.projects-carousel-wrapper.has-prev::before {
-    opacity: 1;
-}
-
-/* Right gradient fade — directional overflow cue */
-.projects-carousel-wrapper::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 96px;
-    background: linear-gradient(to right, transparent, var(--color-bg) 75%);
-    pointer-events: none;
-    z-index: 1;
-    transition: opacity 0.3s ease;
-}
-
-.projects-carousel-wrapper.at-end::after {
-    opacity: 0;
-}
-
-/* Mobile: remove right gradient — cards are full-width, nudge animation signals more content */
-@media (max-width: 900px) {
-    .projects-carousel-wrapper::after {
-        display: none;
-    }
-    .projects-carousel-wrapper::before {
-        width: 32px;
-    }
+    overflow: hidden; /* clips scroll overflow so % widths on children resolve correctly */
 }
 
 .projects-carousel {
@@ -1326,8 +1247,8 @@ a, button, .tab, .highlight, [role="button"] {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain; /* prevents page scroll bleed when carousel hits its edge */
-    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y; /* allow vertical page scroll when touching carousel */
     scrollbar-width: none;
 }
 
@@ -1367,41 +1288,6 @@ a, button, .tab, .highlight, [role="button"] {
     gap: 6px;
 }
 
-/* Inline iPhone/Mac-style arrow buttons flanking the dots */
-.projects-nav-inline {
-    position: static;
-    transform: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    color: var(--color-text);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    padding: 0;
-    transition: box-shadow 0.15s ease, opacity 0.2s ease;
-    flex-shrink: 0;
-}
-
-.projects-nav-inline:hover {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
-}
-
-.projects-nav-inline.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* Desktop: hide inline arrows — floating ones handle it */
-@media (min-width: 901px) {
-    .projects-nav-inline {
-        display: none;
-    }
-}
 
 .projects-scroll-dot {
     height: 8px;
@@ -1420,27 +1306,26 @@ a, button, .tab, .highlight, [role="button"] {
     background: var(--color-text);
 }
 
-/* iPhone-style circle arrow buttons — overlaid via CSS Grid */
+/* Text pill navigation buttons flanking the dots */
 .projects-nav-prev,
 .projects-nav-next {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: var(--color-bg);
+    background: none;
     border: 1px solid var(--color-border);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    color: var(--color-text);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 100px;
+    color: var(--color-text-muted);
+    font-size: 13px;
+    font-family: inherit;
     cursor: pointer;
-    padding: 0;
-    transition: box-shadow 0.15s ease, opacity 0.2s ease;
+    padding: 6px 14px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color 0.15s ease, border-color 0.15s ease, opacity 0.2s ease;
 }
 
 .projects-nav-prev:hover,
 .projects-nav-next:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+    color: var(--color-text);
+    border-color: var(--color-text);
 }
 
 .projects-nav-prev.hidden,
