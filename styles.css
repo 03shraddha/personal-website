@@ -1238,12 +1238,39 @@ a, button, .tab, .highlight, [role="button"] {
    =================================== */
 
 .projects-carousel-outer {
-    position: relative; /* containing block for arrow buttons, outside overflow:hidden */
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+/* Wrapper and buttons share the same grid cell — natural overlay without absolute positioning */
+.projects-carousel-outer > .projects-carousel-wrapper {
+    grid-area: 1 / 1 / 2 / 2;
+    position: relative; /* containing block for gradient pseudo-elements */
+    overflow: hidden; /* clips scroll overflow so % widths on children resolve correctly */
+}
+
+.projects-carousel-outer > .projects-nav-prev,
+.projects-carousel-outer > .projects-nav-next {
+    grid-area: 1 / 1 / 2 / 2;
+    position: relative; /* not absolute — grid places it in the same cell */
+    align-self: center;
+    z-index: 10;
+}
+
+.projects-carousel-outer > .projects-nav-prev {
+    justify-self: start;
+    margin-left: 10px;
+}
+
+.projects-carousel-outer > .projects-nav-next {
+    justify-self: end;
+    margin-right: 10px;
 }
 
 .projects-carousel-wrapper {
-    position: relative; /* containing block for gradient pseudo-elements */
-    overflow: hidden; /* clips scroll overflow so % widths on children resolve correctly */
+    position: relative;
+    overflow: hidden;
 }
 
 /* Left gradient — appears once past page 1, signals content behind */
@@ -1253,8 +1280,8 @@ a, button, .tab, .highlight, [role="button"] {
     left: 0;
     top: 0;
     bottom: 0;
-    width: 48px;
-    background: linear-gradient(to left, transparent, var(--color-bg) 80%);
+    width: 32px;
+    background: linear-gradient(to left, transparent, var(--color-bg) 60%);
     pointer-events: none;
     z-index: 2;
     opacity: 0;
@@ -1393,12 +1420,9 @@ a, button, .tab, .highlight, [role="button"] {
     background: var(--color-text);
 }
 
-/* Floating circle arrow buttons — sit inside wrapper edges */
+/* iPhone-style circle arrow buttons — overlaid via CSS Grid */
 .projects-nav-prev,
 .projects-nav-next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
     width: 52px;
     height: 52px;
     border-radius: 50%;
@@ -1410,13 +1434,9 @@ a, button, .tab, .highlight, [role="button"] {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 10;
     padding: 0;
     transition: box-shadow 0.15s ease, opacity 0.2s ease;
 }
-
-.projects-nav-prev { left: 10px; }
-.projects-nav-next { right: 10px; }
 
 .projects-nav-prev:hover,
 .projects-nav-next:hover {
