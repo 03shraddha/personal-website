@@ -676,7 +676,6 @@ function initProjectsSection() {
                 githubUrl: p.github_url || '',
                 demoUrl: p.demo_url || '',
                 liveUrl: p.live_url || '',
-                previewImageUrl: p.preview_image_url || '',
                 sortOrder: p.sort_order || 0
             }));
         } catch (err) {
@@ -735,7 +734,7 @@ function initProjectsSection() {
 
             // data-project-id used by sortable reorder; data-project-index used by expand toggle
             return `
-                <article class="project-card${isAdminUser ? ' is-admin-card' : ''}" data-project-index="${index}" data-project-id="${proj.id}"${proj.previewImageUrl ? ` data-preview-url="${proj.previewImageUrl}"` : ''}>
+                <article class="project-card${isAdminUser ? ' is-admin-card' : ''}" data-project-index="${index}" data-project-id="${proj.id}">
                     ${isAdminUser ? `<div class="drag-handle" title="Drag to reorder" aria-hidden="true">${dragHandleSvg}</div>` : ''}
                     <h3>${titleHtml}</h3>
                     <p class="project-brief">${proj.briefDescription}</p>
@@ -750,7 +749,6 @@ function initProjectsSection() {
             // Admin: always flat list (no carousel) so drag-to-reorder works across all projects
             projectsList.innerHTML = state.projects.map((proj, index) => buildCardHtml(proj, index)).join('');
             initProjectToggles();
-            initProjectPreview();
             initAdminSortable(state, projectsList);
             return;
         }
@@ -891,7 +889,6 @@ function initProjectsSection() {
         }
 
         initProjectToggles();
-        initProjectPreview();
     }
 
     // Expose renderProjects for global handlers
@@ -998,7 +995,6 @@ function projectOpenAddModal() {
     document.getElementById('project-demo').value = '';
     document.getElementById('project-live').value = '';
     document.getElementById('project-highlight').value = 'blue';
-    document.getElementById('project-preview-url').value = '';
     document.getElementById('project-save').textContent = 'Save Project';
     document.getElementById('project-modal').classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -1025,7 +1021,6 @@ window.projectEditItem = function(projectId) {
     document.getElementById('project-demo').value = proj.demoUrl || '';
     document.getElementById('project-live').value = proj.liveUrl || '';
     document.getElementById('project-highlight').value = proj.highlight || 'blue';
-    document.getElementById('project-preview-url').value = proj.previewImageUrl || '';
     document.getElementById('project-save').textContent = 'Update Project';
     document.getElementById('project-modal').classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -1064,7 +1059,6 @@ window.projectSaveItem = async function() {
     const liveUrl = document.getElementById('project-live').value.trim();
     const highlight = document.getElementById('project-highlight').value;
     const saveBtn = document.getElementById('project-save');
-    const previewImageUrl = document.getElementById('project-preview-url').value.trim();
 
     if (!name || !briefDescription) {
         alert('Project title and short description are required.');
@@ -1091,8 +1085,7 @@ window.projectSaveItem = async function() {
                     expanded_content: expandedContent || null,
                     github_url: githubUrl || null,
                     demo_url: demoUrl || null,
-                    live_url: liveUrl || null,
-                    preview_image_url: previewImageUrl || null
+                    live_url: liveUrl || null
                 })
                 .eq('id', state.currentEditId);
 
@@ -1105,7 +1098,7 @@ window.projectSaveItem = async function() {
 
             const idx = state.projects.findIndex(p => p.id === state.currentEditId);
             if (idx !== -1) {
-                state.projects[idx] = { ...state.projects[idx], name, highlight, briefDescription, expandedContent, githubUrl, demoUrl, liveUrl, previewImageUrl };
+                state.projects[idx] = { ...state.projects[idx], name, highlight, briefDescription, expandedContent, githubUrl, demoUrl, liveUrl };
             }
         } else {
             // Insert
@@ -1119,7 +1112,6 @@ window.projectSaveItem = async function() {
                     github_url: githubUrl || null,
                     demo_url: demoUrl || null,
                     live_url: liveUrl || null,
-                    preview_image_url: previewImageUrl || null,
                     sort_order: state.projects.length
                 }])
                 .select();
@@ -1141,7 +1133,6 @@ window.projectSaveItem = async function() {
                 githubUrl: saved.github_url || '',
                 demoUrl: saved.demo_url || '',
                 liveUrl: saved.live_url || '',
-                previewImageUrl: saved.preview_image_url || '',
                 sortOrder: saved.sort_order || 0
             });
         }
@@ -1235,103 +1226,6 @@ function initProjectToggles() {
             });
         }, { passive: true });
     }
-}
-
-/**
- * Project Preview — floating image on desktop hover, bottom sheet on mobile tap
- */
-function initProjectPreview() {
-    const isTouchOnly = window.matchMedia('(hover: none)').matches;
-
-    // Create floating preview card (once) — shared by desktop hover + mobile tap
-    if (!document.getElementById('project-preview-card')) {
-        const el = document.createElement('div');
-        el.className = 'project-preview-card';
-        el.id = 'project-preview-card';
-        el.setAttribute('aria-hidden', 'true');
-        el.innerHTML = `
-            <div class="preview-img-wrapper">
-                <img id="project-preview-card-img" src="" alt="">
-            </div>
-            <div class="preview-card-body">
-                <span class="preview-card-title" id="project-preview-card-title"></span>
-            </div>`;
-        document.body.appendChild(el);
-
-        // Dismiss preview on any touch — preview has pointer-events:none so it never blocks this
-        document.addEventListener('touchstart', () => {
-            el.classList.remove('visible');
-        }, { passive: true });
-    }
-
-    const previewCard = document.getElementById('project-preview-card');
-    const previewImg = document.getElementById('project-preview-card-img');
-    let hideTimeout;
-
-    document.querySelectorAll('.project-card[data-preview-url]').forEach(card => {
-        const url = card.dataset.previewUrl;
-        if (!url) return;
-
-        if (!isTouchOnly) {
-            // Desktop: follow cursor, hide on leave
-            card.addEventListener('mouseenter', (e) => {
-                clearTimeout(hideTimeout);
-                previewImg.src = url;
-                const titleEl = document.getElementById('project-preview-card-title');
-                if (titleEl) titleEl.textContent = card.querySelector('h3 .highlight')?.textContent || '';
-                positionProjectPreview(previewCard, e.clientX, e.clientY);
-                previewCard.classList.add('visible');
-            });
-            card.addEventListener('mousemove', (e) => {
-                positionProjectPreview(previewCard, e.clientX, e.clientY);
-            });
-            card.addEventListener('mouseleave', () => {
-                hideTimeout = setTimeout(() => previewCard.classList.remove('visible'), 60);
-            });
-        }
-        // Mobile: tap opens card details (handled in initProjectToggles), no preview needed
-    });
-}
-
-function positionProjectPreview(previewCard, cursorX, cursorY) {
-    const PREVIEW_W = 280;
-    const OFFSET = 20; // distance from cursor
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-
-    let left = cursorX + OFFSET;
-    // Flip to left of cursor if not enough room on the right
-    if (left + PREVIEW_W > vw - 8) {
-        left = cursorX - PREVIEW_W - OFFSET;
-    }
-    left = Math.max(8, left);
-
-    let top = cursorY + OFFSET;
-    const estimatedH = previewCard.offsetHeight || 180;
-    // Flip above cursor if not enough room below
-    if (top + estimatedH > vh - 8) {
-        top = cursorY - estimatedH - OFFSET;
-    }
-    top = Math.max(8, top);
-
-    previewCard.style.left = left + 'px';
-    previewCard.style.top = top + 'px';
-}
-
-function positionMobilePreview(previewCard, cardRect) {
-    const PREVIEW_W = 240;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    // Center horizontally
-    const left = Math.max(8, (vw - PREVIEW_W) / 2);
-    // Position below card; flip above if not enough room
-    const estimatedH = previewCard.offsetHeight || 220;
-    let top = cardRect.bottom + 8;
-    if (top + estimatedH > vh - 16) { top = cardRect.top - estimatedH - 8; }
-    top = Math.max(8, top);
-    previewCard.style.left = left + 'px';
-    previewCard.style.top = top + 'px';
-    previewCard.style.width = PREVIEW_W + 'px';
 }
 
 /**
