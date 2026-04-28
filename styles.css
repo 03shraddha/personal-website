@@ -1313,10 +1313,10 @@ a, button, .tab, .highlight, [role="button"] {
     border: 1px solid var(--color-border);
     border-radius: 100px;
     color: var(--color-text-muted);
-    font-size: 13px;
+    font-size: 17px;
     font-family: inherit;
     cursor: pointer;
-    padding: 6px 14px;
+    padding: 12px 28px;
     white-space: nowrap;
     flex-shrink: 0;
     transition: color 0.15s ease, border-color 0.15s ease, opacity 0.2s ease;
@@ -1360,6 +1360,12 @@ a, button, .tab, .highlight, [role="button"] {
 @media (max-width: 900px) {
     .projects-swipe-hint {
         display: block;
+    }
+
+    .projects-nav-prev,
+    .projects-nav-next {
+        font-size: 20px;
+        padding: 14px 32px;
     }
 }
 
