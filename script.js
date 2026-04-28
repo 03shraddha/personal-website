@@ -764,8 +764,8 @@ function initProjectsSection() {
             projectsList.innerHTML = state.projects.map((proj, index) => buildCardHtml(proj, index)).join('');
         } else {
             // Multi-page: horizontal carousel with peek
-            const backSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="15 18 9 12 15 6"/></svg>`;
-            const nextSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><polyline points="9 18 15 12 9 6"/></svg>`;
+            const backSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="15 18 9 12 15 6"/></svg>`;
+            const nextSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg>`;
 
             const pagesHtml = pages.map((pageProjects, pageIndex) => {
                 const startIndex = pageIndex * PROJECTS_PER_PAGE;
@@ -773,16 +773,14 @@ function initProjectsSection() {
                 return `<div class="projects-page">${cardsHtml}</div>`;
             }).join('');
 
-            // Dots + inline arrow buttons nav row
+            // Dots nav row (no inline arrows — single floating arrow handles navigation)
             function makeNavHtml() {
                 const dotsHtml = pages.map((_, i) =>
                     `<button class="projects-scroll-dot${i === 0 ? ' active' : ''}" data-page="${i}" aria-label="Page ${i + 1}"></button>`
                 ).join('');
                 return `
                     <div class="projects-scroll-dots-row">
-                        <button class="projects-nav-prev projects-nav-inline hidden" aria-label="Previous page">${backSvg}</button>
                         <div class="projects-scroll-dots">${dotsHtml}</div>
-                        <button class="projects-nav-next projects-nav-inline" aria-label="Next page">${nextSvg}</button>
                     </div>
                     <span class="projects-swipe-hint">swipe to explore &nbsp;→</span>
                 `;

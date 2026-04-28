@@ -1389,14 +1389,14 @@ a, button, .tab, .highlight, [role="button"] {
     background: var(--color-text);
 }
 
-/* iOS-style floating circle arrow buttons — sit inside wrapper edges */
+/* Floating circle arrow buttons — sit inside wrapper edges */
 .projects-nav-prev,
 .projects-nav-next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 44px;
-    height: 44px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     background: var(--color-bg);
     border: 1px solid var(--color-border);
@@ -1425,13 +1425,6 @@ a, button, .tab, .highlight, [role="button"] {
     pointer-events: none;
 }
 
-/* Mobile: floating arrows hidden — inline ones in the dots row take over */
-@media (max-width: 900px) {
-    .projects-nav-prev:not(.projects-nav-inline),
-    .projects-nav-next:not(.projects-nav-inline) {
-        display: none;
-    }
-}
 
 /* Swipe hint — mobile only, dismissed after first scroll */
 @keyframes swipe-hint-nudge {
