@@ -1237,8 +1237,12 @@ a, button, .tab, .highlight, [role="button"] {
    Projects Carousel - Multi-page horizontal scroll
    =================================== */
 
+.projects-carousel-outer {
+    position: relative; /* containing block for arrow buttons, outside overflow:hidden */
+}
+
 .projects-carousel-wrapper {
-    position: relative;
+    position: relative; /* containing block for gradient pseudo-elements */
     overflow: hidden; /* clips scroll overflow so % widths on children resolve correctly */
 }
 

@@ -787,11 +787,13 @@ function initProjectsSection() {
             }
 
             projectsList.innerHTML = `
-                <div class="projects-carousel-wrapper" id="projects-carousel-wrapper">
-                    <button class="projects-nav-prev hidden" aria-label="Previous page">${backSvg}</button>
-                    <div class="projects-carousel" id="projects-carousel-scroll">
-                        ${pagesHtml}
+                <div class="projects-carousel-outer">
+                    <div class="projects-carousel-wrapper" id="projects-carousel-wrapper">
+                        <div class="projects-carousel" id="projects-carousel-scroll">
+                            ${pagesHtml}
+                        </div>
                     </div>
+                    <button class="projects-nav-prev hidden" aria-label="Previous page">${backSvg}</button>
                     <button class="projects-nav-next" aria-label="Next page">${nextSvg}</button>
                 </div>
                 <div class="projects-carousel-nav">${makeNavHtml()}</div>
