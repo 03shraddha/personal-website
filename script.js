@@ -107,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 async function initPageViewCounter() {
     const viewCountSocial = document.getElementById('view-count-social');
-    const viewCountFooter = document.getElementById('view-count');
 
     // Format number to short form (1.1K, 12.1K, 1.2M)
     function formatCount(num) {
@@ -122,9 +121,7 @@ async function initPageViewCounter() {
 
     // Update display
     function updateDisplay(count) {
-        const shortCount = formatCount(count);
-        if (viewCountSocial) viewCountSocial.textContent = shortCount;
-        if (viewCountFooter) viewCountFooter.textContent = count.toLocaleString();
+        if (viewCountSocial) viewCountSocial.textContent = formatCount(count);
     }
 
     // Check if Supabase is available
@@ -1377,6 +1374,7 @@ function initCommunityToggles() {
  */
 function initNavigation() {
     const navLinks = document.querySelectorAll('.nav-link');
+    let navResizeObserver = null;
 
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
@@ -1414,19 +1412,22 @@ function initNavigation() {
 
                 // After smooth scroll settles, watch for layout shifts (e.g. Supabase async
                 // content loading and expanding sections, pushing the target further down).
-                // ResizeObserver fires whenever the document grows/shrinks and instantly
-                // re-anchors to the target section — no hardcoded timing required.
+                // Disconnect any previous observer before creating a new one to prevent accumulation.
                 setTimeout(() => {
-                    const observer = new ResizeObserver(() => {
+                    if (navResizeObserver) navResizeObserver.disconnect();
+                    navResizeObserver = new ResizeObserver(() => {
                         const dynamicOffset = window.innerWidth <= 900 ? 80 : 0;
                         const correctedTop = targetSection.getBoundingClientRect().top + window.pageYOffset - dynamicOffset;
                         if (Math.abs(correctedTop - window.pageYOffset) > 10) {
                             window.scrollTo({ top: correctedTop, behavior: 'instant' });
                         }
                     });
-                    observer.observe(document.body);
+                    navResizeObserver.observe(document.body);
                     // Stop observing once layout has stabilised (2s covers all async loads)
-                    setTimeout(() => observer.disconnect(), 2000);
+                    setTimeout(() => {
+                        navResizeObserver?.disconnect();
+                        navResizeObserver = null;
+                    }, 2000);
                 }, 600);
             }
         });
@@ -1477,7 +1478,8 @@ function initRouting() {
     if (!targetSection) return;
 
     var offset = window.innerWidth <= 900 ? 80 : 0;
-    var correctPath = sectionId === 'hello' ? '/' : '/' + sectionId;
+    // Preserve sub-paths like /work/experience; only normalize bare section paths
+    var correctPath = sectionId === 'hello' ? '/' : (PATH_TO_SECTION[path] ? path : '/' + sectionId);
 
     function doRoutingScroll() {
         _programmaticScrolling = true;
@@ -1854,8 +1856,7 @@ function initTabs() {
             });
 
             // Update URL to reflect active tab so tabs are deep-linkable
-            // Experience is the default, so /work is its canonical URL
-            const tabUrl = targetTab === 'experience' ? '/work' : '/work/' + targetTab;
+            const tabUrl = '/work/' + targetTab;
             history.replaceState(null, '', tabUrl);
         });
     });
@@ -1870,33 +1871,6 @@ function updateYear() {
         yearSpan.textContent = new Date().getFullYear();
     }
 }
-
-/**
- * Optional: Add intersection observer for scroll animations
- * Uncomment if you want sections to animate as they come into view
- */
-/*
-function initScrollAnimations() {
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.section').forEach(section => {
-        observer.observe(section);
-    });
-}
-*/
 
 /**
  * Optional: Keyboard navigation support
@@ -1921,14 +1895,20 @@ document.addEventListener('keydown', (e) => {
         const targetSection = sections[nextIndex];
         const offset = window.innerWidth <= 900 ? 80 : 0;
 
+        _programmaticScrolling = true;
+        clearTimeout(_programmaticScrollTimer);
+
         window.scrollTo({
             top: targetSection.offsetTop - offset,
             behavior: 'smooth'
         });
 
-        // Update URL for keyboard navigation
         const newPath = targetSection.id === 'hello' ? '/' : '/' + targetSection.id;
         history.pushState(null, '', newPath);
+
+        _programmaticScrollTimer = setTimeout(() => {
+            _programmaticScrolling = false;
+        }, 600);
     }
 });
 
