@@ -409,7 +409,7 @@ a, button, .tab, .highlight, [role="button"] {
     content: '★';
     position: absolute;
     left: 0;
-    font-size: 0.55em;
+    font-size: 0.7em;
     top: 0.45em;
     color: var(--color-text);
 }
