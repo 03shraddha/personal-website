@@ -22,7 +22,7 @@ const CONTENT = {
     name: "shraddha kulkarni",
 
     // Hello section intro (landing page)
-    helloIntro: `hi i’m shraddha, this is my lil corner of the internet where i share my work, unfinished projects & whatever i’m curious about at the moment :)`,
+    helloIntro: `hi i’m shraddha, this is my little corner of the internet where i share my work, unfinished projects & whatever i’m curious about at the moment :)`,
 
     helloCorner: `fun fact: i can recite <a href="https://www.youtube.com/watch?v=3HRkKznJoZA" target="_blank" class="highlight peach">100 digits of pi</a> + the <a href="https://www.youtube.com/watch?v=rz4Dd1I_fX0" target="_blank" class="highlight blue">periodic table</a> from memory`,
 
