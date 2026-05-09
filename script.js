@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();   // Mobile hamburger menu
         initPageViewCounter(); // Page view counter
         initGuestbook();    // Virtual guestbook
+        initCoolThings();   // Cool things / interactive experiments
 
         // Initialize text reveal after content is loaded
         setTimeout(() => {
@@ -1466,6 +1467,7 @@ function initRouting() {
         '/content':           'content',
         '/photos':            'photos',
         '/guestbook':         'guestbook',
+        '/cool-things':       'cool-things',
     };
 
     // window.__initialPath is set by the head script when arriving via 404 redirect.
@@ -3939,4 +3941,207 @@ function initAtmosphereToggle() {
         const nextMode = MODES[(currentIdx + 1) % MODES.length];
         applyMode(nextMode);
     });
+}
+
+// ── Cool Things ────────────────────────────────────────────────────────────
+function initCoolThings() {
+    const overlay    = document.getElementById('cool-overlay');
+    const sheet      = document.getElementById('cool-sheet');
+    const backBtn    = document.getElementById('cool-sheet-back');
+    const sheetTitle = document.getElementById('cool-sheet-title');
+    const sheetBody  = document.getElementById('cool-sheet-body');
+    if (!overlay) return;
+
+    // ── Eye geometry in original 622×401 image coordinate space ──────────
+    // Tune these if the pupils look off after seeing the real image at size.
+    const IMG_W = 622, IMG_H = 401;
+    const EYE_L = { cx: 240, cy: 162 }; // left eye center
+    const EYE_R = { cx: 385, cy: 160 }; // right eye center
+    const PUPIL_MAX = 12;               // max travel in SVG units (stays inside iris)
+
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    // Pupil state: current (interpolated) + target positions for both eyes
+    const pupil = {
+        Lx: EYE_L.cx, Ly: EYE_L.cy,
+        Rx: EYE_R.cx, Ry: EYE_R.cy,
+        tLx: EYE_L.cx, tLy: EYE_L.cy,
+        tRx: EYE_R.cx, tRy: EYE_R.cy,
+    };
+
+    // Convert cursor position to SVG-space pupil target for one eye
+    function eyeTarget(cursorX, cursorY, wrapperRect, eye) {
+        if (!wrapperRect.width) return { tx: eye.cx, ty: eye.cy };
+        const svgX = (cursorX - wrapperRect.left)  / wrapperRect.width  * IMG_W;
+        const svgY = (cursorY - wrapperRect.top)   / wrapperRect.height * IMG_H;
+        const dx = svgX - eye.cx;
+        const dy = svgY - eye.cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        // tanh so nearby cursor gives proportional response, far cursor saturates
+        const offset = Math.tanh(dist / (IMG_W * 0.28)) * PUPIL_MAX;
+        const angle = Math.atan2(dy, dx);
+        return { tx: eye.cx + Math.cos(angle) * offset,
+                 ty: eye.cy + Math.sin(angle) * offset };
+    }
+
+    // Move four SVG pupils (two ids each for card + sheet contexts)
+    function applyPupils(lx, ly, rx, ry, prefix) {
+        const pl = document.getElementById(prefix + 'pupil-left');
+        const pr = document.getElementById(prefix + 'pupil-right');
+        if (pl) { pl.setAttribute('cx', lx.toFixed(2)); pl.setAttribute('cy', ly.toFixed(2)); }
+        if (pr) { pr.setAttribute('cx', rx.toFixed(2)); pr.setAttribute('cy', ry.toFixed(2)); }
+    }
+
+    // ── Card registry ─────────────────────────────────────────────────────
+    const CARDS = {
+        cat: {
+            title: 'obsessed cat',
+            render() {
+                return `<div class="cat-scene">
+                    <div class="cat-wrapper cat-wrapper--sheet" id="cat-sheet-wrapper">
+                        <img src="cat.png" class="cat-img cat-img--sheet" alt="cat" draggable="false">
+                        <svg class="cat-eye-svg" viewBox="0 0 ${IMG_W} ${IMG_H}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                            <circle class="cat-pupil" id="sheet-pupil-left"  cx="${EYE_L.cx}" cy="${EYE_L.cy}" r="14"/>
+                            <circle class="cat-pupil" id="sheet-pupil-right" cx="${EYE_R.cx}" cy="${EYE_R.cy}" r="14"/>
+                        </svg>
+                    </div>
+                </div>`;
+            }
+        }
+    };
+
+    // ── Sheet open / close ────────────────────────────────────────────────
+    function openSheet(cardId) {
+        const card = CARDS[cardId];
+        if (!card) return;
+        sheetTitle.textContent = card.title;
+        sheetBody.innerHTML = card.render();
+        overlay.setAttribute('aria-hidden', 'false');
+        overlay.classList.add('open');
+        requestAnimationFrame(() => sheet.classList.add('open'));
+        document.body.style.overflow = 'hidden';
+        if (cardId === 'cat') startSheetTracking();
+    }
+
+    function closeSheet() {
+        sheet.classList.remove('open');
+        overlay.classList.remove('open');
+        stopSheetTracking();
+        setTimeout(() => {
+            overlay.setAttribute('aria-hidden', 'true');
+            sheetBody.innerHTML = '';
+            document.body.style.overflow = '';
+        }, 450);
+    }
+
+    document.querySelectorAll('.cool-card[data-card]').forEach(c => {
+        c.addEventListener('click', () => openSheet(c.dataset.card));
+        c.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSheet(c.dataset.card); }
+        });
+    });
+
+    backBtn.addEventListener('click', closeSheet);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeSheet(); });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) closeSheet();
+    });
+
+    // ── Sheet pupil + head-turn tracking ─────────────────────────────────
+    let sheetRAF = null;
+    let sheetMove = null;
+    const sheetT    = { Lx: EYE_L.cx, Ly: EYE_L.cy, Rx: EYE_R.cx, Ry: EYE_R.cy };
+    const sheetC    = { Lx: EYE_L.cx, Ly: EYE_L.cy, Rx: EYE_R.cx, Ry: EYE_R.cy };
+    const sheetHeadT = { rx: 0, ry: 0 };
+    const sheetHeadC = { rx: 0, ry: 0 };
+
+    function startSheetTracking() {
+        sheetMove = (e) => {
+            const ex = e.touches ? e.touches[0].clientX : e.clientX;
+            const ey = e.touches ? e.touches[0].clientY : e.clientY;
+            const wrapper = document.getElementById('cat-sheet-wrapper');
+            if (!wrapper) return;
+            const r = wrapper.getBoundingClientRect();
+            const { tx: tLx, ty: tLy } = eyeTarget(ex, ey, r, EYE_L);
+            const { tx: tRx, ty: tRy } = eyeTarget(ex, ey, r, EYE_R);
+            sheetT.Lx = tLx; sheetT.Ly = tLy;
+            sheetT.Rx = tRx; sheetT.Ry = tRy;
+            // Head rotation
+            const cx = r.left + r.width * 0.5;
+            const cy = r.top  + r.height * 0.35;
+            const dx = (ex - cx) / (window.innerWidth  * 0.5);
+            const dy = (ey - cy) / (window.innerHeight * 0.5);
+            sheetHeadT.ry = Math.tanh(dx * 2.2) * 10;  // ±10° horizontal (larger canvas)
+            sheetHeadT.rx = Math.tanh(dy * 2.2) * 6;   // ±6° vertical
+        };
+        window.addEventListener('mousemove', sheetMove);
+        window.addEventListener('touchmove', sheetMove, { passive: true });
+
+        (function tick() {
+            // Pupils
+            sheetC.Lx = lerp(sheetC.Lx, sheetT.Lx, 0.09);
+            sheetC.Ly = lerp(sheetC.Ly, sheetT.Ly, 0.09);
+            sheetC.Rx = lerp(sheetC.Rx, sheetT.Rx, 0.09);
+            sheetC.Ry = lerp(sheetC.Ry, sheetT.Ry, 0.09);
+            applyPupils(sheetC.Lx, sheetC.Ly, sheetC.Rx, sheetC.Ry, 'sheet-');
+            // Head rotation
+            sheetHeadC.rx = lerp(sheetHeadC.rx, sheetHeadT.rx, 0.06);
+            sheetHeadC.ry = lerp(sheetHeadC.ry, sheetHeadT.ry, 0.06);
+            const sw = document.getElementById('cat-sheet-wrapper');
+            if (sw) sw.style.transform =
+                `perspective(700px) rotateX(${sheetHeadC.rx.toFixed(2)}deg) rotateY(${sheetHeadC.ry.toFixed(2)}deg)`;
+            sheetRAF = requestAnimationFrame(tick);
+        })();
+    }
+
+    function stopSheetTracking() {
+        if (sheetRAF) { cancelAnimationFrame(sheetRAF); sheetRAF = null; }
+        if (sheetMove) {
+            window.removeEventListener('mousemove', sheetMove);
+            window.removeEventListener('touchmove', sheetMove);
+            sheetMove = null;
+        }
+        sheetT.Lx = sheetC.Lx = EYE_L.cx; sheetT.Ly = sheetC.Ly = EYE_L.cy;
+        sheetT.Rx = sheetC.Rx = EYE_R.cx; sheetT.Ry = sheetC.Ry = EYE_R.cy;
+        sheetHeadT.rx = sheetHeadC.rx = 0; sheetHeadT.ry = sheetHeadC.ry = 0;
+    }
+
+    // ── Card thumbnail pupil + head-turn tracking (always running) ──────────
+    const cardWrapper = document.getElementById('cat-card-wrapper');
+    if (!cardWrapper) return;
+
+    const cardT    = { Lx: EYE_L.cx, Ly: EYE_L.cy, Rx: EYE_R.cx, Ry: EYE_R.cy };
+    const cardC    = { Lx: EYE_L.cx, Ly: EYE_L.cy, Rx: EYE_R.cx, Ry: EYE_R.cy };
+    const cardHeadT = { rx: 0, ry: 0 };
+    const cardHeadC = { rx: 0, ry: 0 };
+
+    window.addEventListener('mousemove', (e) => {
+        const r = cardWrapper.getBoundingClientRect();
+        const { tx: tLx, ty: tLy } = eyeTarget(e.clientX, e.clientY, r, EYE_L);
+        const { tx: tRx, ty: tRy } = eyeTarget(e.clientX, e.clientY, r, EYE_R);
+        cardT.Lx = tLx; cardT.Ly = tLy;
+        cardT.Rx = tRx; cardT.Ry = tRy;
+        // Head rotation: cursor relative to card center, normalized to half-screen
+        const cx = r.left + r.width * 0.5;
+        const cy = r.top  + r.height * 0.35; // eye level
+        const dx = (e.clientX - cx) / (window.innerWidth  * 0.5);
+        const dy = (e.clientY - cy) / (window.innerHeight * 0.5);
+        cardHeadT.ry = Math.tanh(dx * 2.2) * 7;  // ±7° horizontal
+        cardHeadT.rx = Math.tanh(dy * 2.2) * 4;  // ±4° vertical
+    });
+
+    (function tickCard() {
+        // Pupils
+        cardC.Lx = lerp(cardC.Lx, cardT.Lx, 0.09);
+        cardC.Ly = lerp(cardC.Ly, cardT.Ly, 0.09);
+        cardC.Rx = lerp(cardC.Rx, cardT.Rx, 0.09);
+        cardC.Ry = lerp(cardC.Ry, cardT.Ry, 0.09);
+        applyPupils(cardC.Lx, cardC.Ly, cardC.Rx, cardC.Ry, 'card-');
+        // Head rotation (slower lerp for physical inertia feel)
+        cardHeadC.rx = lerp(cardHeadC.rx, cardHeadT.rx, 0.06);
+        cardHeadC.ry = lerp(cardHeadC.ry, cardHeadT.ry, 0.06);
+        cardWrapper.style.transform =
+            `perspective(600px) rotateX(${cardHeadC.rx.toFixed(2)}deg) rotateY(${cardHeadC.ry.toFixed(2)}deg)`;
+        requestAnimationFrame(tickCard);
+    })();
 }

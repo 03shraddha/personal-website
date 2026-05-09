@@ -133,6 +133,7 @@
                 <li><a href="/content"   class="nav-link" data-section="content">content worth consuming</a></li>
                 <li><a href="/photos"    class="nav-link" data-section="photos">photos</a></li>
                 <li><a href="/guestbook" class="nav-link" data-section="guestbook">guestbook</a></li>
+                <li><a href="/cool-things" class="nav-link" data-section="cool-things">cool things</a></li>
             </ul>
         </div>
     </nav>
@@ -446,6 +447,34 @@
             </div>
         </section>
 
+        <!-- Cool Things Section -->
+        <section id="cool-things" class="section">
+            <h2 class="section-title">cool things</h2>
+            <p class="section-intro">little experiments, coming soon!</p>
+
+            <div class="cool-grid">
+
+                <!-- Card 1: Placeholder -->
+                <div class="cool-card cool-card--soon">
+                    <div class="cool-card-soon-icon">✦</div>
+                    <span class="cool-card-title">coming soon</span>
+                </div>
+
+                <!-- Card 2: Placeholder -->
+                <div class="cool-card cool-card--soon">
+                    <div class="cool-card-soon-icon">✦</div>
+                    <span class="cool-card-title">coming soon</span>
+                </div>
+
+                <!-- Card 3: Placeholder -->
+                <div class="cool-card cool-card--soon">
+                    <div class="cool-card-soon-icon">✦</div>
+                    <span class="cool-card-title">coming soon</span>
+                </div>
+
+            </div>
+        </section>
+
         <footer class="footer">
             <p id="footer-text">Loading...</p>
         </footer>
@@ -453,6 +482,23 @@
 
     <!-- Supabase Client Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Cool Things: iOS-style bottom sheet (outside main to avoid transform stacking) -->
+    <div class="cool-overlay" id="cool-overlay" aria-hidden="true">
+        <div class="cool-sheet" id="cool-sheet" role="dialog" aria-modal="true">
+            <div class="cool-sheet-handle"></div>
+            <div class="cool-sheet-header">
+                <button class="cool-sheet-back" id="cool-sheet-back" aria-label="Back">
+                    <svg width="10" height="17" viewBox="0 0 10 17" fill="none" aria-hidden="true">
+                        <path d="M9 1L1.5 8.5L9 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back
+                </button>
+                <span class="cool-sheet-title" id="cool-sheet-title"></span>
+            </div>
+            <div class="cool-sheet-body" id="cool-sheet-body"></div>
+        </div>
+    </div>
 
     <!-- Project Add/Edit Modal (outside sections to avoid transform breaking fixed positioning) -->
     <div id="project-modal" class="project-modal">
