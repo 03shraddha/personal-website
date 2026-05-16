@@ -661,8 +661,8 @@
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        // Admin password hash (change this to your password's hash)
-        // Default password: "admin123" - CHANGE THIS!
+        // WARNING: Replace this hash before deploying. Current value is SHA-256 of "admin123".
+        // Generate a new hash: crypto.subtle.digest('SHA-256', new TextEncoder().encode('yourpassword'))
         const ADMIN_PASSWORD_HASH = '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9';
 
         // State
