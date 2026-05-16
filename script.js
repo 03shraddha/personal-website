@@ -4036,14 +4036,14 @@ function initCoolThings() {
     // ── How Long logic (runs after render) ────────────────────────────────
     function initHowLong() {
         const PRESETS = [
-            { label: 'blink 1 million times',       units: 1e6,          rate: 2.5, rateUnit: 'second', idx: 0 },
-            { label: 'walk around the Earth',        units: 40075,        rate: 40,  rateUnit: 'day',    idx: 1 },
+            { label: 'spend $1 million ($1/sec)',    units: 1e6,          rate: 1,   rateUnit: 'second', idx: 0 },
+            { label: 'weekends left (age 27)',         units: 2756,         rate: 1,   rateUnit: 'week',   idx: 1 },
             { label: 'listen to all of Spotify',     units: 350000000,    rate: 1,   rateUnit: 'minute', idx: 2 },
-            { label: 'read every Reddit comment',    units: 16000000000,  rate: 2,   rateUnit: 'minute', idx: 3 },
+            { label: 'count every person in India',   units: 1440000000,   rate: 1,   rateUnit: 'second', idx: 3 },
             { label: "eat every McDonald's burger",  units: 300000000000, rate: 3,   rateUnit: 'hour',   idx: 4 },
             { label: 'count every grain of sand',    units: 7.5e18,       rate: 1,   rateUnit: 'second', idx: 5 },
         ];
-        const SECS = { second: 1, minute: 60, hour: 3600, day: 86400 };
+        const SECS = { second: 1, minute: 60, hour: 3600, day: 86400, week: 604800 };
 
         function hlCalc(units, rate, rateUnit) {
             return units / (rate / SECS[rateUnit]);
@@ -4096,16 +4096,16 @@ function initCoolThings() {
             var out = [];
 
             if (idx === 0) {
-                out.push('If you start blinking right now, you finish ' + hlFinishStr(s));
-                out.push('You blink about <strong>10 million times</strong> in a lifetime. A million takes less than a week');
-                out.push('Your brain cuts out the darkness between every blink. You have never actually seen yourself blink');
+                out.push('If you start spending right now, you finish ' + hlFinishStr(s) + '. Every second, one dollar gone');
+                out.push('A million dollars sounds enormous. At $1 a second it runs out in <strong>11 days</strong>. A billionaire has this as a rounding error');
+                out.push('To spend a <strong>billion</strong> the same way takes 31.7 years. A <strong>trillion</strong> takes 31,709 years');
                 return out;
             }
 
             if (idx === 1) {
-                out.push('If you start walking right now, you finish ' + hlFinishStr(s) + ', walking 8 hours a day every single day');
-                out.push('In your lifetime you will walk about <strong>100,000 km</strong>, which means you could lap the equator twice');
-                out.push('Real people have walked routes like this. It takes about 3 years and absolutely destroys your shoes');
+                out.push('If you are 27 right now, you have <strong>~2,756 weekends left</strong> before you turn 80. One per week, no refills');
+                out.push('Stack all your remaining weekends back to back and you get <strong>15 years</strong> of actual weekend time. The other 38 years are weekdays');
+                out.push('You have already used about <strong>1,400 weekends</strong> getting to 27. There are fewer ahead than behind');
                 return out;
             }
 
@@ -4117,9 +4117,9 @@ function initCoolThings() {
             }
 
             if (idx === 3) {
-                out.push('<strong>15,200 years ago</strong> humans were still hunting mammoths. That is when you would need to start reading');
-                out.push('Reddit gets about <strong>4 million new comments per day</strong>. The pile is growing faster than you could ever read');
-                out.push('At one comment every 30 seconds with no sleep, you still need 15,000 years. There is no version of this that ends well');
+                out.push('If you start counting right now, you finish ' + hlFinishStr(s) + '. One person per second, no breaks, for 45 years straight');
+                out.push("India's population in <strong>people</strong> is roughly the same as 45 years in <strong>seconds</strong>. Both are about 1.44 billion");
+                out.push('While you are counting, India adds about <strong>0.8 babies every second</strong>. You will never actually catch up to the real number');
                 return out;
             }
 
