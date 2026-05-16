@@ -4103,7 +4103,7 @@ function initCoolThings() {
             }
 
             if (idx === 1) {
-                out.push('If you are 27 right now, you have <strong>~2,756 weekends left</strong> before you turn 80. One per week, no refills');
+                out.push('If you are 27 right now, you have <strong>~2,756 weekends left</strong> before you turn 80');
                 out.push('Stack all your remaining weekends back to back and you get <strong>15 years</strong> of actual weekend time. The other 38 years are weekdays');
                 out.push('You have already used about <strong>1,400 weekends</strong> getting to 27. There are fewer ahead than behind');
                 return out;
