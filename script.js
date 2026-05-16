@@ -4040,7 +4040,7 @@ function initCoolThings() {
             { label: 'weekends left (age 27)',         units: 2756,         rate: 1,   rateUnit: 'week',   idx: 1 },
             { label: 'listen to all of Spotify',     units: 350000000,    rate: 1,   rateUnit: 'minute', idx: 2 },
             { label: 'count every person in India',   units: 1440000000,   rate: 1,   rateUnit: 'second', idx: 3 },
-            { label: "eat every McDonald's burger",  units: 300000000000, rate: 3,   rateUnit: 'hour',   idx: 4 },
+            { label: 'watch every YouTube video',     units: 5600000000,   rate: 1,   rateUnit: 'minute', idx: 4 },
             { label: 'count every grain of sand',    units: 7.5e18,       rate: 1,   rateUnit: 'second', idx: 5 },
         ];
         const SECS = { second: 1, minute: 60, hour: 3600, day: 86400, week: 604800 };
@@ -4124,9 +4124,9 @@ function initCoolThings() {
             }
 
             if (idx === 4) {
-                out.push("McDonald's has served over <strong>300 billion burgers</strong>. At 3 per hour, that is 11 million years of straight eating");
-                out.push('Homo sapiens has only existed for <strong>300,000 years</strong>. This task is 37 times older than our entire species');
-                out.push("The first McDonald's opened in 1940. You would need to have started eating <strong>11 million years before</strong> the restaurant existed");
+                out.push('If you start watching right now, you finish in <strong>the year 12,673</strong>. Every video, back to back, no skipping');
+                out.push('YouTube adds <strong>500 hours of new video every minute</strong>. For every hour you watch, 30,000 more hours are uploaded');
+                out.push('Every minute you watch, <strong>500 new hours</strong> appear. You are not watching YouTube — YouTube is watching you fall further behind');
                 return out;
             }
 
