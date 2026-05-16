@@ -4126,7 +4126,7 @@ function initCoolThings() {
             if (idx === 4) {
                 out.push('If you start watching right now, you finish in <strong>the year 12,673</strong>. Every video, back to back, no skipping');
                 out.push('YouTube adds <strong>500 hours of new video every minute</strong>. For every hour you watch, 30,000 more hours are uploaded');
-                out.push('Every minute you watch, <strong>500 new hours</strong> appear. You are not watching YouTube — YouTube is watching you fall further behind');
+                out.push('Every minute you watch, <strong>500 new hours</strong> appear. You are not watching YouTube. YouTube is watching you fall further behind');
                 return out;
             }
 
