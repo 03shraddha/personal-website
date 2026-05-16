@@ -4036,7 +4036,7 @@ function initCoolThings() {
     // ── How Long logic (runs after render) ────────────────────────────────
     function initHowLong() {
         const PRESETS = [
-            { label: 'spend $1 million ($1/sec)',    units: 1e6,          rate: 1,   rateUnit: 'second', idx: 0 },
+            { label: 'spend $1 billion ($1/sec)',     units: 1e9,          rate: 1,   rateUnit: 'second', idx: 0 },
             { label: 'weekends left (age 27)',         units: 2756,         rate: 1,   rateUnit: 'week',   idx: 1 },
             { label: 'listen to all of Spotify',     units: 350000000,    rate: 1,   rateUnit: 'minute', idx: 2 },
             { label: 'count every person in India',   units: 1440000000,   rate: 1,   rateUnit: 'second', idx: 3 },
@@ -4097,8 +4097,8 @@ function initCoolThings() {
 
             if (idx === 0) {
                 out.push('If you start spending right now, you finish ' + hlFinishStr(s) + '. Every second, one dollar gone');
-                out.push('A million dollars sounds enormous. At $1 a second it runs out in <strong>11 days</strong>. A billionaire has this as a rounding error');
-                out.push('To spend a <strong>billion</strong> the same way takes 31.7 years. A <strong>trillion</strong> takes 31,709 years');
+                out.push('$1 billion is <strong>500 million Diet Cokes</strong>, <strong>4,000 Ferraris</strong>, or <strong>20 billion gummy bears</strong>. You are still spending it for 31 years at $1 a second');
+                out.push('The US government spends $1 billion every <strong>2 hours</strong>. For you, it is a 31-year project');
                 return out;
             }
 
