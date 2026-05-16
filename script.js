@@ -87,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();   // Mobile hamburger menu
         initPageViewCounter(); // Page view counter
         initGuestbook();    // Virtual guestbook
-        initCoolThings();   // Cool things / interactive experiments
 
         // Initialize text reveal after content is loaded
         setTimeout(() => {
@@ -100,6 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
         console.error('Error during initialization:', error);
     }
+
+    // Run cool things separately so errors above don't block it
+    try { initCoolThings(); } catch (e) { console.error('initCoolThings failed:', e); }
 });
 
 /**
@@ -4007,8 +4009,236 @@ function initCoolThings() {
                     </div>
                 </div>`;
             }
+        },
+        'how-long': {
+            title: 'how long would it take?',
+            render() {
+                return `<div class="hl">
+                    <div class="hl-strip" id="hl-strip"></div>
+                    <div class="hl-result">
+                        <span class="hl-number" id="hl-number">0</span>
+                        <div class="hl-meta">
+                            <span class="hl-unit" id="hl-unit"></span>
+                            <span class="hl-ctx" id="hl-ctx"></span>
+                        </div>
+                        <p class="hl-tone" id="hl-tone"></p>
+                        <ul class="hl-comps" id="hl-comps"></ul>
+                        <div class="hl-share-row">
+                            <button class="hl-share-btn" id="hl-share-btn">Copy and share</button>
+                            <span class="hl-toast" id="hl-toast"></span>
+                        </div>
+                    </div>
+                </div>`;
+            }
         }
     };
+
+    // ── How Long logic (runs after render) ────────────────────────────────
+    function initHowLong() {
+        const PRESETS = [
+            { label: 'Count to a million',        units: 1e6,       rate: 1,  rateUnit: 'second', idx: 0 },
+            { label: 'Count to a billion',         units: 1e9,       rate: 1,  rateUnit: 'second', idx: 1 },
+            { label: 'Count to a trillion',        units: 1e12,      rate: 1,  rateUnit: 'second', idx: 2 },
+            { label: 'Watch every YouTube video',  units: 800000000, rate: 8,  rateUnit: 'hour',   idx: 3 },
+            { label: 'Read all of Wikipedia',      units: 6700000,   rate: 15, rateUnit: 'hour',   idx: 4 },
+            { label: 'Walk around Earth',          units: 40075,     rate: 40, rateUnit: 'day',    idx: 5 },
+            { label: 'Spend a trillion dollars',   units: 1e12,      rate: 1,  rateUnit: 'second', idx: 6 },
+            { label: "Scroll this week's TikToks", units: 3e9,       rate: 1,  rateUnit: 'second', idx: 7 },
+        ];
+        const SECS = { second: 1, minute: 60, hour: 3600, day: 86400 };
+
+        function hlCalc(units, rate, rateUnit) {
+            return units / (rate / SECS[rateUnit]);
+        }
+
+        function hlFmt(n, dp) {
+            dp = (dp === undefined) ? 1 : dp;
+            if (n >= 1e12) return (n / 1e12).toFixed(dp).replace(/\.0+$/, '') + ' trillion';
+            if (n >= 1e9)  return (n / 1e9).toFixed(dp).replace(/\.0+$/, '')  + ' billion';
+            if (n >= 1e6)  return (n / 1e6).toFixed(dp).replace(/\.0+$/, '')  + ' million';
+            return n.toLocaleString('en-US', { maximumFractionDigits: dp });
+        }
+
+        function hlBestUnit(s) {
+            const y = s / (86400 * 365.25), d = s / 86400, h = s / 3600, m = s / 60;
+            if (y >= 2) return { val: y, unit: 'years'   };
+            if (d >= 2) return { val: d, unit: 'days'    };
+            if (h >= 2) return { val: h, unit: 'hours'   };
+            if (m >= 2) return { val: m, unit: 'minutes' };
+            return          { val: s, unit: 'seconds' };
+        }
+
+        function hlTone(y) {
+            if (y < 0.005)  return 'Actually, not that bad.';
+            if (y < 0.1)    return 'Annoying, but survivable.';
+            if (y < 1)      return 'That is a serious time commitment.';
+            if (y < 10)     return 'You would be a completely different person by the end.';
+            if (y < 80)     return 'That is one full human life. The whole thing.';
+            if (y < 500)    return 'No one alive today would live to see you finish.';
+            if (y < 5000)   return 'Empires would rise and fall while you are still going.';
+            if (y < 100000) return 'You are in geological time now.';
+            if (y < 1e6)    return 'Nobody finishes this. Nobody.';
+            return 'The universe itself might not last long enough.';
+        }
+
+        function hlFinishStr(s) {
+            const d = s / 86400, y = s / (86400 * 365.25), h = s / 3600;
+            if (h < 1)   return 'in ' + Math.round(s / 60) + ' minutes';
+            if (d < 1)   return 'in about ' + Math.round(h) + ' hours';
+            if (d < 14)  return 'in about ' + Math.round(d) + ' days';
+            if (y < 1) {
+                const dt = new Date(Date.now() + s * 1000);
+                return 'by ' + dt.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            }
+            if (y < 100) return 'in the year ' + Math.round(2026 + y);
+            return 'in the year ' + Math.round(2026 + y).toLocaleString() + ' CE';
+        }
+
+        function hlComparisons(s, idx) {
+            const out = [];
+
+            // Preset 0: Count to a million (~11.57 days)
+            if (idx === 0) {
+                out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
+                out.push('That is <strong>277 consecutive hours</strong> of counting. Most people do not work that many hours in 7 weeks');
+                out.push('Your phone battery would die and need recharging about <strong>25 times</strong> before you were done');
+                return out;
+            }
+
+            // Preset 1: Count to a billion (~31.7 years)
+            if (idx === 1) {
+                out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
+                out.push('A million takes 11 days. A billion takes <strong>31 years</strong>. Most people cannot feel the gap between those two numbers');
+                out.push('Start at 25 and you finish at 56. That is your <strong>entire working life</strong>, spent counting');
+                return out;
+            }
+
+            // Preset 2: Count to a trillion (~31,709 years)
+            if (idx === 2) {
+                out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
+                out.push('Every civilization in recorded history, every empire that rose and fell, every language ever written: all of it fits inside this window <strong>twice over</strong>');
+                out.push('Modern humans have existed for about <strong>300,000 years</strong>. This task would consume roughly 10% of that entire span');
+                return out;
+            }
+
+            // Preset 3: Watch every YouTube video (~11,408 years)
+            if (idx === 3) {
+                out.push('YouTube uploads <strong>500 hours</strong> of new video every single minute. You cannot catch up. The library grows faster than any human could ever watch');
+                out.push('If you start watching <strong>right now</strong>, you finish ' + hlFinishStr(s));
+                out.push('The Roman Empire lasted roughly 500 years. You would watch your way through <strong>22 of them</strong>');
+                return out;
+            }
+
+            // Preset 4: Read all of Wikipedia (~51 years)
+            if (idx === 4) {
+                out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
+                out.push('Wikipedia will have roughly <strong>doubled in size</strong> by the time you finish. You are reading a moving target');
+                out.push('That is an entire career doing nothing but reading encyclopedia articles, <strong>with no days off</strong>');
+                return out;
+            }
+
+            // Preset 5: Walk around Earth (~1,002 days)
+            if (idx === 5) {
+                out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
+                out.push('You would cross <strong>4 continents and around 40 countries</strong>, all on foot, in roughly the same time as a master\'s degree');
+                out.push('At 40 km a day, you would wear out about <strong>9 pairs of shoes</strong> and live through 3 monsoon seasons');
+                return out;
+            }
+
+            // Preset 6: Spend a trillion dollars at $1/sec (~31,709 years)
+            if (idx === 6) {
+                out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
+                out.push('If you spent <strong>$1 million every single day</strong> instead, it would still take 2,739 years to spend it all');
+                out.push('$1 trillion could fund <strong>NASA for 42 years</strong>, pay every public school teacher in America for 17 years, and still have hundreds of billions left');
+                return out;
+            }
+
+            // Preset 7: Scroll this week's TikToks (~95 years)
+            if (idx === 7) {
+                out.push('That is your <strong>entire life expectancy</strong> spent watching one week of TikTok content');
+                out.push('If you start scrolling <strong>right now</strong>, you finish ' + hlFinishStr(s));
+                out.push('By the time you finished, the app would have added <strong>another 95 years</strong> of new content. You are mathematically falling further behind with every scroll');
+                return out;
+            }
+
+            // Fallback for any non-preset use
+            const y = s / (86400 * 365.25), d = s / 86400, h = s / 3600;
+            out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
+            const lives = y / 80;
+            if (lives >= 2 && out.length < 3) {
+                out.push('That is <strong>' + hlFmt(lives, 0) + ' human lifetimes</strong> back to back');
+            } else if (y >= 1 && out.length < 3) {
+                out.push('A baby born the day you start would be <strong>' + Math.round(y) + ' years old</strong> when you finally finished');
+            } else if (d >= 5 && out.length < 3) {
+                out.push('<strong>' + Math.round(d) + ' consecutive days</strong> without stopping once');
+            }
+            if (y >= 300000 && out.length < 3) {
+                out.push('Modern humans did not even exist yet when you would have needed to start');
+            } else if (y >= 500 && out.length < 3) {
+                const yr = Math.round(2026 - y);
+                out.push('You would have needed to start in <strong>' + (yr > 0 ? yr + ' CE' : Math.abs(yr) + ' BCE') + '</strong>');
+            }
+            return out.slice(0, 3);
+        }
+
+        function hlAnimateCount(el, end) {
+            const start = performance.now(), dur = 1200, large = end > 9999;
+            (function tick(now) {
+                const t = Math.min((now - start) / dur, 1);
+                const cur = end * (1 - Math.pow(1 - t, 3));
+                el.textContent = large ? Math.round(cur).toLocaleString('en-US') : cur.toFixed(1);
+                if (t < 1) requestAnimationFrame(tick);
+                else el.textContent = large ? Math.round(end).toLocaleString('en-US') : end.toFixed(1);
+            })(performance.now());
+        }
+
+        function hlShow(seconds, label, presetIdx) {
+            const y = seconds / (86400 * 365.25);
+            const { val, unit } = hlBestUnit(seconds);
+
+            hlAnimateCount(document.getElementById('hl-number'), val);
+            document.getElementById('hl-unit').textContent = unit;
+            document.getElementById('hl-ctx').textContent  = 'to ' + label;
+            document.getElementById('hl-tone').textContent = hlTone(y);
+
+            const list = document.getElementById('hl-comps');
+            list.innerHTML = '';
+            hlComparisons(seconds, presetIdx).forEach(function(html, i) {
+                const li = document.createElement('li');
+                li.innerHTML = html;
+                list.appendChild(li);
+                setTimeout(function() { li.classList.add('hl-in'); }, 150 + i * 110);
+            });
+
+            const shareBtn = document.getElementById('hl-share-btn');
+            if (shareBtn) {
+                shareBtn.onclick = function() {
+                    const display = val >= 1000 ? Math.round(val).toLocaleString() : val.toFixed(1);
+                    navigator.clipboard.writeText(
+                        'If you did nothing else, it would take ' + display + ' ' + unit + ' to ' + label + '.\n\nvia shraddha-kulkarni.com'
+                    ).then(function() {
+                        const t = document.getElementById('hl-toast');
+                        if (t) { t.textContent = 'Copied.'; setTimeout(function() { t.textContent = ''; }, 2000); }
+                    });
+                };
+            }
+        }
+
+        const strip = document.getElementById('hl-strip');
+        if (!strip) return;
+        PRESETS.forEach(function(p, i) {
+            const btn = document.createElement('button');
+            btn.className = 'hl-pill';
+            btn.textContent = p.label;
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.hl-pill').forEach(function(b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                hlShow(hlCalc(p.units, p.rate, p.rateUnit), p.label.toLowerCase(), p.idx);
+            });
+            strip.appendChild(btn);
+            if (i === 2) btn.click(); // default: count to a trillion
+        });
+    }
 
     // ── Sheet open / close ────────────────────────────────────────────────
     function openSheet(cardId) {
@@ -4021,6 +4251,7 @@ function initCoolThings() {
         requestAnimationFrame(() => sheet.classList.add('open'));
         document.body.style.overflow = 'hidden';
         if (cardId === 'cat') startSheetTracking();
+        if (cardId === 'how-long') initHowLong();
     }
 
     function closeSheet() {

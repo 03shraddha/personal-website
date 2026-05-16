@@ -5445,6 +5445,212 @@ body.mode-sunny .sidebar {
     }
 }
 
+/* ── How Long Would It Take? card ────────────────────────────────────── */
+
+.cool-card--how-long {
+    text-decoration: none;
+    color: inherit;
+}
+
+.cool-card--how-long .cool-card-thumb {
+    padding: 12px 12px 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.how-long-thumb {
+    flex: 1;
+    background: var(--color-card-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 16px;
+    text-align: center;
+}
+
+.how-long-thumb-number {
+    font-family: var(--font-body);
+    font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+
+.how-long-thumb-unit {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-top: 5px;
+}
+
+.how-long-thumb-label {
+    font-size: 9px;
+    color: var(--color-text-light);
+    margin-top: 12px;
+    line-height: 1.5;
+}
+
+/* ── How Long modal content ───────────────────────────────────────────── */
+
+.hl {
+    align-self: flex-start;
+    width: 100%;
+    padding: 14px 20px 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.hl-strip {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 5px;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.hl-strip::-webkit-scrollbar { display: none; }
+
+.hl-pill {
+    flex-shrink: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 100px;
+    padding: 5px 12px;
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    font-weight: 450;
+    background: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+}
+
+.hl-pill:hover {
+    border-color: var(--color-text-muted);
+    color: var(--color-text);
+}
+
+.hl-pill.active {
+    background: #007AFF;
+    color: #fff;
+    border-color: #007AFF;
+}
+
+.hl-result {
+    display: flex;
+    flex-direction: column;
+}
+
+.hl-number {
+    font-family: var(--font-body);
+    font-size: clamp(32px, 9vw, 50px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--color-text);
+}
+
+.hl-meta {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.hl-unit {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+}
+
+.hl-ctx {
+    font-size: 12px;
+    color: var(--color-text-light);
+}
+
+.hl-tone {
+    font-size: 12.5px;
+    font-style: italic;
+    color: var(--color-text-muted);
+    line-height: 1.45;
+    margin-bottom: 10px;
+    border-bottom: none;
+}
+
+.hl-comps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.hl-comps li {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--color-text);
+    padding-left: 14px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.hl-comps li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    top: 3px;
+    font-size: 7px;
+    color: rgba(255, 160, 110, 0.85);
+}
+
+.hl-comps li.hl-in {
+    opacity: 1;
+    transform: none;
+}
+
+.hl-share-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hl-share-btn {
+    border: 1px solid var(--color-border);
+    border-radius: 100px;
+    padding: 7px 18px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 450;
+    background: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: border-color 0.15s, color 0.15s;
+}
+
+.hl-share-btn:hover {
+    border-color: var(--color-text);
+    color: var(--color-text);
+}
+
+.hl-toast {
+    font-size: 12px;
+    color: var(--color-text-light);
+}
+
 /* Print: hide all atmosphere elements */
 @media print {
     #sunny-bg,
