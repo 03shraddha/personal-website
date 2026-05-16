@@ -4036,14 +4036,12 @@ function initCoolThings() {
     // ── How Long logic (runs after render) ────────────────────────────────
     function initHowLong() {
         const PRESETS = [
-            { label: 'Count to a million',        units: 1e6,       rate: 1,  rateUnit: 'second', idx: 0 },
-            { label: 'Count to a billion',         units: 1e9,       rate: 1,  rateUnit: 'second', idx: 1 },
-            { label: 'Count to a trillion',        units: 1e12,      rate: 1,  rateUnit: 'second', idx: 2 },
-            { label: 'Watch every YouTube video',  units: 800000000, rate: 8,  rateUnit: 'hour',   idx: 3 },
-            { label: 'Read all of Wikipedia',      units: 6700000,   rate: 15, rateUnit: 'hour',   idx: 4 },
-            { label: 'Walk around Earth',          units: 40075,     rate: 40, rateUnit: 'day',    idx: 5 },
-            { label: 'Spend a trillion dollars',   units: 1e12,      rate: 1,  rateUnit: 'second', idx: 6 },
-            { label: "Scroll this week's TikToks", units: 3e9,       rate: 1,  rateUnit: 'second', idx: 7 },
+            { label: 'count to a billion',     units: 1e9,          rate: 1,  rateUnit: 'second', idx: 0 },
+            { label: 'spend a trillion',        units: 1e12,         rate: 1,  rateUnit: 'second', idx: 1 },
+            { label: 'walk to the moon',        units: 384400,       rate: 40, rateUnit: 'day',    idx: 2 },
+            { label: 'watch every movie ever',  units: 900000,       rate: 8,  rateUnit: 'day',    idx: 3 },
+            { label: 'read every book ever',    units: 150000000,    rate: 1,  rateUnit: 'day',    idx: 4 },
+            { label: 'one day of tiktok',       units: 1451800000,   rate: 1,  rateUnit: 'second', idx: 5 },
         ];
         const SECS = { second: 1, minute: 60, hour: 3600, day: 86400 };
 
@@ -4097,67 +4095,51 @@ function initCoolThings() {
         function hlComparisons(s, idx) {
             const out = [];
 
-            // Preset 0: Count to a million (~11.57 days)
+            // Preset 0: count to a billion (~31.7 years)
             if (idx === 0) {
                 out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
-                out.push('That is <strong>277 consecutive hours</strong> of counting. Most people do not work that many hours in 7 weeks');
-                out.push('Your phone battery would die and need recharging about <strong>25 times</strong> before you were done');
+                out.push('A million seconds ago was only 11 days ago. A billion seconds ago was <strong>1994</strong>. Same number family, completely different scale');
+                out.push('If you started counting at birth and never stopped, you would finish in your early 30s. Your entire childhood, your teens, your 20s, all gone, just counting');
                 return out;
             }
 
-            // Preset 1: Count to a billion (~31.7 years)
+            // Preset 1: spend a trillion (~31,709 years)
             if (idx === 1) {
                 out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
-                out.push('A million takes 11 days. A billion takes <strong>31 years</strong>. Most people cannot feel the gap between those two numbers');
-                out.push('Start at 25 and you finish at 56. That is your <strong>entire working life</strong>, spent counting');
+                out.push('$1 trillion is <strong>500 billion Diet Cokes</strong>, 500 million trips to Bali, or 606,000 Manhattan apartments. At $1 per second you still need 31,000 years to spend it');
+                out.push('If you spent <strong>$1 million every single day</strong>, it would still take 2,739 years to spend it all');
                 return out;
             }
 
-            // Preset 2: Count to a trillion (~31,709 years)
+            // Preset 2: walk to the moon (~26.3 years)
             if (idx === 2) {
-                out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
-                out.push('Every civilization in recorded history, every empire that rose and fell, every language ever written: all of it fits inside this window <strong>twice over</strong>');
-                out.push('Modern humans have existed for about <strong>300,000 years</strong>. This task would consume roughly 10% of that entire span');
+                out.push('If you start walking <strong>right now</strong>, you finish ' + hlFinishStr(s));
+                out.push('Apollo 11 made the same trip in <strong>76 hours</strong> by rocket. Walking gets you there in 26 years');
+                out.push('The Moon is only <strong>9.6 laps around Earth</strong>. Earth just happens to be absolutely massive');
                 return out;
             }
 
-            // Preset 3: Watch every YouTube video (~11,408 years)
+            // Preset 3: watch every movie ever (~308 years)
             if (idx === 3) {
-                out.push('YouTube uploads <strong>500 hours</strong> of new video every single minute. You cannot catch up. The library grows faster than any human could ever watch');
                 out.push('If you start watching <strong>right now</strong>, you finish ' + hlFinishStr(s));
-                out.push('The Roman Empire lasted roughly 500 years. You would watch your way through <strong>22 of them</strong>');
+                out.push('You would need to have started in the <strong>1700s</strong> and watched every single day until now. The US was not even a country yet');
+                out.push('About <strong>2,000 new films</strong> are added globally every month while you are watching, so the pile keeps growing faster than you can clear it');
                 return out;
             }
 
-            // Preset 4: Read all of Wikipedia (~51 years)
+            // Preset 4: read every book ever (~410,644 years)
             if (idx === 4) {
                 out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
-                out.push('Wikipedia will have roughly <strong>doubled in size</strong> by the time you finish. You are reading a moving target');
-                out.push('That is an entire career doing nothing but reading encyclopedia articles, <strong>with no days off</strong>');
+                out.push('Even at one book a day, you would not finish until the year <strong>412,000 AD</strong>. Homo sapiens has only existed for around 300,000 years');
+                out.push('More books were published in the US in <strong>2025 alone</strong> than there are days in 10,000 years. The pile gets bigger every year');
                 return out;
             }
 
-            // Preset 5: Walk around Earth (~1,002 days)
+            // Preset 5: one day of tiktok (~46 years)
             if (idx === 5) {
-                out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
-                out.push('You would cross <strong>4 continents and around 40 countries</strong>, all on foot, in roughly the same time as a master\'s degree');
-                out.push('At 40 km a day, you would wear out about <strong>9 pairs of shoes</strong> and live through 3 monsoon seasons');
-                return out;
-            }
-
-            // Preset 6: Spend a trillion dollars at $1/sec (~31,709 years)
-            if (idx === 6) {
-                out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
-                out.push('If you spent <strong>$1 million every single day</strong> instead, it would still take 2,739 years to spend it all');
-                out.push('$1 trillion could fund <strong>NASA for 42 years</strong>, pay every public school teacher in America for 17 years, and still have hundreds of billions left');
-                return out;
-            }
-
-            // Preset 7: Scroll this week's TikToks (~95 years)
-            if (idx === 7) {
-                out.push('That is your <strong>entire life expectancy</strong> spent watching one week of TikTok content');
-                out.push('If you start scrolling <strong>right now</strong>, you finish ' + hlFinishStr(s));
-                out.push('By the time you finished, the app would have added <strong>another 95 years</strong> of new content. You are mathematically falling further behind with every scroll');
+                out.push('One day of TikTok uploads is <strong>46 years of content</strong>. Watched non-stop, no sleep');
+                out.push('If you start watching <strong>right now</strong>, you finish ' + hlFinishStr(s) + '. That is just today\'s uploads');
+                out.push('Every second you spend watching, the platform receives <strong>272 new videos</strong>. There is no such thing as catching up');
                 return out;
             }
 
@@ -4236,7 +4218,7 @@ function initCoolThings() {
                 hlShow(hlCalc(p.units, p.rate, p.rateUnit), p.label.toLowerCase(), p.idx);
             });
             strip.appendChild(btn);
-            if (i === 2) btn.click(); // default: count to a trillion
+            if (i === 1) btn.click(); // default: spend a trillion
         });
     }
 

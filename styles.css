@@ -5505,32 +5505,30 @@ body.mode-sunny .sidebar {
 }
 
 .hl-strip {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    gap: 5px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
     padding-bottom: 12px;
     margin-bottom: 14px;
     border-bottom: 1px solid var(--color-border);
 }
 
-.hl-strip::-webkit-scrollbar { display: none; }
-
 .hl-pill {
-    flex-shrink: 0;
     border: 1px solid var(--color-border);
     border-radius: 100px;
-    padding: 5px 12px;
+    padding: 6px 8px;
     font-family: var(--font-body);
-    font-size: 11.5px;
+    font-size: 11px;
     font-weight: 450;
     background: none;
     cursor: pointer;
     color: var(--color-text-muted);
     transition: background 0.15s, color 0.15s, border-color 0.15s;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    width: 100%;
 }
 
 .hl-pill:hover {
