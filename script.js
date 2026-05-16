@@ -4036,12 +4036,12 @@ function initCoolThings() {
     // ── How Long logic (runs after render) ────────────────────────────────
     function initHowLong() {
         const PRESETS = [
-            { label: 'count to a billion',     units: 1e9,          rate: 1,  rateUnit: 'second', idx: 0 },
-            { label: 'spend a trillion',        units: 1e12,         rate: 1,  rateUnit: 'second', idx: 1 },
-            { label: 'walk to the moon',        units: 384400,       rate: 40, rateUnit: 'day',    idx: 2 },
-            { label: 'watch every movie ever',  units: 900000,       rate: 8,  rateUnit: 'day',    idx: 3 },
-            { label: 'read every book ever',    units: 150000000,    rate: 1,  rateUnit: 'day',    idx: 4 },
-            { label: 'one day of tiktok',       units: 1451800000,   rate: 1,  rateUnit: 'second', idx: 5 },
+            { label: 'blink 1 million times',       units: 1e6,          rate: 2.5, rateUnit: 'second', idx: 0 },
+            { label: 'walk around the Earth',        units: 40075,        rate: 40,  rateUnit: 'day',    idx: 1 },
+            { label: 'listen to all of Spotify',     units: 350000000,    rate: 1,   rateUnit: 'minute', idx: 2 },
+            { label: 'read every Reddit comment',    units: 16000000000,  rate: 2,   rateUnit: 'minute', idx: 3 },
+            { label: "eat every McDonald's burger",  units: 300000000000, rate: 3,   rateUnit: 'hour',   idx: 4 },
+            { label: 'count every grain of sand',    units: 7.5e18,       rate: 1,   rateUnit: 'second', idx: 5 },
         ];
         const SECS = { second: 1, minute: 60, hour: 3600, day: 86400 };
 
@@ -4093,60 +4093,53 @@ function initCoolThings() {
         }
 
         function hlComparisons(s, idx) {
-            const out = [];
+            var out = [];
 
-            // Preset 0: count to a billion (~31.7 years)
             if (idx === 0) {
-                out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
-                out.push('A million seconds ago was only 11 days ago. A billion seconds ago was <strong>1994</strong>. Same number family, completely different scale');
-                out.push('If you started counting at birth and never stopped, you would finish in your early 30s. Your entire childhood, your teens, your 20s, all gone, just counting');
+                out.push('If you start blinking right now, you finish ' + hlFinishStr(s));
+                out.push('You blink about <strong>10 million times</strong> in a lifetime. A million takes less than a week');
+                out.push('Your brain cuts out the darkness between every blink. You have never actually seen yourself blink');
                 return out;
             }
 
-            // Preset 1: spend a trillion (~31,709 years)
             if (idx === 1) {
-                out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
-                out.push('$1 trillion is <strong>500 billion Diet Cokes</strong>, 500 million trips to Bali, or 606,000 Manhattan apartments. At $1 per second you still need 31,000 years to spend it');
-                out.push('If you spent <strong>$1 million every single day</strong>, it would still take 2,739 years to spend it all');
+                out.push('If you start walking right now, you finish ' + hlFinishStr(s) + ', walking 8 hours a day every single day');
+                out.push('In your lifetime you will walk about <strong>100,000 km</strong>, which means you could lap the equator twice');
+                out.push('Real people have walked routes like this. It takes about 3 years and absolutely destroys your shoes');
                 return out;
             }
 
-            // Preset 2: walk to the moon (~26.3 years)
             if (idx === 2) {
-                out.push('If you start walking <strong>right now</strong>, you finish ' + hlFinishStr(s));
-                out.push('Apollo 11 made the same trip in <strong>76 hours</strong> by rocket. Walking gets you there in 26 years');
-                out.push('The Moon is only <strong>9.6 laps around Earth</strong>. Earth just happens to be absolutely massive');
+                out.push('Spotify adds <strong>100,000 new songs every day</strong>. For every hour you listen, the backlog grows by 1,000 hours');
+                out.push('You would need to start in <strong>1360</strong>, before the printing press, and listen every waking hour to finish now');
+                out.push('The oldest Spotify track was recorded in <strong>1888</strong> and the newest was added today. You would hear both');
                 return out;
             }
 
-            // Preset 3: watch every movie ever (~308 years)
             if (idx === 3) {
-                out.push('If you start watching <strong>right now</strong>, you finish ' + hlFinishStr(s));
-                out.push('You would need to have started in the <strong>1700s</strong> and watched every single day until now. The US was not even a country yet');
-                out.push('About <strong>2,000 new films</strong> are added globally every month while you are watching, so the pile keeps growing faster than you can clear it');
+                out.push('<strong>15,200 years ago</strong> humans were still hunting mammoths. That is when you would need to start reading');
+                out.push('Reddit gets about <strong>4 million new comments per day</strong>. The pile is growing faster than you could ever read');
+                out.push('At one comment every 30 seconds with no sleep, you still need 15,000 years. There is no version of this that ends well');
                 return out;
             }
 
-            // Preset 4: read every book ever (~410,644 years)
             if (idx === 4) {
-                out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
-                out.push('Even at one book a day, you would not finish until the year <strong>412,000 AD</strong>. Homo sapiens has only existed for around 300,000 years');
-                out.push('More books were published in the US in <strong>2025 alone</strong> than there are days in 10,000 years. The pile gets bigger every year');
+                out.push("McDonald's has served over <strong>300 billion burgers</strong>. At 3 per hour, that is 11 million years of straight eating");
+                out.push('Homo sapiens has only existed for <strong>300,000 years</strong>. This task is 37 times older than our entire species');
+                out.push("The first McDonald's opened in 1940. You would need to have started eating <strong>11 million years before</strong> the restaurant existed");
                 return out;
             }
 
-            // Preset 5: one day of tiktok (~46 years)
             if (idx === 5) {
-                out.push('One day of TikTok uploads is <strong>46 years of content</strong>. Watched non-stop, no sleep');
-                out.push('If you start watching <strong>right now</strong>, you finish ' + hlFinishStr(s) + '. That is just today\'s uploads');
-                out.push('Every second you spend watching, the platform receives <strong>272 new videos</strong>. There is no such thing as catching up');
+                out.push('The universe is only <strong>13.8 billion years old</strong>. Counting every grain of sand would take 17 universes worth of time');
+                out.push('The Sun will explode in about <strong>5 billion years</strong>, so it would not survive long enough to see you get through 2% of this');
+                out.push('At 1 grain per second, you finish in the year <strong>237,702,028,026</strong>. There is no name for that number that means anything to a human brain');
                 return out;
             }
 
-            // Fallback for any non-preset use
-            const y = s / (86400 * 365.25), d = s / 86400, h = s / 3600;
+            var y = s / (86400 * 365.25), d = s / 86400, h = s / 3600;
             out.push('If you start <strong>right now</strong>, you finish ' + hlFinishStr(s));
-            const lives = y / 80;
+            var lives = y / 80;
             if (lives >= 2 && out.length < 3) {
                 out.push('That is <strong>' + hlFmt(lives, 0) + ' human lifetimes</strong> back to back');
             } else if (y >= 1 && out.length < 3) {
@@ -4157,17 +4150,26 @@ function initCoolThings() {
             if (y >= 300000 && out.length < 3) {
                 out.push('Modern humans did not even exist yet when you would have needed to start');
             } else if (y >= 500 && out.length < 3) {
-                const yr = Math.round(2026 - y);
+                var yr = Math.round(2026 - y);
                 out.push('You would have needed to start in <strong>' + (yr > 0 ? yr + ' CE' : Math.abs(yr) + ' BCE') + '</strong>');
             }
             return out.slice(0, 3);
         }
 
         function hlAnimateCount(el, end) {
-            const start = performance.now(), dur = 1200, large = end > 9999;
+            el.style.transform = 'scale(0.88)';
+            el.style.transition = 'none';
+            requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                    el.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                    el.style.transform = 'scale(1)';
+                });
+            });
+            const start = performance.now(), dur = 1000, large = end > 9999;
             (function tick(now) {
                 const t = Math.min((now - start) / dur, 1);
-                const cur = end * (1 - Math.pow(1 - t, 3));
+                const ease = 1 - Math.pow(1 - t, 3);
+                const cur = end * ease;
                 el.textContent = large ? Math.round(cur).toLocaleString('en-US') : cur.toFixed(1);
                 if (t < 1) requestAnimationFrame(tick);
                 else el.textContent = large ? Math.round(end).toLocaleString('en-US') : end.toFixed(1);
@@ -4181,7 +4183,11 @@ function initCoolThings() {
             hlAnimateCount(document.getElementById('hl-number'), val);
             document.getElementById('hl-unit').textContent = unit;
             document.getElementById('hl-ctx').textContent  = 'to ' + label;
-            document.getElementById('hl-tone').textContent = hlTone(y);
+            const toneEl = document.getElementById('hl-tone');
+            toneEl.textContent = hlTone(y);
+            toneEl.classList.remove('hl-in');
+            void toneEl.offsetWidth; // force reflow
+            setTimeout(function() { toneEl.classList.add('hl-in'); }, 80);
 
             const list = document.getElementById('hl-comps');
             list.innerHTML = '';
@@ -4189,7 +4195,7 @@ function initCoolThings() {
                 const li = document.createElement('li');
                 li.innerHTML = html;
                 list.appendChild(li);
-                setTimeout(function() { li.classList.add('hl-in'); }, 150 + i * 110);
+                setTimeout(function() { li.classList.add('hl-in'); }, 200 + i * 140);
             });
 
             const shareBtn = document.getElementById('hl-share-btn');
@@ -4218,7 +4224,7 @@ function initCoolThings() {
                 hlShow(hlCalc(p.units, p.rate, p.rateUnit), p.label.toLowerCase(), p.idx);
             });
             strip.appendChild(btn);
-            if (i === 1) btn.click(); // default: spend a trillion
+            if (i === 1) btn.click(); // default: walk around the Earth
         });
     }
 
