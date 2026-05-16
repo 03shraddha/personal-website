@@ -5614,7 +5614,6 @@ body.mode-sunny .sidebar {
     padding: 11px 14px;
     background: rgba(118, 118, 128, 0.06);
     border-radius: 12px;
-    border-left: 3px solid #F4A7B9;
     position: relative;
     opacity: 0;
     transform: translateX(-10px);
