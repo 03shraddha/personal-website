@@ -4229,6 +4229,8 @@ function initCoolThings() {
     }
 
     // ── Sheet open / close ────────────────────────────────────────────────
+    let _sheetScrollY = 0;
+
     function openSheet(cardId) {
         const card = CARDS[cardId];
         if (!card) return;
@@ -4237,7 +4239,13 @@ function initCoolThings() {
         overlay.setAttribute('aria-hidden', 'false');
         overlay.classList.add('open');
         requestAnimationFrame(() => sheet.classList.add('open'));
+        // iOS-safe body scroll lock: save position + use position:fixed to prevent scrollY reset
+        _sheetScrollY = window.scrollY;
+        _programmaticScrolling = true;
         document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${_sheetScrollY}px`;
+        document.body.style.width = '100%';
         if (cardId === 'cat') startSheetTracking();
         if (cardId === 'how-long') initHowLong();
     }
@@ -4246,10 +4254,16 @@ function initCoolThings() {
         sheet.classList.remove('open');
         overlay.classList.remove('open');
         stopSheetTracking();
+        // Restore body scroll lock and position immediately so scroll spy sees the right section
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        window.scrollTo(0, _sheetScrollY);
         setTimeout(() => {
             overlay.setAttribute('aria-hidden', 'true');
             sheetBody.innerHTML = '';
-            document.body.style.overflow = '';
+            _programmaticScrolling = false;
         }, 450);
     }
 
