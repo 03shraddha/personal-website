@@ -4537,11 +4537,12 @@ function initCoolThings() {
                         if (errorBox) {
                             errorBox.style.display = '';
                             errorBox.className = 'fu-error-box fu-done-box';
-                            errorBox.innerHTML = '<div class="fu-done-icon">📋</div><div class="fu-done-title">Upload complete!</div><div class="fu-done-sub">Your submission has been received and is pending review by our compliance team.<br>Please do not resubmit. Estimated processing time: <strong>6–8 weeks</strong>.<br>A confirmation email will be sent if all requirements are met.</div>';
+                            errorBox.innerHTML = '<div class="fu-done-icon">📋</div><div class="fu-done-title">Upload complete!</div><div class="fu-done-sub">Your submission has been received and is pending review by our compliance team. Please do not resubmit. Estimated processing time: <strong>6-8 weeks</strong>. A confirmation email will be sent if all requirements are met.</div><div class="fu-done-resolved">' + RULES.length + ' issues resolved</div>';
                         }
                         var ctrl = document.getElementById('fu-controls');
-                        if (ctrl) ctrl.innerHTML = '';
-                        renderLog();
+                        if (ctrl) { ctrl.innerHTML = ''; ctrl.style.display = 'none'; }
+                        var logEl = document.getElementById('fu-log');
+                        if (logEl) { logEl.style.display = 'none'; }
                         if (btn2) btn2.style.display = 'none';
                     } else {
                         s.errorShown = true;

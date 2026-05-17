@@ -6138,9 +6138,11 @@ body.mode-sunny .sidebar {
 }
 
 .fu-done-sub {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--color-text-muted, #888);
     line-height: 1.6;
+    max-width: 340px;
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
 }
 
 /* Hint text below controls */
@@ -6223,9 +6225,20 @@ body.mode-sunny .sidebar {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    padding: 28px 20px !important;
+    gap: 12px;
+    padding: 32px 24px !important;
     animation: fu-fadein 0.3s ease;
+}
+
+.fu-done-resolved {
+    font-size: 11px;
+    font-weight: 600;
+    color: #16a34a;
+    background: rgba(22, 163, 74, 0.1);
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
 }
 
 /* Fixed-errors log */
