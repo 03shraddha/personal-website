@@ -5244,8 +5244,8 @@ body.mode-sunny .sidebar {
     position: fixed;
     top: 50%;
     left: 50%;
-    width: min(520px, 90vw);
-    max-height: 80vh;
+    width: min(620px, 94vw);
+    max-height: 84vh;
     background: var(--color-bg);
     border-radius: 22px;
     display: flex;
@@ -5695,4 +5695,582 @@ body.mode-sunny .sidebar {
     #mode-toggle {
         display: none !important;
     }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FILE UPLOAD GAME — Card Thumbnail
+   ══════════════════════════════════════════════════════════════ */
+
+.cool-card--upload .cool-card-thumb {
+    align-items: center;
+    justify-content: center;
+    background: #fef4f0;
+    border-radius: 12px 12px 0 0;
+    overflow: visible;
+}
+
+.fu-thumb {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.fu-thumb-doc {
+    position: relative;
+    width: 62px;
+    height: 78px;
+    background: #fff;
+    border-radius: 3px 10px 3px 3px;
+    border: 1.5px solid #e0e0e0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    padding: 16px 8px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.fu-thumb-doc-fold {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 12px 12px 0;
+    border-color: transparent #e0e0e0 transparent transparent;
+}
+
+.fu-thumb-doc-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.fu-thumb-doc-line {
+    height: 4px;
+    background: #ddd;
+    border-radius: 2px;
+}
+
+.fu-thumb-doc-line--short {
+    width: 55%;
+}
+
+.fu-thumb-badge {
+    position: absolute;
+    top: -9px;
+    right: -9px;
+    width: 20px;
+    height: 20px;
+    background: #e53e3e;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fef4f0;
+    box-shadow: 0 2px 6px rgba(229,62,62,0.35);
+    z-index: 1;
+}
+
+.fu-thumb-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--color-text-muted, #888);
+    letter-spacing: 0.01em;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FILE UPLOAD GAME — Sheet UI
+   ══════════════════════════════════════════════════════════════ */
+
+.fu-game {
+    padding: 8px 24px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Compact file-row — looks like an attachment chip */
+.fu-file-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--color-card-bg, #fafafa);
+    border: 1px solid var(--color-border, #e8e8e8);
+    border-radius: 12px;
+    padding: 12px 14px;
+}
+
+.fu-file-icon {
+    font-size: 24px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.fu-file-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.fu-file-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text, #1a1a1a);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
+}
+
+.fu-file-meta {
+    font-size: 11px;
+    color: var(--color-text-muted, #888);
+    margin-top: 2px;
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
+}
+
+.fu-meta-sep {
+    color: var(--color-text-light, #b5b5b5);
+}
+
+.fu-file-badge {
+    font-size: 11px;
+    font-weight: 500;
+    flex-shrink: 0;
+    color: var(--color-text-muted, #888);
+    background: rgba(0, 0, 0, 0.05);
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
+}
+
+.fu-file-badge--error {
+    color: #dc2626;
+    background: rgba(220, 38, 38, 0.08);
+}
+
+.fu-file-badge--ok {
+    color: #16a34a;
+    background: rgba(22, 163, 74, 0.1);
+}
+
+/* Rule highlight box */
+.fu-rule-box {
+    background: rgba(255, 180, 140, 0.12);
+    border: 1px solid rgba(255, 180, 140, 0.5);
+    border-radius: 12px;
+    padding: 14px 16px;
+    min-height: 60px;
+}
+
+.fu-rule-current {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.fu-rule-num {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--color-text-muted, #888);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.fu-rule-text {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--color-text, #1a1a1a);
+    line-height: 1.4;
+}
+
+/* Controls */
+.fu-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fu-ctrl-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 4px 0;
+}
+
+.fu-ctrl-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-muted, #888);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
+}
+
+.fu-char-count {
+    font-size: 11px;
+    color: var(--color-text-light, #b5b5b5);
+    font-weight: 400;
+}
+
+.fu-input-row {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.fu-text-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid var(--color-border, #e8e8e8);
+    border-radius: 10px;
+    font-size: 13px;
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
+    color: var(--color-text, #1a1a1a);
+    background: #fff;
+    outline: none;
+    transition: border-color 0.15s;
+    min-width: 0;
+}
+
+.fu-text-input:focus {
+    border-color: var(--color-text-muted, #888);
+}
+
+.fu-select {
+    padding: 10px 32px 10px 14px;
+    border: 1px solid var(--color-border, #e8e8e8);
+    border-radius: 10px;
+    font-size: 13px;
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
+    color: var(--color-text, #1a1a1a);
+    background: #fff;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+.fu-select:focus {
+    border-color: var(--color-text-muted, #888);
+}
+
+.fu-slider {
+    width: 100%;
+    accent-color: var(--color-text, #1a1a1a);
+    cursor: pointer;
+    height: 4px;
+}
+
+.fu-ctrl-btn {
+    padding: 10px 20px;
+    border-radius: 100px;
+    border: 1px solid var(--color-border, #e8e8e8);
+    background: #fff;
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text, #1a1a1a);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.fu-ctrl-btn:hover:not(:disabled) {
+    border-color: var(--color-text-muted, #888);
+}
+
+.fu-ctrl-btn--action {
+    background: var(--color-text, #1a1a1a);
+    color: #fff;
+    border-color: var(--color-text, #1a1a1a);
+    width: 100%;
+}
+
+.fu-ctrl-btn--action:hover:not(:disabled) {
+    opacity: 0.85;
+}
+
+.fu-ctrl-btn--done {
+    background: #f0fff4;
+    color: #38a169;
+    border-color: #9ae6b4;
+}
+
+.fu-ctrl-btn:disabled {
+    cursor: default;
+}
+
+/* Upload button */
+.fu-upload-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 100px;
+    border: none;
+    background: var(--color-text, #1a1a1a);
+    color: #fff;
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+    letter-spacing: -0.01em;
+}
+
+.fu-upload-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+}
+
+.fu-upload-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.fu-upload-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+/* Feedback */
+.fu-feedback {
+    font-size: 12px;
+    font-weight: 500;
+    min-height: 18px;
+    text-align: center;
+    transition: opacity 0.2s;
+}
+
+.fu-feedback--error {
+    color: #e53e3e;
+}
+
+.fu-feedback--ok {
+    color: #38a169;
+}
+
+/* Rules checklist */
+.fu-rules {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border, #e8e8e8);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.fu-rule {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 1.4;
+    border-bottom: 1px solid var(--color-border, #e8e8e8);
+}
+
+.fu-rule:last-child {
+    border-bottom: none;
+}
+
+.fu-rule-icon {
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    width: 14px;
+    text-align: center;
+}
+
+.fu-rule--done {
+    color: var(--color-text-muted, #888);
+}
+
+.fu-rule--done .fu-rule-icon {
+    color: #38a169;
+}
+
+.fu-rule--active {
+    font-weight: 600;
+    color: var(--color-text, #1a1a1a);
+    background: rgba(255, 180, 140, 0.08);
+}
+
+.fu-rule--locked {
+    color: var(--color-text-light, #b5b5b5);
+}
+
+/* Completion message */
+.fu-done-msg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 24px 16px;
+    text-align: center;
+    border: 1px solid var(--color-border, #e8e8e8);
+    border-radius: 14px;
+    background: var(--color-card-bg, #fafafa);
+}
+
+.fu-done-icon {
+    font-size: 36px;
+}
+
+.fu-done-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-text, #1a1a1a);
+}
+
+.fu-done-sub {
+    font-size: 13px;
+    color: var(--color-text-muted, #888);
+    line-height: 1.6;
+}
+
+/* Hint text below controls */
+.fu-hint {
+    font-size: 11.5px;
+    color: var(--color-text-muted, #888);
+    margin: 0;
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
+}
+
+/* Full-width text input (no Apply button) */
+.fu-text-input--full {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Status neutral state */
+.fu-card-status--neutral {
+    color: var(--color-text-muted, #888) !important;
+    font-weight: 400 !important;
+}
+
+/* Error box */
+.fu-error-box {
+    background: #fff5f5;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+@keyframes fu-fadein {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.fu-error-box {
+    animation: fu-fadein 0.22s ease;
+}
+
+.fu-error-header {
+    font-size: 10px;
+    font-weight: 700;
+    color: #dc2626;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
+}
+
+.fu-error-icon {
+    font-size: 12px;
+}
+
+.fu-error-count {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 500;
+    color: #dc2626;
+    opacity: 0.65;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.fu-error-msg {
+    font-size: 13px;
+    color: var(--color-text, #1a1a1a);
+    line-height: 1.6;
+    margin: 0;
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
+}
+
+/* Done state */
+.fu-done-box {
+    background: #f0fff4 !important;
+    border-color: #9ae6b4 !important;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 28px 20px !important;
+    animation: fu-fadein 0.3s ease;
+}
+
+/* Fixed-errors log */
+.fu-log {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.fu-log-item {
+    font-size: 12px;
+    color: var(--color-text-muted, #888);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--color-border, #e8e8e8);
+    background: var(--color-card-bg, #fafafa);
+    font-family: var(--font-body, 'Inter', -apple-system, sans-serif);
+}
+
+.fu-log-item:first-child {
+    border-top: 1px solid var(--color-border, #e8e8e8);
+}
+
+.fu-log-item:last-child {
+    border-bottom: none;
+}
+
+.fu-log-check {
+    color: #38a169;
+    font-size: 11px;
+    flex-shrink: 0;
+}
+
+/* Shake animation */
+@keyframes fu-shake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-7px); }
+    40%       { transform: translateX(7px); }
+    60%       { transform: translateX(-4px); }
+    80%       { transform: translateX(4px); }
+}
+
+.fu-shake {
+    animation: fu-shake 0.38s ease;
 }

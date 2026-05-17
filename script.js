@@ -4030,6 +4030,25 @@ function initCoolThings() {
                     </div>
                 </div>`;
             }
+        },
+        'file-upload': {
+            title: 'the file upload game',
+            render() {
+                return `<div class="fu-game">
+                    <div class="fu-file-row" id="fu-card">
+                        <div class="fu-file-icon">📄</div>
+                        <div class="fu-file-info">
+                            <div class="fu-file-name" id="fu-fname"></div>
+                            <div class="fu-file-meta"><span id="fu-fsize"></span><span class="fu-meta-sep"> · </span><span id="fu-fformat"></span></div>
+                        </div>
+                        <div class="fu-file-badge" id="fu-fstatus">ready</div>
+                    </div>
+                    <div class="fu-error-box" id="fu-error-box" style="display:none"></div>
+                    <div class="fu-controls" id="fu-controls" style="display:none"></div>
+                    <button class="fu-upload-btn" id="fu-upload-btn">Upload File</button>
+                    <div class="fu-log" id="fu-log" style="display:none"></div>
+                </div>`;
+            }
         }
     };
 
@@ -4228,6 +4247,320 @@ function initCoolThings() {
         });
     }
 
+    // ── File Upload Game logic ────────────────────────────────────────────
+    function initFileUpload() {
+        var s = {
+            name: 'My Report Final.PDF',
+            sizeMB: 47.3,
+            format: 'docx',
+            pdfVersion: 1.4,
+            signed: false,
+            sigValid: false,
+            hasThumbnail: false,
+            rightSideUp: false,
+            currentRule: 0,
+            errorShown: false,
+            log: []
+        };
+
+        var RULES = [
+            {
+                id: 'size',
+                check: function() { return s.sizeMB < 10; },
+                error: function() { return 'File exceeds the maximum upload size of 10MB. Your file is ' + s.sizeMB.toFixed(1) + 'MB. Please compress or reduce the file before resubmitting.'; },
+                fix:   function() { return 'File size reduced to ' + s.sizeMB.toFixed(1) + 'MB'; },
+                hint:  'drag the slider left to compress the file'
+            },
+            {
+                id: 'spaces',
+                check: function() { return !s.name.includes(' '); },
+                error: function() { return 'Invalid filename. Filenames may not contain spaces. Please rename the file and try again.'; },
+                fix:   function() { return 'Spaces removed from filename'; },
+                hint:  'replace spaces with underscores or just remove them'
+            },
+            {
+                id: 'year',
+                check: function() { return s.name.toLowerCase().includes('2026'); },
+                error: function() { return 'Filename does not meet our naming convention. The filename must include the current year (2026) for compliance tracking.'; },
+                fix:   function() { return 'Year 2026 added to filename'; },
+                hint:  'add "2026" somewhere in the filename'
+            },
+            {
+                id: 'format',
+                check: function() { return s.format === 'pdf'; },
+                error: function() { return 'Unsupported file type. This portal accepts PDF files only. Please convert your document and resubmit.'; },
+                fix:   function() { return 'Format changed to PDF'; },
+                hint:  'select PDF from the dropdown'
+            },
+            {
+                id: 'pdfVersion',
+                check: function() { return s.pdfVersion >= 1.7; },
+                error: function() { return 'PDF version not supported. This portal requires PDF 1.7 (ISO 32000-1) or newer. Your file uses PDF ' + s.pdfVersion.toFixed(1) + '. Please re-export from your source application.'; },
+                fix:   function() { return 'PDF version updated to ' + s.pdfVersion.toFixed(1); },
+                hint:  'choose PDF 1.7 or 2.0 from the list'
+            },
+            {
+                id: 'signed',
+                check: function() { return s.signed; },
+                error: function() { return 'This document must include a valid digital signature before submission. Please apply a signature using your organisation\'s approved signing tool.'; },
+                fix:   function() { return 'Digital signature applied'; },
+                hint:  'click the button to apply a digital signature'
+            },
+            {
+                id: 'sigValid',
+                check: function() { return s.sigValid; },
+                error: function() { return 'Signature verification failed. The certificate used to sign this document expired on 2024-03-01. Please re-sign with a valid, unexpired certificate.'; },
+                fix:   function() { return 'File re-signed with valid certificate'; },
+                hint:  'the old signature expired — click to re-sign with a fresh one'
+            },
+            {
+                id: 'lowercase',
+                check: function() { return s.name === s.name.toLowerCase(); },
+                error: function() { return 'Filename contains uppercase characters. Per our submission policy, all filenames must use lowercase characters only.'; },
+                fix:   function() { return 'Filename converted to lowercase'; },
+                hint:  'retype the filename using only lowercase letters'
+            },
+            {
+                id: 'thumbnail',
+                check: function() { return s.hasThumbnail; },
+                error: function() { return 'Missing document preview. A thumbnail image (JPEG, 300×300px minimum) must be embedded in the file before upload.'; },
+                fix:   function() { return 'Thumbnail preview embedded'; },
+                hint:  'click the button to attach a preview image'
+            },
+            {
+                id: 'orientation',
+                check: function() { return s.rightSideUp; },
+                error: function() { return 'Document orientation error. Our scanning system detected the file is rotated 180°. Please correct the orientation and resubmit.'; },
+                fix:   function() { return 'Document orientation corrected'; },
+                hint:  'click to flip the document right-side up'
+            },
+            {
+                id: 'noSpecial',
+                check: function() { return /^[a-z0-9._-]+\.pdf$/.test(s.name); },
+                error: function() { return 'Filename contains invalid characters. Only lowercase letters (a–z), numbers (0–9), hyphens, underscores, and periods are permitted.'; },
+                fix:   function() { return 'Special characters removed from filename'; },
+                hint:  'use only letters, numbers, hyphens, and underscores'
+            },
+            {
+                id: 'maxLen',
+                check: function() { return s.name.length <= 20; },
+                error: function() { return 'Filename exceeds the 20-character limit. Current length: ' + s.name.length + ' characters (including extension). Please shorten the filename.'; },
+                fix:   function() { return 'Filename shortened to ' + s.name.length + ' characters'; },
+                hint:  'shorten it — 20 characters max including the extension'
+            }
+        ];
+
+        function renderCard() {
+            var sizeStr = s.sizeMB < 1 ? (s.sizeMB * 1024).toFixed(0) + ' KB' : s.sizeMB.toFixed(1) + ' MB';
+            var fnEl = document.getElementById('fu-fname');
+            var szEl = document.getElementById('fu-fsize');
+            var fmEl = document.getElementById('fu-fformat');
+            var stEl = document.getElementById('fu-fstatus');
+            if (fnEl) fnEl.textContent = s.name;
+            if (szEl) szEl.textContent = sizeStr;
+            if (fmEl) fmEl.textContent = s.format.toUpperCase();
+            if (stEl) {
+                if (s.currentRule >= RULES.length) {
+                    stEl.textContent = '✓ accepted';
+                    stEl.className = 'fu-file-badge fu-file-badge--ok';
+                } else if (s.errorShown) {
+                    stEl.textContent = 'rejected';
+                    stEl.className = 'fu-file-badge fu-file-badge--error';
+                } else {
+                    stEl.textContent = 'ready';
+                    stEl.className = 'fu-file-badge';
+                }
+            }
+        }
+
+        function showError(msg) {
+            var box = document.getElementById('fu-error-box');
+            if (!box) return;
+            box.style.display = '';
+            box.className = 'fu-error-box';
+            var progress = s.currentRule > 0 ? '<span class="fu-error-count">' + s.currentRule + ' of ' + RULES.length + ' fixed</span>' : '';
+            box.innerHTML = '<div class="fu-error-header"><span class="fu-error-icon">⊘</span> Upload Rejected' + progress + '</div><p class="fu-error-msg">' + msg + '</p>';
+        }
+
+        function shakeError() {
+            var box = document.getElementById('fu-error-box');
+            if (!box) return;
+            box.classList.remove('fu-shake');
+            void box.offsetWidth;
+            box.classList.add('fu-shake');
+            box.addEventListener('animationend', function() { box.classList.remove('fu-shake'); }, { once: true });
+        }
+
+        function renderLog() {
+            var log = document.getElementById('fu-log');
+            if (!log) return;
+            if (s.log.length === 0) { log.style.display = 'none'; log.innerHTML = ''; return; }
+            log.style.display = '';
+            log.innerHTML = s.log.map(function(item) {
+                return '<div class="fu-log-item"><span class="fu-log-check">✓</span>' + item + '</div>';
+            }).join('');
+        }
+
+        function renderControls() {
+            var ctrl = document.getElementById('fu-controls');
+            if (!ctrl) return;
+            if (s.currentRule >= RULES.length || !s.errorShown) {
+                ctrl.innerHTML = '';
+                ctrl.style.display = 'none';
+                return;
+            }
+            ctrl.style.display = 'flex';
+            var rule = RULES[s.currentRule];
+
+            switch (rule.id) {
+                case 'size':
+                    ctrl.innerHTML = '<div class="fu-ctrl-group"><label class="fu-ctrl-label">File size: <span id="fu-size-val">' + s.sizeMB.toFixed(1) + ' MB</span></label><input type="range" class="fu-slider" id="fu-size-slider" min="0.1" max="100" step="0.1" value="' + s.sizeMB + '"></div>';
+                    ctrl.querySelector('#fu-size-slider').addEventListener('input', function(e) {
+                        s.sizeMB = parseFloat(e.target.value);
+                        var d = document.getElementById('fu-size-val');
+                        if (d) d.textContent = s.sizeMB.toFixed(1) + ' MB';
+                        renderCard();
+                    });
+                    break;
+
+                case 'spaces':
+                case 'year':
+                case 'lowercase':
+                case 'noSpecial':
+                case 'maxLen':
+                    var extraLabel = rule.id === 'maxLen' ? ' <span class="fu-char-count" id="fu-char-count">' + s.name.length + '/20</span>' : '';
+                    ctrl.innerHTML = '<div class="fu-ctrl-group"><label class="fu-ctrl-label">Filename' + extraLabel + '</label><input type="text" class="fu-text-input fu-text-input--full" id="fu-name-input" value="' + s.name.replace(/"/g, '&quot;') + '" placeholder="filename.pdf"></div>';
+                    (function() {
+                        var inp = ctrl.querySelector('#fu-name-input');
+                        var countEl = ctrl.querySelector('#fu-char-count');
+                        inp.addEventListener('input', function() {
+                            s.name = inp.value;
+                            renderCard();
+                            if (countEl) countEl.textContent = inp.value.length + '/20';
+                        });
+                    })();
+                    break;
+
+                case 'format':
+                    ctrl.innerHTML = '<div class="fu-ctrl-group"><label class="fu-ctrl-label">Format</label><select class="fu-select" id="fu-format-select"><option value="docx"' + (s.format==='docx'?' selected':'') + '>DOCX</option><option value="jpg"' + (s.format==='jpg'?' selected':'') + '>JPG</option><option value="png"' + (s.format==='png'?' selected':'') + '>PNG</option><option value="pdf"' + (s.format==='pdf'?' selected':'') + '>PDF</option></select></div>';
+                    ctrl.querySelector('#fu-format-select').addEventListener('change', function(e) {
+                        s.format = e.target.value;
+                        renderCard();
+                    });
+                    break;
+
+                case 'pdfVersion':
+                    ctrl.innerHTML = '<div class="fu-ctrl-group"><label class="fu-ctrl-label">PDF Version</label><select class="fu-select" id="fu-pdfver-select"><option value="1.4"' + (s.pdfVersion===1.4?' selected':'') + '>PDF 1.4</option><option value="1.5"' + (s.pdfVersion===1.5?' selected':'') + '>PDF 1.5</option><option value="1.6"' + (s.pdfVersion===1.6?' selected':'') + '>PDF 1.6</option><option value="1.7"' + (s.pdfVersion===1.7?' selected':'') + '>PDF 1.7</option><option value="2.0"' + (s.pdfVersion===2.0?' selected':'') + '>PDF 2.0</option></select></div>';
+                    ctrl.querySelector('#fu-pdfver-select').addEventListener('change', function(e) {
+                        s.pdfVersion = parseFloat(e.target.value);
+                        renderCard();
+                    });
+                    break;
+
+                case 'signed':
+                    ctrl.innerHTML = '<div class="fu-ctrl-group"><button class="fu-ctrl-btn fu-ctrl-btn--action" id="fu-sign-btn">✎  Sign File</button></div>';
+                    ctrl.querySelector('#fu-sign-btn').addEventListener('click', function() {
+                        s.signed = true;
+                        this.textContent = '✓  Signed';
+                        this.disabled = true;
+                        this.classList.add('fu-ctrl-btn--done');
+                        this.classList.remove('fu-ctrl-btn--action');
+                    });
+                    break;
+
+                case 'sigValid':
+                    ctrl.innerHTML = '<div class="fu-ctrl-group"><button class="fu-ctrl-btn fu-ctrl-btn--action" id="fu-resign-btn">Re-Sign File</button></div>';
+                    ctrl.querySelector('#fu-resign-btn').addEventListener('click', function() {
+                        s.sigValid = true;
+                        this.textContent = '✓  Re-Signed';
+                        this.disabled = true;
+                        this.classList.add('fu-ctrl-btn--done');
+                        this.classList.remove('fu-ctrl-btn--action');
+                    });
+                    break;
+
+                case 'thumbnail':
+                    ctrl.innerHTML = '<div class="fu-ctrl-group"><button class="fu-ctrl-btn fu-ctrl-btn--action" id="fu-thumb-btn">Add Thumbnail</button></div>';
+                    ctrl.querySelector('#fu-thumb-btn').addEventListener('click', function() {
+                        s.hasThumbnail = true;
+                        this.textContent = '✓  Thumbnail Added';
+                        this.disabled = true;
+                        this.classList.add('fu-ctrl-btn--done');
+                        this.classList.remove('fu-ctrl-btn--action');
+                    });
+                    break;
+
+                case 'orientation':
+                    ctrl.innerHTML = '<div class="fu-ctrl-group"><button class="fu-ctrl-btn fu-ctrl-btn--action" id="fu-rotate-btn">↻  Rotate 180°</button></div>';
+                    ctrl.querySelector('#fu-rotate-btn').addEventListener('click', function() {
+                        s.rightSideUp = true;
+                        this.textContent = '✓  Rotated';
+                        this.disabled = true;
+                        this.classList.add('fu-ctrl-btn--done');
+                        this.classList.remove('fu-ctrl-btn--action');
+                    });
+                    break;
+            }
+            if (rule.hint) {
+                var hintEl = document.createElement('p');
+                hintEl.className = 'fu-hint';
+                hintEl.textContent = '↳ ' + rule.hint;
+                ctrl.appendChild(hintEl);
+            }
+        }
+
+        function tryUpload() {
+            if (s.currentRule >= RULES.length) return;
+            var btn = document.getElementById('fu-upload-btn');
+            if (btn) { btn.textContent = 'Uploading…'; btn.disabled = true; }
+
+            setTimeout(function() {
+                var btn2 = document.getElementById('fu-upload-btn');
+                var rule = RULES[s.currentRule];
+
+                if (!rule.check()) {
+                    var wasAlreadyShown = s.errorShown;
+                    s.errorShown = true;
+                    renderCard();
+                    showError(rule.error());
+                    if (wasAlreadyShown) shakeError();
+                    renderControls();
+                    if (btn2) { btn2.disabled = false; btn2.textContent = 'Try Again'; }
+                } else {
+                    s.log.push(rule.fix());
+                    s.currentRule++;
+
+                    if (s.currentRule >= RULES.length) {
+                        s.errorShown = false;
+                        renderCard();
+                        var errorBox = document.getElementById('fu-error-box');
+                        if (errorBox) {
+                            errorBox.style.display = '';
+                            errorBox.className = 'fu-error-box fu-done-box';
+                            errorBox.innerHTML = '<div class="fu-done-icon">📋</div><div class="fu-done-title">Upload complete!</div><div class="fu-done-sub">Your submission has been received and is pending review by our compliance team.<br>Please do not resubmit. Estimated processing time: <strong>6–8 weeks</strong>.<br>A confirmation email will be sent if all requirements are met.</div>';
+                        }
+                        var ctrl = document.getElementById('fu-controls');
+                        if (ctrl) ctrl.innerHTML = '';
+                        renderLog();
+                        if (btn2) btn2.style.display = 'none';
+                    } else {
+                        s.errorShown = true;
+                        renderCard();
+                        showError(RULES[s.currentRule].error());
+                        renderControls();
+                        renderLog();
+                        if (btn2) { btn2.disabled = false; btn2.textContent = 'Try Again'; }
+                    }
+                }
+            }, 1400);
+        }
+
+        renderCard();
+
+        var uploadBtn = document.getElementById('fu-upload-btn');
+        if (uploadBtn) uploadBtn.addEventListener('click', tryUpload);
+    }
+
     // ── Sheet open / close ────────────────────────────────────────────────
     let _sheetScrollY = 0;
 
@@ -4248,6 +4581,7 @@ function initCoolThings() {
         document.body.style.width = '100%';
         if (cardId === 'cat') startSheetTracking();
         if (cardId === 'how-long') initHowLong();
+        if (cardId === 'file-upload') initFileUpload();
     }
 
     function closeSheet() {
