@@ -4749,6 +4749,8 @@ a .reveal-word {
     margin: 2px;
     height: clamp(280px, calc(100vh - 430px), 500px);
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: #808080 #c0c0c0;
 }
