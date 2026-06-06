@@ -133,7 +133,6 @@
                 <li><a href="/content"   class="nav-link" data-section="content">content worth consuming</a></li>
                 <li><a href="/photos"    class="nav-link" data-section="photos">photos</a></li>
                 <li><a href="/guestbook" class="nav-link" data-section="guestbook">guestbook</a></li>
-                <li><a href="/cool-things" class="nav-link" data-section="cool-things">cool things</a></li>
             </ul>
         </div>
     </nav>
@@ -175,7 +174,7 @@
         <!-- Work Section (merged experiences + projects + communities) -->
         <section id="work" class="section">
             <h2 class="section-title">work</h2>
-            <p class="section-intro">my professional journey and projects</p>
+            <p class="section-intro">work stuff &amp; projects, pfa my <a href="https://github.com/03shraddha" target="_blank" rel="noopener noreferrer" class="highlight blue">GitHub</a></p>
 
             <!-- Tab Navigation -->
             <div class="tabs-container">
@@ -447,58 +446,6 @@
             </div>
         </section>
 
-        <!-- Cool Things Section -->
-        <section id="cool-things" class="section">
-            <h2 class="section-title">cool things</h2>
-            <p class="section-intro">welcome to my playground</p>
-
-            <div class="cool-grid">
-
-                <!-- Card 1: How Long Would It Take? -->
-                <div class="cool-card cool-card--how-long" data-card="how-long" tabindex="0" role="button" aria-label="How long would it take? Interactive scale calculator">
-                    <div class="cool-card-thumb">
-                        <div class="how-long-thumb">
-                            <div class="how-long-thumb-number">31.7</div>
-                            <div class="how-long-thumb-unit">years</div>
-                            <div class="how-long-thumb-label">to spend<br>$1 billion</div>
-                        </div>
-                    </div>
-                    <div class="cool-card-label">
-                        <span class="cool-card-title">how long would it take?</span>
-                        <span class="cool-card-tag">calculator</span>
-                    </div>
-                </div>
-
-                <!-- Card 2: The File Upload Game -->
-                <div class="cool-card cool-card--upload" data-card="file-upload" tabindex="0" role="button" aria-label="The File Upload Game — survive endless platform requirements">
-                    <div class="cool-card-thumb">
-                        <div class="fu-thumb">
-                            <div class="fu-thumb-doc">
-                                <div class="fu-thumb-doc-fold"></div>
-                                <div class="fu-thumb-doc-lines">
-                                    <div class="fu-thumb-doc-line"></div>
-                                    <div class="fu-thumb-doc-line fu-thumb-doc-line--short"></div>
-                                    <div class="fu-thumb-doc-line"></div>
-                                </div>
-                                <div class="fu-thumb-badge">!</div>
-                            </div>
-                            <div class="fu-thumb-label">validation failed</div>
-                        </div>
-                    </div>
-                    <div class="cool-card-label">
-                        <span class="cool-card-title">the file upload game</span>
-                        <span class="cool-card-tag">game</span>
-                    </div>
-                </div>
-
-                <!-- Card 3: Placeholder -->
-                <div class="cool-card cool-card--soon">
-                    <div class="cool-card-soon-icon">✦</div>
-                    <span class="cool-card-title">coming soon</span>
-                </div>
-
-            </div>
-        </section>
 
         <footer class="footer">
             <p id="footer-text">Loading...</p>
@@ -508,22 +455,6 @@
     <!-- Supabase Client Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Cool Things: iOS-style bottom sheet (outside main to avoid transform stacking) -->
-    <div class="cool-overlay" id="cool-overlay" aria-hidden="true">
-        <div class="cool-sheet" id="cool-sheet" role="dialog" aria-modal="true">
-            <div class="cool-sheet-handle"></div>
-            <div class="cool-sheet-header">
-                <button class="cool-sheet-back" id="cool-sheet-back" aria-label="Back">
-                    <svg width="10" height="17" viewBox="0 0 10 17" fill="none" aria-hidden="true">
-                        <path d="M9 1L1.5 8.5L9 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Back
-                </button>
-                <span class="cool-sheet-title" id="cool-sheet-title"></span>
-            </div>
-            <div class="cool-sheet-body" id="cool-sheet-body"></div>
-        </div>
-    </div>
 
     <!-- Project Add/Edit Modal (outside sections to avoid transform breaking fixed positioning) -->
     <div id="project-modal" class="project-modal">

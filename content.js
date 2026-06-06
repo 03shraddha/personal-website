@@ -83,7 +83,7 @@ const CONTENT = {
     // Contact line — shown below the audio intro
     contactLine: `want to get in touch? or just say hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank" class="highlight blue">linkedin</a>, <a href="mailto:meetshraddhakulkarni@gmail.com" class="highlight peach">email</a>, <a href="https://x.com/shraddhaha" target="_blank" class="highlight lavender">twitter</a>
     <br><br>
-    i was in the <a href="https://x.com/shraddhaha/status/2030900691032768810?s=20" target="_blank" rel="noopener noreferrer" class="highlight peach">newspaper once</a>, <a href="https://x.com/shraddhaha/status/2036696637528223934?s=20" target="_blank" rel="noopener noreferrer" class="highlight blue">again another time</a> & <a href="https://x.com/shraddhaha/status/2034845228449014104/photo/1" target="_blank" rel="noopener noreferrer" class="highlight lavender">on the radio</a> for 15 minutes. don't worry, i haven't let the fame change me (jk)`,
+    i was in the <a href="https://x.com/shraddhaha/status/2030900691032768810?s=20" target="_blank" rel="noopener noreferrer" class="highlight peach">newspaper once</a>, <a href="https://x.com/shraddhaha/status/2036696637528223934?s=20" target="_blank" rel="noopener noreferrer" class="highlight blue">again another time</a>, <a href="https://x.com/shraddhaha/status/2034845228449014104/photo/1" target="_blank" rel="noopener noreferrer" class="highlight lavender">on the radio</a> & gave a talk at <a href="https://x.com/shraddhaha/status/2057109419943481775?s=20" target="_blank" rel="noopener noreferrer" class="highlight peach">takshashila institution</a>. don't worry, i haven't let the fame change me (jk)`,
 
     // Name in Kannada (for hover effect)
     nameKannada: "ಶ್ರದ್ಧಾ ಕುಲಕರ್ಣಿ",
@@ -100,55 +100,12 @@ const CONTENT = {
     },
 
     // ==========================================
-    // COOL THINGS I'VE DONE (bullet points)
-    // ==========================================
-    coolThings: [
-        {
-            text: "Working on Quill, an AI-driven platform for Medical Legal Regulatory reviews at ZS Associates",
-            highlights: [
-                { word: "Quill", color: "blue", url: "#" },
-                { word: "ZS Associates", color: "peach", url: "https://www.zs.com/" }
-            ]
-        },
-        {
-            text: "Won the Client Impact Champion Award for on-time delivery with exceptional quality",
-            highlights: [
-                { word: "Client Impact Champion Award", color: "lavender", url: "#" }
-            ]
-        },
-        {
-            text: "Named Most Valuable Player among 150+ colleagues at ZS for hospitality analytics work",
-            highlights: [
-                { word: "Most Valuable Player", color: "lavender", url: "#" }
-            ]
-        },
-        {
-            text: "Built crowd management systems using OpenPose & BLE beacons at the Cisco Center of Excellence",
-            highlights: [
-                { word: "OpenPose & BLE beacons", color: "blue", url: "#" },
-                { word: "Cisco Center of Excellence", color: "peach", url: "#" }
-            ]
-        },
-        {
-            text: "Created 35+ financial literacy videos for The Apprentice Project, investing 100+ hours",
-            highlights: [
-                { word: "The Apprentice Project", color: "peach", url: "#" }
-            ]
-        },
-        {
-            text: "Won 40+ awards in debate competitions at national and international levels",
-            highlights: [
-                { word: "debate competitions", color: "lavender", url: "#" }
-            ]
-        }
-    ],
-
-    // ==========================================
     // EXPERIENCES (work history)
     // ==========================================
     experiences: [
         {
             title: "AI Consulting & Analytics in Healthcare",
+            highlight: "peach",
             company: "ZS Associates - Boutique Pharma Consulting Firm",
             companyUrl: "https://www.zs.com/",
             date: "2023 - Present",
@@ -180,6 +137,7 @@ const CONTENT = {
         },
         {
             title: "Digital Technology Intern",
+            highlight: "blue",
             company: "Baker Hughes (A General Electric Company)",
             companyUrl: "https://www.bakerhughes.com/",
             date: "2023",
@@ -195,6 +153,7 @@ const CONTENT = {
         },
         {
             title: "Research Engineering Intern, Cisco Center of Excellence at RVCE",
+            highlight: "lavender",
             company: "CISCO Center of Excellence at RVCE",
             companyUrl: "https://rvce.edu.in/department/mca/coe_centre_of_excellence_in_internet_of_things_cisco_rvce/",
             date: "2021 - 2022",
@@ -216,6 +175,7 @@ const CONTENT = {
         },
         {
             title: "RF Antenna Intern",
+            highlight: "blue",
             company: "Telimart - The company is an expert OEM & ODM Antenna Designer & Manufacturer",
             companyUrl: "https://www.telimart.com/",
             date: "2022",
