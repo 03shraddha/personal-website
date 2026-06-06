@@ -3210,11 +3210,21 @@ a .reveal-word {
     padding-top: 4px;
 }
 
+@keyframes pulse-dot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%       { transform: scale(1.45); opacity: 0.7; }
+}
+
 .content-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
     flex-shrink: 0;
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .content-dot { animation: none; }
 }
 
 .content-dot.article { background: #f5a855; }
