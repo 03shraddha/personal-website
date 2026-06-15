@@ -520,7 +520,7 @@ a, button, .tab, .highlight, [role="button"] {
 
 .learn-about-list li {
     position: relative;
-    padding-left: 20px;
+    padding-left: 18px;
     margin-bottom: 14px;
     font-size: 1.0625rem;
     line-height: 1.7;
@@ -528,12 +528,12 @@ a, button, .tab, .highlight, [role="button"] {
 
 /* Bullet point */
 .learn-about-list li::before {
-    content: '✦';
+    content: '★';
     position: absolute;
     left: 0;
-    color: var(--color-text-muted);
-    font-size: 0.625rem;
-    top: 5px;
+    color: var(--color-text);
+    font-size: 0.7em;
+    top: 0.45em;
 }
 
 /* Link styling - pastel underline on hover */
@@ -1178,22 +1178,27 @@ a, button, .tab, .highlight, [role="button"] {
 
 /* Toggle Button */
 .experience-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    display: inline-block;
     background: none;
     border: none;
-    padding: 8px 0;
+    border-radius: 0;
+    padding: 0;
     font-family: var(--font-body);
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
+    font-size: 1rem;
+    font-weight: 400;
+    color: #0000EE;
+    text-decoration: none;
+    border-bottom: 1px solid #0000EE;
+    padding-bottom: 1px;
     cursor: pointer;
-    transition: color 0.2s ease;
-    margin-top: 8px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+    margin-top: 16px;
 }
 
 .experience-toggle:hover {
-    color: var(--color-text);
+    color: #551A8B;
+    border-bottom-color: #551A8B;
+    background: none;
 }
 
 .toggle-arrow {

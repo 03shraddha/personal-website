@@ -3,6 +3,9 @@
  * Handles navigation, tabs, scroll behavior, and content loading
  */
 
+// Prevent browser from restoring previous scroll position on reload
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
 // 🔧 SUPABASE CONFIGURATION
 const SUPABASE_URL = 'https://ptoykobcidzgewmtiomp.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0b3lrb2JjaWR6Z2V3bXRpb21wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1ODQ0MDYsImV4cCI6MjA4NTE2MDQwNn0.7kP4Dk4paoIzGMfwYmswlyrQhSTSS-3qVMEPjrU0HvE';
@@ -275,20 +278,6 @@ function loadContent() {
             </ul>
         </div>
 
-        <div class="about-subsection">
-            <h3 class="about-subtitle">${about.background.title}</h3>
-            <div class="background-content">
-                <ul class="about-list background-preview">
-                    ${about.background.items.slice(0, 2).map(item => `<li>${item}</li>`).join('')}
-                </ul>
-                <span class="background-ellipsis">...</span>
-                <button class="background-toggle" data-expanded="false">Read more →</button>
-                <ul class="about-list background-full">
-                    ${about.background.items.map(item => `<li>${item}</li>`).join('')}
-                </ul>
-                <button class="background-toggle-less">Show less ↑</button>
-            </div>
-        </div>
 
         <div class="about-subsection">
             <h3 class="about-subtitle">${about.beyondWork.title}</h3>
@@ -1437,7 +1426,8 @@ function initRouting() {
 
     function doRoutingScroll() {
         _programmaticScrolling = true;
-        window.scrollTo({ top: targetSection.offsetTop - offset, behavior: 'instant' });
+        const scrollTop = sectionId === 'hello' ? 0 : targetSection.offsetTop - offset;
+        window.scrollTo({ top: scrollTop, behavior: 'instant' });
         requestAnimationFrame(() => {
             _programmaticScrolling = false;
             history.replaceState(null, '', correctPath);
