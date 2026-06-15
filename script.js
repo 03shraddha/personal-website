@@ -15,9 +15,6 @@ function initSupabase() {
     try {
         if (window.supabase) {
             supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            console.log('Supabase initialized');
-        } else {
-            console.warn('Supabase library not loaded');
         }
     } catch (err) {
         console.error('Failed to initialize Supabase:', err);
@@ -72,7 +69,6 @@ window.onerror = function(msg, url, lineNo, columnNo, error) {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded fired');
     try {
         initSupabase();     // Initialize Supabase first
         checkAdminMode();   // Check admin mode
@@ -95,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         initAtmosphereToggle();
         updateYear();
-        console.log('All initialization complete');
     } catch (error) {
         console.error('Error during initialization:', error);
     }
@@ -127,7 +122,6 @@ async function initPageViewCounter() {
 
     // Check if Supabase is available
     if (!supabaseClient) {
-        console.log('Supabase not available for page view counter');
         if (viewCountSocial) viewCountSocial.textContent = '--';
         return;
     }
@@ -141,11 +135,9 @@ async function initPageViewCounter() {
         if (!error && data != null) {
             updateDisplay(data);
         } else {
-            console.log('Error updating page view counter:', error);
             if (viewCountSocial) viewCountSocial.textContent = '--';
         }
     } catch (err) {
-        console.log('Could not load view count:', err);
         if (viewCountSocial) viewCountSocial.textContent = '--';
     }
 }
@@ -212,10 +204,7 @@ function initMobileMenu() {
  */
 function initCustomCursor() {
     const cursor = document.querySelector('.cursor');
-    if (!cursor) {
-        console.log('Cursor element not found');
-        return;
-    }
+    if (!cursor) return;
 
     // Simple mouse tracking
     document.addEventListener('mousemove', function(e) {
@@ -242,12 +231,10 @@ function initCustomCursor() {
  * Load all content from the CONTENT object in content.js
  */
 function loadContent() {
-    console.log('loadContent called');
     if (typeof CONTENT === 'undefined') {
         console.error('CONTENT is undefined - content.js may not have loaded');
         return;
     }
-    console.log('CONTENT loaded, name:', CONTENT.name);
 
     // Personal Info - Name with Kannada hover (in Hello section)
     const nameEl = document.getElementById('name');
@@ -278,6 +265,7 @@ function loadContent() {
     const aboutHtml = `
         ${about.intro ? `<p class="about-intro"><strong>${about.intro}</strong></p>` : ''}
         <p>${about.mainText}</p>
+        <p>${about.mainText2}</p>
         <p>${about.debateText}</p>
 
         <div class="about-subsection">
@@ -285,21 +273,6 @@ function loadContent() {
             <ul class="about-list learn-about-list">
                 ${about.learnAboutMe.items.map(item => `<li><a href="${item.url}" target="_blank" class="highlight ${item.highlight}">${item.text}</a> <em>${item.source}</em></li>`).join('')}
             </ul>
-        </div>
-
-        <div class="about-subsection">
-            <h3 class="about-subtitle">${about.corporateStory.title}</h3>
-            <p class="about-subtitle-meta">${about.corporateStory.subtitle}</p>
-            <div class="corporate-content">
-                <div class="corporate-preview">
-                    ${about.corporateStory.paragraphs.slice(0, 2).map(p => `<p>${p}</p>`).join('')}
-                </div>
-                <button class="corporate-toggle">Read more →</button>
-                <div class="corporate-full">
-                    ${about.corporateStory.paragraphs.map(p => `<p>${p}</p>`).join('')}
-                </div>
-                <button class="corporate-toggle-less">Show less ↑</button>
-            </div>
         </div>
 
         <div class="about-subsection">
@@ -532,10 +505,9 @@ async function fetchSubstackInBackground(RSS_URL, CACHE_KEY) {
             return; // success
 
         } catch (error) {
-            console.log(`Substack proxy ${proxy.type} failed:`, error.message);
+            // proxy failed, try next
         }
     }
-    console.log('All Substack proxies failed, keeping cached/fallback content');
 }
 
 function renderThoughtsPosts(posts) {
@@ -574,22 +546,6 @@ function renderThoughtsFallback() {
         date: ''
     }));
     renderThoughtsPosts(posts);
-}
-
-function renderThoughtsLoading() {
-    // Show skeleton rows while RSS fetch is in progress
-    const skeletons = Array.from({ length: 5 }, (_, i) => `
-        <li class="thoughts-item thoughts-skeleton">
-            <span class="thoughts-number">${i + 1}.</span>
-            <div class="thoughts-content">
-                <span class="skeleton-line skeleton-title"></span>
-                <span class="skeleton-line skeleton-date"></span>
-            </div>
-        </li>
-    `).join('');
-    document.getElementById('thoughts-list').innerHTML = `
-        <ol class="thoughts-posts-list">${skeletons}</ol>
-    `;
 }
 
 /**
@@ -650,7 +606,6 @@ function initProjectsSection() {
     // Load projects from Supabase
     async function loadProjectsFromSupabase() {
         if (!supabaseClient) {
-            console.warn('Supabase not available for projects');
             return null;
         }
         try {
@@ -939,7 +894,6 @@ function initProjectsSection() {
  */
 function initAdminSortable(state, container) {
     if (typeof Sortable === 'undefined') {
-        console.warn('SortableJS not loaded — drag-to-reorder unavailable');
         return;
     }
 
@@ -1076,7 +1030,6 @@ window.projectDeleteItem = async function(projectId) {
 };
 
 window.projectSaveItem = async function() {
-    console.log('projectSaveItem called');
     const state = window._projectsState;
     const name = document.getElementById('project-name').value.trim();
     const briefDescription = document.getElementById('project-brief').value.trim();
@@ -1957,7 +1910,6 @@ function initPhotoGallery() {
     // Load photos from Supabase
     async function loadPhotosFromSupabase() {
         if (!supabaseClient) {
-            console.warn('Supabase not available, returning empty photos');
             return { polaroids: [], film: [], digital: [] };
         }
         try {
@@ -1988,7 +1940,6 @@ function initPhotoGallery() {
                 });
             });
 
-            console.log('Loaded photos from Supabase');
             return grouped;
         } catch (err) {
             console.error('Error loading photos:', err);
@@ -1999,7 +1950,6 @@ function initPhotoGallery() {
     // Upload image to Supabase Storage
     async function uploadImageToSupabase(base64Data) {
         if (!supabaseClient) {
-            console.warn('Supabase not available');
             return null;
         }
         try {
@@ -2461,7 +2411,6 @@ function initContentCalendar() {
     // Load content from Supabase
     async function loadContentFromSupabase() {
         if (!supabaseClient) {
-            console.warn('Supabase not available, returning empty content');
             return [];
         }
         try {
@@ -2550,7 +2499,6 @@ function initContentCalendar() {
             contentEntries = [];
         }
         isLoading = false;
-        console.log('Calendar initialized with', contentEntries.length, 'entries');
         renderCalendar();
     }
 
@@ -3188,7 +3136,6 @@ function initContentCalendar() {
                 if (index !== -1) {
                     contentEntries[index] = { ...contentEntries[index], ...entryData };
                 }
-                console.log('Updated entry:', editingEntryId);
             }
         } else {
             // Save new entry to Supabase
@@ -3206,7 +3153,6 @@ function initContentCalendar() {
                     thoughts: savedEntry.thoughts,
                     addedAt: savedEntry.added_at
                 });
-                console.log('Added new entry:', savedEntry);
             }
         }
 
@@ -3234,8 +3180,6 @@ function initContentCalendar() {
             if (!listView.classList.contains('hidden')) {
                 renderListView();
             }
-
-            console.log('Calendar updated, total entries:', contentEntries.length);
         } else {
             alert('Failed to save content. Please try again.');
         }
@@ -3279,7 +3223,6 @@ function initGuestbook() {
     // Load notes from Supabase
     async function loadNotesFromSupabase() {
         if (!supabaseClient) {
-            console.warn('Supabase not available, returning empty notes');
             return [];
         }
         try {
@@ -3338,15 +3281,12 @@ function initGuestbook() {
         try {
             // Convert to number since Supabase uses integer IDs
             const numericId = parseInt(noteId, 10);
-            console.log('Deleting note with ID:', numericId);
 
             const { data, error } = await supabaseClient
                 .from('guestbook_notes')
                 .delete()
                 .eq('id', numericId)
                 .select();
-
-            console.log('Delete response - data:', data, 'error:', error);
 
             if (error) {
                 console.error('Error deleting guestbook note:', error);
@@ -3418,17 +3358,12 @@ Type your message below and click
                         e.preventDefault();
                         e.stopPropagation();
                         const noteId = btn.dataset.noteId;
-                        console.log('Delete clicked for noteId:', noteId);
                         if (confirm('Are you sure you want to delete this entry?')) {
                             btn.textContent = '...';
                             btn.disabled = true;
-                            console.log('Attempting to delete from Supabase...');
                             const success = await deleteNoteFromSupabase(noteId);
-                            console.log('Delete result:', success);
                             if (success) {
-                                console.log('Notes before filter:', notes.length);
                                 notes = notes.filter(n => String(n.id) !== String(noteId));
-                                console.log('Notes after filter:', notes.length);
                                 renderEntries();
                             } else {
                                 btn.textContent = '×';

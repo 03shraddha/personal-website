@@ -40,8 +40,9 @@ const CONTENT = {
     // About section content (structured)
     aboutContent: {
         intro: ``,
-        mainText: `i work at <a href="https://www.zs.com/" target="_blank" class="highlight peach">ZS Associates</a>, a boutique, pharma-focused management consulting firm. currently, i'm part of the <a href="https://www.zs.com/solutions/artificial-intelligence-and-analytics/max-ai" target="_blank" class="highlight blue">MAX.AI team</a>, where i help build GenAI products for some of the biggest pharma companies in the world`,
-        debateText: `for four years in college, i was a debate nerd and spent my weekends competing in debate tournaments, winning 50+ <a href="https://drive.google.com/drive/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC" target="_blank" class="highlight lavender">awards</a> at national and international levels.`,
+        mainText: `i work at <a href="https://www.sarvam.ai/" target="_blank" class="highlight peach">Sarvam AI</a> in their GTM team. Sarvam AI is building foundational AI models & infrastructure for India`,
+        mainText2: `before Sarvam, i worked at <a href="https://www.zs.com/" target="_blank" class="highlight blue">ZS Associates</a>, a boutique, pharma-focused management consulting firm, where i helped build agentic AI products for some of the biggest pharma companies in the world`,
+        debateText: `for 4 years in college, i was a debate nerd and spent my weekends competing in debate tournaments, winning 50+ <a href="https://drive.google.com/drive/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC" target="_blank" class="highlight lavender">awards</a> at national and international levels`,
         learnAboutMe: {
             title: `the best way to learn about me is through the people i've worked with:`,
             items: [
@@ -49,18 +50,6 @@ const CONTENT = {
                 { text: "college senior on my debate journey", url: "https://www.instagram.com/thenalsariv/p/Cwk-XEmvvy6/#", source: "Instagram", highlight: "peach" },
                 { text: "college junior on my club leadership", url: "https://www.instagram.com/rvcedebsoc/p/Cr9_QcFpt94/", source: "Instagram", highlight: "peach" }
             ]
-        },
-        corporateStory: {
-            title: "so.. what do you do at work, you may ask?",
-            subtitle: "areas of interest: product management | analytics",
-            paragraphs: [
-
-            `i’ve mostly followed my curiosity, and that’s taken me across a few different roles.`,
-
-            `i studied ECE in college, did a software engineering internship, moved into analytics, and now work on the product team at a consulting firm. before joining ZS’s GenAI product, Quill, i worked in analytics with hospitality clients. using SQL and Python, i made sense of messy, unstructured hotel CRM data and turned it into insights that helped hotel chains generating millions in revenue.`,
-            `in just two years in corporate, i’ve led teams that won multiple client awards. i was named most valuable player out of 150+ colleagues across the India and Argentina offices, and also received ZS’s impact award for delivering a GenAI solution for the firm’s largest client, competing with hundreds of teams in the same practice area.`
-             ]
-
         },
         background: {
             title: "a little bit of this, a little bit of that",
@@ -117,7 +106,7 @@ const CONTENT = {
 
                 <p>★ Won Client Impact Champion Award for delivering a key feature for ZS's Quill Product, used by one of the world's biggest pharma companies</p>
 
-                <p>★ I work on the Quill Team at ZS. Quill helps with MLR. In the pharmaceutical industry, Medical Legal Review (MLR) is the process where medical, legal, and regulatory experts carefully check all promotional and scientific documents, such as ads, brochures, websites, manuscripts, and patient materials, to ensure they are accurate, scientifically truthful, comply with regulations, follow company policies, properly reference data, do not mislead, and protect the company from legal or regulatory risks before being shared with healthcare professionals or the public</p>
+                <p>★ i worked on Quill, ZS's AI platform for MLR (Medical Legal Review) — the mandatory pharma process where medical, legal, and regulatory experts vet all promotional content (ads, brochures, websites, patient materials) for accuracy, compliance, and scientific truthfulness before it goes public</p>
 
                 <p>★ On the product team at ZS, responsible for product solutioning, overseeing deployments, validating end-to-end functionality, writing LLM evaluations to ensure compliant outputs, ensuring the product meets user and business requirements, and iterating based on client feedback</p>
 
@@ -189,72 +178,6 @@ const CONTENT = {
 
                 <p><a href="https://drive.google.com/file/d/1hSBLpDlTsVo8vN4z47Ugahn0FP5cryWy/view?usp=sharing" target="_blank" class="project-cta highlight blue">View Project Demo Video →</a></p>
                 <p><a href="https://drive.google.com/file/d/1OysW6dYF1CPZ64Mszi-8GOQfVCEZBtyF/view?usp=sharing" target="_blank" class="project-cta highlight blue">Horn and Microstrip Antenna Design by Simulation-Driven Optimization →</a></p>
-            `
-        }
-    ],
-
-    // ==========================================
-    // PROJECTS
-    // ==========================================
-    projects: [
-        {
-            name: "Quill - MLR Review Platform",
-            highlight: "blue",
-            briefDescription: "AI-driven platform for Medical Legal Regulatory reviews in pharmaceuticals at ZS Associates.",
-            url: "#",
-            expandedContent: `
-                <p class="project-detail-intro">★ <strong>Awards and Recognition:</strong><br>
-                Won Client Impact Champion Award for pulling crazy hours with my team to deliver a key feature for ZS's Quill Product, used by one of the world's biggest pharma clients</p>
-
-                <p>★ I work on the Quill Team at ZS. Quill helps with MLR. In the pharmaceutical industry, Medical Legal Review (MLR) is the process where medical, legal, and regulatory experts carefully check all promotional and scientific documents, such as ads, brochures, websites, manuscripts, and patient materials, to ensure they are accurate, scientifically truthful, comply with regulations, follow company policies, properly reference data, do not mislead, and protect the company from legal or regulatory risks before being shared with healthcare professionals or the public</p>
-
-                <p>★ On the product team at ZS, responsible for product solutioning, overseeing deployments, validating end-to-end functionality, writing LLM evaluations to ensure compliant outputs, ensuring the product meets user and business requirements, and iterating based on client feedback</p>
-            `
-        },
-        {
-            name: "Crowd Management System",
-            highlight: "lavender",
-            briefDescription: "OpenPose + BLE beacon localization achieving 90% reduction in overcrowding alert response time.",
-            url: "#",
-            expandedContent: `
-                <p>★ Built at CISCO Center of Excellence, R.V. College of Engineering</p>
-
-                <p>★ Integrated OpenPose pose estimation with BLE beacon localization for real-time crowd density monitoring and tracking</p>
-
-                <p>★ Achieved 40%+ improvement in crowd localization accuracy compared to baseline systems</p>
-
-                <p>★ Reduced overcrowding alert response time by 90%, enabling faster evacuation and safety measures</p>
-            `
-        },
-        {
-            name: "Airport Security Detection",
-            highlight: "peach",
-            briefDescription: "YOLOv3-based object detection for threat identification at Cisco Center of Excellence.",
-            url: "#",
-            expandedContent: `
-                <p>★ Developed at Cisco Center of Excellence, R.V. College of Engineering</p>
-
-                <p>★ Implemented YOLOv3 deep learning model for real-time threat detection in airport security footage</p>
-
-                <p>★ Improved false positive rate by 5-8% compared to existing systems, reducing unnecessary security checks</p>
-
-                <p>★ Trained on custom dataset of prohibited items for airport security scenarios</p>
-            `
-        },
-        {
-            name: "SDR Channel Estimation",
-            highlight: "blue",
-            briefDescription: "Software-defined radio channel estimation using LabVIEW and USRP 2920, improving SNR by 9 dB.",
-            url: "#",
-            demoUrl: "https://drive.google.com/file/d/1OysW6dYF1CPZ64Mszi-8GOQfVCEZBtyF/view?usp=sharing",
-            expandedContent: `
-                <p>★ Final year engineering project focused on wireless communication optimization</p>
-
-                <p>★ Used LabVIEW and USRP 2920 software-defined radio platform for implementation</p>
-
-                <p>★ Achieved 9 dB improvement in Signal-to-Noise Ratio through advanced channel estimation techniques</p>
-
-                <p>★ Demonstrated practical applications in improving wireless communication reliability</p>
             `
         }
     ],
@@ -345,64 +268,6 @@ const CONTENT = {
         { year: "2026", title: "weekly reading log #4", url: "https://shraddhaha.substack.com/p/weekly-reading-log-4" },
         { year: "2026", title: "how are railway exams different from the UPSC craze?", url: "https://shraddhaha.substack.com/p/how-are-railway-exams-different-from" },
         { year: "2026", title: "why democracy matters even when voters are wrong", url: "https://shraddhaha.substack.com/p/should-voting-and-elections-be-only" },
-    ],
-
-    // ==========================================
-    // PHILOSOPHY
-    // ==========================================
-    philosophy: {
-        quote: "Build things that matter. Ship early. Learn fast. Help others along the way.",
-        paragraphs: [
-            `I believe in <a href="#" class="highlight peach">impact over perfection</a>, shipping early, learning from real users, and iterating relentlessly. The best products come from <a href="#" class="highlight blue">deep empathy</a> and understanding the humans you're building for.`,
-            `My approach combines <a href="#" class="highlight lavender">analytical rigor</a> with creative problem-solving. Whether it's pricing strategy for hotels, AI products for pharma, or teaching financial literacy, the goal is always to create meaningful impact.`,
-            `I value <a href="#" class="highlight peach">curiosity over certainty</a>, <a href="#" class="highlight blue">collaboration over ego</a>, and <a href="#" class="highlight lavender">giving back</a> through teaching and mentorship.`
-        ]
-    },
-
-    // ==========================================
-    // CONTENT WORTH CONSUMING
-    // ==========================================
-    contentWorthConsuming: [
-        {
-            type: "Substack",
-            title: "My Writing",
-            highlight: "peach",
-            author: "Essays on product, tech, and life",
-            url: "https://substack.com/@shraddhaha"
-        },
-        {
-            type: "Interest",
-            title: "Documentary Video Essays",
-            highlight: "blue",
-            author: "Long-form storytelling that makes you think",
-            url: "#"
-        },
-        {
-            type: "Practice",
-            title: "Bharatanatyam",
-            highlight: "lavender",
-            author: "10+ years, 4 exam levels completed",
-            url: "#"
-        },
-        {
-            type: "Hobby",
-            title: "Journaling",
-            highlight: "peach",
-            author: "Daily reflections and idea capture",
-            url: "#"
-        }
-    ],
-
-    // ==========================================
-    // FUN FACTS
-    // ==========================================
-    funFacts: [
-        { emoji: "🥧", text: "Can recite <strong>100 digits of π</strong> from memory" },
-        { emoji: "🚌", text: "Knows all <strong>BMTC bus routes</strong> in Bangalore" },
-        { emoji: "🐱", text: "Has befriended <strong>every apartment cat</strong>" },
-        { emoji: "🎵", text: "Can recognize <strong>obscure Punjabi songs</strong>" },
-        { emoji: "🏆", text: "<strong>50+ debates</strong> competed, <strong>40+ awards</strong> won" },
-        { emoji: "💃", text: "<strong>10+ years</strong> of Bharatanatyam" }
     ],
 
     // ==========================================

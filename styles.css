@@ -27,7 +27,6 @@
 
     /* Typography */
     --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-serif: 'Newsreader', Georgia, serif;
 
     /* Spacing */
     --sidebar-width: 180px;
@@ -1788,49 +1787,6 @@ a, button, .tab, .highlight, [role="button"] {
     max-width: 560px;
 }
 
-.thoughts-year-group {
-    margin-bottom: 32px;
-}
-
-.thoughts-year-group:last-child {
-    margin-bottom: 0;
-}
-
-.thoughts-year-label {
-    font-size: 0.8125rem;
-    color: var(--color-text-light);
-    font-weight: 500;
-    margin-bottom: 12px;
-    display: block;
-}
-
-.thoughts-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.thoughts-links li {
-    margin-bottom: 10px;
-    line-height: 1.7;
-}
-
-.thoughts-links li:last-child {
-    margin-bottom: 0;
-}
-
-.thoughts-links a {
-    font-size: 1.0625rem;
-    color: var(--color-text);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s ease;
-}
-
-.thoughts-links a:hover {
-    border-bottom-color: var(--highlight-peach);
-}
-
 /* Substack RSS Feed Styles */
 .thoughts-loading {
     color: var(--color-text-muted);
@@ -1942,35 +1898,6 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 /* ===================================
-   Philosophy Section
-   =================================== */
-
-.philosophy-content {
-    max-width: 560px;
-}
-
-.philosophy-quote {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    font-style: italic;
-    line-height: 1.5;
-    color: var(--color-text);
-    margin-bottom: 32px;
-    padding-left: 24px;
-    border-left: 3px solid var(--color-border);
-}
-
-.philosophy-content p {
-    font-size: 1.125rem;
-    line-height: 1.8;
-    margin-bottom: 20px;
-}
-
-.philosophy-content p:last-child {
-    margin-bottom: 0;
-}
-
-/* ===================================
    Content Worth Consuming
    =================================== */
 
@@ -1980,115 +1907,9 @@ a, button, .tab, .highlight, [role="button"] {
     gap: 24px;
 }
 
-.consume-item {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    grid-template-rows: auto auto;
-    gap: 4px 16px;
-    align-items: baseline;
-}
-
-.consume-type {
-    grid-row: 1 / 3;
-    font-size: 0.6875rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-text-light);
-    padding-top: 2px;
-}
-
-.consume-item h3 {
-    font-size: 1.0625rem;
-    font-weight: 600;
-    line-height: 1.4;
-}
-
-.consume-author {
-    font-size: 1rem;
-    color: var(--color-text-muted);
-}
-
 /* ===================================
    Photos Section
    =================================== */
-
-.photo-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-}
-
-.photo-item {
-    aspect-ratio: 1;
-    overflow: hidden;
-    border-radius: 8px;
-}
-
-.photo-placeholder {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, var(--color-border) 0%, #f5f5f5 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text-light);
-    font-size: 0.8125rem;
-    transition: transform 0.3s ease;
-}
-
-.photo-item:hover .photo-placeholder {
-    transform: scale(1.05);
-}
-
-/* ===================================
-   Fun Facts Section
-   =================================== */
-
-.fun-facts-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-
-.fun-fact {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 20px;
-    background: var(--color-card-bg);
-    border-radius: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
-}
-
-.fun-fact:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-}
-
-.fun-fact-emoji {
-    font-size: 1.75rem;
-    line-height: 1;
-    flex-shrink: 0;
-}
-
-.fun-fact p {
-    font-size: 1.0625rem;
-    line-height: 1.5;
-    color: var(--color-text);
-    margin: 0;
-}
-
-.fun-fact strong {
-    color: var(--color-text);
-    font-weight: 600;
-}
-
-@media (max-width: 600px) {
-    .fun-facts-grid {
-        grid-template-columns: 1fr;
-    }
-}
 
 /* ===================================
    Footer
@@ -2134,17 +1955,6 @@ a, button, .tab, .highlight, [role="button"] {
         font-weight: 600;
     }
 
-    .photo-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .consume-item {
-        grid-template-columns: 1fr;
-    }
-
-    .consume-type {
-        grid-row: auto;
-    }
 }
 
 /* Mobile breakpoint (600px and below) */
@@ -2373,12 +2183,6 @@ a, button, .tab, .highlight, [role="button"] {
     /* Content cards */
     .content-card {
         padding: 20px;
-    }
-
-    /* Photo grid */
-    .photo-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
     }
 
     /* Social links spacing - position handled by ≤900px block */
