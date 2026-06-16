@@ -1769,9 +1769,6 @@ function initTextReveal() {
 function refreshTextReveal() {
     setTimeout(() => {
         initTextReveal();
-        if (typeof ScrollTrigger !== 'undefined') {
-            ScrollTrigger.refresh();
-        }
     }, 100);
 }
 
