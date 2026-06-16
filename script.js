@@ -883,6 +883,10 @@ function initProjectsSection() {
  */
 function initAdminSortable(state, container) {
     if (typeof Sortable === 'undefined') {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js';
+        s.onload = () => initAdminSortable(state, container);
+        document.head.appendChild(s);
         return;
     }
 
@@ -2107,8 +2111,13 @@ function initPhotoGallery() {
                 });
             });
 
-            // Init drag-to-reorder (Sortable.js)
-            if (typeof Sortable !== 'undefined') {
+            // Init drag-to-reorder (Sortable.js) — loaded on demand for admins only
+            if (typeof Sortable === 'undefined') {
+                const s = document.createElement('script');
+                s.src = 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js';
+                s.onload = () => renderGallery();
+                document.head.appendChild(s);
+            } else {
                 if (gallery._sortableInstance) gallery._sortableInstance.destroy();
                 const sortable = new Sortable(gallery, {
                     animation: 150,
