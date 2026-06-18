@@ -2980,10 +2980,10 @@ a .reveal-word {
 /* Content Dots */
 .calendar-day-dots {
     display: flex;
-    gap: 3px;
+    gap: 4px;
     flex-wrap: wrap;
     margin-top: auto;
-    padding-top: 4px;
+    padding-top: 5px;
 }
 
 @keyframes blink-arrow {
@@ -2993,9 +2993,9 @@ a .reveal-word {
 
 .content-dot {
     flex-shrink: 0;
-    font-size: 18px;
+    font-size: 24px;
     line-height: 1;
-    font-weight: 600;
+    font-weight: 900;
     animation: blink-arrow 2.4s ease-in-out infinite;
 }
 
@@ -4117,7 +4117,7 @@ a .reveal-word {
     }
 
     .content-dot {
-        font-size: 14px;
+        font-size: 17px;
     }
 
     .calendar-weekdays span {
