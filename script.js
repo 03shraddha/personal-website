@@ -2547,13 +2547,9 @@ function initContentCalendar() {
             const isToday = dateStr === todayStr;
             const hasContent = entries.length > 0;
 
-            // Get day of week (0 = Sunday, 6 = Saturday)
-            const dayOfWeek = new Date(currentYear, currentMonth, day).getDay();
-            const dayNames = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-
             let classes = 'calendar-day';
             if (isToday) classes += ' today';
-            if (hasContent) classes += ` has-content day-${dayNames[dayOfWeek]}`;
+            if (hasContent) classes += ' has-content';
 
             let dotsHtml = '';
             if (hasContent) {
@@ -2561,10 +2557,10 @@ function initContentCalendar() {
                 const displayEntries = entries.slice(0, 4);
                 dotsHtml = '<div class="calendar-day-dots">';
                 displayEntries.forEach(entry => {
-                    dotsHtml += `<span class="content-dot ${entry.category}"></span>`;
+                    dotsHtml += `<span class="content-dot ${entry.category}">&gt;</span>`;
                 });
                 if (entries.length > 4) {
-                    dotsHtml += `<span class="content-dot" style="background: var(--color-text-muted)">+</span>`;
+                    dotsHtml += `<span class="content-dot" style="color: var(--color-text-muted)">+</span>`;
                 }
                 dotsHtml += '</div>';
             }
