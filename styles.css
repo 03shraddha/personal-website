@@ -2993,10 +2993,10 @@ a .reveal-word {
 
 .content-dot {
     flex-shrink: 0;
-    font-size: 10px;
+    font-size: 18px;
     line-height: 1;
     font-weight: 600;
-    animation: blink-arrow 1.1s ease-in-out infinite;
+    animation: blink-arrow 2.4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4117,7 +4117,7 @@ a .reveal-word {
     }
 
     .content-dot {
-        font-size: 8px;
+        font-size: 14px;
     }
 
     .calendar-weekdays span {
