@@ -2986,28 +2986,28 @@ a .reveal-word {
     padding-top: 5px;
 }
 
-@keyframes blink-arrow {
+@keyframes blink-dot {
     0%, 100% { opacity: 1; }
     50%       { opacity: 0.25; }
 }
 
 .content-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
     flex-shrink: 0;
-    font-size: 24px;
-    line-height: 1;
-    font-weight: 900;
-    animation: blink-arrow 2.4s ease-in-out infinite;
+    animation: blink-dot 2.4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
     .content-dot { animation: none; }
 }
 
-.content-dot.article { color: #f5a855; }
-.content-dot.substack { color: rgba(255, 160, 120, 0.9); }
-.content-dot.video { color: rgba(120, 170, 255, 0.9); }
-.content-dot.podcast { color: rgba(120, 200, 180, 0.9); }
-.content-dot.book { color: rgba(190, 140, 255, 0.9); }
+.content-dot.article { background: #f5a855; }
+.content-dot.substack { background: rgba(255, 160, 120, 0.9); }
+.content-dot.video { background: rgba(120, 170, 255, 0.9); }
+.content-dot.podcast { background: rgba(120, 200, 180, 0.9); }
+.content-dot.book { background: rgba(190, 140, 255, 0.9); }
 
 /* Tooltip on hover */
 .calendar-day-tooltip {
@@ -3615,7 +3615,7 @@ a .reveal-word {
 .category-dot.newsletter { background: rgba(255, 160, 120, 0.9); }
 
 /* Newsletter dot for calendar */
-.content-dot.newsletter { color: rgba(255, 160, 120, 0.9); }
+.content-dot.newsletter { background: rgba(255, 160, 120, 0.9); }
 
 /* Textarea styling */
 .form-group textarea {
@@ -4118,7 +4118,8 @@ a .reveal-word {
     }
 
     .content-dot {
-        font-size: 17px;
+        width: 11px;
+        height: 11px;
     }
 
     .calendar-weekdays span {

@@ -2557,10 +2557,10 @@ function initContentCalendar() {
                 const displayEntries = entries.slice(0, 4);
                 dotsHtml = '<div class="calendar-day-dots">';
                 displayEntries.forEach(entry => {
-                    dotsHtml += `<span class="content-dot ${entry.category}">&gt;</span>`;
+                    dotsHtml += `<span class="content-dot ${entry.category}"></span>`;
                 });
                 if (entries.length > 4) {
-                    dotsHtml += `<span class="content-dot" style="color: var(--color-text-muted)">+</span>`;
+                    dotsHtml += `<span class="content-dot" style="background: var(--color-text-muted)"></span>`;
                 }
                 dotsHtml += '</div>';
             }
