@@ -24,7 +24,7 @@ const CONTENT = {
     // Hello section intro (landing page)
     helloIntro: `hi i’m shraddha, this is my little corner of the internet where i share my work, unfinished projects & whatever i’m curious about at the moment :)`,
 
-    helloCorner: `fun fact: i can recite <a href="https://www.youtube.com/watch?v=3HRkKznJoZA" target="_blank" class="highlight peach">100 digits of pi</a> + the <a href="https://www.youtube.com/watch?v=rz4Dd1I_fX0" target="_blank" class="highlight blue">periodic table</a> from memory`,
+    helloCorner: `<strong>media:</strong> i've been in the <a href="https://x.com/shraddhaha/status/2030900691032768810?s=20" target="_blank" rel="noopener noreferrer" class="highlight peach">newspaper</a> once, then <a href="https://x.com/shraddhaha/status/2036696637528223934?s=20" target="_blank" rel="noopener noreferrer" class="highlight blue">again another time</a>, went on the <a href="https://x.com/shraddhaha/status/2034845228449014104/photo/1" target="_blank" rel="noopener noreferrer" class="highlight lavender">radio</a>, gave a talk at <a href="https://x.com/shraddhaha/status/2057109419943481775?s=20" target="_blank" rel="noopener noreferrer" class="highlight peach">takshashila institution</a> & spoke on a <a href="https://x.com/devfolio/status/2088157946186522752" target="_blank" rel="noopener noreferrer" class="highlight blue">panel about sovereign AI</a> with devfolio`,
 
     // "These days i’m learning" bullet list
     helloLearning: {
@@ -63,9 +63,7 @@ const CONTENT = {
     },
 
     // Contact line — shown below the audio intro
-    contactLine: `want to get in touch? or just say hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank" class="highlight blue">linkedin</a>, <a href="mailto:meetshraddhakulkarni@gmail.com" class="highlight peach">email</a>, <a href="https://x.com/shraddhaha" target="_blank" class="highlight lavender">twitter</a>
-    <br><br>
-    i was in the <a href="https://x.com/shraddhaha/status/2030900691032768810?s=20" target="_blank" rel="noopener noreferrer" class="highlight peach">newspaper once</a>, <a href="https://x.com/shraddhaha/status/2036696637528223934?s=20" target="_blank" rel="noopener noreferrer" class="highlight blue">again another time</a>, <a href="https://x.com/shraddhaha/status/2034845228449014104/photo/1" target="_blank" rel="noopener noreferrer" class="highlight lavender">on the radio</a> & gave a talk at <a href="https://x.com/shraddhaha/status/2057109419943481775?s=20" target="_blank" rel="noopener noreferrer" class="highlight peach">takshashila institution</a>. don't worry, i haven't let the fame change me (jk)`,
+    contactLine: `want to get in touch? or just say hi? <a href="https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/" target="_blank" class="highlight blue">linkedin</a>, <a href="mailto:meetshraddhakulkarni@gmail.com" class="highlight peach">email</a>, <a href="https://x.com/shraddhaha" target="_blank" class="highlight lavender">twitter</a>`,
 
     // Name in Kannada (for hover effect)
     nameKannada: "ಶ್ರದ್ಧಾ ಕುಲಕರ್ಣಿ",
