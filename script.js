@@ -3919,72 +3919,30 @@ function initAtmosphereToggle() {
 }
 
 /**
- * Ambient Music - a generative meditation soundscape built with the Web Audio
- * API: natural-sounding rain plus sparse bird chirps. No external audio file.
+ * Ambient Music - a generative bird-song soundscape built with the Web Audio
+ * API. Several independent "voices" with different pitch ranges and calling
+ * patterns overlap so it reads as a small forest rather than single blips.
+ * No external audio file.
  */
 function buildAmbientLoop(ctx) {
     const master = ctx.createGain();
     master.gain.value = 0;
     master.connect(ctx.destination);
-    master.gain.linearRampToValueAtTime(1, ctx.currentTime + 2);
+    master.gain.linearRampToValueAtTime(1, ctx.currentTime + 1.5);
 
-    // Two noise loops of different, non-matching lengths mixed together so
-    // the combined texture doesn't repeat in an audible pattern.
-    function makeNoiseSource(seconds) {
-        const buffer = ctx.createBuffer(1, Math.round(ctx.sampleRate * seconds), ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-        const src = ctx.createBufferSource();
-        src.buffer = buffer;
-        src.loop = true;
-        src.start();
-        return src;
-    }
-
-    // --- Rain layer: full-spectrum noise shaped into a natural patter ---
-    const rainHighpass = ctx.createBiquadFilter();
-    rainHighpass.type = 'highpass';
-    rainHighpass.frequency.value = 300;
-    const rainLowpass = ctx.createBiquadFilter();
-    rainLowpass.type = 'lowpass';
-    rainLowpass.frequency.value = 5000;
-    rainHighpass.connect(rainLowpass);
-
-    const rainGain = ctx.createGain();
-    rainGain.gain.value = 0.22;
-    rainLowpass.connect(rainGain);
-    rainGain.connect(master);
-
-    const rainSourceA = makeNoiseSource(2.37);
-    const rainSourceB = makeNoiseSource(3.53);
-    rainSourceA.connect(rainHighpass);
-    rainSourceB.connect(rainHighpass);
-
-    // Gentle intensity drift, like real rain easing up and picking back up
-    const rainLfo = ctx.createOscillator();
-    rainLfo.frequency.value = 0.035;
-    const rainLfoGain = ctx.createGain();
-    rainLfoGain.gain.value = 0.05;
-    rainLfo.connect(rainLfoGain);
-    rainLfoGain.connect(rainGain.gain);
-    rainLfo.start();
-
-    // --- Sparse, randomly-panned bird chirps ---
-    let chirpTimeoutId = null;
-
-    function playChirp() {
+    function playChirp(opts) {
         const now = ctx.currentTime;
-        const baseFreq = 2000 + Math.random() * 1600;
+        const baseFreq = opts.freqMin + Math.random() * (opts.freqMax - opts.freqMin);
         const osc = ctx.createOscillator();
         osc.type = 'sine';
         osc.frequency.setValueAtTime(baseFreq, now);
-        osc.frequency.linearRampToValueAtTime(baseFreq * 1.25, now + 0.09);
-        osc.frequency.linearRampToValueAtTime(baseFreq * 0.85, now + 0.24);
+        osc.frequency.linearRampToValueAtTime(baseFreq * opts.riseMul, now + opts.riseTime);
+        osc.frequency.linearRampToValueAtTime(baseFreq * opts.fallMul, now + opts.riseTime + opts.fallTime);
 
         const chirpGain = ctx.createGain();
         chirpGain.gain.setValueAtTime(0, now);
-        chirpGain.gain.linearRampToValueAtTime(0.07, now + 0.03);
-        chirpGain.gain.linearRampToValueAtTime(0, now + 0.28);
+        chirpGain.gain.linearRampToValueAtTime(opts.peakGain, now + 0.02);
+        chirpGain.gain.linearRampToValueAtTime(0, now + opts.riseTime + opts.fallTime + 0.05);
         osc.connect(chirpGain);
 
         if (ctx.createStereoPanner) {
@@ -3997,34 +3955,44 @@ function buildAmbientLoop(ctx) {
         }
 
         osc.start(now);
-        osc.stop(now + 0.32);
+        osc.stop(now + opts.riseTime + opts.fallTime + 0.1);
 
-        // Birds often call in quick little pairs/triples, then go quiet
-        if (Math.random() < 0.5) {
-            setTimeout(playChirp, 180 + Math.random() * 220);
+        // Real birds often call in quick little pairs/triples, then go quiet
+        if (Math.random() < opts.repeatChance) {
+            setTimeout(() => playChirp(opts), 150 + Math.random() * 220);
         }
     }
 
-    function scheduleChirp() {
-        const delay = 2500 + Math.random() * 5500;
-        chirpTimeoutId = setTimeout(() => {
-            playChirp();
-            scheduleChirp();
-        }, delay);
+    function makeBirdVoice(opts) {
+        let timeoutId = null;
+        function schedule() {
+            const delay = opts.minDelay + Math.random() * (opts.maxDelay - opts.minDelay);
+            timeoutId = setTimeout(() => {
+                playChirp(opts);
+                schedule();
+            }, delay);
+        }
+        schedule();
+        return { stop: () => clearTimeout(timeoutId) };
     }
-    scheduleChirp();
+
+    const voices = [
+        // bright, close-by chirps
+        makeBirdVoice({ freqMin: 2600, freqMax: 3800, riseMul: 1.3, fallMul: 0.8, riseTime: 0.08, fallTime: 0.16, peakGain: 0.11, minDelay: 1600, maxDelay: 4000, repeatChance: 0.6 }),
+        // lower, warmer warble
+        makeBirdVoice({ freqMin: 1400, freqMax: 2200, riseMul: 1.15, fallMul: 0.9, riseTime: 0.12, fallTime: 0.22, peakGain: 0.09, minDelay: 2400, maxDelay: 5400, repeatChance: 0.4 }),
+        // occasional distant, high call
+        makeBirdVoice({ freqMin: 3200, freqMax: 4400, riseMul: 1.4, fallMul: 0.7, riseTime: 0.06, fallTime: 0.12, peakGain: 0.06, minDelay: 3800, maxDelay: 8500, repeatChance: 0.3 })
+    ];
 
     return {
         stop() {
             const now = ctx.currentTime;
-            clearTimeout(chirpTimeoutId);
+            voices.forEach(v => v.stop());
             master.gain.cancelScheduledValues(now);
             master.gain.setValueAtTime(master.gain.value, now);
-            master.gain.linearRampToValueAtTime(0, now + 1.2);
-            rainSourceA.stop(now + 1.3);
-            rainSourceB.stop(now + 1.3);
-            rainLfo.stop(now + 1.3);
-            setTimeout(() => { try { master.disconnect(); } catch (e) {} }, 1500);
+            master.gain.linearRampToValueAtTime(0, now + 1);
+            setTimeout(() => { try { master.disconnect(); } catch (e) {} }, 1200);
         }
     };
 }
