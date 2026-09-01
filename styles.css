@@ -2278,6 +2278,85 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 /* ===================================
+   Labs Section - Notes-app style checklist
+   =================================== */
+
+.labs-month {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 16px;
+}
+
+.labs-checklist {
+    max-width: 540px;
+    display: flex;
+    flex-direction: column;
+}
+
+.labs-check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-border);
+    cursor: pointer;
+    user-select: none;
+}
+
+.labs-check-item:last-child {
+    border-bottom: none;
+}
+
+.labs-check-circle {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-text-light);
+    position: relative;
+    transition: background 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                border-color 0.3s ease,
+                transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.labs-check-item:hover .labs-check-circle {
+    border-color: var(--color-text-muted);
+}
+
+.labs-check-circle::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 44%;
+    width: 5px;
+    height: 9px;
+    border-right: 2px solid var(--color-bg);
+    border-bottom: 2px solid var(--color-bg);
+    transform: translate(-50%, -50%) rotate(45deg) scale(0);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.labs-check-item.is-checked .labs-check-circle {
+    background: var(--highlight-peach-hover);
+    border-color: var(--highlight-peach-hover);
+    transform: scale(1.08);
+}
+
+.labs-check-item.is-checked .labs-check-circle::after {
+    transform: translate(-50%, -50%) rotate(45deg) scale(1);
+}
+
+.labs-check-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    text-transform: lowercase;
+}
+
+/* ===================================
    Scroll Animations
    =================================== */
 

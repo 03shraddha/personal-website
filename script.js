@@ -309,6 +309,25 @@ function loadContent() {
     `;
     document.getElementById('about-content').innerHTML = aboutHtml;
 
+    // Labs section - static personal experiments, styled as a notes-app checklist
+    if (CONTENT.labs) {
+        const labs = CONTENT.labs;
+        document.getElementById('labs-intro').textContent = labs.intro;
+        const labsHtml = `
+            <p class="labs-month">${labs.month}</p>
+            <div class="labs-checklist">
+                ${labs.items.map(text => `
+                    <div class="labs-check-item">
+                        <span class="labs-check-circle"></span>
+                        <span class="labs-check-text">${text}</span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        document.getElementById('labs-content').innerHTML = labsHtml;
+        initLabsChecklist();
+    }
+
     // Initialize corporate story toggle
     initCorporateToggle();
 
@@ -1288,6 +1307,34 @@ function initBeyondWorkToggle() {
 }
 
 /**
+ * Labs Checklist - notes-app style checkboxes, clickable, auto-ticked in
+ * sequence the first time the section scrolls into view
+ */
+function initLabsChecklist() {
+    const container = document.querySelector('.labs-checklist');
+    if (!container) return;
+    const items = container.querySelectorAll('.labs-check-item');
+
+    items.forEach(item => {
+        item.addEventListener('click', () => {
+            item.classList.toggle('is-checked');
+        });
+    });
+
+    let played = false;
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && !played) {
+            played = true;
+            observer.disconnect();
+            items.forEach((item, i) => {
+                setTimeout(() => item.classList.add('is-checked'), 400 + i * 450);
+            });
+        }
+    }, { threshold: 0.4 });
+    observer.observe(container);
+}
+
+/**
  * Community Toggle - Expand/Collapse community details
  */
 function initCommunityToggles() {
@@ -1410,6 +1457,7 @@ function initRouting() {
         '/work/projects':     'work',
         '/work/communities':  'work',
         '/thoughts':          'thoughts',
+        '/tiny-experiments':  'tiny-experiments',
         '/content':           'content',
         '/photos':            'photos',
         '/guestbook':         'guestbook',

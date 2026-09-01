@@ -263,6 +263,19 @@ const CONTENT = {
     ],
 
     // ==========================================
+    // LABS - Personal experiments (static, not tracked)
+    // ==========================================
+    labs: {
+        intro: `inspired by anne-laure le cunff's tiny experiments`,
+        month: `september 2026`,
+        items: [
+            "meditate for 30 days for 10 minutes",
+            "wake up before 8am, no matter what time i go to bed the night before",
+            "journal before i look at a screen"
+        ]
+    },
+
+    // ==========================================
     // PHOTOS - Polaroid Gallery
     // ==========================================
     photos: {
