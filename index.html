@@ -515,9 +515,15 @@
     <script src="content.js"></script>
     <script src="script.js"></script>
 
-    <!-- Atmosphere Mode Toggle -->
-    <button id="mode-toggle" aria-label="Switch background mode">
-        <span id="mode-label">mode</span>
-    </button>
+    <!-- Floating Controls: ambient music + atmosphere mode -->
+    <div class="floating-controls">
+        <button id="music-toggle" class="floating-pill" aria-label="Play ambient music">
+            <span class="music-note-icon">♪</span>
+            <span class="music-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
+        <button id="mode-toggle" class="floating-pill" aria-label="Switch background mode">
+            <span id="mode-label">mode</span>
+        </button>
+    </div>
 </body>
 </html>

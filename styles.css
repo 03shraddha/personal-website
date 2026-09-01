@@ -4914,11 +4914,17 @@ body.mode-sunny .sidebar {
 }
 
 /* Mode toggle pill button */
-#mode-toggle {
+.floating-controls {
     position: fixed;
     bottom: 24px;
     right: 24px;
     z-index: 150;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.floating-pill {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -4937,24 +4943,60 @@ body.mode-sunny .sidebar {
     letter-spacing: 0.01em;
 }
 
-#mode-toggle:hover {
+.floating-pill:hover {
     transform: scale(1.04);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
     color: var(--color-text);
-}
-
-#mode-icon {
-    font-size: 1rem;
-    line-height: 1;
 }
 
 #mode-label {
     font-size: 0.8rem;
 }
 
+/* Music toggle: note icon <-> tiny equalizer bars when playing */
+#music-toggle {
+    padding: 9px 13px;
+}
+
+.music-note-icon {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.music-bars {
+    display: none;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+}
+
+.music-bars span {
+    width: 2.5px;
+    background: var(--highlight-peach-hover);
+    border-radius: 2px;
+    animation: musicBar 0.9s ease-in-out infinite;
+}
+
+.music-bars span:nth-child(1) { animation-delay: -0.6s; }
+.music-bars span:nth-child(2) { animation-delay: -0.3s; }
+.music-bars span:nth-child(3) { animation-delay: 0s; }
+
+@keyframes musicBar {
+    0%, 100% { height: 3px; }
+    50% { height: 12px; }
+}
+
+#music-toggle.is-playing .music-note-icon {
+    display: none;
+}
+
+#music-toggle.is-playing .music-bars {
+    display: flex;
+}
+
 /* Mobile: move to top-right corner */
 @media (max-width: 900px) {
-    #mode-toggle {
+    .floating-controls {
         top: max(16px, calc(env(safe-area-inset-top, 0px) + 8px));
         bottom: auto;
         right: 16px;

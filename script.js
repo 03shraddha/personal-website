@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 150);
 
         initAtmosphereToggle();
+        initMusicToggle();  // Ambient background music player
         updateYear();
     } catch (error) {
         console.error('Error during initialization:', error);
@@ -3914,5 +3915,141 @@ function initAtmosphereToggle() {
         const currentIdx = MODES.indexOf(currentMode);
         const nextMode = MODES[(currentIdx + 1) % MODES.length];
         applyMode(nextMode);
+    });
+}
+
+/**
+ * Ambient Music - a generative meditation soundscape built with the Web Audio
+ * API: natural-sounding rain plus sparse bird chirps. No external audio file.
+ */
+function buildAmbientLoop(ctx) {
+    const master = ctx.createGain();
+    master.gain.value = 0;
+    master.connect(ctx.destination);
+    master.gain.linearRampToValueAtTime(1, ctx.currentTime + 2);
+
+    // Two noise loops of different, non-matching lengths mixed together so
+    // the combined texture doesn't repeat in an audible pattern.
+    function makeNoiseSource(seconds) {
+        const buffer = ctx.createBuffer(1, Math.round(ctx.sampleRate * seconds), ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+        const src = ctx.createBufferSource();
+        src.buffer = buffer;
+        src.loop = true;
+        src.start();
+        return src;
+    }
+
+    // --- Rain layer: full-spectrum noise shaped into a natural patter ---
+    const rainHighpass = ctx.createBiquadFilter();
+    rainHighpass.type = 'highpass';
+    rainHighpass.frequency.value = 300;
+    const rainLowpass = ctx.createBiquadFilter();
+    rainLowpass.type = 'lowpass';
+    rainLowpass.frequency.value = 5000;
+    rainHighpass.connect(rainLowpass);
+
+    const rainGain = ctx.createGain();
+    rainGain.gain.value = 0.22;
+    rainLowpass.connect(rainGain);
+    rainGain.connect(master);
+
+    const rainSourceA = makeNoiseSource(2.37);
+    const rainSourceB = makeNoiseSource(3.53);
+    rainSourceA.connect(rainHighpass);
+    rainSourceB.connect(rainHighpass);
+
+    // Gentle intensity drift, like real rain easing up and picking back up
+    const rainLfo = ctx.createOscillator();
+    rainLfo.frequency.value = 0.035;
+    const rainLfoGain = ctx.createGain();
+    rainLfoGain.gain.value = 0.05;
+    rainLfo.connect(rainLfoGain);
+    rainLfoGain.connect(rainGain.gain);
+    rainLfo.start();
+
+    // --- Sparse, randomly-panned bird chirps ---
+    let chirpTimeoutId = null;
+
+    function playChirp() {
+        const now = ctx.currentTime;
+        const baseFreq = 2000 + Math.random() * 1600;
+        const osc = ctx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(baseFreq, now);
+        osc.frequency.linearRampToValueAtTime(baseFreq * 1.25, now + 0.09);
+        osc.frequency.linearRampToValueAtTime(baseFreq * 0.85, now + 0.24);
+
+        const chirpGain = ctx.createGain();
+        chirpGain.gain.setValueAtTime(0, now);
+        chirpGain.gain.linearRampToValueAtTime(0.07, now + 0.03);
+        chirpGain.gain.linearRampToValueAtTime(0, now + 0.28);
+        osc.connect(chirpGain);
+
+        if (ctx.createStereoPanner) {
+            const panner = ctx.createStereoPanner();
+            panner.pan.value = Math.random() * 1.6 - 0.8;
+            chirpGain.connect(panner);
+            panner.connect(master);
+        } else {
+            chirpGain.connect(master);
+        }
+
+        osc.start(now);
+        osc.stop(now + 0.32);
+
+        // Birds often call in quick little pairs/triples, then go quiet
+        if (Math.random() < 0.5) {
+            setTimeout(playChirp, 180 + Math.random() * 220);
+        }
+    }
+
+    function scheduleChirp() {
+        const delay = 2500 + Math.random() * 5500;
+        chirpTimeoutId = setTimeout(() => {
+            playChirp();
+            scheduleChirp();
+        }, delay);
+    }
+    scheduleChirp();
+
+    return {
+        stop() {
+            const now = ctx.currentTime;
+            clearTimeout(chirpTimeoutId);
+            master.gain.cancelScheduledValues(now);
+            master.gain.setValueAtTime(master.gain.value, now);
+            master.gain.linearRampToValueAtTime(0, now + 1.2);
+            rainSourceA.stop(now + 1.3);
+            rainSourceB.stop(now + 1.3);
+            rainLfo.stop(now + 1.3);
+            setTimeout(() => { try { master.disconnect(); } catch (e) {} }, 1500);
+        }
+    };
+}
+
+function initMusicToggle() {
+    const btn = document.getElementById('music-toggle');
+    if (!btn) return;
+
+    let ctx = null;
+    let loop = null;
+    let playing = false;
+
+    btn.addEventListener('click', () => {
+        if (!playing) {
+            if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+            if (ctx.state === 'suspended') ctx.resume();
+            loop = buildAmbientLoop(ctx);
+            playing = true;
+            btn.classList.add('is-playing');
+            btn.setAttribute('aria-label', 'Pause ambient music');
+        } else {
+            if (loop) loop.stop();
+            playing = false;
+            btn.classList.remove('is-playing');
+            btn.setAttribute('aria-label', 'Play ambient music');
+        }
     });
 }
