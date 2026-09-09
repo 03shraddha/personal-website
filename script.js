@@ -232,111 +232,119 @@ function initCustomCursor() {
 }
 
 /**
- * Glitter Brush - click and drag anywhere to leave a twinkling glitter
- * trail behind the flower cursor. Purely in-memory (canvas), so it
+ * Glitter Brush - click and drag anywhere to leave a soft, single-colour
+ * blush stroke behind the flower cursor, with a faint scatter of
+ * twinkling gold dust on top. Purely in-memory (canvas), so it
  * disappears the moment the page reloads.
  */
 function initGlitterBrush() {
-    const canvas = document.getElementById('glitter-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const baseCanvas = document.getElementById('glitter-base-canvas');
+    const sparkleCanvas = document.getElementById('glitter-canvas');
+    if (!baseCanvas || !sparkleCanvas) return;
+    const baseCtx = baseCanvas.getContext('2d');
+    const sparkleCtx = sparkleCanvas.getContext('2d');
 
-    const GLITTER_COLORS = ['#e75480', '#ffa06e', '#6eaaff', '#b482ff', '#ffdc50'];
-    const MAX_POINTS = 4000;
-    let points = [];
+    // Soft pastel strokes - one colour is picked per drag gesture
+    const STROKE_COLORS = [
+        [231, 84, 128],   // flower pink
+        [255, 160, 110],  // peach
+        [110, 170, 255],  // blue
+        [180, 130, 255]   // lavender
+    ];
+    const SPARKLE_COLOR = [255, 214, 120]; // warm gold dust, kept consistent
+
+    const MAX_SPARKLES = 500;
+    let sparkles = [];
     let drawing = false;
-    let lastX = null, lastY = null;
+    let strokeColor = STROKE_COLORS[0];
+    let lastX = null, lastY = null, lastTime = null;
 
-    function resizeCanvas() {
+    function resizeCanvases() {
         const dpr = window.devicePixelRatio || 1;
-        canvas.width = window.innerWidth * dpr;
-        canvas.height = window.innerHeight * dpr;
-        canvas.style.width = window.innerWidth + 'px';
-        canvas.style.height = window.innerHeight + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        [baseCanvas, sparkleCanvas].forEach(c => {
+            c.width = window.innerWidth * dpr;
+            c.height = window.innerHeight * dpr;
+            c.style.width = window.innerWidth + 'px';
+            c.style.height = window.innerHeight + 'px';
+            c.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+        });
     }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    resizeCanvases();
+    window.addEventListener('resize', resizeCanvases);
 
-    function addFleck(x, y) {
-        points.push({
+    function drawDab(x, y, radius, alpha) {
+        const [r, g, b] = strokeColor;
+        const grad = baseCtx.createRadialGradient(x, y, 0, x, y, radius);
+        grad.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${alpha})`);
+        grad.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+        baseCtx.fillStyle = grad;
+        baseCtx.beginPath();
+        baseCtx.arc(x, y, radius, 0, Math.PI * 2);
+        baseCtx.fill();
+    }
+
+    function addSparkle(x, y) {
+        sparkles.push({
             x, y,
-            size: 1.5 + Math.random() * 2.5,
-            color: GLITTER_COLORS[Math.floor(Math.random() * GLITTER_COLORS.length)],
-            star: Math.random() < 0.25,
+            size: 0.8 + Math.random() * 1,
             phase: Math.random() * Math.PI * 2,
-            speed: 2 + Math.random() * 3
+            speed: 1.2 + Math.random() * 1.6
         });
-        if (points.length > MAX_POINTS) points.shift();
+        if (sparkles.length > MAX_SPARKLES) sparkles.shift();
     }
 
-    function addBurst(x, y) {
-        const count = 4 + Math.floor(Math.random() * 3);
-        for (let i = 0; i < count; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const radius = Math.random() * 6;
-            addFleck(x + Math.cos(angle) * radius, y + Math.sin(angle) * radius);
-        }
-    }
-
-    function drawSparkle(p, alpha) {
-        ctx.save();
-        ctx.globalAlpha = alpha;
-        ctx.fillStyle = p.color;
-        ctx.shadowColor = p.color;
-        ctx.shadowBlur = p.size * 3;
-
-        if (p.star) {
-            ctx.translate(p.x, p.y);
-            ctx.rotate(p.phase);
-            const s = p.size * 2.4;
-            ctx.beginPath();
-            ctx.moveTo(0, -s); ctx.lineTo(s * 0.22, -s * 0.22);
-            ctx.lineTo(s, 0); ctx.lineTo(s * 0.22, s * 0.22);
-            ctx.lineTo(0, s); ctx.lineTo(-s * 0.22, s * 0.22);
-            ctx.lineTo(-s, 0); ctx.lineTo(-s * 0.22, -s * 0.22);
-            ctx.closePath();
-            ctx.fill();
-        } else {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-        ctx.restore();
-    }
-
-    function animate(t) {
+    function animateSparkles(t) {
         const time = t / 1000;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        points.forEach(p => {
-            const twinkle = 0.35 + 0.65 * Math.abs(Math.sin(time * p.speed + p.phase));
-            drawSparkle(p, twinkle);
+        const [r, g, b] = SPARKLE_COLOR;
+        sparkleCtx.clearRect(0, 0, sparkleCanvas.width, sparkleCanvas.height);
+        sparkles.forEach(p => {
+            const twinkle = 0.12 + 0.3 * Math.abs(Math.sin(time * p.speed + p.phase));
+            sparkleCtx.save();
+            sparkleCtx.globalAlpha = twinkle;
+            sparkleCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+            sparkleCtx.shadowColor = `rgb(${r}, ${g}, ${b})`;
+            sparkleCtx.shadowBlur = p.size * 1.8;
+            sparkleCtx.beginPath();
+            sparkleCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            sparkleCtx.fill();
+            sparkleCtx.restore();
         });
-        requestAnimationFrame(animate);
+        requestAnimationFrame(animateSparkles);
     }
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animateSparkles);
 
     function startDraw(x, y) {
         drawing = true;
-        lastX = x; lastY = y;
-        addBurst(x, y);
+        lastX = x; lastY = y; lastTime = performance.now();
+        strokeColor = STROKE_COLORS[Math.floor(Math.random() * STROKE_COLORS.length)];
+        drawDab(x, y, 9, 0.14);
     }
 
     function moveDraw(x, y) {
         if (!drawing) return;
+        const now = performance.now();
+        const dt = Math.max(now - lastTime, 1);
         const dist = Math.hypot(x - lastX, y - lastY);
-        const steps = Math.max(1, Math.floor(dist / 5));
+        const speed = dist / dt; // px per ms - faster drag, thinner stroke
+
+        const steps = Math.max(1, Math.floor(dist / 4));
+        const radius = Math.max(5, Math.min(12, 12 - speed * 20));
+
         for (let i = 1; i <= steps; i++) {
             const ix = lastX + (x - lastX) * (i / steps);
             const iy = lastY + (y - lastY) * (i / steps);
-            addFleck(ix + (Math.random() - 0.5) * 4, iy + (Math.random() - 0.5) * 4);
+            drawDab(ix, iy, radius + (Math.random() - 0.5), 0.1 + Math.random() * 0.04);
+            if (Math.random() < 0.1) {
+                addSparkle(ix + (Math.random() - 0.5) * 6, iy + (Math.random() - 0.5) * 6);
+            }
         }
-        lastX = x; lastY = y;
+
+        lastX = x; lastY = y; lastTime = now;
     }
 
     function endDraw() {
         drawing = false;
-        lastX = null; lastY = null;
+        lastX = null; lastY = null; lastTime = null;
     }
 
     document.addEventListener('mousedown', (e) => startDraw(e.clientX, e.clientY));

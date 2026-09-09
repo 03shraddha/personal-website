@@ -87,12 +87,20 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 /* Glitter brush trail overlay - purely visual, never blocks clicks */
+#glitter-base-canvas,
 #glitter-canvas {
     position: fixed;
     inset: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
+}
+
+#glitter-base-canvas {
+    z-index: 139;
+}
+
+#glitter-canvas {
     z-index: 140;
 }
 
