@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initScrollSpy();
         initRouting();      // SPA routing: scroll to section from URL path
         initCustomCursor(); // Custom cursor
+        initGlitterBrush(); // Click-and-drag glitter trail
         initPhotoGallery(); // Polaroid photo gallery
         initContentCalendar(); // Content consumption calendar
         initMobileMenu();   // Mobile hamburger menu
@@ -228,6 +229,120 @@ function initCustomCursor() {
             cursor.style.transform = 'translate(-50%, -50%) scale(1)';
         }
     });
+}
+
+/**
+ * Glitter Brush - click and drag anywhere to leave a twinkling glitter
+ * trail behind the flower cursor. Purely in-memory (canvas), so it
+ * disappears the moment the page reloads.
+ */
+function initGlitterBrush() {
+    const canvas = document.getElementById('glitter-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    const GLITTER_COLORS = ['#e75480', '#ffa06e', '#6eaaff', '#b482ff', '#ffdc50'];
+    const MAX_POINTS = 4000;
+    let points = [];
+    let drawing = false;
+    let lastX = null, lastY = null;
+
+    function resizeCanvas() {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    function addFleck(x, y) {
+        points.push({
+            x, y,
+            size: 1.5 + Math.random() * 2.5,
+            color: GLITTER_COLORS[Math.floor(Math.random() * GLITTER_COLORS.length)],
+            star: Math.random() < 0.25,
+            phase: Math.random() * Math.PI * 2,
+            speed: 2 + Math.random() * 3
+        });
+        if (points.length > MAX_POINTS) points.shift();
+    }
+
+    function addBurst(x, y) {
+        const count = 4 + Math.floor(Math.random() * 3);
+        for (let i = 0; i < count; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const radius = Math.random() * 6;
+            addFleck(x + Math.cos(angle) * radius, y + Math.sin(angle) * radius);
+        }
+    }
+
+    function drawSparkle(p, alpha) {
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = p.size * 3;
+
+        if (p.star) {
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.phase);
+            const s = p.size * 2.4;
+            ctx.beginPath();
+            ctx.moveTo(0, -s); ctx.lineTo(s * 0.22, -s * 0.22);
+            ctx.lineTo(s, 0); ctx.lineTo(s * 0.22, s * 0.22);
+            ctx.lineTo(0, s); ctx.lineTo(-s * 0.22, s * 0.22);
+            ctx.lineTo(-s, 0); ctx.lineTo(-s * 0.22, -s * 0.22);
+            ctx.closePath();
+            ctx.fill();
+        } else {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.restore();
+    }
+
+    function animate(t) {
+        const time = t / 1000;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        points.forEach(p => {
+            const twinkle = 0.35 + 0.65 * Math.abs(Math.sin(time * p.speed + p.phase));
+            drawSparkle(p, twinkle);
+        });
+        requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+
+    function startDraw(x, y) {
+        drawing = true;
+        lastX = x; lastY = y;
+        addBurst(x, y);
+    }
+
+    function moveDraw(x, y) {
+        if (!drawing) return;
+        const dist = Math.hypot(x - lastX, y - lastY);
+        const steps = Math.max(1, Math.floor(dist / 5));
+        for (let i = 1; i <= steps; i++) {
+            const ix = lastX + (x - lastX) * (i / steps);
+            const iy = lastY + (y - lastY) * (i / steps);
+            addFleck(ix + (Math.random() - 0.5) * 4, iy + (Math.random() - 0.5) * 4);
+        }
+        lastX = x; lastY = y;
+    }
+
+    function endDraw() {
+        drawing = false;
+        lastX = null; lastY = null;
+    }
+
+    document.addEventListener('mousedown', (e) => startDraw(e.clientX, e.clientY));
+    document.addEventListener('mousemove', (e) => moveDraw(e.clientX, e.clientY));
+    document.addEventListener('mouseup', endDraw);
+    document.addEventListener('mouseleave', endDraw);
 }
 
 

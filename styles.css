@@ -86,6 +86,16 @@ a, button, .tab, .highlight, [role="button"] {
     display: none !important;
 }
 
+/* Glitter brush trail overlay - purely visual, never blocks clicks */
+#glitter-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 140;
+}
+
 /* ===================================
    Page View Counter (in footer)
    =================================== */
