@@ -4042,10 +4042,11 @@ function initAtmosphereToggle() {
 }
 
 /**
- * Ambient Music - a generative bird-song soundscape built with the Web Audio
- * API. Several independent "voices" with different pitch ranges and calling
- * patterns overlap so it reads as a small forest rather than single blips.
- * No external audio file.
+ * Ambient Music - a generative drizzle soundscape built with the Web Audio
+ * API. A thin, quiet mist of filtered pink noise sits under several
+ * independent droplet "voices" ticking at different light, fast rates -
+ * their overlap is what reads as drizzle patter rather than a single
+ * mechanical tick. No external audio file.
  */
 function buildAmbientLoop(ctx) {
     const master = ctx.createGain();
@@ -4053,45 +4054,89 @@ function buildAmbientLoop(ctx) {
     master.connect(ctx.destination);
     master.gain.linearRampToValueAtTime(1, ctx.currentTime + 1.5);
 
-    function playChirp(opts) {
+    // Pink noise (Paul Kellet's approximation) reads as much softer and
+    // warmer than white noise - here it's just a faint mist under the patter.
+    const bufferSeconds = 4;
+    const bufferSize = ctx.sampleRate * bufferSeconds;
+    const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = noiseBuffer.getChannelData(0);
+    let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+    for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        b0 = 0.99886 * b0 + white * 0.0555179;
+        b1 = 0.99332 * b1 + white * 0.0750759;
+        b2 = 0.96900 * b2 + white * 0.1538520;
+        b3 = 0.86650 * b3 + white * 0.3104856;
+        b4 = 0.55000 * b4 + white * 0.5329522;
+        b5 = -0.7616 * b5 - white * 0.0168980;
+        const pink = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+        b6 = white * 0.115926;
+        data[i] = pink * 0.11;
+    }
+
+    const noiseSource = ctx.createBufferSource();
+    noiseSource.buffer = noiseBuffer;
+    noiseSource.loop = true;
+
+    const mistFilter = ctx.createBiquadFilter();
+    mistFilter.type = 'highpass';
+    mistFilter.frequency.value = 2200;
+    mistFilter.Q.value = 0.5;
+
+    const mistGain = ctx.createGain();
+    mistGain.gain.value = 0.1;
+
+    noiseSource.connect(mistFilter);
+    mistFilter.connect(mistGain);
+    mistGain.connect(master);
+    noiseSource.start();
+
+    // Very slow drift so the mist never sits perfectly static
+    let driftId = null;
+    function drift() {
         const now = ctx.currentTime;
-        const baseFreq = opts.freqMin + Math.random() * (opts.freqMax - opts.freqMin);
+        const dur = 6 + Math.random() * 6;
+        mistGain.gain.linearRampToValueAtTime(0.07 + Math.random() * 0.06, now + dur);
+        driftId = setTimeout(drift, dur * 1000);
+    }
+    drift();
+
+    // A single light droplet tap
+    function playDroplet(peakGain) {
+        const now = ctx.currentTime;
+        const freq = 1800 + Math.random() * 2400;
         const osc = ctx.createOscillator();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(baseFreq, now);
-        osc.frequency.linearRampToValueAtTime(baseFreq * opts.riseMul, now + opts.riseTime);
-        osc.frequency.linearRampToValueAtTime(baseFreq * opts.fallMul, now + opts.riseTime + opts.fallTime);
+        osc.frequency.setValueAtTime(freq, now);
+        osc.frequency.exponentialRampToValueAtTime(freq * 0.55, now + 0.07);
 
-        const chirpGain = ctx.createGain();
-        chirpGain.gain.setValueAtTime(0, now);
-        chirpGain.gain.linearRampToValueAtTime(opts.peakGain, now + 0.02);
-        chirpGain.gain.linearRampToValueAtTime(0, now + opts.riseTime + opts.fallTime + 0.05);
-        osc.connect(chirpGain);
+        const dropletGain = ctx.createGain();
+        dropletGain.gain.setValueAtTime(0, now);
+        dropletGain.gain.linearRampToValueAtTime(peakGain * (0.7 + Math.random() * 0.6), now + 0.004);
+        dropletGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
+        osc.connect(dropletGain);
 
         if (ctx.createStereoPanner) {
             const panner = ctx.createStereoPanner();
             panner.pan.value = Math.random() * 1.6 - 0.8;
-            chirpGain.connect(panner);
+            dropletGain.connect(panner);
             panner.connect(master);
         } else {
-            chirpGain.connect(master);
+            dropletGain.connect(master);
         }
 
         osc.start(now);
-        osc.stop(now + opts.riseTime + opts.fallTime + 0.1);
-
-        // Real birds often call in quick little pairs/triples, then go quiet
-        if (Math.random() < opts.repeatChance) {
-            setTimeout(() => playChirp(opts), 150 + Math.random() * 220);
-        }
+        osc.stop(now + 0.12);
     }
 
-    function makeBirdVoice(opts) {
+    // Several independent voices at different tempos/volumes overlapping is
+    // what makes light rain sound like drizzle instead of a metronome.
+    function makeDropletVoice(opts) {
         let timeoutId = null;
         function schedule() {
             const delay = opts.minDelay + Math.random() * (opts.maxDelay - opts.minDelay);
             timeoutId = setTimeout(() => {
-                playChirp(opts);
+                playDroplet(opts.peakGain);
                 schedule();
             }, delay);
         }
@@ -4099,23 +4144,24 @@ function buildAmbientLoop(ctx) {
         return { stop: () => clearTimeout(timeoutId) };
     }
 
-    const voices = [
-        // bright, close-by chirps
-        makeBirdVoice({ freqMin: 2600, freqMax: 3800, riseMul: 1.3, fallMul: 0.8, riseTime: 0.08, fallTime: 0.16, peakGain: 0.11, minDelay: 1600, maxDelay: 4000, repeatChance: 0.6 }),
-        // lower, warmer warble
-        makeBirdVoice({ freqMin: 1400, freqMax: 2200, riseMul: 1.15, fallMul: 0.9, riseTime: 0.12, fallTime: 0.22, peakGain: 0.09, minDelay: 2400, maxDelay: 5400, repeatChance: 0.4 }),
-        // occasional distant, high call
-        makeBirdVoice({ freqMin: 3200, freqMax: 4400, riseMul: 1.4, fallMul: 0.7, riseTime: 0.06, fallTime: 0.12, peakGain: 0.06, minDelay: 3800, maxDelay: 8500, repeatChance: 0.3 })
+    const dropletVoices = [
+        makeDropletVoice({ minDelay: 70, maxDelay: 220, peakGain: 0.018 }),
+        makeDropletVoice({ minDelay: 150, maxDelay: 420, peakGain: 0.026 }),
+        makeDropletVoice({ minDelay: 300, maxDelay: 800, peakGain: 0.034 })
     ];
 
     return {
         stop() {
             const now = ctx.currentTime;
-            voices.forEach(v => v.stop());
+            clearTimeout(driftId);
+            dropletVoices.forEach(v => v.stop());
             master.gain.cancelScheduledValues(now);
             master.gain.setValueAtTime(master.gain.value, now);
             master.gain.linearRampToValueAtTime(0, now + 1);
-            setTimeout(() => { try { master.disconnect(); } catch (e) {} }, 1200);
+            setTimeout(() => {
+                try { noiseSource.stop(); } catch (e) {}
+                try { master.disconnect(); } catch (e) {}
+            }, 1200);
         }
     };
 }
