@@ -363,6 +363,66 @@ a, button, .tab, .highlight, [role="button"] {
     display: inline;
 }
 
+/* Name row: heading + mascot side by side */
+.name-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.name-row .name {
+    margin-bottom: 0;
+}
+
+/* Mascot - tracks the cursor, reacts to a click. Two 3x3 sprite sheets
+   (head directions, expressions) swapped via background-position. */
+.mascot {
+    position: relative;
+    display: block;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    appearance: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.mascot-squash {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform-origin: 50% 78%;
+}
+
+.mascot-layer {
+    position: absolute;
+    inset: 0;
+    background-size: 300% 300%;
+    background-repeat: no-repeat;
+    transition: opacity 0.1s ease;
+}
+
+.mascot-directions {
+    background-image: url("mascot/ballerina-directions.png");
+}
+
+.mascot-reactions {
+    background-image: url("mascot/ballerina-reactions.png");
+    opacity: 0;
+}
+
+.mascot.is-reacting .mascot-directions {
+    opacity: 0;
+}
+
+.mascot.is-reacting .mascot-reactions {
+    opacity: 1;
+}
+
 .intro {
     font-size: 1.0625rem;
     line-height: 1.65;
@@ -2003,6 +2063,19 @@ a, button, .tab, .highlight, [role="button"] {
         font-weight: 500;
         line-height: 1.3;
         margin-bottom: 16px;
+    }
+
+    .name-row {
+        margin-bottom: 16px;
+    }
+
+    .name-row .name {
+        margin-bottom: 0;
+    }
+
+    .mascot {
+        width: 34px;
+        height: 34px;
     }
 
     .intro {

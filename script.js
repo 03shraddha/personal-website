@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         initAtmosphereToggle();
         initMusicToggle();  // Ambient background music player
+        initMascot();       // Ballerina mascot next to the name
         updateYear();
     } catch (error) {
         console.error('Error during initialization:', error);
@@ -4189,4 +4190,136 @@ function initMusicToggle() {
             btn.setAttribute('aria-label', 'Play ambient music');
         }
     });
+}
+
+/**
+ * Mascot - a ballerina that watches the cursor and reacts to a click.
+ * Two 3x3 sprite sheets (head directions, expressions) are swapped via
+ * background-position; the pointer's angle picks the direction cell, and
+ * a click plays a short reaction. Ported from nilbuild/page-mascot's React
+ * component to plain JS since this site has no build step.
+ */
+function initMascot() {
+    const btn = document.getElementById('mascot');
+    if (!btn) return;
+
+    const squash = btn.querySelector('.mascot-squash');
+    const directionsLayer = btn.querySelector('.mascot-directions');
+    const reactionsLayer = btn.querySelector('.mascot-reactions');
+    if (!squash || !directionsLayer || !reactionsLayer) return;
+
+    const DIRECTIONS = ['up-left', 'up', 'up-right', 'left', 'center', 'right', 'down-left', 'down', 'down-right'];
+    const REACTIONS = ['blink', 'heart', 'sparkle', 'surprised', 'wink', 'bashful', 'sleepy', 'dizzy', 'delighted'];
+    // Clockwise from the right, matching atan2 with y pointing down.
+    const CLOCKWISE = ['right', 'down-right', 'down', 'down-left', 'left', 'up-left', 'up', 'up-right'];
+    const SECTOR = (Math.PI * 2) / CLOCKWISE.length;
+    const HYSTERESIS = 0.12;
+    const DEAD_ZONE = 70;
+
+    const PAYOFFS = ['heart', 'sparkle', 'delighted'];
+    const BOOP_PAYOFF = 120;
+    const BOOP_END = 560;
+    const SQUASH_MS = 420;
+    const DIZZY_AFTER = 4;
+    const DIZZY_WINDOW = 1600;
+    const DIZZY_END = 1100;
+
+    const SQUASH_KEYFRAMES = [
+        { transform: 'scale(1, 1)', easing: 'ease-in' },
+        { transform: 'scale(1.10, 0.86)', offset: 0.18, easing: 'ease-out' },
+        { transform: 'scale(0.95, 1.08)', offset: 0.45, easing: 'ease-in-out' },
+        { transform: 'scale(1.03, 0.97)', offset: 0.72, easing: 'ease-in-out' },
+        { transform: 'scale(1, 1)' }
+    ];
+
+    // background-size 300% makes each cell a clean 0/50/100% step on both axes.
+    function cell(index) {
+        return `${(index % 3) * 50}% ${Math.floor(index / 3) * 50}%`;
+    }
+
+    function wrap(angle) {
+        return Math.atan2(Math.sin(angle), Math.cos(angle));
+    }
+
+    function setDirection(direction) {
+        directionsLayer.style.backgroundPosition = cell(DIRECTIONS.indexOf(direction));
+    }
+
+    function setReaction(reaction) {
+        if (reaction) {
+            reactionsLayer.style.backgroundPosition = cell(REACTIONS.indexOf(reaction));
+            btn.classList.add('is-reacting');
+        } else {
+            btn.classList.remove('is-reacting');
+        }
+    }
+
+    setDirection('center');
+    reactionsLayer.style.backgroundPosition = cell(REACTIONS.indexOf('blink'));
+
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        let sector = -1;
+        let pointer = null;
+
+        function aim() {
+            if (!pointer) return;
+            const box = btn.getBoundingClientRect();
+            const dx = pointer.x - (box.left + box.width / 2);
+            const dy = pointer.y - (box.top + box.height / 2);
+
+            if (Math.hypot(dx, dy) < DEAD_ZONE) {
+                sector = -1;
+                setDirection('center');
+                return;
+            }
+
+            // Hold the current sector until the pointer is well past its edge.
+            const angle = Math.atan2(dy, dx);
+            if (sector !== -1 && Math.abs(wrap(angle - sector * SECTOR)) < SECTOR / 2 + HYSTERESIS) {
+                return;
+            }
+
+            sector = (Math.round(angle / SECTOR) + CLOCKWISE.length) % CLOCKWISE.length;
+            setDirection(CLOCKWISE[sector]);
+        }
+
+        window.addEventListener('pointermove', (e) => {
+            pointer = { x: e.clientX, y: e.clientY };
+            aim();
+        }, { passive: true });
+        window.addEventListener('scroll', aim, { passive: true });
+    }
+
+    let timers = [];
+    const boops = { count: 0, at: 0 };
+
+    function boop() {
+        timers.forEach(clearTimeout);
+        timers = [];
+
+        function later(ms, next) {
+            timers.push(setTimeout(() => setReaction(next), ms));
+        }
+
+        const now = Date.now();
+        boops.count = now - boops.at < DIZZY_WINDOW ? boops.count + 1 : 1;
+        boops.at = now;
+
+        if (boops.count >= DIZZY_AFTER) {
+            boops.count = 0;
+            setReaction('dizzy');
+            later(DIZZY_END, null);
+        } else {
+            setReaction('blink');
+            later(BOOP_PAYOFF, PAYOFFS[(boops.count - 1) % PAYOFFS.length]);
+            later(BOOP_END, null);
+        }
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (squash.animate) {
+            squash.animate(SQUASH_KEYFRAMES, { duration: SQUASH_MS, easing: 'linear' });
+        }
+    }
+
+    btn.addEventListener('click', boop);
 }
