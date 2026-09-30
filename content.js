@@ -29,7 +29,7 @@ const CONTENT = {
         <li>i've been in the <a href="https://x.com/shraddhaha/status/2030900691032768810?s=20" target="_blank" rel="noopener noreferrer" class="highlight peach">newspaper</a> once</li>
         <li><a href="https://x.com/shraddhaha/status/2036696637528223934?s=20" target="_blank" rel="noopener noreferrer" class="highlight blue">again another time</a></li>
         <li>gave a talk at <a href="https://x.com/shraddhaha/status/2057109419943481775?s=20" target="_blank" rel="noopener noreferrer" class="highlight peach">takshashila institution</a></li>
-        <li>you can watch me demo sarvam's voice agent's platform <a href="https://www.youtube.com/watch?v=zHaS7FekcWA&t=89s" target="_blank" rel="noopener noreferrer" class="highlight lavender">here</a></li>
+        <li>you can watch me demo sarvam's voice agent's platform <a href="https://www.youtube.com/watch?v=zHaS7FekcWA&t" target="_blank" rel="noopener noreferrer" class="highlight lavender">here</a></li>
         <li>spoke on a <a href="https://x.com/devfolio/status/2088157946186522752" target="_blank" rel="noopener noreferrer" class="highlight blue">panel about sovereign AI</a> with devfolio</li>
     </ul>`,
 
