@@ -98,7 +98,7 @@ const CONTENT = {
             date: "September 2023 - June 2026",
             briefDescription: `Worked on an AI platform for Medical, Legal, & Regulatory (MLR) reviews & pharma content generation for large pharmaceutical companies. Responsible for product solutioning, managing deployments, LLM evals & improving the product based on client feedback.`,
             expandedContent: `
-                <h4>Project: GenAI Deployment for a Niche Pharma Use Case (2025 & 2026)</h4>
+                <h4>Project: Agentic AI Deployment for a Niche Pharma Use Case (2025 & 2026)</h4>
                 <p>★ <strong>Awards & Recognition:</strong><br>
                 Fast-tracked promotion achieved in 4 cycles, compared to the firm average of 5 cycles</p>
 
