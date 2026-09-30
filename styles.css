@@ -478,10 +478,12 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .media-list li::before {
-    content: '-';
+    content: '★';
     position: absolute;
     left: 0;
     color: var(--color-text);
+    font-size: 0.7em;
+    top: 0.45em;
 }
 
 .hello-learning {
@@ -1036,7 +1038,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .achievements li::before {
-    content: '✦';
+    content: '★';
     position: absolute;
     left: 0;
     color: var(--color-text-light);
@@ -1275,7 +1277,7 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .experience-expanded li::before {
-    content: "✦";
+    content: "★";
     position: absolute;
     left: 0;
     color: var(--color-text-muted);
