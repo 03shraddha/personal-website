@@ -22,9 +22,16 @@ const CONTENT = {
     name: "shraddha kulkarni",
 
     // Hello section intro (landing page)
-    helloIntro: `hi i’m shraddha, this is my little corner of the internet where i share my work, unfinished projects & whatever i’m curious about at the moment :)`,
+    helloIntro: `hi, i’m shraddha, welcome to my little corner of the internet, a sneak peek into my inner world and the things i’m interested in`,
 
-    helloCorner: `<strong>media:</strong> i've been in the <a href="https://x.com/shraddhaha/status/2030900691032768810?s=20" target="_blank" rel="noopener noreferrer" class="highlight peach">newspaper</a> once, then <a href="https://x.com/shraddhaha/status/2036696637528223934?s=20" target="_blank" rel="noopener noreferrer" class="highlight blue">again another time</a>, went on the <a href="https://x.com/shraddhaha/status/2034845228449014104/photo/1" target="_blank" rel="noopener noreferrer" class="highlight lavender">radio</a>, gave a talk at <a href="https://x.com/shraddhaha/status/2057109419943481775?s=20" target="_blank" rel="noopener noreferrer" class="highlight peach">takshashila institution</a>, demoed <a href="https://www.youtube.com/watch?v=zHaS7FekcWA&t=89s" target="_blank" rel="noopener noreferrer" class="highlight lavender">sarvam's voice agent's platform</a> & spoke on a <a href="https://x.com/devfolio/status/2088157946186522752" target="_blank" rel="noopener noreferrer" class="highlight blue">panel about sovereign AI</a> with devfolio`,
+    helloCorner: `<strong>media:</strong>
+    <ul class="media-list">
+        <li>i've been in the <a href="https://x.com/shraddhaha/status/2030900691032768810?s=20" target="_blank" rel="noopener noreferrer" class="highlight peach">newspaper</a> once</li>
+        <li><a href="https://x.com/shraddhaha/status/2036696637528223934?s=20" target="_blank" rel="noopener noreferrer" class="highlight blue">again another time</a></li>
+        <li>gave a talk at <a href="https://x.com/shraddhaha/status/2057109419943481775?s=20" target="_blank" rel="noopener noreferrer" class="highlight peach">takshashila institution</a></li>
+        <li>you can watch me demo sarvam's voice agent's platform <a href="https://www.youtube.com/watch?v=zHaS7FekcWA&t=89s" target="_blank" rel="noopener noreferrer" class="highlight lavender">here</a></li>
+        <li>spoke on a <a href="https://x.com/devfolio/status/2088157946186522752" target="_blank" rel="noopener noreferrer" class="highlight blue">panel about sovereign AI</a> with devfolio</li>
+    </ul>`,
 
     // "These days i’m learning" bullet list
     helloLearning: {

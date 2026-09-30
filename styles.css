@@ -455,6 +455,35 @@ a, button, .tab, .highlight, [role="button"] {
     margin-bottom: 0;
 }
 
+#hello-corner {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: #1a1a1a;
+}
+
+.media-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 6px;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--color-text);
+}
+
+.media-list li {
+    margin-bottom: 2px;
+    padding-left: 18px;
+    position: relative;
+    font-size: 1.0625rem; /* explicit — prevents mobile base-size cascade */
+}
+
+.media-list li::before {
+    content: '-';
+    position: absolute;
+    left: 0;
+    color: var(--color-text);
+}
+
 .hello-learning {
     max-width: 540px;
     margin-bottom: 24px;
@@ -2093,6 +2122,9 @@ a, button, .tab, .highlight, [role="button"] {
 
     .contact-line,
     .hello-intro-text p,
+    #hello-corner,
+    .media-list,
+    .media-list li,
     .hello-learning p,
     .hello-learning ul,
     .hello-learning li {
