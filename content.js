@@ -47,7 +47,7 @@ const CONTENT = {
     // About section content (structured)
     aboutContent: {
         intro: ``,
-        mainText: `i work at <a href="https://www.sarvam.ai/" target="_blank" class="highlight peach">Sarvam AI</a> in their GTM team. Sarvam AI is building foundational AI models & infrastructure for India`,
+        mainText: `I’m on the GTM & Strategy team at <a href="https://www.sarvam.ai/" target="_blank" class="highlight peach">Sarvam</a>. I get to work with India’s biggest businesses to help them build all kinds of applications using our models and inference stack.`,
         mainText2: `before Sarvam, i worked at <a href="https://www.zs.com/" target="_blank" class="highlight blue">ZS Associates</a>, a boutique, pharma-focused management consulting firm, where i helped build agentic AI products for some of the biggest pharma companies in the world`,
         debateText: `for 4 years in college, i was a debate nerd & spent my weekends competing in debate tournaments, winning <a href="https://drive.google.com/drive/folders/1eCzRW-W-MMtbEWGfZ1S08gK0i4EJnvmC" target="_blank" class="highlight lavender">50+ awards</a> at national & international levels`,
         learnAboutMe: {
