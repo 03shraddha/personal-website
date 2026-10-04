@@ -1907,6 +1907,80 @@ a, button, .tab, .highlight, [role="button"] {
     font-size: 0.9375rem;
 }
 
+/* Read / Watch toggle (sliding pill) */
+.thoughts-toggle {
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 28px;
+    padding: 4px;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+}
+
+.thoughts-toggle-knob {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc(50% - 4px);
+    border-radius: 999px;
+    background: var(--highlight-peach);
+    transition: transform 0.3s cubic-bezier(0.3, 0.8, 0.3, 1), background 0.3s ease;
+}
+
+.thoughts-toggle[data-active="watch"] .thoughts-toggle-knob {
+    transform: translateX(100%);
+    background: var(--highlight-lavender);
+}
+
+.thoughts-toggle-btn {
+    position: relative;
+    z-index: 1;
+    min-width: 140px;
+    padding: 8px 22px;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-transform: lowercase;
+    color: var(--color-text-muted);
+    background: none;
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 0.25s ease;
+}
+
+.thoughts-toggle-btn:hover,
+.thoughts-toggle-btn.is-active {
+    color: var(--color-text);
+}
+
+.thoughts-toggle-btn:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 2px;
+}
+
+.thoughts-panel-in {
+    animation: thoughts-panel-in 0.3s ease;
+}
+
+@keyframes thoughts-panel-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .thoughts-toggle-knob { transition: none; }
+    .thoughts-panel-in { animation: none; }
+}
+
+@media (max-width: 480px) {
+    .thoughts-toggle { display: grid; }
+    .thoughts-toggle-btn { min-width: 0; padding: 8px 12px; }
+}
+
 /* Skeleton loader for thoughts while RSS fetches */
 .skeleton-line {
     display: block;

@@ -251,6 +251,18 @@ const CONTENT = {
     ],
 
     // ==========================================
+    // VIDEOS - LinkedIn video posts, newest first (shown under the "watch me" toggle in thoughts)
+    videosUrl: "https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/recent-activity/videos/",
+    videos: [
+        { title: "how do teams building speech models use jev for asr evals?", url: "https://www.linkedin.com/feed/update/urn:li:activity:7511851096064094209/", date: "Oct 2, 2026", duration: "6:57" },
+        { title: "why are ai models priced the way they are?", url: "https://www.linkedin.com/feed/update/urn:li:activity:7502353566687350784/", date: "Sep 6, 2026", duration: "12:55" },
+        { title: "my website does not support dark mode, only spring and sunny mode", url: "https://www.linkedin.com/feed/update/urn:li:activity:7473951630581878784/", date: "Jun 20, 2026", duration: "0:28" },
+        { title: "i built the docs mcp that razorpay never shipped", url: "https://www.linkedin.com/feed/update/urn:li:activity:7466375832064684033/", date: "May 30, 2026", duration: "4:59" },
+        { title: "a chrome extension that makes you type what you should be doing instead", url: "https://www.linkedin.com/feed/update/urn:li:activity:7458771788542582784/", date: "May 9, 2026", duration: "0:16" },
+        { title: "a video that cost $0.20 and made itself", url: "https://www.linkedin.com/feed/update/urn:li:activity:7455931019058237440/", date: "May 1, 2026", duration: "0:54" },
+        { title: "an indian duolingo for indian languages", url: "https://www.linkedin.com/feed/update/urn:li:activity:7455244316576309248/", date: "Apr 29, 2026", duration: "0:35" },
+    ],
+
     // THOUGHTS (formerly fieldnotes) - simple linked list
     // ==========================================
     thoughts: [

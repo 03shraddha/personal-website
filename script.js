@@ -527,6 +527,7 @@ function loadContent() {
 
     // Thoughts - Load from Substack RSS feed
     loadSubstackPosts();
+    initThoughtsToggle();
 
     // Footer
     document.getElementById('footer-text').innerHTML = `${CONTENT.footer} · <a href="/llms.txt" target="_blank" style="opacity:0.5; text-decoration:none; border-bottom: 1px dashed currentColor;">llms.txt</a> · <span class="year">${new Date().getFullYear()}</span>`;
@@ -669,6 +670,71 @@ function renderThoughtsPosts(posts) {
     `;
 
     document.getElementById('thoughts-list').innerHTML = thoughtsHtml;
+}
+
+/**
+ * Thoughts toggle - "read my stuff" (Substack) / "watch me" (LinkedIn videos)
+ */
+function renderThoughtsVideos() {
+    const el = document.getElementById('thoughts-videos');
+    if (!el || !CONTENT.videos) return;
+
+    const itemsHtml = CONTENT.videos.slice(0, 7).map((video, index) => `
+        <li class="thoughts-item">
+            <span class="thoughts-number">${index + 1}.</span>
+            <div class="thoughts-content">
+                <a href="${video.url}" target="_blank" rel="noopener noreferrer" class="thoughts-title">${video.title}</a>
+                <span class="thoughts-date">${video.date} · ${video.duration}</span>
+            </div>
+        </li>
+    `).join('');
+
+    el.innerHTML = `
+        <ol class="thoughts-posts-list">
+            ${itemsHtml}
+        </ol>
+        <a href="${CONTENT.videosUrl}" target="_blank" rel="noopener noreferrer" class="thoughts-view-all">
+            Watch more on LinkedIn →
+        </a>
+    `;
+}
+
+function initThoughtsToggle() {
+    const toggle = document.getElementById('thoughts-toggle');
+    const readPanel = document.getElementById('thoughts-list');
+    const watchPanel = document.getElementById('thoughts-videos');
+    if (!toggle || !readPanel || !watchPanel) return;
+
+    renderThoughtsVideos();
+    const buttons = [...toggle.querySelectorAll('.thoughts-toggle-btn')];
+
+    function setView(view, focus) {
+        toggle.dataset.active = view;
+        buttons.forEach(btn => {
+            const on = btn.dataset.view === view;
+            btn.classList.toggle('is-active', on);
+            btn.setAttribute('aria-selected', on ? 'true' : 'false');
+            btn.tabIndex = on ? 0 : -1;
+            if (on && focus) btn.focus();
+        });
+        const show = view === 'read' ? readPanel : watchPanel;
+        const hide = view === 'read' ? watchPanel : readPanel;
+        hide.hidden = true;
+        show.hidden = false;
+        show.classList.remove('thoughts-panel-in');
+        void show.offsetWidth; // restart the fade-in
+        show.classList.add('thoughts-panel-in');
+    }
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => setView(btn.dataset.view));
+        btn.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                setView(btn.dataset.view === 'read' ? 'watch' : 'read', true);
+            }
+        });
+    });
 }
 
 function renderThoughtsFallback() {
