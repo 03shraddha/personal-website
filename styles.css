@@ -1981,6 +1981,101 @@ a, button, .tab, .highlight, [role="button"] {
     .thoughts-toggle-btn { min-width: 0; padding: 8px 12px; }
 }
 
+/* Video cards (watch me) */
+.video-list {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-bottom: 24px;
+}
+
+.video-card {
+    margin: 0;
+}
+
+.video-thumb,
+.video-player {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    overflow: hidden;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+}
+
+.video-thumb {
+    cursor: pointer;
+}
+
+.video-player {
+    object-fit: contain;
+}
+
+.video-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.video-thumb:hover img {
+    transform: scale(1.03);
+}
+
+.video-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 56px;
+    height: 56px;
+    margin: -28px 0 0 -28px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.video-play::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -8px 0 0 -5px;
+    border-left: 14px solid var(--color-text);
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+}
+
+.video-thumb:hover .video-play {
+    transform: scale(1.08);
+    background: var(--highlight-lavender);
+}
+
+.video-thumb:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 3px;
+}
+
+.video-duration {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    padding: 1px 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #fff;
+    background: rgba(26, 26, 26, 0.72);
+    border-radius: 6px;
+}
+
+.video-card .thoughts-content {
+    margin-top: 10px;
+}
+
 /* Skeleton loader for thoughts while RSS fetches */
 .skeleton-line {
     display: block;

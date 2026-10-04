@@ -679,24 +679,44 @@ function renderThoughtsVideos() {
     const el = document.getElementById('thoughts-videos');
     if (!el || !CONTENT.videos) return;
 
-    const itemsHtml = CONTENT.videos.slice(0, 7).map((video, index) => `
-        <li class="thoughts-item">
-            <span class="thoughts-number">${index + 1}.</span>
-            <div class="thoughts-content">
+    const cardsHtml = CONTENT.videos.map((video, index) => `
+        <figure class="video-card">
+            <button type="button" class="video-thumb" data-index="${index}" aria-label="play: ${video.title}">
+                <img src="${video.poster}" alt="" loading="lazy">
+                <span class="video-play" aria-hidden="true"></span>
+                <span class="video-duration">${video.duration}</span>
+            </button>
+            <figcaption class="thoughts-content">
                 <a href="${video.url}" target="_blank" rel="noopener noreferrer" class="thoughts-title">${video.title}</a>
-                <span class="thoughts-date">${video.date} · ${video.duration}</span>
-            </div>
-        </li>
+                <span class="thoughts-date">${video.date}</span>
+            </figcaption>
+        </figure>
     `).join('');
 
     el.innerHTML = `
-        <ol class="thoughts-posts-list">
-            ${itemsHtml}
-        </ol>
+        <div class="video-list">
+            ${cardsHtml}
+        </div>
         <a href="${CONTENT.videosUrl}" target="_blank" rel="noopener noreferrer" class="thoughts-view-all">
             Watch more on LinkedIn →
         </a>
     `;
+
+    // Play inline on click; if the file fails to load, send people to the LinkedIn post
+    el.querySelectorAll('.video-thumb').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const video = CONTENT.videos[btn.dataset.index];
+            const player = document.createElement('video');
+            player.src = video.video;
+            player.poster = video.poster;
+            player.controls = true;
+            player.autoplay = true;
+            player.playsInline = true;
+            player.className = 'video-player';
+            player.addEventListener('error', () => window.open(video.url, '_blank', 'noopener'));
+            btn.replaceWith(player);
+        });
+    });
 }
 
 function initThoughtsToggle() {

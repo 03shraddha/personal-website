@@ -254,8 +254,8 @@ const CONTENT = {
     // VIDEOS - LinkedIn video posts, newest first (shown under the "watch me" toggle in thoughts)
     videosUrl: "https://www.linkedin.com/in/shraddha-kulkarni-6abb5a188/recent-activity/videos/",
     videos: [
-        { title: "how do teams building speech models use jev for asr evals?", url: "https://www.linkedin.com/feed/update/urn:li:activity:7511851096064094209/", date: "Oct 2, 2026", duration: "6:57" },
-        { title: "why are ai models priced the way they are?", url: "https://www.linkedin.com/feed/update/urn:li:activity:7502353566687350784/", date: "Sep 6, 2026", duration: "12:55" },
+        { title: "how do teams building speech models use jev for asr evals?", url: "https://www.linkedin.com/feed/update/urn:li:activity:7511851096064094209/", date: "Oct 2, 2026", duration: "6:57", poster: "https://media.licdn.com/dms/image/v2/D5605AQG-4bMbiGRrbQ/videocover-high/B56aD90oe8HABM-/0/1790964832962?e=2147483647&v=beta&t=_6lcNJjBwpzrHIR3GWGGCmRjNjNhUukrLrN0mZrTmi4", video: "https://dms.licdn.com/playlist/vid/v2/D5605AQG-4bMbiGRrbQ/mp4-720p-30fp-crf28/B56aD90oe8HAB8-/0/1790964855791?e=2147483647&v=beta&t=XPw9gMrSlyWPaYuD0P3oBuqDQYJP-f02a48gh3Ek7nM" },
+        { title: "why are ai models priced the way they are?", url: "https://www.linkedin.com/feed/update/urn:li:activity:7502353566687350784/", date: "Sep 6, 2026", duration: "12:55", poster: "https://media.licdn.com/dms/image/v2/D5605AQGpGE8KWLcxDQ/videocover-high/B56aB22jMpHIBQ-/0/1788700412327?e=2147483647&v=beta&t=ZO42geDCLWY4BECi_MDpbTXaKPS8DGjVo274wEmkqSI", video: "https://dms.licdn.com/playlist/vid/v2/D5605AQGpGE8KWLcxDQ/mp4-720p-30fp-crf28/B56aB22jMpHICA-/0/1788700460221?e=2147483647&v=beta&t=GLH5sIX1SW_Tnt3kJiHUuP7nJmZCJpp9kOpjC1G-fNk" },
     ],
 
     // THOUGHTS (formerly fieldnotes) - simple linked list
