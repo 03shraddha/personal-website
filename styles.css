@@ -3187,33 +3187,65 @@ a .reveal-word {
 }
 
 .view-toggle {
-    display: flex;
-    background: var(--color-card-bg);
-    border-radius: 100px;
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
     padding: 4px;
+    background: var(--color-card-bg);
     border: 1px solid var(--color-border);
+    border-radius: 999px;
+}
+
+.view-toggle-knob {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc(50% - 4px);
+    border-radius: 999px;
+    background: var(--highlight-peach);
+    transition: transform 0.3s cubic-bezier(0.3, 0.8, 0.3, 1), background 0.3s ease;
+}
+
+.view-toggle[data-active="list"] .view-toggle-knob {
+    transform: translateX(100%);
+    background: var(--highlight-lavender);
 }
 
 .view-toggle-btn {
-    padding: 8px 20px;
+    position: relative;
+    z-index: 1;
+    min-width: 140px;
+    padding: 8px 22px;
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: 0.9375rem;
     font-weight: 500;
+    text-transform: lowercase;
     color: var(--color-text-muted);
-    background: transparent;
-    border: none;
-    border-radius: 100px;
+    background: none;
+    border: 0;
+    border-radius: 999px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.25s ease;
 }
 
-.view-toggle-btn:hover {
+.view-toggle-btn:hover,
+.view-toggle-btn.active {
     color: var(--color-text);
 }
 
-.view-toggle-btn.active {
-    background: var(--color-text);
-    color: var(--color-bg);
+.view-toggle-btn:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .view-toggle-knob { transition: none; }
+}
+
+@media (max-width: 480px) {
+    .view-toggle { display: grid; }
+    .view-toggle-btn { min-width: 0; padding: 8px 12px; }
 }
 
 .add-content-btn {
@@ -4625,7 +4657,6 @@ a .reveal-word {
     /* View toggle buttons */
     .view-toggle-btn {
         min-height: 44px;
-        padding: 10px 16px;
     }
 
     /* Photo gallery on mobile */

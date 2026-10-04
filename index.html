@@ -251,9 +251,10 @@
 
             <!-- View Toggle -->
             <div class="content-view-controls">
-                <div class="view-toggle">
-                    <button class="view-toggle-btn active" data-view="calendar">Calendar</button>
-                    <button class="view-toggle-btn" data-view="list">List</button>
+                <div class="view-toggle" data-active="calendar">
+                    <span class="view-toggle-knob" aria-hidden="true"></span>
+                    <button class="view-toggle-btn active" data-view="calendar">calendar view</button>
+                    <button class="view-toggle-btn" data-view="list">list view</button>
                 </div>
                 <button id="add-content-btn" class="add-content-btn admin-only" style="display: none;">+ Add Content</button>
             </div>

@@ -2867,12 +2867,18 @@ function initContentCalendar() {
         });
     }
 
+    function setViewToggleActive(view) {
+        const t = document.querySelector('.view-toggle');
+        if (t) t.dataset.active = view;
+    }
+
     // Switch to list view and highlight/scroll to a specific date
     function switchToListViewWithHighlight(dateStr) {
         // Switch to list view
         viewToggleBtns.forEach(b => b.classList.remove('active'));
         const listBtn = document.querySelector('.view-toggle-btn[data-view="list"]');
         if (listBtn) listBtn.classList.add('active');
+        setViewToggleActive('list');
 
         calendarView.classList.add('hidden');
         listView.classList.remove('hidden');
@@ -3009,6 +3015,7 @@ function initContentCalendar() {
 
             viewToggleBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            setViewToggleActive(view);
 
             if (view === 'calendar') {
                 calendarView.classList.remove('hidden');
