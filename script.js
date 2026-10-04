@@ -2049,6 +2049,7 @@ function initTabs() {
             // Update tab buttons
             tabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
+            tab.parentElement.dataset.active = targetTab;
 
             // Update tab content
             tabContents.forEach(content => {

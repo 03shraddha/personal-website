@@ -1068,35 +1068,68 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 .tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: fit-content;
+    margin: 0 auto 32px;
+    padding: 4px;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+}
+
+.tabs-knob {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc((100% - 8px) / 3);
+    border-radius: 999px;
+    background: var(--highlight-peach);
+    transition: transform 0.3s cubic-bezier(0.3, 0.8, 0.3, 1), background 0.3s ease;
+}
+
+.tabs[data-active="experience"] .tabs-knob {
+    transform: translateX(100%);
+    background: var(--highlight-lavender);
+}
+
+.tabs[data-active="communities"] .tabs-knob {
+    transform: translateX(200%);
+    background: var(--highlight-blue, #cfe3f5);
 }
 
 .tab {
-    padding: 10px 20px;
+    position: relative;
+    z-index: 1;
+    padding: 8px 22px;
     font-family: var(--font-body);
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     font-weight: 500;
+    text-transform: lowercase;
+    white-space: nowrap;
     color: var(--color-text-muted);
-    background: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: 100px;
+    background: none;
+    border: 0;
+    border-radius: 999px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.25s ease;
     touch-action: manipulation; /* prevent iOS double-tap zoom */
 }
 
-.tab:hover {
-    border-color: var(--color-text-muted);
+.tab:hover,
+.tab.active {
     color: var(--color-text);
 }
 
-.tab.active {
-    background: var(--color-text);
-    color: var(--color-bg);
-    border-color: var(--color-text);
+.tab:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tabs-knob { transition: none; }
 }
 
 .tab-link {
@@ -1910,7 +1943,10 @@ a, button, .tab, .highlight, [role="button"] {
 /* Read / Watch toggle (sliding pill) */
 .thoughts-toggle {
     position: relative;
-    display: inline-grid;
+    display: grid;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
     grid-template-columns: 1fr 1fr;
     margin-bottom: 28px;
     padding: 4px;
@@ -2362,26 +2398,16 @@ a, button, .tab, .highlight, [role="button"] {
         margin-bottom: 16px;
     }
 
-    /* Tabs — fit all on one line */
+    /* Tabs: pill fills the width */
     .tabs {
-        gap: 6px;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        padding-bottom: 4px; /* avoid clipping pill shadow */
-    }
-
-    .tabs::-webkit-scrollbar {
-        display: none;
+        display: grid;
+        width: 100%;
     }
 
     .tab {
-        padding: 6px 10px;
-        font-size: 0.8rem;
+        padding: 8px 6px;
+        font-size: 0.8125rem;
         min-height: 44px;
-        flex-shrink: 0;
-        white-space: nowrap;
     }
 
     /* Experience cards */
@@ -3179,7 +3205,7 @@ a .reveal-word {
 /* View Controls - Toggle & Add Button */
 .content-view-controls {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 24px;
     flex-wrap: wrap;
@@ -3188,7 +3214,8 @@ a .reveal-word {
 
 .view-toggle {
     position: relative;
-    display: inline-grid;
+    display: grid;
+    width: fit-content;
     grid-template-columns: 1fr 1fr;
     padding: 4px;
     background: var(--color-card-bg);
@@ -4506,6 +4533,7 @@ a .reveal-word {
 
     .view-toggle {
         align-self: center;
+        width: 100%;
     }
 
     /* Calendar mobile adjustments */
