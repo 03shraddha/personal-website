@@ -1132,6 +1132,10 @@ a, button, .tab, .highlight, [role="button"] {
     .tabs-knob { transition: none; }
 }
 
+@media (max-width: 360px) {
+    .tab { font-size: 0.75rem; }
+}
+
 .tab-link {
     text-decoration: none;
     display: inline-flex;
@@ -2013,8 +2017,12 @@ a, button, .tab, .highlight, [role="button"] {
 }
 
 @media (max-width: 480px) {
-    .thoughts-toggle { display: grid; }
-    .thoughts-toggle-btn { min-width: 0; padding: 8px 12px; }
+    .thoughts-toggle {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+    }
+    .thoughts-toggle-btn { min-width: 0; min-height: 44px; padding: 8px 8px; line-height: 1.2; }
 }
 
 /* Video cards (watch me) */
@@ -2398,16 +2406,21 @@ a, button, .tab, .highlight, [role="button"] {
         margin-bottom: 16px;
     }
 
-    /* Tabs: pill fills the width */
+    /* Tabs: pill fills the width, equal columns, labels wrap instead of overlapping */
     .tabs {
         display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         width: 100%;
     }
 
     .tab {
-        padding: 8px 6px;
+        min-width: 0;
+        padding: 8px 4px;
         font-size: 0.8125rem;
+        line-height: 1.2;
         min-height: 44px;
+        white-space: normal;
+        text-align: center;
     }
 
     /* Experience cards */
@@ -3271,8 +3284,12 @@ a .reveal-word {
 }
 
 @media (max-width: 480px) {
-    .view-toggle { display: grid; }
-    .view-toggle-btn { min-width: 0; padding: 8px 12px; }
+    .view-toggle {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+    }
+    .view-toggle-btn { min-width: 0; padding: 8px 8px; line-height: 1.2; }
 }
 
 .add-content-btn {
