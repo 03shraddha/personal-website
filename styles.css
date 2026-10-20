@@ -2032,8 +2032,7 @@ a, button, .tab, .highlight, [role="button"] {
     gap: 20px 14px;
     align-content: start;
     max-height: 400px;
-    overflow-y: auto;
-    padding-right: 8px;
+    overflow-y: scroll;
     margin-bottom: 20px;
 }
 
@@ -2045,14 +2044,62 @@ a, button, .tab, .highlight, [role="button"] {
 
 .thoughts-posts-list {
     max-height: 360px;
-    overflow-y: auto;
-    padding-right: 8px;
+    overflow-y: scroll;
+}
+
+/* Scroll areas: thin rounded scrollbar that stays visible, plus a soft fade
+   at the bottom edge to hint that more is below (macOS / iOS feel) */
+.video-list,
+.thoughts-posts-list,
+.wp-page {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(120, 120, 128, 0.45) transparent;
+    -webkit-overflow-scrolling: touch;
 }
 
 .video-list,
 .thoughts-posts-list {
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-border) transparent;
+    overflow-y: scroll;
+    padding: 0 12px 36px 0;
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 40px), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 40px), transparent);
+}
+
+@supports selector(::-webkit-scrollbar) {
+    .video-list,
+    .thoughts-posts-list,
+    .wp-page {
+        scrollbar-width: auto;
+        scrollbar-color: auto;
+    }
+
+    .video-list::-webkit-scrollbar,
+    .thoughts-posts-list::-webkit-scrollbar,
+    .wp-page::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .video-list::-webkit-scrollbar-track,
+    .thoughts-posts-list::-webkit-scrollbar-track,
+    .wp-page::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .video-list::-webkit-scrollbar-thumb,
+    .thoughts-posts-list::-webkit-scrollbar-thumb,
+    .wp-page::-webkit-scrollbar-thumb {
+        background-color: rgba(120, 120, 128, 0.45);
+        background-clip: padding-box;
+        border: 2px solid transparent;
+        border-radius: 999px;
+        min-height: 40px;
+    }
+
+    .video-list::-webkit-scrollbar-thumb:hover,
+    .thoughts-posts-list::-webkit-scrollbar-thumb:hover,
+    .wp-page::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(120, 120, 128, 0.75);
+    }
 }
 
 .video-card {

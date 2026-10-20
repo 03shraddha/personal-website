@@ -700,6 +700,18 @@ function renderThoughtsVideos() {
         </div>
     `;
 
+    // Peek: size the list to one and a half rows, so the next row shows half
+    // cut off and people know they can scroll
+    const list = el.querySelector('.video-list');
+    const firstCard = list.querySelector('.video-card');
+    const fitPeek = () => {
+        const cardH = firstCard.offsetHeight;
+        if (!cardH) return;
+        const gap = parseFloat(getComputedStyle(list).rowGap) || 0;
+        list.style.maxHeight = Math.round(cardH * 1.5 + gap) + 'px';
+    };
+    if (firstCard && 'ResizeObserver' in window) new ResizeObserver(fitPeek).observe(firstCard);
+
     // Play inline on click; if the file fails to load, send people to the LinkedIn post
     el.querySelectorAll('.video-thumb').forEach(btn => {
         btn.addEventListener('click', () => {
