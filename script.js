@@ -651,7 +651,7 @@ function renderThoughtsPosts(posts) {
         return;
     }
 
-    const postsHtml = posts.slice(0, 7).map((post, index) => `
+    const postsHtml = posts.map((post, index) => `
         <li class="thoughts-item">
             <span class="thoughts-number">${index + 1}.</span>
             <div class="thoughts-content">
@@ -698,9 +698,6 @@ function renderThoughtsVideos() {
         <div class="video-list">
             ${cardsHtml}
         </div>
-        <a href="${CONTENT.videosUrl}" target="_blank" rel="noopener noreferrer" class="thoughts-view-all">
-            Watch more on LinkedIn →
-        </a>
     `;
 
     // Play inline on click; if the file fails to load, send people to the LinkedIn post
@@ -4428,11 +4425,11 @@ function initContentTypes() {
     const toggle = document.getElementById('content-type-toggle');
     if (!toggle) return;
 
-    const poems = (CONTENT.poetry || []).map(p => ({ name: p.title, who: p.poet, body: p.excerpt, url: p.url, more: !p.full, note: 'the full poem opens on the original page, in a new tab' }));
-    const quotes = (CONTENT.quotes || []).map(q => ({ name: q.text, who: q.by, body: q.text, url: q.url, linkLabel: q.linkLabel, more: !!q.more, note: 'this is the start of the post. the rest opens on the original page, in a new tab' }));
+    const poems = (CONTENT.poetry || []).map(p => ({ name: p.title, who: p.poet, body: p.excerpt, url: p.url }));
+    const quotes = (CONTENT.quotes || []).map(q => ({ name: q.text, body: q.text, url: q.url, linkLabel: q.linkLabel }));
 
-    renderWin95List(document.getElementById('poetry-host'), poems, { title: 'my poems', nameLabel: 'Name', whoLabel: 'Poet', linkLabel: 'read the full poem' });
-    renderWin95List(document.getElementById('quotes-host'), quotes, { title: 'fav quotes', nameLabel: 'Quote', whoLabel: 'Said by', linkLabel: 'see the source' });
+    renderWin95List(document.getElementById('poetry-host'), poems, { title: 'my poems', nameLabel: 'Name', whoLabel: 'Poet', linkLabel: 'see the source' });
+    renderWin95List(document.getElementById('quotes-host'), quotes, { title: 'fav quotes', nameLabel: 'Quote', linkLabel: 'see the source' });
 
     const btns = Array.from(toggle.querySelectorAll('.content-type-btn'));
     const quotesBtn = toggle.querySelector('[data-type="quotes"]');
@@ -4513,7 +4510,7 @@ function renderWin95List(host, items, opts) {
     const table = el('table', 'wp-table');
     const head = el('tr');
     head.appendChild(el('th', null, opts.nameLabel));
-    head.appendChild(el('th', null, opts.whoLabel));
+    if (opts.whoLabel) head.appendChild(el('th', null, opts.whoLabel));
     const thead = el('thead');
     thead.appendChild(head);
     table.appendChild(thead);
@@ -4526,7 +4523,7 @@ function renderWin95List(host, items, opts) {
         name.appendChild(el('span', 'wp-file', '\uD83D\uDCC4'));
         name.appendChild(el('span', 'wp-name', item.name));
         tr.appendChild(name);
-        tr.appendChild(el('td', null, item.who));
+        if (opts.whoLabel) tr.appendChild(el('td', null, item.who));
         const open = () => show(i);
         tr.addEventListener('click', open);
         tr.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
@@ -4552,22 +4549,20 @@ function renderWin95List(host, items, opts) {
         reader.textContent = '';
         reader.appendChild(titlebar(item.name.length > 40 ? 'quote - Notepad' : item.name + ' - Notepad', back));
         const bar = el('div', 'wp-toolbar');
-        const bk = el('button', 'wp-btn', '\u2190 Back');
-        bk.type = 'button';
-        bk.addEventListener('click', back);
-        bar.appendChild(bk);
+        const btn = (label, fn) => {
+            const b = el('button', 'wp-btn', label);
+            b.type = 'button';
+            b.addEventListener('click', fn);
+            bar.appendChild(b);
+            return b;
+        };
+        const bk = btn('\u2190 Back', back);
         reader.appendChild(bar);
         const page = el('div', 'wp-page');
         if (item.body) page.appendChild(el('div', 'wp-text', item.body));
-        page.appendChild(el('div', 'wp-by', '\u2014 ' + item.who));
-        if (item.more) {
-            const note = el('div', 'wp-note');
-            note.appendChild(el('span', 'wp-note-icon', 'i'));
-            note.appendChild(el('span', null, item.note));
-            page.appendChild(note);
-        }
+        if (item.who) page.appendChild(el('div', 'wp-by', '\u2014 ' + item.who));
         if (item.url) {
-            const a = el('a', 'wp-link', (item.linkLabel || opts.linkLabel) + ' \u2197');
+            const a = el('a', 'wp-link', (item.linkLabel || opts.linkLabel));
             a.href = item.url;
             a.target = '_blank';
             a.rel = 'noopener noreferrer';

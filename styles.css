@@ -2027,10 +2027,32 @@ a, button, .tab, .highlight, [role="button"] {
 
 /* Video cards (watch me) */
 .video-list {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-    margin-bottom: 24px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 14px;
+    align-content: start;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 8px;
+    margin-bottom: 20px;
+}
+
+.video-list .thoughts-title { font-size: 0.875rem; line-height: 1.4; }
+.video-list .thoughts-date { font-size: 0.75rem; }
+.video-list .video-play { width: 36px; height: 36px; margin: -18px 0 0 -18px; }
+.video-list .video-play::after { margin: -6px 0 0 -3px; border-left-width: 10px; border-top-width: 6px; border-bottom-width: 6px; }
+.video-list .video-duration { right: 6px; bottom: 6px; font-size: 0.6875rem; padding: 0 6px; }
+
+.thoughts-posts-list {
+    max-height: 360px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.video-list,
+.thoughts-posts-list {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
 }
 
 .video-card {
@@ -5447,7 +5469,7 @@ body.mode-sunny .sidebar {
     background: #c0c0c0;
     border: 2px outset #dfdfdf;
     box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
-    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-family: var(--font-body);
     color: #000;
     line-height: 1.4;
 }
@@ -5468,6 +5490,7 @@ body.mode-sunny .sidebar {
 .wp-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .wp-controls { display: flex; gap: 2px; }
 
+.wp-window button { font-family: var(--font-body); }
 .wp-controls button {
     width: 16px;
     height: 14px;
@@ -5519,7 +5542,7 @@ body.mode-sunny .sidebar {
 
 .wp-btn {
     padding: 3px 14px;
-    font: 0.8125rem 'Segoe UI', Tahoma, sans-serif;
+    font: 0.8125rem var(--font-body);
     color: #000;
     background: #c0c0c0;
     border: 2px outset #fff;
@@ -5531,12 +5554,15 @@ body.mode-sunny .sidebar {
 .wp-page {
     margin: 2px;
     padding: 18px 20px 22px;
-    min-height: 220px;
+    max-height: 320px;
+    box-sizing: border-box;
+    overflow-y: auto;
     background: #fff;
     border: 2px inset #808080;
 }
+.wp-toolbar { display: flex; align-items: center; gap: 6px; }
 
-.wp-text { font-family: 'Lucida Console', 'Courier New', monospace; font-size: 0.9375rem; line-height: 1.7; white-space: pre-line; }
+.wp-text { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.45; white-space: pre-line; }
 .wp-by { margin-top: 16px; font-size: 0.875rem; color: #444; }
 .wp-note { display: flex; align-items: center; gap: 10px; margin-top: 18px; padding: 8px 10px; font-size: 0.8125rem; background: #ffffe1; border: 2px inset #808080; }
 .wp-note-icon { flex: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #000080; color: #fff; font: bold 0.75rem 'Times New Roman', serif; font-style: italic; }
