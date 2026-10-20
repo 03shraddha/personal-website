@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initGlitterBrush(); // Click-and-drag glitter trail
         initPhotoGallery(); // Polaroid photo gallery
         initContentCalendar(); // Content consumption calendar
+        initContentTypes(); // articles & videos / poetry / fav quotes
         initMobileMenu();   // Mobile hamburger menu
         initPageViewCounter(); // Page view counter
         initGuestbook();    // Virtual guestbook
@@ -4416,4 +4417,159 @@ function initMascot() {
     }
 
     btn.addEventListener('click', boop);
+}
+
+
+/**
+ * Content type toggle (articles & videos / poetry / fav quotes)
+ * and the Windows 95 style list + reader used by poetry and quotes.
+ */
+function initContentTypes() {
+    const toggle = document.getElementById('content-type-toggle');
+    if (!toggle) return;
+
+    const poems = (CONTENT.poetry || []).map(p => ({ name: p.title, who: p.poet, body: p.excerpt, url: p.url }));
+    const quotes = (CONTENT.quotes || []).map(q => ({ name: q.text, who: q.by, body: q.text, url: q.url, quote: true }));
+
+    renderWin95List(document.getElementById('poetry-host'), poems, { title: 'my poems', nameLabel: 'Name', whoLabel: 'Poet', linkLabel: 'read the full poem' });
+    renderWin95List(document.getElementById('quotes-host'), quotes, { title: 'fav quotes', nameLabel: 'Quote', whoLabel: 'Said by', linkLabel: 'see the source' });
+
+    const btns = Array.from(toggle.querySelectorAll('.content-type-btn'));
+    const quotesBtn = toggle.querySelector('[data-type="quotes"]');
+    const poetryBtn = toggle.querySelector('[data-type="poetry"]');
+    if (quotes.length) quotesBtn.hidden = false;
+    if (!poems.length) poetryBtn.hidden = true;
+    const visible = btns.filter(b => !b.hidden);
+    toggle.style.setProperty('--n', visible.length);
+
+    const panels = {
+        links: document.getElementById('content-links-panel'),
+        poetry: document.getElementById('content-poetry-panel'),
+        quotes: document.getElementById('content-quotes-panel')
+    };
+
+    function select(btn, focus) {
+        const type = btn.dataset.type;
+        toggle.dataset.active = type;
+        toggle.style.setProperty('--i', visible.indexOf(btn));
+        btns.forEach(b => {
+            const on = b === btn;
+            b.classList.toggle('is-active', on);
+            b.setAttribute('aria-selected', on ? 'true' : 'false');
+            b.tabIndex = on ? 0 : -1;
+        });
+        Object.keys(panels).forEach(k => {
+            if (!panels[k]) return;
+            const on = k === type;
+            panels[k].classList.toggle('hidden', !on);
+            if (on) {
+                panels[k].classList.remove('thoughts-panel-in');
+                void panels[k].offsetWidth;
+                panels[k].classList.add('thoughts-panel-in');
+            }
+        });
+        if (focus) btn.focus();
+    }
+
+    visible.forEach(btn => btn.addEventListener('click', () => select(btn)));
+    toggle.addEventListener('keydown', e => {
+        if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+        const cur = visible.findIndex(b => b.classList.contains('is-active'));
+        const next = (cur + (e.key === 'ArrowRight' ? 1 : -1) + visible.length) % visible.length;
+        select(visible[next], true);
+        e.preventDefault();
+    });
+}
+
+function renderWin95List(host, items, opts) {
+    if (!host) return;
+    host.textContent = '';
+
+    const el = (tag, cls, text) => {
+        const n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (text != null) n.textContent = text;
+        return n;
+    };
+    const titlebar = (label, onClose) => {
+        const bar = el('div', 'wp-titlebar');
+        bar.appendChild(el('span', 'wp-title', label));
+        const ctl = el('div', 'wp-controls');
+        ['_', '\u25A1', 'x'].forEach((g, i) => {
+            const b = el('button', null, g);
+            b.type = 'button';
+            b.setAttribute('aria-label', ['minimize', 'maximize', 'close'][i]);
+            if (i === 2 && onClose) b.addEventListener('click', onClose);
+            ctl.appendChild(b);
+        });
+        bar.appendChild(ctl);
+        return bar;
+    };
+
+    // List window
+    const list = el('div', 'wp-window');
+    list.appendChild(titlebar(opts.title));
+    const pane = el('div', 'wp-pane');
+    const table = el('table', 'wp-table');
+    const head = el('tr');
+    head.appendChild(el('th', null, opts.nameLabel));
+    head.appendChild(el('th', null, opts.whoLabel));
+    const thead = el('thead');
+    thead.appendChild(head);
+    table.appendChild(thead);
+    const tbody = el('tbody');
+    items.forEach((item, i) => {
+        const tr = el('tr');
+        tr.tabIndex = 0;
+        tr.setAttribute('role', 'button');
+        const name = el('td');
+        name.appendChild(el('span', 'wp-file', '\uD83D\uDCC4'));
+        name.appendChild(el('span', 'wp-name', item.name));
+        tr.appendChild(name);
+        tr.appendChild(el('td', null, item.who));
+        const open = () => show(i);
+        tr.addEventListener('click', open);
+        tr.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    pane.appendChild(table);
+    list.appendChild(pane);
+
+    // Reader window
+    const reader = el('div', 'wp-window hidden');
+    host.appendChild(list);
+    host.appendChild(reader);
+
+    function back() {
+        reader.classList.add('hidden');
+        list.classList.remove('hidden');
+        list.scrollIntoView({ block: 'nearest' });
+    }
+
+    function show(i) {
+        const item = items[i];
+        reader.textContent = '';
+        reader.appendChild(titlebar(item.name.length > 40 ? 'quote - Notepad' : item.name + ' - Notepad', back));
+        const bar = el('div', 'wp-toolbar');
+        const bk = el('button', 'wp-btn', '\u2190 Back');
+        bk.type = 'button';
+        bk.addEventListener('click', back);
+        bar.appendChild(bk);
+        reader.appendChild(bar);
+        const page = el('div', 'wp-page');
+        if (item.body) page.appendChild(el('div', 'wp-text', item.body));
+        page.appendChild(el('div', 'wp-by', '\u2014 ' + item.who));
+        if (item.url) {
+            const a = el('a', 'wp-link', opts.linkLabel);
+            a.href = item.url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            page.appendChild(a);
+        }
+        reader.appendChild(page);
+        list.classList.add('hidden');
+        reader.classList.remove('hidden');
+        bk.focus();
+    }
 }

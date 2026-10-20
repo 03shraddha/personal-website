@@ -302,6 +302,28 @@ const CONTENT = {
     },
 
     // ==========================================
+    // POETRY - poems I'm reading and loving (shown under "poetry" in content worth consuming)
+    // Keep the excerpt short; the url sends readers to the full poem.
+    // ==========================================
+    poetryUrl: "",
+    poetry: [
+        { title: "The Prophet: On Work", poet: "Kahlil Gibran", url: "https://monadnock.net/gibran/work.html",
+          excerpt: "You work that you may keep pace with the earth and the soul of the earth.\nFor to be idle is to become a stranger unto the seasons." },
+        { title: "Duty and Joy", poet: "Rabindranath Tagore", url: "https://redtreetimes.com/2020/06/19/duty-and-joy/",
+          excerpt: "I slept and dreamt\nthat life was joy.\nI awoke and saw\nthat life was duty.\nI worked — and behold,\nduty was joy." },
+        { title: "Wild Geese", poet: "Mary J Oliver", url: "https://allpoetry.com/poem/15374223-Wild-geese-by-Mary-J-Oliver",
+          excerpt: "You do not have to be good.\nYou do not have to walk on your knees" },
+        { title: "He Tells Her", poet: "A Poem A Day", url: "https://apoemaday.tumblr.com/post/756088324737974272/he-tells-her",
+          excerpt: "" },
+    ],
+
+    // ==========================================
+    // FAV QUOTES - the "fav quotes" tab only shows up once this list has entries
+    // { text: "the quote", by: "who said it", url: "optional source link" }
+    // ==========================================
+    quotes: [],
+
+    // ==========================================
     // CONTENT CALENDAR - Track what you consume
     // ==========================================
     // This is the initial/default data. User-added entries are stored in localStorage

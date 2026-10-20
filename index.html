@@ -243,6 +243,15 @@
             <p class="section-intro">i haven’t watched many movies in my life, but the ones i have watched recently can be found on my <a href="https://letterboxd.com/03shraddha/" target="_blank" rel="noopener noreferrer" class="section-inline-link">letterboxd</a></p>
             <p class="section-intro">using this space to keep track of things I’ve read (updated weekly)</p>
 
+            <!-- Content type toggle: articles & videos / poetry / fav quotes -->
+            <div class="content-type-toggle" id="content-type-toggle" role="tablist" aria-label="choose what to browse" data-active="links" style="--n:2; --i:0">
+                <span class="content-type-knob" aria-hidden="true"></span>
+                <button type="button" role="tab" class="content-type-btn is-active" data-type="links" aria-selected="true">articles &amp; videos</button>
+                <button type="button" role="tab" class="content-type-btn" data-type="poetry" aria-selected="false" tabindex="-1">poetry</button>
+                <button type="button" role="tab" class="content-type-btn" data-type="quotes" aria-selected="false" tabindex="-1" hidden>fav quotes</button>
+            </div>
+
+            <div id="content-links-panel" class="content-type-panel">
             <!-- View Toggle -->
             <div class="content-view-controls">
                 <div class="view-toggle" data-active="calendar">
@@ -280,6 +289,10 @@
                     <!-- Loaded from content.js -->
                 </div>
             </div>
+            </div>
+
+            <div id="content-poetry-panel" class="content-type-panel hidden"><div class="wp-host" id="poetry-host"></div></div>
+            <div id="content-quotes-panel" class="content-type-panel hidden"><div class="wp-host" id="quotes-host"></div></div>
 
             <!-- Day Detail Slide-out Panel -->
             <div id="content-day-panel" class="content-day-panel">

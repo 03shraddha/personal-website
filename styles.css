@@ -5373,3 +5373,174 @@ body.mode-sunny .sidebar {
     }
 }
 
+
+
+/* ===================================
+   Content type toggle (articles & videos / poetry / fav quotes)
+   =================================== */
+.content-type-toggle {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr));
+    width: fit-content;
+    margin: 28px auto 24px;
+    padding: 4px;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+}
+
+.content-type-knob {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc((100% - 8px) / var(--n, 2));
+    border-radius: 999px;
+    background: var(--highlight-peach);
+    transform: translateX(calc(var(--i, 0) * 100%));
+    transition: transform 0.3s cubic-bezier(0.3, 0.8, 0.3, 1), background 0.3s ease;
+}
+
+.content-type-toggle[data-active="poetry"] .content-type-knob { background: var(--highlight-lavender); }
+.content-type-toggle[data-active="quotes"] .content-type-knob { background: var(--highlight-blue); }
+
+.content-type-btn {
+    position: relative;
+    z-index: 1;
+    min-width: 140px;
+    padding: 8px 22px;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-transform: lowercase;
+    white-space: nowrap;
+    color: var(--color-text-muted);
+    background: none;
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 0.25s ease;
+}
+
+.content-type-btn[hidden] { display: none; }
+.content-type-btn:hover,
+.content-type-btn.is-active { color: var(--color-text); }
+.content-type-btn:focus-visible { outline: 2px solid var(--color-text); outline-offset: 2px; }
+
+.content-type-panel.hidden { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+    .content-type-knob { transition: none; }
+}
+
+@media (max-width: 480px) {
+    .content-type-toggle { width: 100%; }
+    .content-type-btn { min-width: 0; padding: 8px 6px; min-height: 44px; line-height: 1.2; white-space: normal; text-align: center; }
+}
+
+/* ===================================
+   Poetry / quotes - Windows 95 list + reader
+   =================================== */
+.wp-window {
+    max-width: 620px;
+    background: #c0c0c0;
+    border: 2px outset #dfdfdf;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    color: #000;
+    line-height: 1.4;
+}
+
+.wp-window.hidden { display: none; }
+
+.wp-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 4px;
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.wp-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wp-controls { display: flex; gap: 2px; }
+
+.wp-controls button {
+    width: 16px;
+    height: 14px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #c0c0c0;
+    border: 2px outset #fff;
+    font-size: 0.625rem;
+    line-height: 1;
+    color: #000;
+    cursor: pointer;
+}
+
+.wp-controls button:active { border-style: inset; }
+
+.wp-pane {
+    margin: 2px;
+    background: #fff;
+    border: 2px inset #808080;
+}
+
+.wp-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; table-layout: fixed; }
+
+.wp-table th {
+    padding: 3px 8px;
+    text-align: left;
+    font-weight: bold;
+    background: #c0c0c0;
+    border: 2px outset #fff;
+}
+
+.wp-table th:first-child { width: 58%; }
+
+.wp-table td {
+    padding: 6px 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.wp-table tbody tr { cursor: pointer; }
+.wp-table tbody tr:hover,
+.wp-table tbody tr:focus-visible { background: #000080; color: #fff; outline: none; }
+.wp-file { margin-right: 8px; }
+
+.wp-toolbar { padding: 6px 4px 2px; }
+
+.wp-btn {
+    padding: 3px 14px;
+    font: 0.8125rem 'Segoe UI', Tahoma, sans-serif;
+    color: #000;
+    background: #c0c0c0;
+    border: 2px outset #fff;
+    cursor: pointer;
+}
+
+.wp-btn:active { border-style: inset; }
+
+.wp-page {
+    margin: 2px;
+    padding: 18px 20px 22px;
+    min-height: 220px;
+    background: #fff;
+    border: 2px inset #808080;
+}
+
+.wp-text { font-family: 'Lucida Console', 'Courier New', monospace; font-size: 0.9375rem; line-height: 1.7; white-space: pre-line; }
+.wp-by { margin-top: 16px; font-size: 0.875rem; color: #444; }
+.wp-link { display: inline-block; margin-top: 12px; font-size: 0.875rem; color: #0000ee; text-decoration: underline; }
+
+@media (max-width: 480px) {
+    .wp-table th:first-child { width: 55%; }
+    .wp-table td { padding: 10px 8px; }
+}
