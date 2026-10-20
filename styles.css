@@ -5538,7 +5538,11 @@ body.mode-sunny .sidebar {
 
 .wp-text { font-family: 'Lucida Console', 'Courier New', monospace; font-size: 0.9375rem; line-height: 1.7; white-space: pre-line; }
 .wp-by { margin-top: 16px; font-size: 0.875rem; color: #444; }
-.wp-link { display: inline-block; margin-top: 12px; font-size: 0.875rem; color: #0000ee; text-decoration: underline; }
+.wp-note { display: flex; align-items: center; gap: 10px; margin-top: 18px; padding: 8px 10px; font-size: 0.8125rem; background: #ffffe1; border: 2px inset #808080; }
+.wp-note-icon { flex: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #000080; color: #fff; font: bold 0.75rem 'Times New Roman', serif; font-style: italic; }
+.wp-link { display: inline-block; margin-top: 14px; padding: 4px 16px; font-size: 0.8125rem; color: #000; text-decoration: none; background: #c0c0c0; border: 2px outset #fff; }
+.wp-link:active { border-style: inset; }
+.wp-link:hover { background: #d4d4d4; }
 
 @media (max-width: 480px) {
     .wp-table th:first-child { width: 55%; }

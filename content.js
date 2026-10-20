@@ -307,9 +307,10 @@ const CONTENT = {
     // ==========================================
     poetryUrl: "",
     poetry: [
-        { title: "The Prophet: On Work", poet: "Kahlil Gibran", url: "https://monadnock.net/gibran/work.html",
-          excerpt: "You work that you may keep pace with the earth and the soul of the earth.\nFor to be idle is to become a stranger unto the seasons." },
-        { title: "Duty and Joy", poet: "Rabindranath Tagore", url: "https://redtreetimes.com/2020/06/19/duty-and-joy/",
+        // full: true shows the whole poem on the site (public domain). Otherwise a short excerpt + link to the original.
+        { title: "The Prophet: On Work", poet: "Kahlil Gibran", url: "https://monadnock.net/gibran/work.html", full: true,
+          excerpt: "Then a ploughman said, Speak to us of Work.\n\nAnd he answered, saying:\n\nYou work that you may keep pace with the earth and the soul of the earth.\n\nFor to be idle is to become a stranger unto the seasons, and to step out of life's procession that marches in majesty and proud submission towards the infinite.\n\nWhen you work you are a flute through whose heart the whispering of the hours turns to music.\n\nWhich of you would be a reed, dumb and silent, when all else sings together in unison?\n\nAlways you have been told that work is a curse and labour a misfortune.\n\nBut I say to you that when you work you fulfill a part of earth's furthest dream, assigned to you when that dream was born,\n\nAnd in keeping yourself with labour you are in truth loving life,\n\nAnd to love life through labour is to be intimate with life's inmost secret.\n\nBut if you in your pain call birth an affliction and the support of the flesh a curse written upon your brow, then I answer that naught but the sweat of your brow shall wash away that which is written.\n\nYou have been told also that life is darkness, and in your weariness you echo what was said by the weary.\n\nAnd I say that life is indeed darkness save when there is urge,\n\nAnd all urge is blind save when there is knowledge.\n\nAnd all knowledge is vain save when there is work,\n\nAnd all work is empty save when there is love;\n\nAnd when you work with love you bind your self to yourself, and to one another, and to God.\n\nAnd what is it to work with love?\n\nIt is to weave the cloth with threads drawn from your heart, even as if your beloved were to wear that cloth.\n\nIt is to build a house with affection, even as if your beloved were to dwell in that house.\n\nIt is to sow seeds with tenderness and reap the harvest with joy, even as if your beloved were to eat the fruit.\n\nIt is to charge all things you fashion with a breath of your own spirit,\n\nAnd to know that all the blessed dead are standing about you and watching.\n\nOften have I heard you say, as if speaking in sleep, \"He who works in marble, and finds the shape of his own soul in the stone, is nobler than he who ploughs the soil.\n\nAnd he who seizes the rainbow to lay it on a cloth in the likeness of man, is more than he who makes the sandals for our feet.\"\n\nBut I say, not in sleep, but in the overwakefulness of noontide, that the wind speaks not more sweetly to the giant oaks than to the least of all the blades of grass;\n\nAnd he alone is great who turns the voice of the wind into a song made sweeter by his own loving.\n\nWork is love made visible. And if you cannot work with love but only with distaste, it is better that you should leave your work and sit at the gate of the temple and take alms of those who work with joy.\n\nFor if you bake bread with indifference, you bake a bitter bread that feeds but half man's hunger.\n\nAnd if you grudge the crushing of the grapes, your grudge distills a poison in the wine.\n\nAnd if you sing though as angels, and love not the singing, you muffle man's ears to the voices of the day and the voices of the night." },
+        { title: "Duty and Joy", poet: "Rabindranath Tagore", url: "https://redtreetimes.com/2020/06/19/duty-and-joy/", full: true,
           excerpt: "I slept and dreamt\nthat life was joy.\nI awoke and saw\nthat life was duty.\nI worked — and behold,\nduty was joy." },
         { title: "Wild Geese", poet: "Mary J Oliver", url: "https://allpoetry.com/poem/15374223-Wild-geese-by-Mary-J-Oliver",
           excerpt: "You do not have to be good.\nYou do not have to walk on your knees" },
@@ -319,9 +320,18 @@ const CONTENT = {
 
     // ==========================================
     // FAV QUOTES - the "fav quotes" tab only shows up once this list has entries
-    // { text: "the quote", by: "who said it", url: "optional source link" }
+    // { text, by, url (original), linkLabel, more: true if the text is cut short }
     // ==========================================
-    quotes: [],
+    quotes: [
+        { text: "Climb mountains not so the world can see you, but so you can see the world.", by: "David McCullough Jr.",
+          url: "https://www.goodreads.com/quotes/8556799-climb-mountains-not-so-the-world-can-see-you-but", linkLabel: "see the source" },
+        { text: "you dont skip the shower just because you dont have soap, or warm water, or perfect circumstances. rinsing off, even poorly, even miserably, beats being a stench aura grease monkey. so why do you do it with everything else that matters? you skip the thing because it cant be\u2026", by: "dante (@dantefofante)",
+          url: "https://x.com/dantefofante/status/2107508682854404185", linkLabel: "see the original tweet", more: true },
+        { text: "you don\u2019t get to spend your days doing whatever feels easiest and then act personally offended when your life reflects it. there\u2019s a consequence to the way you spend your time. eventually, the life you\u2019ve been imagining has to compete with the life you\u2019ve actually been creating.", by: "jo johnson (@josbjohnson)",
+          url: "https://x.com/josbjohnson/status/2106015361590026632", linkLabel: "see the original tweet", more: true },
+        { text: "If you tweet like the internet is your friend, then sometimes it actually does become your friend", by: "maja (@majamediaco)",
+          url: "https://x.com/majamediaco/status/2105852522913223030", linkLabel: "see the original tweet" },
+    ],
 
     // ==========================================
     // CONTENT CALENDAR - Track what you consume

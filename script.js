@@ -4428,8 +4428,8 @@ function initContentTypes() {
     const toggle = document.getElementById('content-type-toggle');
     if (!toggle) return;
 
-    const poems = (CONTENT.poetry || []).map(p => ({ name: p.title, who: p.poet, body: p.excerpt, url: p.url }));
-    const quotes = (CONTENT.quotes || []).map(q => ({ name: q.text, who: q.by, body: q.text, url: q.url, quote: true }));
+    const poems = (CONTENT.poetry || []).map(p => ({ name: p.title, who: p.poet, body: p.excerpt, url: p.url, more: !p.full, note: 'the full poem opens on the original page, in a new tab' }));
+    const quotes = (CONTENT.quotes || []).map(q => ({ name: q.text, who: q.by, body: q.text, url: q.url, linkLabel: q.linkLabel, more: !!q.more, note: 'this is the start of the post. the rest opens on the original page, in a new tab' }));
 
     renderWin95List(document.getElementById('poetry-host'), poems, { title: 'my poems', nameLabel: 'Name', whoLabel: 'Poet', linkLabel: 'read the full poem' });
     renderWin95List(document.getElementById('quotes-host'), quotes, { title: 'fav quotes', nameLabel: 'Quote', whoLabel: 'Said by', linkLabel: 'see the source' });
@@ -4560,8 +4560,14 @@ function renderWin95List(host, items, opts) {
         const page = el('div', 'wp-page');
         if (item.body) page.appendChild(el('div', 'wp-text', item.body));
         page.appendChild(el('div', 'wp-by', '\u2014 ' + item.who));
+        if (item.more) {
+            const note = el('div', 'wp-note');
+            note.appendChild(el('span', 'wp-note-icon', 'i'));
+            note.appendChild(el('span', null, item.note));
+            page.appendChild(note);
+        }
         if (item.url) {
-            const a = el('a', 'wp-link', opts.linkLabel);
+            const a = el('a', 'wp-link', (item.linkLabel || opts.linkLabel) + ' \u2197');
             a.href = item.url;
             a.target = '_blank';
             a.rel = 'noopener noreferrer';
