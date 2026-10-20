@@ -5405,6 +5405,7 @@ body.mode-sunny .sidebar {
     display: grid;
     grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr));
     width: fit-content;
+    max-width: 100%;
     margin: 28px auto 24px;
     padding: 4px;
     background: var(--color-card-bg);
@@ -5456,7 +5457,7 @@ body.mode-sunny .sidebar {
     .content-type-knob { transition: none; }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
     .content-type-toggle { width: 100%; }
     .content-type-btn { min-width: 0; padding: 8px 6px; min-height: 44px; line-height: 1.2; white-space: normal; text-align: center; }
 }
