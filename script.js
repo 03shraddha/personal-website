@@ -704,6 +704,16 @@ function renderThoughtsVideos() {
     el.querySelectorAll('.video-thumb').forEach(btn => {
         btn.addEventListener('click', () => {
             const video = CONTENT.videos[btn.dataset.index];
+            if (video.youtube) {
+                const frame = document.createElement('iframe');
+                frame.src = 'https://www.youtube.com/embed/' + video.youtube + '?autoplay=1&rel=0';
+                frame.title = video.title;
+                frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+                frame.allowFullscreen = true;
+                frame.className = 'video-player';
+                btn.replaceWith(frame);
+                return;
+            }
             const player = document.createElement('video');
             player.src = video.video;
             player.poster = video.poster;
