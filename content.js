@@ -331,6 +331,10 @@ const CONTENT = {
           url: "https://x.com/josbjohnson/status/2106015361590026632", linkLabel: "see the original tweet", more: true },
         { text: "If you tweet like the internet is your friend, then sometimes it actually does become your friend", by: "maja (@majamediaco)",
           url: "https://x.com/majamediaco/status/2105852522913223030", linkLabel: "see the original tweet" },
+        { text: "People do not seem to realize that their opinion of the world is also a confession of character.", by: "Lilly | The Commonplace Circle (Substack note)",
+          url: "https://substack.com/@lillythecommonplacecircle/note/c-357591987", linkLabel: "see the original note" },
+        { text: "I don\u2019t think becoming the best always means becoming better than someone else. Sometimes it means developing your abilities into something so distinctly your own that there is no useful comparison.", by: "Karri Saarinen, room for ambition",
+          url: "https://karrisaarinen.com/posts/room-for-ambition/", linkLabel: "read the post" },
     ],
 
     // ==========================================
