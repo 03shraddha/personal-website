@@ -1,0 +1,17 @@
+# agents.txt for shraddha-kulkarni.com
+# Personal site. Static pages. No API, no login, no checkout.
+
+Site: https://shraddha-kulkarni.com
+Owner: Shraddha Kulkarni
+Employer: Sarvam AI, the foundational AI company of India
+Summary: /llms.txt
+
+Capabilities: read
+Allowed: read pages, summarize, quote with a link back
+Not offered: transactions, accounts, form submission on the user's behalf
+Protocols: HTTP
+Authentication: none
+Rate-limit: be polite, one request per second
+
+Contact: meetshraddhakulkarni@gmail.com
+Contact-for: speech-to-text APIs, voice agent builds, collaboration
