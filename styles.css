@@ -60,6 +60,7 @@ body {
     overflow-x: hidden; /* Fallback */
     overflow-x: clip;   /* Preferred: doesn't create scroll container, fixes iOS position:fixed bug */
     min-height: 100vh;
+    min-height: 100dvh;
 }
 
 /* Selection */
@@ -155,9 +156,11 @@ a, button, .tab, .highlight, [role="button"] {
     transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.social-links a:hover {
-    color: var(--color-text);
-    transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+    .social-links a:hover {
+        color: var(--color-text);
+        transform: translateY(-2px);
+    }
 }
 
 .social-links svg {
@@ -197,8 +200,10 @@ a, button, .tab, .highlight, [role="button"] {
     transition: color 0.2s ease;
 }
 
-.social-view-counter:hover {
-    color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .social-view-counter:hover {
+        color: var(--color-text);
+    }
 }
 
 .social-view-counter svg {
@@ -235,7 +240,7 @@ a, button, .tab, .highlight, [role="button"] {
     gap: 5px;
     padding: 10px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease;
 }
 
 .hamburger-line {
@@ -243,7 +248,7 @@ a, button, .tab, .highlight, [role="button"] {
     height: 2px;
     background: var(--color-text);
     border-radius: 2px;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease;
 }
 
 .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
@@ -615,8 +620,10 @@ a, button, .tab, .highlight, [role="button"] {
     transition: border-color 0.2s ease;
 }
 
-.about-list a:hover {
-    border-color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .about-list a:hover {
+        border-color: var(--color-text);
+    }
 }
 
 /* Learn about me list - Simple bullet list */
@@ -655,16 +662,22 @@ a, button, .tab, .highlight, [role="button"] {
     background: none;
 }
 
-.learn-about-list a.highlight.blue:hover {
-    border-bottom-color: var(--highlight-blue);
+@media (hover: hover) and (pointer: fine) {
+    .learn-about-list a.highlight.blue:hover {
+        border-bottom-color: var(--highlight-blue);
+    }
 }
 
-.learn-about-list a.highlight.peach:hover {
-    border-bottom-color: var(--highlight-peach);
+@media (hover: hover) and (pointer: fine) {
+    .learn-about-list a.highlight.peach:hover {
+        border-bottom-color: var(--highlight-peach);
+    }
 }
 
-.learn-about-list a.highlight.lavender:hover {
-    border-bottom-color: var(--highlight-lavender);
+@media (hover: hover) and (pointer: fine) {
+    .learn-about-list a.highlight.lavender:hover {
+        border-bottom-color: var(--highlight-lavender);
+    }
 }
 
 /* Source label - inline after arrow */
@@ -739,10 +752,12 @@ a, button, .tab, .highlight, [role="button"] {
     margin-top: 16px;
 }
 
-.beyond-work-toggle:hover {
-    color: #551A8B;
-    border-bottom-color: #551A8B;
-    background: none;
+@media (hover: hover) and (pointer: fine) {
+    .beyond-work-toggle:hover {
+        color: #551A8B;
+        border-bottom-color: #551A8B;
+        background: none;
+    }
 }
 
 .beyond-work-toggle.hidden {
@@ -767,10 +782,12 @@ a, button, .tab, .highlight, [role="button"] {
     margin-top: 16px;
 }
 
-.beyond-work-toggle-less:hover {
-    color: #0000EE;
-    border-bottom-color: #0000EE;
-    background: none;
+@media (hover: hover) and (pointer: fine) {
+    .beyond-work-toggle-less:hover {
+        color: #0000EE;
+        border-bottom-color: #0000EE;
+        background: none;
+    }
 }
 
 .beyond-work-toggle-less.active {
@@ -817,10 +834,12 @@ a, button, .tab, .highlight, [role="button"] {
     margin-top: 8px;
 }
 
-.corporate-toggle:hover {
-    color: #551A8B;
-    border-bottom-color: #551A8B;
-    background: none;
+@media (hover: hover) and (pointer: fine) {
+    .corporate-toggle:hover {
+        color: #551A8B;
+        border-bottom-color: #551A8B;
+        background: none;
+    }
 }
 
 .corporate-toggle.hidden {
@@ -845,10 +864,12 @@ a, button, .tab, .highlight, [role="button"] {
     margin-top: 8px;
 }
 
-.corporate-toggle-less:hover {
-    color: #0000EE;
-    border-bottom-color: #0000EE;
-    background: none;
+@media (hover: hover) and (pointer: fine) {
+    .corporate-toggle-less:hover {
+        color: #0000EE;
+        border-bottom-color: #0000EE;
+        background: none;
+    }
 }
 
 .corporate-toggle-less.active {
@@ -910,10 +931,12 @@ a, button, .tab, .highlight, [role="button"] {
     margin-left: 0;
 }
 
-.background-toggle:hover {
-    color: #551A8B;
-    border-bottom-color: #551A8B;
-    background: none;
+@media (hover: hover) and (pointer: fine) {
+    .background-toggle:hover {
+        color: #551A8B;
+        border-bottom-color: #551A8B;
+        background: none;
+    }
 }
 
 .background-toggle.hidden {
@@ -938,10 +961,12 @@ a, button, .tab, .highlight, [role="button"] {
     margin-top: 16px;
 }
 
-.background-toggle-less:hover {
-    color: #0000EE;
-    border-bottom-color: #0000EE;
-    background: none;
+@media (hover: hover) and (pointer: fine) {
+    .background-toggle-less:hover {
+        color: #0000EE;
+        border-bottom-color: #0000EE;
+        background: none;
+    }
 }
 
 .background-toggle-less.active {
@@ -958,7 +983,7 @@ a, button, .tab, .highlight, [role="button"] {
     padding: 2px 6px;
     margin: 0 -4px;
     border-radius: 4px;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
     display: inline;
     box-decoration-break: clone;
@@ -1002,7 +1027,7 @@ a, button, .tab, .highlight, [role="button"] {
     margin: 0 -2px;
     border-radius: 4px;
     background: var(--highlight-yellow);
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     display: inline;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
@@ -1019,8 +1044,10 @@ a, button, .tab, .highlight, [role="button"] {
     background: var(--highlight-lavender);
 }
 
-.highlight-link.pink:hover {
-    background: var(--highlight-lavender-hover);
+@media (hover: hover) and (pointer: fine) {
+    .highlight-link.pink:hover {
+        background: var(--highlight-lavender-hover);
+    }
 }
 
 
@@ -1055,8 +1082,10 @@ a, button, .tab, .highlight, [role="button"] {
     margin-top: 8px;
 }
 
-.read-more:hover {
-    color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .read-more:hover {
+        color: var(--color-text);
+    }
 }
 
 /* ===================================
@@ -1341,10 +1370,12 @@ a, button, .tab, .highlight, [role="button"] {
     margin-top: 16px;
 }
 
-.experience-toggle:hover {
-    color: #551A8B;
-    border-bottom-color: #551A8B;
-    background: none;
+@media (hover: hover) and (pointer: fine) {
+    .experience-toggle:hover {
+        color: #551A8B;
+        border-bottom-color: #551A8B;
+        background: none;
+    }
 }
 
 .toggle-arrow {
@@ -1456,10 +1487,12 @@ a, button, .tab, .highlight, [role="button"] {
     transition: color 0.15s ease, border-color 0.15s ease, opacity 0.2s ease;
 }
 
-.projects-nav-prev:hover,
-.projects-nav-next:hover {
-    color: var(--color-text);
-    border-color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .projects-nav-prev:hover,
+    .projects-nav-next:hover {
+        color: var(--color-text);
+        border-color: var(--color-text);
+    }
 }
 
 .projects-nav-prev.hidden,
@@ -1554,8 +1587,10 @@ a, button, .tab, .highlight, [role="button"] {
     opacity: 1;
 }
 
-.drag-handle:hover {
-    color: var(--color-text-light);
+@media (hover: hover) and (pointer: fine) {
+    .drag-handle:hover {
+        color: var(--color-text-light);
+    }
 }
 
 .drag-handle:active {
@@ -1611,12 +1646,14 @@ a, button, .tab, .highlight, [role="button"] {
     border: 1px solid var(--color-border);
     border-radius: 999px;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.project-link:hover {
-    border-color: var(--color-text);
-    color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .project-link:hover {
+        border-color: var(--color-text);
+        color: var(--color-text);
+    }
 }
 
 .project-link svg {
@@ -1686,8 +1723,10 @@ a, button, .tab, .highlight, [role="button"] {
     margin-top: 8px;
 }
 
-.project-toggle:hover {
-    color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .project-toggle:hover {
+        color: var(--color-text);
+    }
 }
 
 /* Project Admin Delete Button */
@@ -1705,7 +1744,7 @@ a, button, .tab, .highlight, [role="button"] {
     font-weight: 500;
     border-radius: 999px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     background: rgba(0, 0, 0, 0.03);
 }
 
@@ -1714,9 +1753,11 @@ a, button, .tab, .highlight, [role="button"] {
     border: 1px solid var(--color-border);
 }
 
-.project-edit-btn:hover {
-    border-color: var(--color-text);
-    color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .project-edit-btn:hover {
+        border-color: var(--color-text);
+        color: var(--color-text);
+    }
 }
 
 .project-delete-btn {
@@ -1724,9 +1765,11 @@ a, button, .tab, .highlight, [role="button"] {
     border: 1px solid #e75480;
 }
 
-.project-delete-btn:hover {
-    background: #e75480;
-    color: #fff;
+@media (hover: hover) and (pointer: fine) {
+    .project-delete-btn:hover {
+        background: #e75480;
+        color: #fff;
+    }
 }
 
 /* Add Project Button */
@@ -1739,12 +1782,14 @@ a, button, .tab, .highlight, [role="button"] {
     border: none;
     border-radius: 999px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     margin-bottom: 24px;
 }
 
-.add-project-btn:hover {
-    background: #333;
+@media (hover: hover) and (pointer: fine) {
+    .add-project-btn:hover {
+        background: #333;
+    }
 }
 
 [data-theme="dark"] .add-project-btn {
@@ -1752,8 +1797,10 @@ a, button, .tab, .highlight, [role="button"] {
     color: #1a1a1a;
 }
 
-[data-theme="dark"] .add-project-btn:hover {
-    background: #e0e0e0;
+@media (hover: hover) and (pointer: fine) {
+    [data-theme="dark"] .add-project-btn:hover {
+        background: #e0e0e0;
+    }
 }
 
 /* Project Modal */
@@ -1912,8 +1959,10 @@ a, button, .tab, .highlight, [role="button"] {
     margin-top: 4px;
 }
 
-.community-toggle:hover {
-    color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .community-toggle:hover {
+        color: var(--color-text);
+    }
 }
 
 /* Mobile responsive */
@@ -2136,8 +2185,10 @@ a, button, .tab, .highlight, [role="button"] {
     transition: transform 0.4s ease;
 }
 
-.video-thumb:hover img {
-    transform: scale(1.03);
+@media (hover: hover) and (pointer: fine) {
+    .video-thumb:hover img {
+        transform: scale(1.03);
+    }
 }
 
 .video-play {
@@ -2164,9 +2215,11 @@ a, button, .tab, .highlight, [role="button"] {
     border-bottom: 8px solid transparent;
 }
 
-.video-thumb:hover .video-play {
-    transform: scale(1.08);
-    background: var(--highlight-lavender);
+@media (hover: hover) and (pointer: fine) {
+    .video-thumb:hover .video-play {
+        transform: scale(1.08);
+        background: var(--highlight-lavender);
+    }
 }
 
 .video-thumb:focus-visible {
@@ -2260,8 +2313,10 @@ a, button, .tab, .highlight, [role="button"] {
     line-height: 1.5;
 }
 
-.thoughts-title:hover {
-    border-bottom-color: var(--highlight-peach);
+@media (hover: hover) and (pointer: fine) {
+    .thoughts-title:hover {
+        border-bottom-color: var(--highlight-peach);
+    }
 }
 
 .thoughts-date {
@@ -2279,8 +2334,10 @@ a, button, .tab, .highlight, [role="button"] {
     margin-top: 16px;
 }
 
-.thoughts-view-all:hover {
-    color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .thoughts-view-all:hover {
+        color: var(--color-text);
+    }
 }
 
 .section-inline-link {
@@ -2290,8 +2347,10 @@ a, button, .tab, .highlight, [role="button"] {
     transition: color 0.2s ease;
 }
 
-.section-inline-link:hover {
-    color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .section-inline-link:hover {
+        color: var(--color-text);
+    }
 }
 
 /* ===================================
@@ -2725,8 +2784,10 @@ a, button, .tab, .highlight, [role="button"] {
                 transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.labs-check-item:hover .labs-check-circle {
-    border-color: var(--color-text-muted);
+@media (hover: hover) and (pointer: fine) {
+    .labs-check-item:hover .labs-check-circle {
+        border-color: var(--color-text-muted);
+    }
 }
 
 .labs-check-circle::after {
@@ -2843,12 +2904,14 @@ a .reveal-word {
     border: 1px solid var(--color-border);
     border-radius: 100px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.photo-tab:hover {
-    border-color: var(--color-text-muted);
-    color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .photo-tab:hover {
+        border-color: var(--color-text-muted);
+        color: var(--color-text);
+    }
 }
 
 .photo-tab.active {
@@ -2870,13 +2933,15 @@ a .reveal-word {
     border: 2px dashed var(--color-border);
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     margin-bottom: 32px;
 }
 
-.add-photo-btn:hover {
-    border-color: var(--color-text-muted);
-    background: var(--color-card-bg);
+@media (hover: hover) and (pointer: fine) {
+    .add-photo-btn:hover {
+        border-color: var(--color-text-muted);
+        background: var(--color-card-bg);
+    }
 }
 
 /* Polaroid Gallery Grid */
@@ -2908,10 +2973,12 @@ a .reveal-word {
 .polaroid:nth-child(5n) { transform: rotate(2.5deg); }
 .polaroid:nth-child(7n) { transform: rotate(-3deg); }
 
-.polaroid:hover {
-    transform: rotate(0deg) scale(1.05) translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    z-index: 10;
+@media (hover: hover) and (pointer: fine) {
+    .polaroid:hover {
+        transform: rotate(0deg) scale(1.05) translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        z-index: 10;
+    }
 }
 
 /* Polaroid Image Container */
@@ -2932,8 +2999,10 @@ a .reveal-word {
     transition: filter 0.5s ease;
 }
 
-.polaroid:hover .polaroid-image img {
-    filter: grayscale(0%);
+@media (hover: hover) and (pointer: fine) {
+    .polaroid:hover .polaroid-image img {
+        filter: grayscale(0%);
+    }
 }
 
 /* Polaroid Caption Display (for visitors) */
@@ -2955,9 +3024,11 @@ a .reveal-word {
     opacity: 0.7;
 }
 
-.polaroid-empty:hover {
-    transform: none;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+@media (hover: hover) and (pointer: fine) {
+    .polaroid-empty:hover {
+        transform: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
 }
 
 .polaroid-placeholder {
@@ -3076,9 +3147,11 @@ a .reveal-word {
     opacity: 1;
 }
 
-.polaroid-delete:hover {
-    background: #ff3344;
-    transform: scale(1.1);
+@media (hover: hover) and (pointer: fine) {
+    .polaroid-delete:hover {
+        background: #ff3344;
+        transform: scale(1.1);
+    }
 }
 
 /* Photo Editor Modal */
@@ -3220,7 +3293,7 @@ a .reveal-word {
     font-weight: 500;
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .photo-btn-primary {
@@ -3240,8 +3313,10 @@ a .reveal-word {
     border: 1px solid var(--color-border);
 }
 
-.photo-btn-secondary:hover {
-    border-color: var(--color-text-muted);
+@media (hover: hover) and (pointer: fine) {
+    .photo-btn-secondary:hover {
+        border-color: var(--color-text-muted);
+    }
 }
 
 /* Empty state */
@@ -3375,12 +3450,14 @@ a .reveal-word {
     border: 1px solid var(--color-border);
     border-radius: 100px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.add-content-btn:hover {
-    border-color: var(--color-text-muted);
-    background: var(--color-card-bg);
+@media (hover: hover) and (pointer: fine) {
+    .add-content-btn:hover {
+        border-color: var(--color-text-muted);
+        background: var(--color-card-bg);
+    }
 }
 
 /* Calendar View */
@@ -3414,13 +3491,15 @@ a .reveal-word {
     border: 1px solid var(--color-border);
     border-radius: 50%;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.calendar-nav:hover {
-    border-color: var(--color-text-muted);
-    color: var(--color-text);
-    background: var(--color-card-bg);
+@media (hover: hover) and (pointer: fine) {
+    .calendar-nav:hover {
+        border-color: var(--color-text-muted);
+        color: var(--color-text);
+        background: var(--color-card-bg);
+    }
 }
 
 /* Weekday Headers */
@@ -3456,15 +3535,17 @@ a .reveal-word {
     border: 1px solid var(--color-border);
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     display: flex;
     flex-direction: column;
     position: relative;
 }
 
-.calendar-day:hover {
-    border-color: var(--color-text-muted);
-    background: var(--color-card-bg);
+@media (hover: hover) and (pointer: fine) {
+    .calendar-day:hover {
+        border-color: var(--color-text-muted);
+        background: var(--color-card-bg);
+    }
 }
 
 .calendar-day.empty {
@@ -3474,9 +3555,11 @@ a .reveal-word {
     border-color: transparent;
 }
 
-.calendar-day.empty:hover {
-    background: transparent;
-    border-color: transparent;
+@media (hover: hover) and (pointer: fine) {
+    .calendar-day.empty:hover {
+        background: transparent;
+        border-color: transparent;
+    }
 }
 
 .calendar-day.today {
@@ -3545,7 +3628,7 @@ a .reveal-word {
     line-height: 1.4;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.2s ease;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
     z-index: 100;
     pointer-events: none;
 }
@@ -3621,19 +3704,23 @@ a .reveal-word {
     transition: background 0.2s ease;
 }
 
-.content-edit-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
+@media (hover: hover) and (pointer: fine) {
+    .content-edit-btn:hover {
+        background: rgba(0, 0, 0, 0.05);
+    }
 }
 
-.content-delete-btn:hover {
-    background: rgba(255, 0, 0, 0.1);
+@media (hover: hover) and (pointer: fine) {
+    .content-delete-btn:hover {
+        background: rgba(255, 0, 0, 0.1);
+    }
 }
 
 .content-clean-link {
     font-size: 1rem;
     color: var(--color-text);
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .content-clean-link[href]:not([href="javascript:void(0)"]) {
@@ -3652,13 +3739,17 @@ a .reveal-word {
     transition: transform 0.2s ease;
 }
 
-.content-clean-link[href]:not([href="javascript:void(0)"]):hover {
-    color: #000;
-    text-decoration-color: rgba(0, 0, 0, 0.5);
+@media (hover: hover) and (pointer: fine) {
+    .content-clean-link[href]:not([href="javascript:void(0)"]):hover {
+        color: #000;
+        text-decoration-color: rgba(0, 0, 0, 0.5);
+    }
 }
 
-.content-clean-link[href]:not([href="javascript:void(0)"]):hover::after {
-    transform: translate(1px, -1px);
+@media (hover: hover) and (pointer: fine) {
+    .content-clean-link[href]:not([href="javascript:void(0)"]):hover::after {
+        transform: translate(1px, -1px);
+    }
 }
 
 .content-clean-source {
@@ -3696,12 +3787,14 @@ a .reveal-word {
     border: 1px solid var(--color-border);
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.pagination-btn:hover:not(:disabled) {
-    border-color: var(--color-text);
-    color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .pagination-btn:hover:not(:disabled) {
+        border-color: var(--color-text);
+        color: var(--color-text);
+    }
 }
 
 .pagination-btn:disabled {
@@ -3845,8 +3938,10 @@ a .reveal-word {
     transition: color 0.2s ease;
 }
 
-.panel-close:hover {
-    color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .panel-close:hover {
+        color: var(--color-text);
+    }
 }
 
 .panel-date {
@@ -3905,8 +4000,10 @@ a .reveal-word {
     transition: color 0.2s ease;
 }
 
-.panel-item-title:hover {
-    color: var(--color-text-muted);
+@media (hover: hover) and (pointer: fine) {
+    .panel-item-title:hover {
+        color: var(--color-text-muted);
+    }
 }
 
 .panel-item-source {
@@ -4031,7 +4128,7 @@ a .reveal-word {
     font-weight: 500;
     border-radius: 999px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-primary {
@@ -4050,9 +4147,11 @@ a .reveal-word {
     border: 1px solid var(--color-border);
 }
 
-.btn-secondary:hover {
-    background: rgba(0, 0, 0, 0.07);
-    border-color: var(--color-text-muted);
+@media (hover: hover) and (pointer: fine) {
+    .btn-secondary:hover {
+        background: rgba(0, 0, 0, 0.07);
+        border-color: var(--color-text-muted);
+    }
 }
 
 /* Modal close button */
@@ -4071,14 +4170,16 @@ a .reveal-word {
     border: 1px solid var(--color-border);
     border-radius: 50%;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     line-height: 1;
     z-index: 10;
 }
 
-.modal-close-btn:hover {
-    color: var(--color-text);
-    border-color: var(--color-text-muted);
+@media (hover: hover) and (pointer: fine) {
+    .modal-close-btn:hover {
+        color: var(--color-text);
+        border-color: var(--color-text-muted);
+    }
 }
 
 /* Required field indicator */
@@ -4107,12 +4208,14 @@ a .reveal-word {
     border: 1px solid var(--color-border);
     border-radius: 100px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.category-pill:hover {
-    border-color: var(--color-text-muted);
-    color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .category-pill:hover {
+        border-color: var(--color-text-muted);
+        color: var(--color-text);
+    }
 }
 
 .category-pill.active {
@@ -4207,8 +4310,10 @@ a .reveal-word {
     transition: color 0.2s ease;
 }
 
-.detail-back-btn:hover {
-    color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .detail-back-btn:hover {
+        color: var(--color-text);
+    }
 }
 
 .detail-back-btn svg {
@@ -4276,12 +4381,14 @@ a .reveal-word {
     padding: 12px 20px;
     border: 1px solid var(--color-border);
     border-radius: 8px;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.detail-original-link:hover {
-    border-color: var(--color-text-muted);
-    background: var(--color-bg);
+@media (hover: hover) and (pointer: fine) {
+    .detail-original-link:hover {
+        border-color: var(--color-text-muted);
+        background: var(--color-bg);
+    }
 }
 
 .detail-thoughts-section {
@@ -4343,12 +4450,14 @@ a .reveal-word {
     z-index: 1000;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.fab-add-content:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+@media (hover: hover) and (pointer: fine) {
+    .fab-add-content:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+    }
 }
 
 .fab-add-content svg {
@@ -4383,7 +4492,7 @@ a .reveal-word {
         padding: 0;
         cursor: pointer;
         box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        transition: all 0.2s ease;
+        transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .mobile-menu-toggle:hover {
@@ -4402,7 +4511,7 @@ a .reveal-word {
         width: 20px;
         height: 2px;
         background: var(--color-text);
-        transition: all 0.3s ease;
+        transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease;
         border-radius: 1px;
     }
 
@@ -4487,7 +4596,7 @@ a .reveal-word {
         font-size: 1.125rem;
         color: var(--color-text-muted);
         border-radius: 8px;
-        transition: all 0.2s ease;
+        transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .nav-link:hover {
@@ -5028,9 +5137,11 @@ a .reveal-word {
     cursor: pointer;
 }
 
-.win95-menubar span:hover {
-    background: #000080;
-    color: white;
+@media (hover: hover) and (pointer: fine) {
+    .win95-menubar span:hover {
+        background: #000080;
+        color: white;
+    }
 }
 
 .win95-editor {
@@ -5115,8 +5226,10 @@ a .reveal-word {
     justify-content: center;
 }
 
-.notepad-delete-btn:hover {
-    background: #d4d4d4;
+@media (hover: hover) and (pointer: fine) {
+    .notepad-delete-btn:hover {
+        background: #d4d4d4;
+    }
 }
 
 .notepad-delete-btn:active {
@@ -5189,8 +5302,10 @@ a .reveal-word {
     border-style: inset;
 }
 
-.win95-btn:hover {
-    background: #d4d4d4;
+@media (hover: hover) and (pointer: fine) {
+    .win95-btn:hover {
+        background: #d4d4d4;
+    }
 }
 
 .win95-pagination {
@@ -5383,10 +5498,12 @@ body.mode-sunny .sidebar {
     letter-spacing: 0.01em;
 }
 
-.floating-pill:hover {
-    transform: scale(1.04);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
-    color: var(--color-text);
+@media (hover: hover) and (pointer: fine) {
+    .floating-pill:hover {
+        transform: scale(1.04);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+        color: var(--color-text);
+    }
 }
 
 #mode-label {
@@ -5617,9 +5734,48 @@ body.mode-sunny .sidebar {
 .wp-note-icon { flex: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #000080; color: #fff; font: bold 0.75rem 'Times New Roman', serif; font-style: italic; }
 .wp-link { display: inline-block; margin-top: 14px; padding: 4px 16px; font-size: 0.8125rem; color: #000; text-decoration: none; background: #c0c0c0; border: 2px outset #fff; }
 .wp-link:active { border-style: inset; }
-.wp-link:hover { background: #d4d4d4; }
+@media (hover: hover) and (pointer: fine) {
+    .wp-link:hover { background: #d4d4d4; }
+}
 
 @media (max-width: 480px) {
     .wp-table th:first-child { width: 55%; }
     .wp-table td { padding: 10px 8px; }
+}
+
+
+/* ===================================
+   Polish pass: press feedback, touch fixes
+   =================================== */
+a, button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn-secondary:active,
+.add-project-btn:active,
+.project-admin-btn:active,
+.add-photo-btn:active,
+.photo-btn-secondary:active,
+.photo-btn-primary:active,
+.btn-primary:active,
+.add-content-btn:active,
+.pagination-btn:active,
+.category-pill:active,
+.project-link:active,
+.detail-original-link:active,
+.calendar-nav:active,
+.fab-add-content:active {
+    transform: scale(0.97);
+}
+
+/* iOS zooms the page when an input is under 16px */
+@media (max-width: 768px) {
+    .form-group input,
+    .form-group select,
+    .form-group textarea,
+    .win95-input,
+    .win95-textarea,
+    #photo-caption {
+        font-size: 16px;
+    }
 }
