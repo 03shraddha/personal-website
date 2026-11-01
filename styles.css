@@ -5245,6 +5245,7 @@ a .reveal-word {
 .notepad-entry-message {
     font-size: 0.8125rem;
     color: #000;
+    overflow-wrap: anywhere;
 }
 
 .notepad-empty {
@@ -5747,8 +5748,31 @@ body.mode-sunny .sidebar {
 /* ===================================
    Polish pass: press feedback, touch fixes
    =================================== */
-a, button {
+html {
     -webkit-tap-highlight-color: transparent;
+}
+
+a, button, [role="button"] {
+    touch-action: manipulation;
+}
+
+button, [role="button"], .tab, .category-pill {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
+/* Keep the projects pager inside a 320px screen */
+@media (max-width: 420px) {
+    .projects-scroll-dots-row {
+        gap: 6px;
+    }
+
+    .projects-nav-prev,
+    .projects-nav-next {
+        font-size: 15px;
+        padding: 9px 14px;
+    }
 }
 
 .btn-secondary:active,
