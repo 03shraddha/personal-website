@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <!-- Content Security Policy: limits where scripts, data and frames can load from -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob: https:; connect-src 'self' data: https://ptoykobcidzgewmtiomp.supabase.co wss://ptoykobcidzgewmtiomp.supabase.co https://api.rss2json.com https://api.allorigins.win https://corsproxy.io; frame-src https://www.youtube.com https://www.youtube-nocookie.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="theme-color" content="#ffffff">
     <title>shraddha's corner on the internet</title>
     <meta name="description" content="Shraddha Kulkarni is an AI-focused Product Manager at ZS Associates with 3 years of enterprise SaaS experience. Specialises in ML pipelines, prompt engineering, LLM evaluation, & Agentic AI products for pharma.">
@@ -497,7 +500,7 @@
     </main>
 
     <!-- Supabase Client Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js" integrity="sha384-TcHRA3zBbn+Lexh5n+Oil4guNPOS3rjNDpGRAN46u/s/mB2IZ50ceC6TYDU2yvgK" crossorigin="anonymous"></script>
 
 
     <!-- Project Add/Edit Modal (outside sections to avoid transform breaking fixed positioning) -->

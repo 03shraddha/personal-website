@@ -646,6 +646,23 @@ async function fetchSubstackInBackground(RSS_URL, CACHE_KEY) {
     }
 }
 
+// Feed data comes from third-party CORS proxies, so treat it as untrusted
+function escapeFeedText(text) {
+    // Some feeds send titles already entity-encoded (&amp;). Decode first so we escape once.
+    // A textarea parses its content as plain text, so nothing runs here.
+    const decoder = document.createElement('textarea');
+    decoder.innerHTML = String(text);
+    return decoder.value.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function safeFeedLink(link) {
+    try {
+        const u = new URL(link);
+        if (u.protocol === 'https:' && u.hostname.endsWith('.substack.com')) return u.href;
+    } catch (e) { /* invalid URL */ }
+    return 'https://shraddhaha.substack.com';
+}
+
 function renderThoughtsPosts(posts) {
     if (!posts || posts.length === 0) {
         document.getElementById('thoughts-list').innerHTML = '';
@@ -656,8 +673,8 @@ function renderThoughtsPosts(posts) {
         <li class="thoughts-item">
             <span class="thoughts-number">${index + 1}.</span>
             <div class="thoughts-content">
-                <a href="${post.link}" target="_blank" rel="noopener noreferrer" class="thoughts-title">${post.title}</a>
-                ${post.date ? `<span class="thoughts-date">${post.date}</span>` : ''}
+                <a href="${escapeFeedText(safeFeedLink(post.link))}" target="_blank" rel="noopener noreferrer" class="thoughts-title">${escapeFeedText(post.title)}</a>
+                ${post.date ? `<span class="thoughts-date">${escapeFeedText(post.date)}</span>` : ''}
             </div>
         </li>
     `).join('');
@@ -1136,6 +1153,8 @@ function initAdminSortable(state, container) {
     if (typeof Sortable === 'undefined') {
         const s = document.createElement('script');
         s.src = 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js';
+        s.integrity = 'sha384-BSxuMLxX+FCbTdYec3TbXlnMGEEM2QXTFdtDaveen71o+jswm2J36+xFqp8k4VHM';
+        s.crossOrigin = 'anonymous';
         s.onload = () => initAdminSortable(state, container);
         document.head.appendChild(s);
         return;
@@ -2396,6 +2415,8 @@ function initPhotoGallery() {
             if (typeof Sortable === 'undefined') {
                 const s = document.createElement('script');
                 s.src = 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js';
+                s.integrity = 'sha384-BSxuMLxX+FCbTdYec3TbXlnMGEEM2QXTFdtDaveen71o+jswm2J36+xFqp8k4VHM';
+                s.crossOrigin = 'anonymous';
                 s.onload = () => renderGallery();
                 document.head.appendChild(s);
             } else {

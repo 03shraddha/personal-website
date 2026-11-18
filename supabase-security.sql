@@ -134,3 +134,63 @@ ON CONFLICT (id) DO NOTHING;
 -- Check: this should list only the policies created above.
 SELECT schemaname, tablename, policyname, cmd, roles FROM pg_policies
 WHERE schemaname IN ('public', 'storage') ORDER BY 1, 2, 3;
+
+
+-- =====================================================
+-- PART 2 (run after part 1)
+-- =====================================================
+
+-- Storage: drop leftover rules that are not tied to one bucket (they apply to every
+-- bucket) or that still mention photos. Keeps the four photo rules from part 1.
+DO $$
+DECLARE p record;
+BEGIN
+  FOR p IN
+    SELECT policyname FROM pg_policies
+    WHERE schemaname = 'storage' AND tablename = 'objects'
+      AND policyname NOT IN ('photos public read', 'photos admin insert', 'photos admin update', 'photos admin delete')
+      AND (
+        (coalesce(qual, '') || coalesce(with_check, '')) NOT LIKE '%bucket_id%'
+        OR (coalesce(qual, '') || coalesce(with_check, '')) LIKE '%photos%'
+      )
+  LOOP
+    EXECUTE format('DROP POLICY %I ON storage.objects', p.policyname);
+  END LOOP;
+END $$;
+
+-- Guestbook flood guard: at most 5 new notes per minute across the whole site.
+CREATE OR REPLACE FUNCTION public.guestbook_rate_limit()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+  IF (SELECT count(*) FROM public.guestbook_notes WHERE created_at > now() - interval '1 minute') >= 5 THEN
+    RAISE EXCEPTION 'guestbook is busy, try again in a minute';
+  END IF;
+  NEW.created_at := now();  -- clients cannot backdate notes
+  RETURN NEW;
+END;
+$$;
+DROP TRIGGER IF EXISTS guestbook_rate_limit ON public.guestbook_notes;
+CREATE TRIGGER guestbook_rate_limit BEFORE INSERT ON public.guestbook_notes
+  FOR EACH ROW EXECUTE FUNCTION public.guestbook_rate_limit();
+REVOKE ALL ON FUNCTION public.guestbook_rate_limit() FROM public, anon, authenticated;
+
+-- Audit. Each query should return what the comment says.
+-- a) Tables in public without RLS: expect no rows.
+SELECT 'no RLS' AS issue, c.relname AS name
+FROM pg_class c WHERE c.relnamespace = 'public'::regnamespace AND c.relkind = 'r' AND NOT c.relrowsecurity
+UNION ALL
+-- b) SECURITY DEFINER functions in public: expect only is_admin, increment_page_view, guestbook_rate_limit.
+SELECT 'security definer fn', p.proname
+FROM pg_proc p WHERE p.pronamespace = 'public'::regnamespace AND p.prosecdef
+UNION ALL
+-- c) Storage rules left: expect the four photo rules, plus any rules tied to other buckets.
+SELECT 'storage rule', policyname || ' [' || cmd || '] ' || coalesce(qual, with_check, '')
+FROM pg_policies WHERE schemaname = 'storage'
+UNION ALL
+-- d) Buckets.
+SELECT 'bucket', name || CASE WHEN public THEN ' (public)' ELSE ' (private)' END FROM storage.buckets
+ORDER BY 1, 2;
