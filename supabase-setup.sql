@@ -1,3 +1,6 @@
+-- WARNING: the write policies below are open to anyone. They are kept for history only.
+-- Run supabase-security.sql after this file. It replaces them with admin-only writes.
+
 -- =====================================================
 -- SUPABASE SETUP FOR PORTFOLIO WEBSITE
 -- Run this SQL in your Supabase Dashboard > SQL Editor

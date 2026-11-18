@@ -24,44 +24,45 @@ function initSupabase() {
     }
 }
 
-// Admin password hash (SHA-256)
-const ADMIN_PASSWORD_HASH = '4465de396ffa6494bbf21f67675f2bbc6b8c44770e19bcda9ff3ffd5cf8d50c2';
-
-// Simple SHA-256 hash function
-async function sha256(message) {
-    const msgBuffer = new TextEncoder().encode(message);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-// Check for admin mode via URL parameter: ?admin=shraddha
+// Admin mode: sign in with Supabase Auth via ?admin=shraddha, sign out via ?admin=logout.
+// The 'admin-authenticated' flag only shows the admin UI. Writes are enforced by
+// Supabase RLS (see supabase-security.sql), so setting the flag by hand does nothing.
 async function checkAdminMode() {
     const urlParams = new URLSearchParams(window.location.search);
     const adminParam = urlParams.get('admin');
 
+    if (!supabaseClient) return;
+
     if (adminParam === 'shraddha') {
-        // Prompt for password
-        const password = prompt('Enter admin password:');
-        if (password) {
-            const hashedInput = await sha256(password);
-            if (hashedInput === ADMIN_PASSWORD_HASH) {
-                localStorage.setItem('admin-authenticated', 'true');
-                alert('Admin mode enabled! Page will reload.');
-                // Reload page without the admin parameter to show admin UI
-                window.location.href = window.location.pathname;
-                return;
-            } else {
-                alert('Incorrect password');
-                localStorage.removeItem('admin-authenticated');
-            }
+        const email = prompt('Admin email:');
+        if (!email) return;
+        const password = prompt('Admin password:');
+        if (!password) return;
+        const { error } = await supabaseClient.auth.signInWithPassword({ email: email.trim(), password });
+        if (error) {
+            alert('Sign in failed');
+            localStorage.removeItem('admin-authenticated');
+            return;
         }
-    } else if (adminParam === 'logout') {
-        localStorage.removeItem('admin-authenticated');
-        alert('Admin mode disabled. Page will reload.');
-        // Reload page to hide admin UI
+        localStorage.setItem('admin-authenticated', 'true');
+        alert('Admin mode enabled! Page will reload.');
         window.location.href = window.location.pathname;
         return;
+    } else if (adminParam === 'logout') {
+        await supabaseClient.auth.signOut();
+        localStorage.removeItem('admin-authenticated');
+        alert('Admin mode disabled. Page will reload.');
+        window.location.href = window.location.pathname;
+        return;
+    }
+
+    // Drop a stale UI flag when there is no live session
+    if (localStorage.getItem('admin-authenticated') === 'true') {
+        const { data } = await supabaseClient.auth.getSession();
+        if (!data || !data.session) {
+            localStorage.removeItem('admin-authenticated');
+            window.location.reload();
+        }
     }
 }
 

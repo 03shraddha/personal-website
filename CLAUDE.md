@@ -19,7 +19,9 @@ No build process required. Open `index.html` in a browser to preview changes loc
 - `content.js` - Editable content data (text, experiences, projects, communities, social links)
 
 **Backend (Supabase)**
-- `supabase-setup.sql` - Database schema for tables: `guestbook_notes`, `photos`, `page_views`, `content_entries`
+- `supabase-setup.sql` - Database schema for tables: `guestbook_notes`, `photos`, `page_views`, `content_entries`, `projects`
+- `supabase-security.sql` - RLS policies: public read, public guestbook insert, every other write needs the Supabase Auth admin user (`is_admin()`)
+- Admin mode: `?admin=shraddha` signs in with Supabase Auth, `?admin=logout` signs out. The localStorage flag only toggles admin UI; never rely on it for security
 
 ## Content Updates
 
